@@ -47,7 +47,7 @@ const App = () => (
             <Paragraph>
                 Need to follow this Mockup{' '}
                 <Link href="file:///D:/Clients/Stefan/Freight%20Genius%20Mockups.pdf" target="_blank">
-                    ⚡
+                    <span role="img" aria-label="bolt">⚡</span>
                 </Link>
             </Paragraph>
         </Wrapper>
