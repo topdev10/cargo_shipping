@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Checkbox from '@material-ui/core/Checkbox';
 import background from '../../images/background.jpg';
 import Device from '../../css/device';
 
@@ -65,12 +64,6 @@ const InputBox = styled.input`
     }
 `;
 
-const OptionsContainer = styled.div`
-    display: flex;
-    width: 400px;
-    flex-direction: row;
-`;
-
 const RightSide = styled.div`
     position: relative;
     display: flex;
@@ -122,24 +115,6 @@ const BriefComment = styled.label`
     border-radius: 8px;
 `;
 
-const ForgotPasswordBTN = styled.button`
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
-    text-align: right;
-    text-decoration-line: underline;
-    color: #4D7CFE;
-    border-radius: 8px;
-    float: right;
-    cursor: pointer;
-
-    &:hover {
-        color: #00a8e8;
-    }
-`;
-
 const SignupButton = styled.button`
     display: flex;
     width: 400px;
@@ -154,7 +129,6 @@ const SignupButton = styled.button`
     border-radius: 4px;
     justify-content: center;
     cursor: pointer;
-    margin-bottom: 15px;
 
     &:hover {
         color: #00a8e8;
@@ -175,102 +149,34 @@ const LoginButton = styled.button`
     border-radius: 4px;
     justify-content: center;
     cursor: pointer;
-    margin: 0px 0px 15px 0px;
+    margin: 15px 0px 15px 0px;
 
     &:hover {
         background: #6688e4;
     }
 `;
 
-const MLabel = styled.label`
-    width: 50%;
-    cursor: pointer;
-`;
-
-const BLabel = styled.label`
-    width: 400px;
-    margin: 30px 0px;
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 17px;
-    color: #778CA2;
-    border-radius: 8px;
-`;
-
-const Login = (props) => {
+const Signup = (props) => {
 
     const { history } = props;
-    const [display, setDisplay] = React.useState("step1");
-    let checked = false;
 
     function redirectPage(e, page) {
         if(page === "login") history.push('/login');
         else if(page === 'signup') history.push('signup');
     }
 
-    function resetpassword(e, step) {
-        if(step === 'step2')
-            setDisplay(step);
-        else if(step === 'step3'){
-            // TODO: send email to User with a link to change password
-            setDisplay(step);
-        } else if(step === 'step1'){
-            // TODO: Change password and send request to back-end and redirect to login page or home page
-            setDisplay(step);
-        }
-    }
-
-    const handleChange = () => event => {
-        const x = event.target.checked;
-        checked = x;
-    };
-
-    let leftShow;
-    if(display === "step1")
-        leftShow = <LeftSide>
-            <CLabel>Email Address</CLabel>
-            <InputBox type="text"/>
-            <CLabel>Password</CLabel>
-            <InputBox type="text"/>
-            <OptionsContainer>
-                <MLabel onChange={handleChange()}>
-                    <Checkbox
-                        value={checked}
-                        inputProps={{
-                            'aria-label': 'uncontrolled-checkbox',
-                        }}
-                    />
-                    Keep me signed in
-                </MLabel>
-                <div style={{width: "50%", display: "flex", "flexDirection": "row-reverse"}}>
-                    <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step2')}>Forgot Password</ForgotPasswordBTN>
-                </div>
-            </OptionsContainer>
-            <LoginButton>SIGN IN</LoginButton>
-            <SignupButton onClick={(e) => redirectPage(e, 'signup')}>SIGN UP</SignupButton>
-        </LeftSide>;
-    else if(display === 'step2')
-        leftShow = <LeftSide>
-            <BLabel>Reset Password</BLabel>
-            <CLabel>Email Address</CLabel>
-            <InputBox type="text" placeholder=""/>
-            <LoginButton onClick={(e) => resetpassword(e, 'step3')}>RESET PASSWORD</LoginButton>
-            <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step1')}>Back to Login</ForgotPasswordBTN>
-        </LeftSide>;
-    else if(display === 'step3')
-        leftShow = <LeftSide>
-            <BLabel>Enter New Password</BLabel>
-            <CLabel>Password</CLabel>
-            <InputBox type="text" placeholder=""/>
-            <CLabel>Re-enter Password</CLabel>
-            <InputBox type="text" placeholder=""/>
-            <LoginButton onClick={(e) => resetpassword(e, 'step1')}>RESET PASSWORD</LoginButton>
-        </LeftSide>;
     return (
         <Container>
-            {leftShow}
+            <LeftSide>
+                <CLabel>Email Address</CLabel>
+                <InputBox type="text"/>
+                <CLabel>Password</CLabel>
+                <InputBox type="text"/>
+                <CLabel>Confirm Password</CLabel>
+                <InputBox type="text"/>
+                <SignupButton>SIGN UP</SignupButton>
+                <LoginButton onClick={(e) => redirectPage(e, 'login')}>SIGN IN</LoginButton>
+            </LeftSide>
             <RightSide>
                 <BackgroundImage src={background} aria="background"/>
                 <BackgroundCover></BackgroundCover>
@@ -284,7 +190,7 @@ const Login = (props) => {
     );
 };
 
-Login.propTypes = {
+Signup.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired,
     }).isRequired,
@@ -296,4 +202,4 @@ function mapStateToProps(state, props) {
     };
 }
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(Signup);

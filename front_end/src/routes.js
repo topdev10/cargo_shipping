@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
 import store from './store';
 import reset from './constants/css/reset';
-import App from './components/App';
 import Landing from './pages/landing';
 import Login from './pages/login/login';
+import Signup from './pages/signup/signup';
 
 const GlobalStyle = createGlobalStyle`${reset}`;
 const Routes = (
@@ -16,6 +16,7 @@ const Routes = (
                 <Switch>
                     <Route path="/Home" component={Landing} />
                     <Route path="/Login" component={Login} />
+                    <Route path="/Signup" component={Signup} />
                     <Redirect from="/" to="/Home"></Redirect>
                 </Switch>
             </Provider>
