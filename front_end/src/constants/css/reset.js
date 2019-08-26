@@ -5,6 +5,9 @@ const reset = css`
         box-sizing: border-box;
         /* Nicer looking fonts for OS X and iOS */
         -webkit-font-smoothing: antialiased;
+        font-family: Rubik;
+        font-style: normal;
+        font-weight: normal;
     }
 
     * {
@@ -32,6 +35,9 @@ const reset = css`
     h5,
     h6,
     p {
+        font-family: Rubik;
+        font-style: normal;
+        font-weight: normal;
         margin: 0;
         font-size: 1rem;
         font-weight: 400;
