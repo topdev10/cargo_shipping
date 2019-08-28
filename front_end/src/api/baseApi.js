@@ -19,7 +19,7 @@ const BaseApi = {
     },
 
     login(email, password, callback) {
-        this.authApi(
+        this.baseApi(
             {
                 sub_url: 'auth/login',
                 method: 'POST',
@@ -37,6 +37,45 @@ const BaseApi = {
                 }
             }
         );
+    },
+
+    logout(callback) {
+        this.baseApi(
+            {
+                sub_url: 'auth/logout',
+                method: 'POST',
+                data: {}
+            },
+            (err, res) => {
+                if (err === null) {
+                    if (res!= null) {
+                        localStorage.user = null;
+                        callback(null, res);
+                    } else callback(err, null);
+                }
+            }
+        );
+    },
+
+    signup(params, callback) {
+        this.baseApi({
+            sub_url: 'auth/signup',
+            method: 'POST',
+            data: params
+        },
+        (err, res) => callback(err, res));
+    },
+
+    verifyCode({code, email}, callback) {
+        this.baseApi({
+            sub_url: 'auth/verify',
+            method: 'POST',
+            data: {
+                code,
+                email,
+            },
+        },
+        (err, res) => callback(err, res));
     },
 };
 

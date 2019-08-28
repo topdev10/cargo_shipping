@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Checkbox from '@material-ui/core/Checkbox';
+import { userActions } from '../../actions';
 import background from '../../images/background.jpg';
 import Device from '../../css/device';
 
@@ -201,8 +202,11 @@ const BLabel = styled.label`
 
 const Login = (props) => {
 
-    const { history } = props;
+    const { history, login } = props;
     const [display, setDisplay] = React.useState("step1");
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [cpassword, setConfirmPassword] = React.useState('');
     let checked = false;
 
     function redirectPage(e, page) {
@@ -227,13 +231,27 @@ const Login = (props) => {
         checked = x;
     };
 
+    const handleInput = (type) => event => {
+        if(type === 'email') setEmail(event.target.value);
+        else if(type === 'password') setPassword(event.target.value);
+        else if(type === 'cpassword') setConfirmPassword(event.target.value);
+    };
+
+    const onClickLogin = () => event => {
+        event.preventDefault();
+
+        if(email && password){
+            login(email, password);
+        }
+    };
+
     let leftShow;
     if(display === "step1")
         leftShow = <LeftSide>
             <CLabel>Email Address</CLabel>
-            <InputBox type="text"/>
+            <InputBox type="text" value={email} onChange={ handleInput('email') }/>
             <CLabel>Password</CLabel>
-            <InputBox type="text"/>
+            <InputBox type="password" value={password} onChange={ handleInput('password') }/>
             <OptionsContainer>
                 <MLabel onChange={handleChange()}>
                     <Checkbox
@@ -248,14 +266,14 @@ const Login = (props) => {
                     <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step2')}>Forgot Password</ForgotPasswordBTN>
                 </div>
             </OptionsContainer>
-            <LoginButton>SIGN IN</LoginButton>
+            <LoginButton onClick={onClickLogin()}>SIGN IN</LoginButton>
             <SignupButton onClick={(e) => redirectPage(e, 'signup')}>SIGN UP</SignupButton>
         </LeftSide>;
     else if(display === 'step2')
         leftShow = <LeftSide>
             <BLabel>Reset Password</BLabel>
             <CLabel>Email Address</CLabel>
-            <InputBox type="text" placeholder=""/>
+            <InputBox type="text" value={email} onChange={ handleInput('email') }/>
             <LoginButton onClick={(e) => resetpassword(e, 'step3')}>RESET PASSWORD</LoginButton>
             <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step1')}>Back to Login</ForgotPasswordBTN>
         </LeftSide>;
@@ -263,9 +281,9 @@ const Login = (props) => {
         leftShow = <LeftSide>
             <BLabel>Enter New Password</BLabel>
             <CLabel>Password</CLabel>
-            <InputBox type="text" placeholder=""/>
+            <InputBox type="password" value={password} onChange={ handleInput('password') }/>
             <CLabel>Re-enter Password</CLabel>
-            <InputBox type="text" placeholder=""/>
+            <InputBox type="password" value={cpassword} onChange={ handleInput('cpassword') }/>
             <LoginButton onClick={(e) => resetpassword(e, 'step1')}>RESET PASSWORD</LoginButton>
         </LeftSide>;
     return (
@@ -288,12 +306,18 @@ Login.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired,
     }).isRequired,
+    login: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, props) {
     return {
         history: props.history,
+        loggingIn: state.auth.loggingIn,
     };
 }
 
-export default connect(mapStateToProps)(Login);
+const actionCreators = {
+    login: userActions.login,
+};
+
+export default connect(mapStateToProps, actionCreators)(Login);
