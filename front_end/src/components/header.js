@@ -18,6 +18,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Exit from '@material-ui/icons/ExitToApp';
 import AccountBox from '@material-ui/icons/AccountBox';
 import { userActions } from '../actions';
+import { history } from '../helpers';
 
 import logo from '../images/logo.svg';
 
@@ -185,7 +186,11 @@ const Header = (props) => {
     }
 
     function viewProfile(){
+        history.push("/profile");
+    }
 
+    function gotoHomepage(){
+        history.push('/home');
     }
   
     function handleMobileMenuOpen(event) {
@@ -252,7 +257,7 @@ const Header = (props) => {
             <ThemeProvider theme={theme}>
                 <AppBar position="fixed" color="inherit">
                     <Toolbar>
-                        <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo"/>
+                        <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onClick={gotoHomepage}/>
                         <SearchBox type='text' value={searchValue} onChange={onSearchChanged} />
                         <IconButton style={{position: "fixed", left: "275px"}} aria-label="Search">
                             <SearchIcon />

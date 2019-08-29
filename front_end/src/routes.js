@@ -1,30 +1,40 @@
 import React, { Fragment } from 'react';
 import { Route, Redirect, Router , Switch } from 'react-router-dom';
-import { Provider} from 'react-redux';
-import { createGlobalStyle } from 'styled-components';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { history } from './helpers';
-import store from './store';
-import reset from './constants/css/reset';
 import AuthRoute from './components/PrivateRoute';
 import Landing from './pages/landing';
 import Login from './pages/login/login';
 import Signup from './pages/signup/signup';
+import Header from './components/header';
+import Profile from './pages/profile/profile';
 
-const GlobalStyle = createGlobalStyle`${reset}`;
-const Routes = (
-    <Router history={history}>
-        <Fragment>
-            <Provider store={store}>
+export const Routes = (props) => {
+    const { username } = props;
+    return (
+        <Router history={history}>
+            <Fragment>
+                {username!=='newuser'&&<Header></Header>}
                 <Switch>
-                    <AuthRoute path="/Home" component={Landing} />
+                    <AuthRoute exact path="/Home" component={Landing} />
+                    <AuthRoute exact path="/Profile" component={Profile} />
                     <Route path="/Login" component={Login} />
                     <Route path="/Signup" component={Signup} />
                     <Redirect from="/" to="/Home"></Redirect>
                 </Switch>
-            </Provider>
-            <GlobalStyle />
-        </Fragment>
-    </Router>
-);
+            </Fragment>
+        </Router>
+    );
+};
 
-export default Routes;
+Routes.propTypes = {
+    username: PropTypes.string.isRequired,
+};
+
+function mapStateToProps(state) {
+    return {
+        username: state.auth.user?state.auth.user.email:"newuser",
+    };
+}
+export default connect(mapStateToProps)(Routes);

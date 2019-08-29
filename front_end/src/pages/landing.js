@@ -2,25 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Header from '../components/header';
 
 const Container = styled.div`
+    position: relative;
+    margin-top: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100vh;
+    height: calc(100vh - 64px);
     font-family: 'Open Sans', sans-serif;
 `;
 
 const Wrapper = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
     width: 100%;
-    height: calc(100vh - 64px);
-    margin-top: 64px;
+    height: 100%;
 `;
 
 const Title = styled.h1`
@@ -32,10 +33,6 @@ const Title = styled.h1`
 const Paragraph = styled.p`
     color: black;
     font-size: 1rem;
-`;
-
-const Link = styled.a`
-    color: #00a8e8;
 `;
 
 const DefaultButton = styled.button`
@@ -72,7 +69,6 @@ const Landing = (props) => {
 
     return (
         <Container>
-            <Header></Header>
             <Wrapper>
                 <Title>
                     <span role="img" aria-label="Bolt">
@@ -82,10 +78,7 @@ const Landing = (props) => {
                 </Title>
                 <Paragraph>This is initial setup for Freight Genius</Paragraph>
                 <Paragraph>
-                    Need to follow this Mockup{' '}
-                    <Link href="file:///D:/Clients/Stefan/Freight%20Genius%20Mockups.pdf" target="_blank">
-                        <span role="img" aria-label="bolt">⚡</span>
-                    </Link>
+                    Need to Add details about this site.
                 </Paragraph>
                 <DefaultButton onClick={(e) => redirectPage(e, 'login')}>Login</DefaultButton>
                 <DefaultButton onClick={(e) => redirectPage(e, 'signup')}>Signup</DefaultButton>
