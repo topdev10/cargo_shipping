@@ -13,7 +13,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { doLogout } from '../actions/authactions';
+import { userActions } from '../actions';
 
 import logo from '../images/logo.svg';
 
@@ -28,6 +28,7 @@ const theme = createMuiTheme({
     },
 });
 
+// eslint-disable-next-line no-shadow
 const useStyles = makeStyles(theme => ({
     grow: {
         flexGrow: 1,
@@ -132,7 +133,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = (props) => {
-    const { username, notiCnt } = props;
+    const { username, logout } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -154,7 +155,7 @@ const Header = (props) => {
     }
 
     function handleLogout(){
-        props.doLogout();
+        logout();
     }
   
     function handleMobileMenuOpen(event) {
@@ -215,7 +216,7 @@ const Header = (props) => {
                         aria-label="Open drawer"
                     >
                     </IconButton>
-                    <img src={logo} className="img-home-logo" alt="logo"/>
+                    <img src={logo} style={{height: "45px"}} alt="logo"/>
                     {/* <Tabs value={tab_index} variant="scrollable" className="home-tab" onChange={handleChange}>
                         <Tab label="Cars List" className={classes.c_tab} style={{height: "64px"}}/>
                         <Tab label="History" className={classes.c_tab}/>
@@ -224,26 +225,23 @@ const Header = (props) => {
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <IconButton color="inherit" className={classes.mIconButton}>
-                            <Badge badgeContent={notiCnt} color="secondary">
+                            <Badge badgeContent={0} color="secondary">
                                 <NotificationsIcon />
                             </Badge>
                         </IconButton>
                         <IconButton
                             color="inherit"
+                            edge="end"
+                            aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                            aria-haspopup="true"
                             className={classes.mIconButton}
+                            onClick={handleProfileMenuOpen}
                         >
                             <AccountCircle className={classes.avatar_web}/>
                             <Typography className={classes.title} variant="h6" noWrap>
                                 Hello, {username}
                             </Typography>
                         </IconButton>
-                        <IconButton
-                            edge="end"
-                            aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                            aria-haspopup="true"
-                            color="inherit" className={classes.ma_dropdown}
-                            onClick={handleProfileMenuOpen}>
-                        </IconButton>           
                     </div>
                     <div className={classes.sectionMobile}>
                         <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
@@ -260,17 +258,17 @@ const Header = (props) => {
 
 Header.propTypes = {
     username: PropTypes.string.isRequired,
-    notiCnt: PropTypes.number.isRequired,
+    logout: PropTypes.func.isRequired,
 };
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
     return {
-        username: props.username,
-        notiCnt: props.notiCnt,
+        username: state.auth.user.email,
     };
 }
 
-export default connect(mapStateToProps,
-    {
-        doLogout,
-    })(Header);
+const actionCreators = {
+    logout: userActions.logout,
+};
+
+export default connect(mapStateToProps, actionCreators)(Header);

@@ -18,25 +18,43 @@ const BaseApi = {
         });
     },
 
-    login(email, password, callback) {
+    login(email, password, checked, callback) {
+        let mData;
+        if(this.validateEmail(email)){
+            mData = {
+                "email": email,
+                "password": password
+            };
+        } else
+            mData = {
+                "username": email,
+                "password": password
+            };
         this.baseApi(
             {
                 sub_url: 'auth/login',
                 method: 'POST',
-                data: {
-                    "email": email,
-                    "password": password
-                }
+                data: mData
             },
             (err, res) => {
                 if (err === null) {
                     if (res!= null) {
-                        localStorage.user = JSON.stringify({email, password});
+                        if(checked)
+                        {
+                            console.log("return response", res, res.username);
+                            localStorage.user = JSON.stringify({email, username: res.username});
+                        }
                         callback(null, res);
                     } else callback(err, null);
                 }
             }
         );
+    },
+
+    // Check if email form is correct or not
+    validateEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
     },
 
     logout(callback) {

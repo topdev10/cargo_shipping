@@ -3,7 +3,7 @@ import { alertActions } from './alert.actions';
 import { history } from '../helpers';
 import BaseApi from '../api/baseApi';
 
-function login(email, password) {
+function login(email, password, checked) {
 
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user }; }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user }; }
@@ -11,7 +11,7 @@ function login(email, password) {
 
     return dispatch => {
         dispatch(request({ email }));
-        BaseApi.login(email, password, (error) => {
+        BaseApi.login(email, password, checked, (error) => {
             if(error){
                 dispatch(failure(error.toString()));
                 dispatch(alertActions.error(error.toString()));

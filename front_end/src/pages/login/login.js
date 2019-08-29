@@ -241,14 +241,14 @@ const Login = (props) => {
         event.preventDefault();
 
         if(email && password){
-            login(email, password);
+            login(email, password, checked);
         }
     };
 
     let leftShow;
     if(display === "step1")
         leftShow = <LeftSide>
-            <CLabel>Email Address</CLabel>
+            <CLabel>Email Address(Or Username)</CLabel>
             <InputBox type="text" value={email} onChange={ handleInput('email') }/>
             <CLabel>Password</CLabel>
             <InputBox type="password" value={password} onChange={ handleInput('password') }/>

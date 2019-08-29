@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Header from '../components/header';
 
 const Container = styled.div`
     display: flex;
@@ -70,6 +71,7 @@ const Landing = (props) => {
 
     return (
         <Container>
+            <Header></Header>
             <Wrapper>
                 <Title>
                     <span role="img" aria-label="Bolt">

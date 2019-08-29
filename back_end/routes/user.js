@@ -13,7 +13,6 @@ dotenv.config();
 
 
 router.post('/login', [
-    check('email', "Invalid Email").isEmail(),
     check('password', "Invalid Length").isLength({min: 6})
 ], function(req, res){
     const errors = validationResult(req);
@@ -23,7 +22,16 @@ router.post('/login', [
         res.status(200).send();
     else {
         // Todo: Check if user exists in DB and save session
-        User.findOne({email: req.body.email}, function(err, user){
+        let query;
+        if(req.body.email)
+            query = {
+                email: req.body.email
+            };
+        else
+            query = {
+                username: req.body.username
+            };
+        User.findOne(query, function(err, user){
             if(err) res.status(500).send();         //Internal Server Error
             else if(!user) res.status(404).send();  //user not exists
             else {
@@ -32,7 +40,7 @@ router.post('/login', [
                     if(isMatch){
                         if(user.status){
                             req.session.user = user;
-                            res.status(200).send(); //success response
+                            res.status(200).send(user.username); //success response
                         } else {
                             res.status(403).send(); //Not Active user
                         }                        
@@ -76,6 +84,7 @@ router.post('/verify', [
 
 router.post('/signup', [
     check('email').isEmail(),
+    check('username').isLength({min: 3}),
     check('password').isLength({min: 6}).custom((value,{req, loc, path}) => {
         if (value !== req.body.confirm_password) {
             // trow error if passwords do not match
@@ -84,7 +93,7 @@ router.post('/signup', [
             return value;
         }
     }),
-    check('confirm_password', "Firstname is required").not().isEmpty(),
+    check('confirm_password', "You have to input Confirm password").not().isEmpty(),
 ], function(req, res){
     let errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -111,8 +120,6 @@ router.post('/signup', [
         });
         nodemailer.sendMail = true;
 
-        console.log(process.env.EMAIL_PASSWORD);
-
         const message = {
             from: process.env.SERVER_EMAIL, // Sender address
             to: req.body.email,         // List of recipients
@@ -130,6 +137,7 @@ router.post('/signup', [
                 // TODO: Save User info to DB
                 let user = new User({
                     email: req.body.email,
+                    username: req.body.username,
                     password: req.body.password,
                     code: parseInt(m_code, 10),
                     status: false,

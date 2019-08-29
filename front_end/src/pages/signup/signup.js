@@ -159,8 +159,9 @@ const LoginButton = styled.button`
 
 const Signup = (props) => {
 
-    const { history, register, verifyCode, registering, registered, codeVerified } = props;
+    const { history, register, verifyCode, registering, registered, codeVerifySent, codeVerified } = props;
     const [email, setEmail] = React.useState('');
+    const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [cpassword, setCpassword] = React.useState('');
     const [verificationCode, setVerificationCode] = React.useState('');
@@ -173,13 +174,14 @@ const Signup = (props) => {
     const onClickSignup = () => event => {
         event.preventDefault();
 
-        if(email && password && cpassword){
-            register({email, password, confirm_password: cpassword});
+        if(email && password && cpassword && username){
+            register({email, username, password, confirm_password: cpassword});
         }
     };
 
     const handleInput = (type) => event => {
         if(type === 'email') setEmail(event.target.value);
+        if(type === 'username') setUsername(event.target.value);
         if(type === 'password') setPassword(event.target.value);
         if(type === 'cpassword') setCpassword(event.target.value);
         if(type === 'code') setVerificationCode(event.target.value);
@@ -196,6 +198,8 @@ const Signup = (props) => {
         leftShow = <LeftSide>
             <CLabel>Email Address</CLabel>
             <InputBox type="text" value={email} onChange={ handleInput('email') }/>
+            <CLabel>Username</CLabel>
+            <InputBox type="text" value={username} onChange={ handleInput('username') }/>
             <CLabel>Password</CLabel>
             <InputBox type="password" value={password} onChange={ handleInput('password') }/>
             <CLabel>Confirm Password</CLabel>
@@ -207,6 +211,8 @@ const Signup = (props) => {
         leftShow = <LeftSide>
             <CLabel>Email Address</CLabel>
             <InputBox type="text" value={email} onChange={ handleInput('email') }/>
+            <CLabel>Username</CLabel>
+            <InputBox type="text" value={username} onChange={ handleInput('username') }/>
             <CLabel>Password</CLabel>
             <InputBox type="password" value={password} onChange={ handleInput('password') }/>
             <CLabel>Confirm Password</CLabel>
@@ -214,8 +220,8 @@ const Signup = (props) => {
             <SignupButton onClick={onClickSignup()} disabled>SIGN UP</SignupButton>
             <LoginButton disabled>Wait A Moment...</LoginButton>
         </LeftSide>;
-    } 
-    if(registered || !codeVerified) {
+    }
+    if(codeVerifySent) {
         leftShow = <LeftSide>
             <CLabel>Input your verification code.</CLabel>
             <InputBox type="text" value={verificationCode} onChange={ handleInput('code') }/>
@@ -247,6 +253,7 @@ Signup.propTypes = {
     verifyCode: PropTypes.func.isRequired,
     registering: PropTypes.bool.isRequired,
     registered: PropTypes.bool.isRequired,
+    codeVerifySent: PropTypes.bool.isRequired,
     codeVerified: PropTypes.bool.isRequired,
 };
 
@@ -255,6 +262,7 @@ function mapStateToProps(state, props) {
         history: props.history,
         registering: state.regist.registering,
         registered: state.regist.registered,
+        codeVerifySent: state.regist.codeVerifySent,
         codeVerified: state.regist.codeVerified,
     };
 }
