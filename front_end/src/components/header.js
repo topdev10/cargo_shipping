@@ -14,8 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { userActions } from '../actions';
 import SearchIcon from '@material-ui/icons/Search';
+import { userActions } from '../actions';
 
 import logo from '../images/logo.svg';
 
