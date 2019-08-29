@@ -25,6 +25,7 @@ function login(email, password, checked) {
 }
 
 function logout() {
+    history.push('/login');
     BaseApi.logout();
     return { type: userConstants.LOGOUT };
 }

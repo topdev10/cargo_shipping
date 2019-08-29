@@ -54,7 +54,7 @@ router.post('/login', [
 });
 
 router.post('/logout', (req, res) => {
-    req.session.user = null;
+    req.session.destroy();
     res.status(200).send();
 });
 

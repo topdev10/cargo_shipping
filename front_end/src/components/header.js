@@ -15,6 +15,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
+import Exit from '@material-ui/icons/ExitToApp';
+import AccountBox from '@material-ui/icons/AccountBox';
 import { userActions } from '../actions';
 
 import logo from '../images/logo.svg';
@@ -45,7 +47,7 @@ const theme = createMuiTheme({
             main: '#ec4535',
         },
         primary: {
-            main: '#ec4535'
+            main: '#f6ffde',
         }
     },
 });
@@ -54,6 +56,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles(theme => ({
     grow: {
         flexGrow: 1,
+        backgroundImage: "radial-gradient(circle at 1% 1%, #f7f9fc, #eff2f6)"
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -180,6 +183,10 @@ const Header = (props) => {
     function handleLogout(){
         logout();
     }
+
+    function viewProfile(){
+
+    }
   
     function handleMobileMenuOpen(event) {
         setMobileMoreAnchorEl(event.currentTarget);
@@ -197,79 +204,89 @@ const Header = (props) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+            <MenuItem onClick={viewProfile}>
+                Profile
+                <IconButton>
+                    <AccountBox></AccountBox>
+                </IconButton>
+            </MenuItem>
+            <MenuItem onClick={handleLogout}>
+                Exit
+                <IconButton>
+                    <Exit></Exit>
+                </IconButton>
+            </MenuItem>
         </Menu>
     );
     const renderMobileMenu = (
-      
-        <ThemeProvider theme={theme}>
-            <Menu
-                anchorEl={mobileMoreAnchorEl}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-                open={isMobileMenuOpen}
-                onClose={handleMobileMenuClose}
-            >
-                <MenuItem>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={0} color="secondary">
-                            <NotificationsIcon />
-                        </Badge>
-                    </IconButton>
-                    <Typography variant="h6" noWrap>
-                        Notifications
-                    </Typography>
-                </MenuItem>
-                <MenuItem onClick={handleProfileMenuOpen}>
-                    <IconButton color="inherit">
-                        <AccountCircle className={classes.avatar_mobile} />
-                    </IconButton>
-                    <Typography variant="h6" noWrap>
-                        Hello, {username}
-                    </Typography>
-                </MenuItem>
-            </Menu>
-        </ThemeProvider>
+        <Menu
+            anchorEl={mobileMoreAnchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMobileMenuOpen}
+            onClose={handleMobileMenuClose}
+        >
+            <MenuItem>
+                <IconButton color="inherit">
+                    <Badge badgeContent={0} color="secondary">
+                        <NotificationsIcon />
+                    </Badge>
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Notifications
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={handleProfileMenuOpen}>
+                <IconButton color="inherit">
+                    <AccountCircle className={classes.avatar_mobile} />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    {username}
+                </Typography>
+            </MenuItem>
+        </Menu>
     );
   
     return (
         <div className={classes.grow}>
-            <AppBar position="fixed" color="inherit">
-                <Toolbar>
-                    <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo"/>
-                    <SearchBox type='text' value={searchValue} onChange={onSearchChanged} />
-                    <IconButton style={{position: "fixed", left: "275px"}} aria-label="Search">
-                        <SearchIcon />
-                    </IconButton>
-                    {/* <input type="text" value={searchValue} onChange={onSearchChanged} /> */}
-                    <div className={classes.grow} />
-                    <div className={classes.sectionDesktop}>
-                        <IconButton color="inherit" className={classes.mIconButton}>
-                            <Badge badgeContent={0} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
+            <ThemeProvider theme={theme}>
+                <AppBar position="fixed" color="inherit">
+                    <Toolbar>
+                        <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo"/>
+                        <SearchBox type='text' value={searchValue} onChange={onSearchChanged} />
+                        <IconButton style={{position: "fixed", left: "275px"}} aria-label="Search">
+                            <SearchIcon />
                         </IconButton>
-                        <IconButton
-                            color="inherit"
-                            edge="end"
-                            aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                            aria-haspopup="true"
-                            className={classes.mIconButton}
-                            onClick={handleProfileMenuOpen}
-                        >
-                            <AccountCircle className={classes.avatar_web}/>
-                            <Typography className={classes.title} variant="h6" noWrap>
-                                Hello, {username}
-                            </Typography>
-                        </IconButton>
-                    </div>
-                    <div className={classes.sectionMobile}>
-                        <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
-                            <MoreIcon />
-                        </IconButton>
-                    </div>
-                </Toolbar>
-            </AppBar>
+                        {/* <input type="text" value={searchValue} onChange={onSearchChanged} /> */}
+                        <div className={classes.grow} />
+                        <div className={classes.sectionDesktop}>
+                            <IconButton color="inherit" className={classes.mIconButton}>
+                                <Badge badgeContent={0} color="secondary">
+                                    <NotificationsIcon />
+                                </Badge>
+                            </IconButton>
+                            <IconButton
+                                color="inherit"
+                                edge="end"
+                                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                                aria-haspopup="true"
+                                className={classes.mIconButton}
+                                onClick={handleProfileMenuOpen}
+                            >
+                                <AccountCircle className={classes.avatar_web}/>
+                                <Typography className={classes.title} variant="h6" noWrap>
+                                    {username}
+                                </Typography>
+                            </IconButton>
+                        </div>
+                        <div className={classes.sectionMobile}>
+                            <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
+                                <MoreIcon />
+                            </IconButton>
+                        </div>
+                    </Toolbar>
+                </AppBar>
+            </ThemeProvider>
             {renderMenu}
             {renderMobileMenu}
         </div>
@@ -283,7 +300,7 @@ Header.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        username: state.auth.user.email,
+        username: state.auth.user?state.auth.user.email:"newuser",
     };
 }
 

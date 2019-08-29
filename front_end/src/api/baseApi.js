@@ -57,7 +57,7 @@ const BaseApi = {
         return re.test(String(email).toLowerCase());
     },
 
-    logout(callback) {
+    logout() {
         this.baseApi(
             {
                 sub_url: 'auth/logout',
@@ -67,9 +67,8 @@ const BaseApi = {
             (err, res) => {
                 if (err === null) {
                     if (res!= null) {
-                        localStorage.user = null;
-                        callback(null, res);
-                    } else callback(err, null);
+                        localStorage.removeItem("user");
+                    }
                 }
             }
         );
