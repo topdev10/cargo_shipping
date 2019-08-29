@@ -13,9 +13,31 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { userActions } from '../actions';
+import SearchIcon from '@material-ui/icons/Search';
 
 import logo from '../images/logo.svg';
+
+const SearchBox = styled.input`
+    height: 42px;
+    width: calc(100vw - 250px);
+    margin-left: 15px;
+    border-radius: 20px;
+    border: 2px solid #ccc;
+    padding: 5px 15px 5px 50px;
+
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    color: #252631;
+
+    &:hover {
+        border: 2px solid #7595bb;
+    }
+`;
 
 const theme = createMuiTheme({
     palette: {
@@ -137,6 +159,7 @@ const Header = (props) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const [searchValue, setSearchValue] = React.useState('');
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -160,6 +183,10 @@ const Header = (props) => {
   
     function handleMobileMenuOpen(event) {
         setMobileMoreAnchorEl(event.currentTarget);
+    }
+
+    function onSearchChanged(event) {
+        setSearchValue(event.target.value);
     }
 
     const renderMenu = (
@@ -209,19 +236,12 @@ const Header = (props) => {
         <div className={classes.grow}>
             <AppBar position="fixed" color="inherit">
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="Open drawer"
-                    >
+                    <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo"/>
+                    <SearchBox type='text' value={searchValue} onChange={onSearchChanged} />
+                    <IconButton style={{position: "fixed", left: "275px"}} aria-label="Search">
+                        <SearchIcon />
                     </IconButton>
-                    <img src={logo} style={{height: "45px"}} alt="logo"/>
-                    {/* <Tabs value={tab_index} variant="scrollable" className="home-tab" onChange={handleChange}>
-                        <Tab label="Cars List" className={classes.c_tab} style={{height: "64px"}}/>
-                        <Tab label="History" className={classes.c_tab}/>
-                        <Tab label="Transactions" className={classes.c_tab}/>
-                    </Tabs> */}
+                    {/* <input type="text" value={searchValue} onChange={onSearchChanged} /> */}
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         <IconButton color="inherit" className={classes.mIconButton}>
