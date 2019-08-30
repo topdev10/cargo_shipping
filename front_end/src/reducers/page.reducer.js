@@ -1,10 +1,33 @@
 import { pageConstants } from '../constants';
 
-export function pages(state = {}, action) {
-    switch(action.type) {
-    case pageConstants.PROFILE_PAGE:
-        return {
+const initialState = { 
+    userProfile: null,
+    requestedProfile: false,
+    receivedProfile: false,
+    error: null,
+    // ect
+};
 
+export function pages(state = initialState, action) {
+    switch(action.type) {
+    case pageConstants.REQUEST_PROFILE:
+        return {
+            requestedProfile: true,
+            receivedProfile: false,
+        };
+    case pageConstants.SUCCESS_PROFILE:
+        return {
+            ...state,
+            userProfile: action.profile,
+            requestedProfile: false,
+            receivedProfile: true,
+        };
+    case pageConstants.FAILED_PROFILE:
+        return {
+            userProfile: null,
+            requestedProfile: false,
+            receivedProfile: false,
+            error: action.error,
         };
     default:
         return state;

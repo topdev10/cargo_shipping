@@ -11,13 +11,13 @@ function login(email, password, checked) {
 
     return dispatch => {
         dispatch(request({ email }));
-        BaseApi.login(email, password, checked, (error) => {
+        BaseApi.login(email, password, checked, (error, username) => {
             if(error){
                 dispatch(failure(error.toString()));
                 dispatch(alertActions.error(error.toString()));
             }
             else {
-                dispatch(success({email, password}));
+                dispatch(success({email, username ,password}));
                 history.push('/Home');
             }
         });

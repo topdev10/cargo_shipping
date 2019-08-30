@@ -17,7 +17,7 @@ import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 import Exit from '@material-ui/icons/ExitToApp';
 import AccountBox from '@material-ui/icons/AccountBox';
-import { userActions } from '../actions';
+import { userActions, pageActions } from '../actions';
 import { history } from '../helpers';
 
 import logo from '../images/logo.svg';
@@ -159,7 +159,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = (props) => {
-    const { username, logout } = props;
+    const { username, logout, getProfile } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -186,7 +186,8 @@ const Header = (props) => {
     }
 
     function viewProfile(){
-        history.push("/profile");
+        // history.push("/profile");
+        getProfile();
     }
 
     function gotoHomepage(){
@@ -257,7 +258,7 @@ const Header = (props) => {
             <ThemeProvider theme={theme}>
                 <AppBar position="fixed" color="inherit">
                     <Toolbar>
-                        <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onClick={gotoHomepage}/>
+                        <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onMouseDownCapture={gotoHomepage}/>
                         <SearchBox type='text' value={searchValue} onChange={onSearchChanged} />
                         <IconButton style={{position: "fixed", left: "275px"}} aria-label="Search">
                             <SearchIcon />
@@ -301,16 +302,18 @@ const Header = (props) => {
 Header.propTypes = {
     username: PropTypes.string.isRequired,
     logout: PropTypes.func.isRequired,
+    getProfile: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        username: state.auth.user?state.auth.user.email:"newuser",
+        username: state.auth.user?state.auth.user.username:"newuser",
     };
 }
 
 const actionCreators = {
     logout: userActions.logout,
+    getProfile: pageActions.getProfile,
 };
 
 export default connect(mapStateToProps, actionCreators)(Header);

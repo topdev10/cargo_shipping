@@ -41,7 +41,7 @@ const BaseApi = {
                     if (res!= null) {
                         if(checked)
                         {
-                            localStorage.user = JSON.stringify({email, username: res.username});
+                            localStorage.user = JSON.stringify({email, username: res});
                         }
                         callback(null, res);
                     } else callback(err, null);
@@ -91,6 +91,18 @@ const BaseApi = {
                 code,
                 email,
             },
+        },
+        (err, res) => callback(err, res));
+    },
+
+    getProfile(username, callback) {
+        this.baseApi({
+            sub_url: 'auth/getProfile',
+            method: 'POST',
+            data: {
+                email: JSON.parse(localStorage.getItem('user')).email,
+                username
+            }
         },
         (err, res) => callback(err, res));
     },

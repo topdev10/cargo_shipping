@@ -16,7 +16,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
 
 function mapStateToProps(state) {
     return {
-        username: state.auth.user?state.auth.user.email:"newuser",
+        username: state.auth.user?state.auth.user.username:"newuser",
     };
 }
 export default connect(mapStateToProps)(PrivateRoute);

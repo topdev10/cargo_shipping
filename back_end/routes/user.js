@@ -172,10 +172,29 @@ router.post('/signup', [
     }
 });
 
+router.post('/getProfile', [
+    check('username').not().isEmpty(),
+    check('email').isEmail(),
+] , function(req, res) {
+    let errors = validationResult(req);
+    if(!errors.isEmpty()){
+        res.status(422).json({ errors: errors.array() });
+    } else {
+        Profile.findOne({email: req.body.email}, (error, profile)=>{
+            if(error) res.status(500).send();
+            else if(profile){   // if profile exists send data to requested side
+                res.status(200).send(profile);
+            } else if(!profile){
+                res.status(200).send(null);
+            }
+        });
+    }
+});
+
 router.post('/addprofile', [
     check('email').isEmail(),
-    check('firstname', "Firstname is required").not().isEmpty(false),
-    check('lastname', "Lastname is required").not().isEmpty(false),
+    check('firstname', "Firstname is required").not().isEmpty(),
+    check('lastname', "Lastname is required").not().isEmpty(),
     check('phonenumber', "You have to input valid phone number").not().isMobilePhone()
 ], function(req, res){
     let errors = validationResult(req);
@@ -193,9 +212,9 @@ router.post('/addprofile', [
                     phonenumber: req.body.phonenumber,
                     address: req.body.address
                 }, (e2, r2) => {
-                    if(e2) req.status(500).send();
-                    else if(r2.nModified>0) req.status(200).send();   //profile successfully updated
-                    else req.status(426).send();                    //update failed (426: failed previous request)
+                    if(e2) res.status(500).send();
+                    else if(r2.nModified>0) res.status(200).send();   //profile successfully updated
+                    else res.status(426).send();                    //update failed (426: failed previous request)
                 })
             } else {            // if profile don't exists add new profile
                 let newProfile = new Profile({
