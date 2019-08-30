@@ -169,7 +169,7 @@ const Signup = (props) => {
     function redirectPage(e, page) {
         if(page === "login") history.push('/login');
         else if(page === 'signup') history.push('/signup');
-        else if(page === 'home') history.push('/Home');
+        else if(page === 'home') history.push('/landing');
     }
 
     const onClickSignup = () => event => {

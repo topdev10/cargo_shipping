@@ -4,6 +4,8 @@ const initialState = {
     userProfile: null,
     requestedProfile: false,
     receivedProfile: false,
+    profileUpdateRequsted: false,
+    profileUpdateSuccess: false,
     error: null,
     // ect
 };
@@ -28,6 +30,24 @@ export function pages(state = initialState, action) {
             requestedProfile: false,
             receivedProfile: false,
             error: action.error,
+        };
+    case pageConstants.UPDATE_PROFILE_REQUEST:
+        return {
+            ...state,
+            profileUpdateRequsted: true,
+        };
+    case pageConstants.UPDATE_PROFILE_SUCCESS:
+        return {
+            ...state,
+            profileUpdateRequsted: false,
+            profileUpdateSuccess: true,
+        };
+    case pageConstants.UPDATE_PROFILE_FAILED:
+        return {
+            ...state,
+            profileUpdateRequsted: false,
+            profileUpdateSuccess: false,
+            userProfile: null,
         };
     default:
         return state;

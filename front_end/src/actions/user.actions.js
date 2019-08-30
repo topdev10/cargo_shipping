@@ -11,14 +11,14 @@ function login(email, password, checked) {
 
     return dispatch => {
         dispatch(request({ email }));
-        BaseApi.login(email, password, checked, (error, username) => {
+        BaseApi.login(email, password, checked, (error, res) => {
             if(error){
                 dispatch(failure(error.toString()));
                 dispatch(alertActions.error(error.toString()));
             }
-            else {
-                dispatch(success({email, username ,password}));
-                history.push('/Home');
+            else if( res != null ){
+                dispatch(success({email: res.uemail, username: res.username ,password}));
+                history.push('/landing');
             }
         });
     };
@@ -73,6 +73,46 @@ function verifyCode(code, email) {
     };
 }
 
+function resetPassword(email, password, cpassword, code){
+    function request(_email) { return { type: userConstants.CHANGE_PASSWORD_REQUESTED, _email }; }
+    function success(_email) { return { type: userConstants.CHANGE_PASSWORD_SUCCESS, _email }; }
+    function failure(error) { return { type: userConstants.CHANGE_PASSWORD_FAILED, error }; }
+
+    return dispatch => {
+        dispatch(request(email));
+
+        BaseApi.resetPassword(email, password, cpassword, code, (error) => {
+            if(error) {
+                dispatch(failure(email));
+                dispatch(alertActions.error(error.toString()));
+            } else {
+                dispatch(success(email));
+                dispatch(alertActions.success('Change Password Success'));
+            }
+        });
+    };
+}
+
+function forgotPassword(email) {        // email can be user email or username
+    function request(_email) { return { type: userConstants.FORGOT_PASSWORD_REQUEST, _email }; }
+    function success(_email) { return { type: userConstants.FORGOT_PASSWORD_SUCCESS, _email }; }
+    function failure(error) { return { type: userConstants.FORGOT_PASSWORD_FAILED, error }; }
+
+    return dispatch => {
+        dispatch(request(email));
+
+        BaseApi.forgotPassword(email, (error) => {
+            if(error) {
+                dispatch(failure(email));
+                dispatch(alertActions.error(error.toString()));
+            } else {
+                dispatch(success(email));
+                dispatch(alertActions.success("We've sent you the verification code to your email."));
+            }
+        });
+    };
+}
+
 function getAll() {
     function request() { return { type: userConstants.GETALL_REQUEST }; }
     function success(users) { return { type: userConstants.GETALL_SUCCESS, users }; }
@@ -111,6 +151,8 @@ export const userActions = {
     logout,
     register,
     verifyCode,
+    forgotPassword,
+    resetPassword,
     getAll,
     deleteUser
 };

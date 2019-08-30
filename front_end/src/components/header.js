@@ -159,7 +159,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = (props) => {
-    const { username, logout, getProfile } = props;
+    const { username, email, logout, getProfile } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -187,11 +187,11 @@ const Header = (props) => {
 
     function viewProfile(){
         // history.push("/profile");
-        getProfile();
+        getProfile(username, email);
     }
 
     function gotoHomepage(){
-        history.push('/home');
+        history.push('/landing');
     }
   
     function handleMobileMenuOpen(event) {
@@ -301,6 +301,7 @@ const Header = (props) => {
 
 Header.propTypes = {
     username: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
     logout: PropTypes.func.isRequired,
     getProfile: PropTypes.func.isRequired,
 };
@@ -308,6 +309,7 @@ Header.propTypes = {
 function mapStateToProps(state) {
     return {
         username: state.auth.user?state.auth.user.username:"newuser",
+        email: state.auth.user?state.auth.user.email:"tmp@tmp.com"
     };
 }
 

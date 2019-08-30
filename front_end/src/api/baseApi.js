@@ -41,11 +41,11 @@ const BaseApi = {
                     if (res!= null) {
                         if(checked)
                         {
-                            localStorage.user = JSON.stringify({email, username: res});
+                            localStorage.user = JSON.stringify({email: res.email, username: res.username});
                         }
-                        callback(null, res);
+                        callback(null, {uemail: res.email, username: res.username});
                     } else callback(err, null);
-                }
+                } else callback(err, null);
             }
         );
     },
@@ -95,13 +95,46 @@ const BaseApi = {
         (err, res) => callback(err, res));
     },
 
-    getProfile(username, callback) {
+    getProfile({username, email}, callback) {
         this.baseApi({
             sub_url: 'auth/getProfile',
             method: 'POST',
             data: {
-                email: JSON.parse(localStorage.getItem('user')).email,
+                // email: JSON.parse(localStorage.getItem('user')).email,
+                email,
                 username
+            }
+        },
+        (err, res) => callback(err, res));
+    },
+
+    updateProfile(profile, callback) {
+        this.baseApi({
+            sub_url: "auth/addprofile",
+            method: 'POST',
+            data: profile
+        },
+        (err, res) => callback(err, res));
+    },
+
+    forgotPassword(email, callback){
+        this.baseApi({
+            sub_url: 'auth/forgotPassword',
+            method: 'POST',
+            data: {email}
+        },
+        (err, res) => callback(err, res));
+    },
+
+    resetPassword(email, password, cpassword, code, callback){
+        this.baseApi({
+            sub_url: 'auth/resetPassword',
+            method: 'POST',
+            data: {
+                email,
+                password,
+                cpassword,
+                code
             }
         },
         (err, res) => callback(err, res));

@@ -202,11 +202,12 @@ const BLabel = styled.label`
 
 const Login = (props) => {
 
-    const { history, login } = props;
+    const { history, login, forgotPassword, resetPassword, verifyCodeRequested, vCSuccess, cpRequested, cpSuccess } = props;
     const [display, setDisplay] = React.useState("step1");
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [cpassword, setConfirmPassword] = React.useState('');
+    const [code, setCode] = React.useState('');
     let checked = false;
 
     function redirectPage(e, page) {
@@ -219,9 +220,11 @@ const Login = (props) => {
             setDisplay(step);
         else if(step === 'step3'){
             // TODO: send email to User with a link to change password
+            forgotPassword(email);
             setDisplay(step);
         } else if(step === 'step1'){
             // TODO: Change password and send request to back-end and redirect to login page or home page
+            resetPassword(email, password, cpassword, code);
             setDisplay(step);
         }
     }
@@ -235,6 +238,7 @@ const Login = (props) => {
         if(type === 'email') setEmail(event.target.value);
         else if(type === 'password') setPassword(event.target.value);
         else if(type === 'cpassword') setConfirmPassword(event.target.value);
+        else if(type === 'code') setCode(event.target.value);
     };
 
     const onClickLogin = () => event => {
@@ -246,7 +250,7 @@ const Login = (props) => {
     };
 
     let leftShow;
-    if(display === "step1")
+    if(display === "step1" && !cpRequested || cpSuccess)
         leftShow = <LeftSide>
             <CLabel>Email Address(Or Username)</CLabel>
             <InputBox type="text" value={email} onChange={ handleInput('email') }/>
@@ -269,22 +273,51 @@ const Login = (props) => {
             <LoginButton onClick={onClickLogin()}>SIGN IN</LoginButton>
             <SignupButton onClick={(e) => redirectPage(e, 'signup')}>SIGN UP</SignupButton>
         </LeftSide>;
-    else if(display === 'step2')
-        leftShow = <LeftSide>
-            <BLabel>Reset Password</BLabel>
-            <CLabel>Email Address</CLabel>
-            <InputBox type="text" value={email} onChange={ handleInput('email') }/>
-            <LoginButton onClick={(e) => resetpassword(e, 'step3')}>RESET PASSWORD</LoginButton>
-            <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step1')}>Back to Login</ForgotPasswordBTN>
-        </LeftSide>;
-    else if(display === 'step3')
+    else if(display === "step1" && cpRequested)
         leftShow = <LeftSide>
             <BLabel>Enter New Password</BLabel>
             <CLabel>Password</CLabel>
             <InputBox type="password" value={password} onChange={ handleInput('password') }/>
             <CLabel>Re-enter Password</CLabel>
             <InputBox type="password" value={cpassword} onChange={ handleInput('cpassword') }/>
+            <CLabel>Verification Code</CLabel>
+            <InputBox type="text" value={code} onChange={ handleInput('code') }/>
+            <LoginButton disabled>Waiting...</LoginButton>
+        </LeftSide>;
+    else if(display === 'step2')
+        leftShow = <LeftSide>
+            <BLabel>Reset Password</BLabel>
+            <CLabel>Email Address</CLabel>
+            <InputBox type="text" value={email} onChange={ handleInput('email') }/>
+            <LoginButton onClick={(e) => resetpassword(e, 'step3')}>RESET PASSWORD</LoginButton>         
+            <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step1')}>Back to Login</ForgotPasswordBTN>
+        </LeftSide>;
+    else if(display === 'step3' && vCSuccess)
+        leftShow = <LeftSide>
+            <BLabel>Enter New Password</BLabel>
+            <CLabel>Password</CLabel>
+            <InputBox type="password" value={password} onChange={ handleInput('password') }/>
+            <CLabel>Re-enter Password</CLabel>
+            <InputBox type="password" value={cpassword} onChange={ handleInput('cpassword') }/>
+            <CLabel>Verification Code</CLabel>
+            <InputBox type="text" value={code} onChange={ handleInput('code') }/>
             <LoginButton onClick={(e) => resetpassword(e, 'step1')}>RESET PASSWORD</LoginButton>
+        </LeftSide>;
+    else if(display === 'step3' && verifyCodeRequested)
+        leftShow = <LeftSide>
+            <BLabel>Reset Password</BLabel>
+            <CLabel>Email Address</CLabel>
+            <InputBox type="text" value={email} onChange={ handleInput('email') }/>
+            <LoginButton disabled>Wait...</LoginButton>         
+            <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step1')}>Back to Login</ForgotPasswordBTN>
+        </LeftSide>;
+    else if(display === 'step3' && !verifyCodeRequested)
+        leftShow = <LeftSide>
+            <BLabel>Reset Password</BLabel>
+            <CLabel>Email Address</CLabel>
+            <InputBox type="text" value={email} onChange={ handleInput('email') }/>
+            <LoginButton onClick={(e) => resetpassword(e, 'step3')}>RESET PASSWORD</LoginButton>         
+            <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step1')}>Back to Login</ForgotPasswordBTN>
         </LeftSide>;
     return (
         <Container>
@@ -302,22 +335,41 @@ const Login = (props) => {
     );
 };
 
+Login.defaultProps = {
+    verifyCodeRequested: false,
+    vCSuccess: false,
+    cpRequested: false,
+    cpSuccess: false,
+};
+
 Login.propTypes = {
     history: PropTypes.shape({
         push: PropTypes.func.isRequired,
     }).isRequired,
     login: PropTypes.func.isRequired,
+    forgotPassword: PropTypes.func.isRequired,
+    resetPassword:  PropTypes.func.isRequired,
+    verifyCodeRequested: PropTypes.bool,
+    vCSuccess: PropTypes.bool,
+    cpRequested: PropTypes.bool,
+    cpSuccess: PropTypes.bool,
 };
 
 function mapStateToProps(state, props) {
     return {
         history: props.history,
         loggingIn: state.auth.loggingIn,
+        verifyCodeRequested: state.auth.verifyCodeRequested,
+        vCSuccess: state.auth.vCSuccess,
+        cpRequested: state.auth.cpRequested,
+        cpSuccess: state.auth.cpSuccess
     };
 }
 
 const actionCreators = {
     login: userActions.login,
+    forgotPassword: userActions.forgotPassword,
+    resetPassword: userActions.resetPassword,
 };
 
 export default connect(mapStateToProps, actionCreators)(Login);

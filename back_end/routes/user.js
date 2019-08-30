@@ -40,7 +40,7 @@ router.post('/login', [
                     if(isMatch){
                         if(user.status){
                             req.session.user = user;
-                            res.status(200).send(user.username); //success response
+                            res.status(200).send({email: user.email, username: user.username}); //success response
                         } else {
                             res.status(403).send(); //Not Active user
                         }                        
@@ -79,6 +79,113 @@ router.post('/verify', [
                 } else res.status(400).send();                  //Bad Request
             }
         });
+    }
+});
+
+router.post('/forgotPassword', [
+    check('email', "You have to input your email or user name you used while on signup. And the length have to be at least 3.").isString().isLength({min: 3}),
+], function(req, res){
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).send({ errors: errors.array() });
+    } else {
+        let reqbody;
+        if(req.body.email.includes('@'))
+            reqbody = { email: req.body.email };
+        else reqbody = { username: req.body.email };
+        User.findOne(reqbody, function(error, user){
+            if(error) res.status(500).send();         //Internal Server Error
+            else if(!user) res.status(404).send();  //user not exists
+            else {
+                // TODO: generate a new code and save it to db and send response to front-end
+                let m_code = '';
+                for(var i =0; i < 6; i ++){
+                    m_code += (Math.floor(Math.random()*10)).toString();
+                }
+
+                console.log("Generated Verification Code is ", m_code);
+                User.updateOne(reqbody, {code: m_code}, (e1, r1) => {
+                    if(e1) res.status(500).send();         //Internal Server Error
+                    else if(r1.nModified>0){
+                        let transport = nodemailer.createTransport({
+                            service: 'gmail',
+                            tls: { rejectUnauthorized: false },
+                            auth: {
+                                user: process.env.SERVER_EMAIL,
+                                pass: process.env.EMAIL_PASSWORD
+                            }
+                        });
+                        nodemailer.sendMail = true;
+        
+                        const message = {
+                            from: process.env.SERVER_EMAIL, // Sender address
+                            to: user.email,         // List of recipients
+                            subject: 'Please Verify your Freight Genius Account.', // Subject line
+                            text: `Your Verification Code is ${m_code}`, // Plain text body
+                            // html: `<h1>Here is your verification Code! </h1> <p><b>${m_code}</b></p>`
+                        };
+
+                        transport.sendMail(message, function(err, info) {
+                            if (err) {
+                                console.log(err);
+                                res.status(500).send();
+                            } else {
+                                console.log(info);
+                                // TODO: Save User info to DB
+                                res.status(200).send(); //success response
+                            }
+                        });
+                    }
+                })
+            }
+        });
+    }
+});
+
+router.post('/resetPassword',[
+    check('password').isLength({min: 6}).custom((value,{req, loc, path}) => {
+        if (value !== req.body.cpassword) {
+            // trow error if passwords do not match
+            throw new Error("Passwords don't match");
+        } else {
+            return value;
+        }
+    }),
+    check('cpassword', "You have to input Confirm password").not().isEmpty(),
+    check('code', "Code must be 6 Length Numbers.").isNumeric().isLength({min: 6, max:6}),
+], function(req, res) {
+    let errors = validationResult(req);
+    if(!errors.isEmpty()){
+        console.log("step1", errors.array())
+        res.status(422).json({ errors: errors.array() });       //Return Validation Errors
+    } else if(req.body.password != req.body.cpassword){
+        console.log("step2", errors.array())
+        res.status(422).json({ errors: errors.array() });
+    } else {
+        let reqbody;
+        if(req.body.email.includes('@'))
+            reqbody = { email: req.body.email };
+        else reqbody = { username: req.body.email };
+        User.findOne(reqbody, (error, user) => {
+            if(error) res.status(500).send();
+            else if(!user) res.status(404).send();  //user not exists
+            else {
+                // Encrypt Password & Save to DB
+                bcrypt.genSalt(10, function(err, salt){
+                    bcrypt.hash(req.body.password, salt, function(err, hash){
+                        if(err){
+                            res.status(500).send();
+                        }
+
+                        User.updateOne(reqbody, {password: hash}, (e1, r1) => {
+                            if(e1) res.status(500).send();
+                            else if(r1.nModified>0) res.status(200).send();
+                            else res.status(426).send();
+                        });
+                    });
+                });
+            }
+        })
     }
 });
 
@@ -199,8 +306,9 @@ router.post('/addprofile', [
 ], function(req, res){
     let errors = validationResult(req);
     if(!errors.isEmpty()){
+        console.log(errors);
         res.status(422).json({ errors: errors.array() });
-    } else if(Auth.authenticate(req)){
+    } else {    //if(Auth.authenticate(req))
         // TODO: Add profile into to DB based on email address
         Profile.findOne({email: req.body.email}, (error, profile) => {      //check if profile already exists
             // TODO: if profile exists Update current profile, otherwise add new profile to DB
@@ -232,9 +340,9 @@ router.post('/addprofile', [
             }
         })
     }
-    else {
-        res.status(401).send(); //invalid credential(Unauthorized)
-    }
+    // else {
+    //     res.status(401).send(); //invalid credential(Unauthorized)
+    // }
 })
 
 module.exports = router;
