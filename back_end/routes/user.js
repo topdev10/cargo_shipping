@@ -68,11 +68,14 @@ router.post('/token', [
             else if(!user) res.status(404).send();
             else {
                 if(user.token === req.body.token){
-                    User.updateOne({username: req.body.username}, {status: true}, (e1, r1) => {
-                        if(e1) res.status(500).send();
-                        else if(r1.nModified > 0) res.status(200).send(user);
-                        else res.status(426).send();
-                    })
+                    if(user.status)
+                        res.status(200).send(user);
+                    else 
+                        User.updateOne({username: req.body.username}, {status: true}, (e1, r1) => {
+                            if(e1) res.status(500).send();
+                            else if(r1.nModified > 0) res.status(200).send(user);
+                            else res.status(426).send();
+                        })
                 }
             }
         });
@@ -235,7 +238,7 @@ router.post('/signup', [
         for(var i =0; i < 6; i ++){
             m_code += (Math.floor(Math.random()*10)).toString();
         }
-        const m_token = crypto.randomBytes(4 * 5).toString("base64");
+        const m_token = crypto.randomBytes(48).toString("hex");
         console.log("Generated Verification Code is ", m_code, "token", m_token);
         // TODO: Send Email with Verification code to User email and save User data to DB
         let transport = nodemailer.createTransport({
