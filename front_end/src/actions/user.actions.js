@@ -24,10 +24,10 @@ function login(email, password, checked) {
     };
 }
 
-function verifyToken(username, token) {
+function verifyToken({username, token}) {
 
     function request(_username) { return { type: userConstants.LOGIN_WITH_TOKEN_REQUEST, _username }; }
-    function success(_username) { return { type: userConstants.LOGIN_WITH_TOKEN_SUCCESS, _username }; }
+    function success(user) { return { type: userConstants.LOGIN_WITH_TOKEN_SUCCESS, user }; }
     function failure(error) { return { type: userConstants.LOGIN_WITH_TOKEN_FAILED, error }; }
 
     return dispatch => {
@@ -38,8 +38,7 @@ function verifyToken(username, token) {
                 dispatch(alertActions.error(error.toString()));
             }
             else if( user != null ){
-                dispatch(success(user));
-                history.push('/landing');
+                dispatch(success({username: user.username, user: user.email}));
             }
         });
     };

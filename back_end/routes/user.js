@@ -62,6 +62,7 @@ router.post('/token', [
     if (!errors.isEmpty()) {
         return res.status(422).send({ errors: errors.array() });
     } else {
+        console.log(errors.array(), req.body.token, req.body.username);
         User.findOne({username: req.body.username}, function(error, user){
             if(error) res.status(500).send();
             else if(!user) res.status(404).send();
@@ -151,10 +152,8 @@ router.post('/forgotPassword', [
 
                         transport.sendMail(message, function(err, info) {
                             if (err) {
-                                console.log(err);
                                 res.status(500).send();
                             } else {
-                                console.log(info);
                                 // TODO: Save User info to DB
                                 res.status(200).send(); //success response
                             }
@@ -180,10 +179,8 @@ router.post('/resetPassword',[
 ], function(req, res) {
     let errors = validationResult(req);
     if(!errors.isEmpty()){
-        console.log("step1", errors.array())
         res.status(422).json({ errors: errors.array() });       //Return Validation Errors
     } else if(req.body.password != req.body.cpassword){
-        console.log("step2", errors.array())
         res.status(422).json({ errors: errors.array() });
     } else {
         let reqbody;
@@ -261,10 +258,8 @@ router.post('/signup', [
 
         transport.sendMail(message, function(err, info) {
             if (err) {
-                console.log(err);
                 res.status(500).send();
             } else {
-                console.log(info);
                 // TODO: Save User info to DB
                 let user = new User({
                     email: req.body.email,
@@ -331,7 +326,6 @@ router.post('/addprofile', [
 ], function(req, res){
     let errors = validationResult(req);
     if(!errors.isEmpty()){
-        console.log(errors);
         res.status(422).json({ errors: errors.array() });
     } else {    //if(Auth.authenticate(req))
         // TODO: Add profile into to DB based on email address

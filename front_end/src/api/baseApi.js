@@ -60,7 +60,9 @@ const BaseApi = {
                     token
                 },
             },
-            (err, res) => callback(err, res)
+            (err, res) => {
+                callback(err, res);
+            }
         );
     },
 
