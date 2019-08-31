@@ -9,6 +9,7 @@ import Login from './pages/login/login';
 import Signup from './pages/signup/signup';
 import Header from './components/header';
 import ProfilePage from './pages/profile/profile';
+import TokenAuthComponent from './components/tokenAuthComponent';
 
 export const Routes = (props) => {
     const { username } = props;
@@ -17,10 +18,11 @@ export const Routes = (props) => {
             <Fragment>
                 {username!=='newuser'&&<Header></Header>}
                 <Switch>
-                    <AuthRoute exact path="/landing" component={Landing} />
-                    <AuthRoute exact path="/Profile" component={ProfilePage} />
-                    <Route path="/Login" component={Login} />
-                    <Route path="/Signup" component={Signup} />
+                    <AuthRoute exact path="/landing" component={Landing}/>
+                    <AuthRoute exact path="/Profile" component={ProfilePage}/>
+                    <Router path="/auth/:abc" component={TokenAuthComponent}/>
+                    <Route path="/Login" component={Login}/>
+                    <Route path="/Signup" component={Signup}/>
                     <Redirect from="/" to="/landing"></Redirect>
                 </Switch>
             </Fragment>

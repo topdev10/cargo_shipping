@@ -7,6 +7,7 @@ const Profile = require('../model/profile');
 const Auth = require('../controller/auth');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
+const crypto = require('crypto');
 
 // Define the dotenv package
 dotenv.config();
@@ -50,6 +51,30 @@ router.post('/login', [
                 });
             }
         })
+    }
+});
+
+router.post('/token', [
+    check('username', "Username is required and it's length have to be at least 3.").isLength({min: 3}),
+    check('token', "Token is required and it's length have to be at least 20.").isLength({min: 20})
+],(req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).send({ errors: errors.array() });
+    } else {
+        User.findOne({username: req.body.username}, function(error, user){
+            if(error) res.status(500).send();
+            else if(!user) res.status(404).send();
+            else {
+                if(user.token === req.body.token){
+                    User.updateOne({username: req.body.username}, {status: true}, (e1, r1) => {
+                        if(e1) res.status(500).send();
+                        else if(r1.nModified > 0) res.status(200).send(user);
+                        else res.status(426).send();
+                    })
+                }
+            }
+        });
     }
 });
 
@@ -122,7 +147,6 @@ router.post('/forgotPassword', [
                             to: user.email,         // List of recipients
                             subject: 'Please Verify your Freight Genius Account.', // Subject line
                             text: `Your Verification Code is ${m_code}`, // Plain text body
-                            // html: `<h1>Here is your verification Code! </h1> <p><b>${m_code}</b></p>`
                         };
 
                         transport.sendMail(message, function(err, info) {
@@ -214,8 +238,8 @@ router.post('/signup', [
         for(var i =0; i < 6; i ++){
             m_code += (Math.floor(Math.random()*10)).toString();
         }
-
-        console.log("Generated Verification Code is ", m_code);
+        const m_token = crypto.randomBytes(4 * 5).toString("base64");
+        console.log("Generated Verification Code is ", m_code, "token", m_token);
         // TODO: Send Email with Verification code to User email and save User data to DB
         let transport = nodemailer.createTransport({
             service: 'gmail',
@@ -231,8 +255,8 @@ router.post('/signup', [
             from: process.env.SERVER_EMAIL, // Sender address
             to: req.body.email,         // List of recipients
             subject: 'Please Verify your Freight Genius Account.', // Subject line
-            text: `Your Verification Code is ${m_code}`, // Plain text body
-            // html: `<h1>Here is your verification Code! </h1> <p><b>${m_code}</b></p>`
+            // text: `Your Verification Code is ${m_code}`, // Plain text body
+            html: `<h1>Here is your verification Code! </h1> <p><b>${m_code}</b></p><br/><h1>Or you can just click this link to activate your account</h1><a>http://localhost:8080/auth/${req.body.username}/${m_token}</a>`
         };
 
         transport.sendMail(message, function(err, info) {
@@ -248,6 +272,7 @@ router.post('/signup', [
                     password: req.body.password,
                     code: parseInt(m_code, 10),
                     status: false,
+                    token: m_token,
                 });
             
                 // Encrypt Password & Save to DB

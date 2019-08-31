@@ -23,6 +23,10 @@ var UserSchema = new mongoose.Schema({
   status: {
     type: Boolean,
     default: false
+  },
+  token: {
+    type: String,
+    required: true,
   }
 });
 var User = mongoose.model('User', UserSchema);

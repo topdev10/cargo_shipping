@@ -24,6 +24,28 @@ function login(email, password, checked) {
     };
 }
 
+function verifyToken(username, token) {
+
+    function request(_username) { return { type: userConstants.LOGIN_WITH_TOKEN_REQUEST, _username }; }
+    function success(_username) { return { type: userConstants.LOGIN_WITH_TOKEN_SUCCESS, _username }; }
+    function failure(error) { return { type: userConstants.LOGIN_WITH_TOKEN_FAILED, error }; }
+
+    return dispatch => {
+        dispatch(request({ username }));
+        BaseApi.verifyToken(username, token, (error, user) => {
+            if(error){
+                dispatch(failure(error.toString()));
+                dispatch(alertActions.error(error.toString()));
+            }
+            else if( user != null ){
+                dispatch(success(user));
+                history.push('/landing');
+            }
+        });
+    };
+
+}
+
 function logout() {
     history.push('/login');
     BaseApi.logout();
@@ -148,6 +170,7 @@ function deleteUser(id) {
 
 export const userActions = {
     login,
+    verifyToken,
     logout,
     register,
     verifyCode,

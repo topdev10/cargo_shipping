@@ -2,8 +2,24 @@ import { userConstants } from '../constants';
 
 const user = JSON.parse(localStorage.getItem('user'));
 const initialState = user
-    ? { loggedIn: true, user, verifyCodeRequested: false, vCSuccess: false, cpRequested: false, cpSuccess: false }
-    : { verifyCodeRequested: false, vCSuccess: false, cpRequested: false, cpSuccess: false };
+    ? { 
+        loggedIn: true, 
+        user, 
+        verifyCodeRequested: false, 
+        vCSuccess: false, 
+        cpRequested: false, 
+        cpSuccess: false,
+        tokenLoginRequested: false,
+        tokenLoginSuccess: false,
+    }
+    : { 
+        verifyCodeRequested: false, 
+        vCSuccess: false, 
+        cpRequested: false, 
+        cpSuccess: false,
+        tokenLoginRequested: false,
+        tokenLoginSuccess: false,
+    };
 
 export function authentication(state = initialState, action) {
     switch (action.type) {
@@ -51,6 +67,25 @@ export function authentication(state = initialState, action) {
             ...state,
             cpRequested: false,
             cpSuccess: false,
+        };
+    case userConstants.LOGIN_WITH_TOKEN_REQUEST:
+        return {
+            ...state,
+            tokenLoginRequested: true,
+            tokenLoginSuccess: false,
+        };
+    case userConstants.LOGIN_WITH_TOKEN_SUCCESS:
+        return {
+            ...state,
+            tokenLoginRequested: true,
+            tokenLoginSuccess: true,
+            user: action.user,
+        };
+    case userConstants.LOGIN_WITH_TOKEN_FAILED:
+        return {
+            ...state,
+            tokenLoginRequested: false,
+            tokenLoginSuccess: false,
         };
     default:
         return state;

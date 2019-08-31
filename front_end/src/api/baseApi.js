@@ -50,6 +50,20 @@ const BaseApi = {
         );
     },
 
+    verifyToken(username, token, callback) {
+        this.baseApi(
+            {
+                sub_url: 'auth/token',
+                method: 'POST',
+                data: {
+                    username,
+                    token
+                },
+            },
+            (err, res) => callback(err, res)
+        );
+    },
+
     // Check if email form is correct or not
     validateEmail(email) {
         // eslint-disable-next-line no-useless-escape
