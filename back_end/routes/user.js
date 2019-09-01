@@ -8,6 +8,8 @@ const Auth = require('../controller/auth');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const crypto = require('crypto');
+var http = require('https');
+var querystring = require('querystring');
 
 // Define the dotenv package
 dotenv.config();
@@ -319,6 +321,105 @@ router.post('/getProfile', [
             }
         });
     }
+});
+
+function getLinkedInData(access_token,callback){
+    console.log("access token is ", access_token);
+    var options = {
+        host: 'api.linkedin.com',
+        path: '/v2/emailAddress?q=members&projection=(elements*(handle~))',
+        // path: '/v2/me?projection=(id,firstName,lastName)',
+        // path: '/v2/people/~:(id,first-name,last-name,headline,picture-url,location,industry,current-share,num-connections,summary,specialties,positions)?format=json',
+        protocol: 'https:',
+        method: 'GET',
+        headers: {
+            "Authorization": 'Bearer ' + access_token
+        }
+    };
+
+    var req = http.request(options, function (res) {
+        res.setEncoding('utf8');
+        var data = '';
+        res.on('data', function (chunk) {
+            console.log('PROFILE DATA  ', chunk);
+            data += chunk;
+        });
+        res.on('end', function () {
+            callback(JSON.parse(data));
+            console.log('No more data in response.');
+        });
+        req.on('error', function (e) {
+            console.log("problem with request: " + e.message);
+        });
+    });
+    req.end();
+}
+
+function handshake(code, ores) {
+
+    //set all required post parameters
+    var data = querystring.stringify({
+        grant_type: "authorization_code",
+        code: code,
+        redirect_uri: process.env.LINKEDIN_REDIRECT_URL,//should match as in Linkedin application setup
+        client_id: process.env.LINKEDIN_CLIENT_ID,
+        client_secret: process.env.LINKEDIN_SECRET_KEY// the secret
+    });
+
+    var options = {
+        host: 'www.linkedin.com',
+        path: '/oauth/v2/accessToken',
+        protocol: 'https:',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(data)
+        }
+    };
+
+    var req = http.request(options, function (res) {
+         var data = '';
+        res.setEncoding('utf8');
+        res.on('data', function (chunk) {
+            data += chunk;
+
+        });
+        res.on('end', function () {
+            //once the access token is received store in DB
+            // insertTodb(JSON.parse(data), function (id) {
+            //     //need to find better way and proper authetication for the user
+            //     ores.redirect('http://localhost:3000/dashboard/' + id);
+            // });
+            getLinkedInData(JSON.parse(data).access_token, (profile) => {
+                if(profile.elements)
+                {
+                    const emailAddr = profile.elements[0]['handle~'].emailAddress;
+                    console.log(emailAddr);
+                    ores.redirect(`http://localhost:8080/linkedIn/${emailAddr}/Guest`)
+                }
+            })
+        });
+        req.on('error', function (e) {
+            console.log("problem with request: " + e.message);
+        });
+    });
+    req.write(data);
+    req.end();
+}
+
+router.get('/linkedin', (req, res) => {
+    console.log("auth route - Request object received from Linkedin", req.query);
+    //TODO: validate state here
+    var error = req.query.error;
+    var error_description = req.query.error_description;
+    var state = req.query.state;
+    var code = req.query.code;
+    if (error) {
+        next(new Error(error));
+    }
+
+    //once the code is received handshake back with linkedin to send over the secret key
+    handshake(req.query.code, res);
 });
 
 router.post('/addprofile', [

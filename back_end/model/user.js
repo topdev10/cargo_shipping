@@ -27,6 +27,10 @@ var UserSchema = new mongoose.Schema({
   token: {
     type: String,
     required: true,
+  },
+  linkedin_access_token: {
+    type: String,
+    trim: true
   }
 });
 var User = mongoose.model('User', UserSchema);

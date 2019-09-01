@@ -183,6 +183,28 @@ const LoginButton = styled.button`
     }
 `;
 
+const LoginLinkedInBtn = styled.a`
+    display: flex;
+    width: 400px;
+    height: 52px;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0px 0px 15px 0px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 17px;
+    color: #FFFFFF;
+    background: #4D7CFE;
+
+    &:hover {
+        background: #6688e4;
+    }
+`;
+
 const MLabel = styled.label`
     width: 50%;
     cursor: pointer;
@@ -249,6 +271,7 @@ const Login = (props) => {
         }
     };
 
+    const linkedInAuthUri = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86rytomxqk2lfz&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fauth%2Flinkedin&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share";
     let leftShow;
     if(display === "step1" && !cpRequested || cpSuccess)
         leftShow = <LeftSide>
@@ -272,6 +295,9 @@ const Login = (props) => {
             </OptionsContainer>
             <LoginButton onClick={onClickLogin()}>SIGN IN</LoginButton>
             <SignupButton onClick={(e) => redirectPage(e, 'signup')}>SIGN UP</SignupButton>
+            <LoginLinkedInBtn href={linkedInAuthUri}>
+                Login With LinkedIn
+            </LoginLinkedInBtn>
         </LeftSide>;
     else if(display === "step1" && cpRequested)
         leftShow = <LeftSide>

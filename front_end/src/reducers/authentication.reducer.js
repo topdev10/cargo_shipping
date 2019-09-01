@@ -87,6 +87,11 @@ export function authentication(state = initialState, action) {
             tokenLoginRequested: false,
             tokenLoginSuccess: false,
         };
+    case userConstants.ACTIVE_LINKEDIN_USER: 
+        return {
+            ...state,
+            user: action.user,
+        };
     default:
         return state;
     }

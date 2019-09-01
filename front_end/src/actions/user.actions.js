@@ -42,7 +42,16 @@ function verifyToken({username, token}) {
             }
         });
     };
+}
 
+function activateLinkedinUser({email, username}) {
+    function success(user) {
+        return {type: userConstants.ACTIVE_LINKEDIN_USER, user};
+    };
+    return dispatch => {
+        dispatch(success({email, username}));
+        history.push('/landing');
+    };
 }
 
 function logout() {
@@ -175,6 +184,7 @@ export const userActions = {
     verifyCode,
     forgotPassword,
     resetPassword,
+    activateLinkedinUser,
     getAll,
     deleteUser
 };

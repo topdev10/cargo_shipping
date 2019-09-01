@@ -10,6 +10,7 @@ import Signup from './pages/signup/signup';
 import Header from './components/header';
 import ProfilePage from './pages/profile/profile';
 import TokenAuthComponent from './components/tokenAuthComponent';
+import LIAuthcomponent from './components/linkedinAuthComponent';
 
 const Routes = (props) => {
     const { username } = props;
@@ -21,6 +22,7 @@ const Routes = (props) => {
                     <AuthRoute exact path="/landing" component={Landing}/>
                     <AuthRoute exact path="/Profile" component={ProfilePage}/>
                     <Route path="/auth/:username/:token" component={TokenAuthComponent}/>
+                    <Route path="/linkedIn/:email/:username" component={LIAuthcomponent} />
                     <Route path="/Login" component={Login} />
                     <Route path="/Signup" component={Signup} />
                     <Redirect from="/" to="/landing"></Redirect>
