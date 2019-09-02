@@ -11,6 +11,8 @@ import Header from './components/header';
 import ProfilePage from './pages/profile/profile';
 import TokenAuthComponent from './components/tokenAuthComponent';
 import LIAuthcomponent from './components/linkedinAuthComponent';
+import CustomNativationMenu from './components/CustomNavigationMenu';
+import Dashboard from './components/Dashboard';
 
 const Routes = (props) => {
     const { username } = props;
@@ -25,6 +27,10 @@ const Routes = (props) => {
                     <Route path="/linkedIn/:email/:username" component={LIAuthcomponent} />
                     <Route path="/Login" component={Login} />
                     <Route path="/Signup" component={Signup} />
+                    <Router path="/pages" history={history}>
+                        <CustomNativationMenu></CustomNativationMenu>
+                        <Route path="/pages/dashboard" component={Dashboard}/>
+                    </Router>
                     <Redirect from="/" to="/landing"></Redirect>
                 </Switch>
             </Fragment>

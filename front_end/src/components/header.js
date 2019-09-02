@@ -191,7 +191,7 @@ const Header = (props) => {
     }
 
     function gotoHomepage(){
-        history.push('/landing');
+        history.push('/pages/dashboard');
     }
   
     function handleMobileMenuOpen(event) {

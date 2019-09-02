@@ -234,7 +234,7 @@ const Login = (props) => {
 
     function redirectPage(e, page) {
         if(page === "login") history.push('/login');
-        else if(page === 'signup') history.push('signup');
+        else if(page === 'signup') history.push('/signup');
     }
 
     function resetpassword(e, step) {

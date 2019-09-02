@@ -47,6 +47,7 @@ const PAvatar = styled.img`
     width: 120px;
     height: 120px;
     border-radius: 60px;
+    border: 2px solid #E8ECEF;
     background: green;
 `;
 
