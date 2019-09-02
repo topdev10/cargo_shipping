@@ -7,7 +7,7 @@ const mapStyles = {
     position: "relative",
     background: "green",
     width: "calc(100vw - 246px)",
-    height: "50%",
+    height: "45%",
     minWidth: "500px",
 };
 

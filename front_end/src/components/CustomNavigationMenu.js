@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import TreeItem from '@material-ui/lab/TreeItem';
@@ -16,8 +17,8 @@ import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import Dashboard from '@material-ui/icons/Dashboard';
-
-import { history } from '../helpers';
+import { pageActions } from '../actions/page.action';
+import { pageConstants } from '../constants';
 
 const Container = styled.div`
     // position: fixed;
@@ -80,11 +81,21 @@ const useTreeItemStyles = makeStyles(theme => ({
 
 function StyledTreeItem(props) {
     const classes = useTreeItemStyles();
-    const { labelText, labelIcon: LabelIcon, labelInfo, color, bgColor, ...other } = props;
+    const { labelText, labelIcon: LabelIcon, labelInfo, color, bgColor, loadPage,  ...other } = props;
 
     const redirectPage = (e) => {
         e.preventDefault();
-        history.push(`/pages/${labelText}`);
+        // history.push(`/pages/${labelText}`);
+        if(labelText === 'Dashboard')
+            loadPage(pageConstants.DASHBOARD);
+        else if(labelText === 'Quotes')
+            loadPage(pageConstants.QUOTES);
+        else if(labelText === 'Shipments')
+            loadPage(pageConstants.SHIPMENTS);
+        else if(labelText === 'Billing')
+            loadPage(pageConstants.BILLING);
+        else if(labelText === 'Reports')
+            loadPage(pageConstants.REPORTS);
     };
 
     return (
@@ -129,6 +140,7 @@ StyledTreeItem.propTypes = {
     labelIcon: PropTypes.elementType.isRequired,
     labelInfo: PropTypes.string,
     labelText: PropTypes.string.isRequired,
+    loadPage: PropTypes.func.isRequired,
 };
 
 const useStyles = makeStyles({
@@ -139,8 +151,9 @@ const useStyles = makeStyles({
     },
 });
 
-export default function GmailTreeView() {
+function GmailTreeView(props) {
     const classes = useStyles();
+    const { loadPage } = props;
 
     return (
         <Container>
@@ -151,9 +164,9 @@ export default function GmailTreeView() {
                 defaultExpandIcon={<ArrowRightIcon />}
                 defaultEndIcon={<div style={{ width: 24 }} />}
             >
-                <StyledTreeItem nodeId="1" labelText="Dashboard" labelIcon={Dashboard} />
-                <StyledTreeItem nodeId="2" labelText="Quotes" labelIcon={Assignment} />
-                <StyledTreeItem nodeId="3" labelText="Shipments" labelIcon={DirectionsBoat}>
+                <StyledTreeItem nodeId="1" labelText="Dashboard" labelIcon={Dashboard} loadPage={loadPage}/>
+                <StyledTreeItem nodeId="2" labelText="Quotes" labelIcon={Assignment} loadPage={loadPage}/>
+                <StyledTreeItem nodeId="3" labelText="Shipments" labelIcon={DirectionsBoat} loadPage={loadPage}>
                     <StyledTreeItem
                         nodeId="6"
                         labelText="Social"
@@ -161,6 +174,7 @@ export default function GmailTreeView() {
                         labelInfo=""
                         color="#1a73e8"
                         bgColor="#e8f0fe"
+                        loadPage={loadPage}
                     />
                     <StyledTreeItem
                         nodeId="7"
@@ -169,6 +183,7 @@ export default function GmailTreeView() {
                         labelInfo=""
                         color="#e3742f"
                         bgColor="#fcefe3"
+                        loadPage={loadPage}
                     />
                     <StyledTreeItem
                         nodeId="8"
@@ -177,6 +192,7 @@ export default function GmailTreeView() {
                         labelInfo=""
                         color="#a250f5"
                         bgColor="#f3e8fd"
+                        loadPage={loadPage}
                     />
                     <StyledTreeItem
                         nodeId="9"
@@ -185,11 +201,22 @@ export default function GmailTreeView() {
                         labelInfo=""
                         color="#3c8039"
                         bgColor="#e6f4ea"
+                        loadPage={loadPage}
                     />
                 </StyledTreeItem>
-                <StyledTreeItem nodeId="4" labelText="Billing" labelIcon={AccountBalance} />
-                <StyledTreeItem nodeId="5" labelText="Reports" labelIcon={Assessment} />
+                <StyledTreeItem nodeId="4" labelText="Billing" labelIcon={AccountBalance} loadPage={loadPage}/>
+                <StyledTreeItem nodeId="5" labelText="Reports" labelIcon={Assessment} loadPage={loadPage}/>
             </TreeView>
         </Container>
     );
 }
+
+GmailTreeView.propTypes = {
+    loadPage: PropTypes.func.isRequired,
+};
+
+const actionCreators = {
+    loadPage: pageActions.loadPage,
+};
+
+export default connect(null, actionCreators)(GmailTreeView);

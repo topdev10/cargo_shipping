@@ -17,7 +17,7 @@ const Container = styled.div`
 
 const GoogleMapWrapper = styled.div`
     width: calc(100vw - 244px);
-    height: 50%;
+    height: 45%;
     min-width: 500px;
 `;
 

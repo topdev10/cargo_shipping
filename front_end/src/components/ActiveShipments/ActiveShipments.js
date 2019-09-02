@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
     display: flex;
-    height: 50%;
+    height: 55%;
     flex-direction: column;
     z-index: 999;
 `;
@@ -12,7 +12,7 @@ const Header = styled.h1`
     font-family: Rubik;
     font-style: normal;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 16px;
     line-height: 24px;
     color: #252631;
 `;
@@ -40,7 +40,6 @@ const ActiveShipments = () => {
     
     function viewAllShipments(event) {
         event.preventDefault();
-        console.log("view all shipments button clicked..");
     }
 
     return (

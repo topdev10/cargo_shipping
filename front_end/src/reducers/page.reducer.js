@@ -7,6 +7,12 @@ const initialState = {
     profileUpdateRequsted: false,
     profileUpdateSuccess: false,
     error: null,
+    info: {
+        shipments: null,
+        quotes: null,
+        billings: null,
+        reports: null,
+    },
     // ect
 };
 
@@ -48,6 +54,11 @@ export function pages(state = initialState, action) {
             profileUpdateRequsted: false,
             profileUpdateSuccess: false,
             userProfile: null,
+        };
+    case pageConstants.DASHBOARD:
+        return {
+            ...state,
+            info: action.info
         };
     default:
         return state;
