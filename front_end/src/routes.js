@@ -31,14 +31,17 @@ const Routes = (props) => {
                     <Route path="/linkedIn/:email/:username" component={LIAuthcomponent} />
                     <Route path="/Login" component={Login} />
                     <Route path="/Signup" component={Signup} />
-                    <Route path="/pages">
-                        <CustomNativationMenu></CustomNativationMenu>
-                        <Route path="/pages/dashboard" component={Dashboard}/>
-                        <Route path='/pages/quotes' component={Quotes}/>
-                        <Route path='/pages/shipments' component={Shipments}/>
-                        <Route path='/pages/billing' component={Billing}/>
-                        <Route path='/pages/reports' component={Reports}/>
-                    </Route>
+                    {
+                        username!=='newuser'&&
+                        <AuthRoute path="/pages" component={CustomNativationMenu}>
+                            <CustomNativationMenu></CustomNativationMenu>
+                            <AuthRoute path="/pages/dashboard" component={Dashboard}/>
+                            <AuthRoute path='/pages/quotes' component={Quotes}/>
+                            <AuthRoute path='/pages/shipments' component={Shipments}/>
+                            <AuthRoute path='/pages/billing' component={Billing}/>
+                            <AuthRoute path='/pages/reports' component={Reports}/>
+                        </AuthRoute>
+                    }
                     <Redirect from="/" to="/landing"></Redirect>
                 </Switch>
             </Fragment>

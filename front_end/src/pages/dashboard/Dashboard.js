@@ -23,7 +23,8 @@ const GoogleMapWrapper = styled.div`
 
 const DetailsContainer = styled.div`
     width: calc(100vw - 244px);
-    height: 50%;
+    height: 55%;
+    position: relative;
     overflow: hidden;
     padding: 20px;
     z-index: 999;

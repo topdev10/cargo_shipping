@@ -158,6 +158,7 @@ function loadPage(page) {
                 ]
             };
             dispatch(requestDashboard(info));
+            history.push('/pages/dashboard');
         }
     };
 }

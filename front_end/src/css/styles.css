@@ -7,3 +7,7 @@
 .img-home-logo {
     height: 45px;
 }
+    
+::-webkit-scrollbar {
+    width: 10px;
+}

@@ -22,6 +22,10 @@ const reset = css`
         box-sizing: inherit;
     }
 
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+
     input[type],
     [contenteditable] {
         user-select: text;

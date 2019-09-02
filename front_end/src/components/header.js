@@ -18,9 +18,9 @@ import SearchIcon from '@material-ui/icons/Search';
 import Exit from '@material-ui/icons/ExitToApp';
 import AccountBox from '@material-ui/icons/AccountBox';
 import { userActions, pageActions } from '../actions';
-import { history } from '../helpers';
 
 import logo from '../images/logo.svg';
+import { pageConstants } from "../constants";
 
 const SearchBox = styled.input`
     height: 42px;
@@ -159,7 +159,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = (props) => {
-    const { username, email, logout, getProfile } = props;
+    const { username, email, logout, getProfile, loadPage } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -191,7 +191,8 @@ const Header = (props) => {
     }
 
     function gotoHomepage(){
-        history.push('/pages/dashboard');
+        // history.push('/pages/dashboard');
+        loadPage(pageConstants.DASHBOARD);
     }
   
     function handleMobileMenuOpen(event) {
@@ -304,6 +305,7 @@ Header.propTypes = {
     email: PropTypes.string.isRequired,
     logout: PropTypes.func.isRequired,
     getProfile: PropTypes.func.isRequired,
+    loadPage: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -316,6 +318,7 @@ function mapStateToProps(state) {
 const actionCreators = {
     logout: userActions.logout,
     getProfile: pageActions.getProfile,
+    loadPage: pageActions.loadPage,
 };
 
 export default connect(mapStateToProps, actionCreators)(Header);
