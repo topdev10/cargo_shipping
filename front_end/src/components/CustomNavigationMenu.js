@@ -24,7 +24,7 @@ const Container = styled.div`
     z-index: 1200;
     display: flex;
     flex-direction: column;
-    width: 180px;
+    width: 244px;
     overflow-x: hidden;
     height: calc(100vh - 64px);
     margin-top: 64px;
@@ -153,7 +153,7 @@ export default function GmailTreeView() {
             >
                 <StyledTreeItem nodeId="1" labelText="Dashboard" labelIcon={Dashboard} />
                 <StyledTreeItem nodeId="2" labelText="Quotes" labelIcon={Assignment} />
-                <StyledTreeItem nodeId="3" labelText="Categories" labelIcon={DirectionsBoat}>
+                <StyledTreeItem nodeId="3" labelText="Shipments" labelIcon={DirectionsBoat}>
                     <StyledTreeItem
                         nodeId="6"
                         labelText="Social"

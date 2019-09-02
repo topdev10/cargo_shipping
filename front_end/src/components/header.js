@@ -211,16 +211,16 @@ const Header = (props) => {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={viewProfile}>
-                Profile
                 <IconButton>
                     <AccountBox></AccountBox>
                 </IconButton>
+                Profile
             </MenuItem>
             <MenuItem onClick={handleLogout}>
-                Exit
                 <IconButton>
                     <Exit></Exit>
                 </IconButton>
+                Exit
             </MenuItem>
         </Menu>
     );
