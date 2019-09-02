@@ -44,9 +44,7 @@ const ViewAllShipmentsButton = styled.button`
 
 const ActiveShipments = (props) => {
     
-    const { info } = props;
-
-    const { shipments, quotes, billings, reports } = info;
+    const { shipments } = props;
 
     function viewAllShipments(event) {
         event.preventDefault();
@@ -57,7 +55,7 @@ const ActiveShipments = (props) => {
             <Header>
                 Active Shipments
             </Header>
-            {info!==null&&shipments!==null&&
+            {shipments!==null&&
                 <ShipmentDashboardItem shipments={shipments}></ShipmentDashboardItem>
             }
             <ViewAllShipmentsButton onClick={viewAllShipments}>
@@ -69,21 +67,17 @@ const ActiveShipments = (props) => {
 
 function mapStateToProps(state) {
     return {
-        info: state.page.info,
+        shipments: state.page.info!==null?state.page.info.shipments: null,
     };
 }
 
 ActiveShipments.defaultProps = {
-    info: null,
+    shipments: null,
 };
 
 ActiveShipments.propTypes = {
-    info: PropTypes.shape({
-        shipments: PropTypes.array,
-        quotes: PropTypes.array,
-        billings: PropTypes.array,
-        reports: PropTypes.array,
-    }),
+    // eslint-disable-next-line react/forbid-prop-types
+    shipments: PropTypes.array,
 };
 
 export default connect(mapStateToProps)(ActiveShipments);
