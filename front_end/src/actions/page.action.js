@@ -168,6 +168,18 @@ function loadPage(page) {
             dispatch(requestDashboard(info));
             history.push('/pages/dashboard');
         }
+        if(page === pageConstants.QUOTES){
+            history.push('/pages/quotes');
+        }
+        if(page === pageConstants.SHIPMENTS){
+            history.push('/pages/shipments');
+        }
+        if(page === pageConstants.BILLING){
+            history.push('/pages/billing');
+        }
+        if(page === pageConstants.REPORTS){
+            history.push('/pages/reports');
+        }
     };
 }
 
