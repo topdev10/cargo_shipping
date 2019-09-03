@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import ShipmentDashboardItem from './shipmentDashboardItem';
+import QuotesDashboardItem from './quotesDashboardItem';
 
 const Container = styled.div`
     position: relative;
@@ -13,7 +13,7 @@ const Container = styled.div`
     z-index: 999;
 `;
 
-const ViewAllShipmentsButton = styled.button`
+const NewQuotesButton = styled.button`
     width: 160px;
     height: 42px;
     font-family: Rubik;
@@ -33,39 +33,39 @@ const ViewAllShipmentsButton = styled.button`
     }
 `;
 
-const ActiveShipments = (props) => {
+const ActiveQuotes = (props) => {
     
-    const { shipments } = props;
+    const { quotes } = props;
 
-    function viewAllShipments(event) {
+    function ViewAllQuotes(event) {
         event.preventDefault();
     }
 
     return (
         <Container>
-            {shipments!==null&&
-                <ShipmentDashboardItem shipments={shipments}></ShipmentDashboardItem>
+            {quotes!==null&&
+                <QuotesDashboardItem quotes={quotes}></QuotesDashboardItem>
             }
-            <ViewAllShipmentsButton onClick={viewAllShipments}>
-                View All Shipments
-            </ViewAllShipmentsButton>
+            <NewQuotesButton onClick={ViewAllQuotes}>
+                New Quotes
+            </NewQuotesButton>
         </Container>
     );
 };
 
 function mapStateToProps(state) {
     return {
-        shipments: state.page.info!==null?state.page.info.shipments: null,
+        quotes: state.page.info!==null?state.page.info.quotes: null,
     };
 }
 
-ActiveShipments.defaultProps = {
-    shipments: null,
+ActiveQuotes.defaultProps = {
+    quotes: null,
 };
 
-ActiveShipments.propTypes = {
+ActiveQuotes.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    shipments: PropTypes.array,
+    quotes: PropTypes.array,
 };
 
-export default connect(mapStateToProps)(ActiveShipments);
+export default connect(mapStateToProps)(ActiveQuotes);

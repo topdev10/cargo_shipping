@@ -1,7 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import DirectionsBoatRounded from '@material-ui/icons/DirectionsBoatRounded';
+import AssignmentRounded from '@material-ui/icons/AssignmentRounded';
+import AssessmentRounded from '@material-ui/icons/AssessmentRounded';
+import AccountBalanceRounded from '@material-ui/icons/AccountBalanceRounded';
+
 import Map from '../../components/map';
 import ActiveShipments from '../../components/ActiveShipments/ActiveShipments';
+import ActiveQuotes from '../../components/ActiveQuotes/ActiveQuotes';
 
 const Container = styled.div`
     display: flex;
@@ -26,7 +34,7 @@ const DetailsContainer = styled.div`
     height: 55%;
     position: relative;
     overflow: hidden;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
     z-index: 999;
 `;
 
@@ -35,12 +43,17 @@ class Dashboard extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-
+            tabIndex: 0,
         };
     }
 
     componentDidMount(){
 
+    }
+
+    handleTabChange = (e, newValue) => {
+        e.preventDefault();
+        this.setState({tabIndex: newValue});
     }
 
     render(){
@@ -67,13 +80,29 @@ class Dashboard extends React.Component {
                 longitude: 42.542654
             }
         ];
+        const { tabIndex } = this.state;
         return (
             <Container>
                 <GoogleMapWrapper>
                     <Map data={data} locationList={locationList}/>
                 </GoogleMapWrapper>
                 <DetailsContainer>
-                    <ActiveShipments/>
+                    <Tabs
+                        value={tabIndex}
+                        onChange={this.handleTabChange}
+                        variant="fullWidth"
+                        indicatorColor="secondary"
+                        textColor="secondary"
+                        aria-label="icon label tabs example"
+                        style={{height: "48px", alignItems: "center"}}
+                    >
+                        <Tab icon={<DirectionsBoatRounded />} />
+                        <Tab icon={<AssignmentRounded />} />
+                        <Tab icon={<AccountBalanceRounded />} />
+                        <Tab icon={<AssessmentRounded />} />
+                    </Tabs>
+                    {tabIndex===0&&<ActiveShipments/>}
+                    {tabIndex===1&&<ActiveQuotes/>}
                 </DetailsContainer>
             </Container>
         );

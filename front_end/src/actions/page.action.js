@@ -118,7 +118,7 @@ function loadPage(page) {
                         id: "FLEX-49998",
                         venderID: "VND-86612-44444",
                         location: "In Transit to Arrival Port",
-                        route: 2,
+                        route: 3,
                         progress: 50,
                         commit: "Document Uploaded",
                         state: 3,

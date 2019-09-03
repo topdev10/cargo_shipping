@@ -5,6 +5,9 @@ import PropTypes from 'prop-types';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
+import AirplanemodeActiveOutlined from '@material-ui/icons/AirplanemodeActiveOutlined';
+import LocalShipping from '@material-ui/icons/LocalShipping';
+import DirectionsBoatOutlined from '@material-ui/icons/DirectionsBoatOutlined';
 
 const theme = createMuiTheme({
     palette: {
@@ -33,7 +36,7 @@ const Container = styled.div`
 const ShipmentItem = styled.div`
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid #444;
+    border-bottom: 2px solid #E8ECEF;
     padding: 5px 0px;
 `;
 
@@ -49,7 +52,6 @@ const ShipmentItemRow = styled.div`
 `;
 
 const IDLabel = styled.h1`
-    flex: 1;
     align-items: center;
     font-style: normal;
     font-size: 15px;
@@ -90,64 +92,15 @@ const CommitLabel = styled.h1`
     font-weight: 500;
 `;
 
-const data = [
-    {
-        id: 283,
-        completed: "100",
-    },
-    {
-        id: 284,
-        completed: "70",
-    },
-    {
-        id: 285,
-        completed: "20",
-    },
-    {
-        id: 295,
-        completed: "50",
-    },
-];
-
 class ShipmentDashboardItem extends React.Component {
-    state = {
-        playersData: [],
-    };
 
     constructor(props) {
         super(props);
         this.state = {
-            playersData: data.map(item => ({ ...item, completed: 0}))
         };
     }
 
-    componentWillMount() {
-        clearTimeout(this.timer);
-    }
-
     componentDidMount(){
-        this.timer = setTimeout(() => this.progress(5), 100);
-    }
-
-    progress(completion) {
-        let done = 0;
-        this.setState({
-            playersData: data.map((item, i) => {
-                // eslint-disable-next-line react/destructuring-assignment
-                const { completed: current } = this.state.playersData[i];
-                const { completed: max } = item;
-                if (current + completion >= max) {
-                    done += 1;
-                }
-                return {
-                    ...item,
-                    completed: Math.min(current + completion, max),
-                };
-            }),
-        });
-        if (done < data.length) {
-            this.timer = setTimeout(() => this.progress(5), 100);
-        }
     }
 
     render(){
@@ -159,15 +112,17 @@ class ShipmentDashboardItem extends React.Component {
                 shipments.map((row) => 
                     <ShipmentItem key={row.id}>
                         <ShipmentItemRow>
-                            <IDLabel>{row.id}</IDLabel>
-                            <VendLabel>{row.venderID}</VendLabel>
+                            <IDLabel>{row.id} </IDLabel>
+                            <VendLabel> - {row.venderID}</VendLabel>
                         </ShipmentItemRow>
                         <ShipmentItemRow>
                             <ItemLocation>
                                 {row.location}
                             </ItemLocation>
                             <ShipmentTypeItem>
-                                {row.route}
+                                {row.route===2&&<AirplanemodeActiveOutlined />}
+                                {row.route===3&&<LocalShipping />}
+                                {row.route===1&&<DirectionsBoatOutlined />}
                             </ShipmentTypeItem>
                         </ShipmentItemRow>
                         <ShipmentProgressRow>
