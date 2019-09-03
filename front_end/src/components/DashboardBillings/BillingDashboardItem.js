@@ -17,7 +17,13 @@ const BillingsItem = styled.div`
     display: flex;
     flex-direction: column;
     border-bottom: 2px solid #E8ECEF;
-    padding: 5px 0px;
+    padding: 10px 15px;
+    cursor: pointer;
+
+    &:hover {
+        background: #f1f1f1;
+        border-radius: 5px;
+    }
 `;
 
 const BillingsItemRow = styled.div`

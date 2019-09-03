@@ -19,20 +19,20 @@ const Container = styled.div`
     position: fixed;
     z-index: 999;
     top: 0px;
-    left: 245px;
+    left: 322px;
     margin-top: 64px;
-    width: calc(100% - 244px);
+    width: calc(100% - 320px);
     height: calc(100vh - 64px);
 `;
 
 const GoogleMapWrapper = styled.div`
-    width: calc(100vw - 244px);
+    width: calc(100vw - 320px);
     height: 45%;
     min-width: 500px;
 `;
 
 const DetailsContainer = styled.div`
-    width: calc(100vw - 244px);
+    width: calc(100vw - 320px);
     height: 55%;
     position: relative;
     overflow: hidden;

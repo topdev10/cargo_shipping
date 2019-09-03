@@ -6,7 +6,7 @@ import Config from '../config';
 const mapStyles = {
     position: "relative",
     background: "green",
-    width: "calc(100vw - 246px)",
+    width: "calc(100vw - 324px)",
     height: "45%",
     minWidth: "500px",
 };

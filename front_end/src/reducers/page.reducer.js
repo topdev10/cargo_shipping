@@ -20,6 +20,7 @@ export function pages(state = initialState, action) {
     switch(action.type) {
     case pageConstants.REQUEST_PROFILE:
         return {
+            ...state,
             requestedProfile: true,
             receivedProfile: false,
         };
@@ -32,6 +33,7 @@ export function pages(state = initialState, action) {
         };
     case pageConstants.FAILED_PROFILE:
         return {
+            ...state,
             userProfile: null,
             requestedProfile: false,
             receivedProfile: false,

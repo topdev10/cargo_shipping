@@ -25,14 +25,14 @@ const Container = styled.div`
     z-index: 1200;
     display: flex;
     flex-direction: column;
-    width: 244px;
+    width: 320px;
     overflow-x: hidden;
     height: calc(100vh - 64px);
     margin-top: 64px;
     justify-content: center;
     transition: width 2s;
     background: #eff7ff;
-    padding: 10px;
+    padding: 20px 30px;
     box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
 `;
 
@@ -74,6 +74,7 @@ const useTreeItemStyles = makeStyles(theme => ({
         marginRight: theme.spacing(1),
     },
     labelText: {
+        fontSize: "20px",
         fontWeight: 'inherit',
         flexGrow: 1,
     },
@@ -115,6 +116,7 @@ function StyledTreeItem(props) {
             style={{
                 '--tree-view-color': color,
                 '--tree-view-bg-color': bgColor,
+                'padding': "10px 0px",
             }}
             classes={{
                 root: classes.root,

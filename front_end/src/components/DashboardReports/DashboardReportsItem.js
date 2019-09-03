@@ -6,7 +6,6 @@ import AirplanemodeActiveOutlined from '@material-ui/icons/AirplanemodeActiveOut
 import LocalShipping from '@material-ui/icons/LocalShipping';
 import DirectionsBoatOutlined from '@material-ui/icons/DirectionsBoatOutlined';
 
-
 const Container = styled.div`
     display: flex;
     position: relative;
@@ -20,7 +19,13 @@ const ReportsItem = styled.div`
     display: flex;
     flex-direction: column;
     border-bottom: 2px solid #E8ECEF;
-    padding: 5px 0px;
+    padding: 10px 15px;
+    cursor: pointer;
+
+    &:hover {
+        background: #f1f1f1;
+        border-radius: 5px;
+    }
 `;
 
 const ReportsItemRow = styled.div`

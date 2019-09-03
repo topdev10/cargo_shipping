@@ -10,8 +10,8 @@ function getProfile(username, email) {
     function failure(error) { return { type: pageConstants.FAILED_PROFILE, error }; }
 
     return dispatch => {
-        dispatch(request({ username }));
         history.push('/profile');
+        dispatch(request({ username }));
         BaseApi.getProfile({ username, email }, (error, profile) => {
             if(error){
                 dispatch(failure(error.toString()));
