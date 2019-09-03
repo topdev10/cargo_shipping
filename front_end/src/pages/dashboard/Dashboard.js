@@ -11,6 +11,7 @@ import Map from '../../components/map';
 import ActiveShipments from '../../components/ActiveShipments/ActiveShipments';
 import ActiveQuotes from '../../components/ActiveQuotes/ActiveQuotes';
 import DashboardBillings from '../../components/DashboardBillings/DashboardBillings';
+import DashboardReports from '../../components/DashboardReports/DashboardReports';
 
 const Container = styled.div`
     display: flex;
@@ -105,6 +106,7 @@ class Dashboard extends React.Component {
                     {tabIndex===0&&<ActiveShipments/>}
                     {tabIndex===1&&<ActiveQuotes/>}
                     {tabIndex===2&&<DashboardBillings/>}
+                    {tabIndex===3&&<DashboardReports/>}
                 </DetailsContainer>
             </Container>
         );
