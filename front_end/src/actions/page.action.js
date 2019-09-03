@@ -142,6 +142,14 @@ function loadPage(page) {
                     {
                         id: "FLEX-68880",
                         venderID: "VND-58453-22123",
+                        state: 1,
+                        date: "2019-08-31",
+                    },
+                    {
+                        id: "FLEX-31845",
+                        venderID: "VND-74253-73122",
+                        state: 1,
+                        date: "2019-09-01",
                     }
                 ],
                 reports: [

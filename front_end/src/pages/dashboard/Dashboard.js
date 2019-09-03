@@ -10,6 +10,7 @@ import AccountBalanceRounded from '@material-ui/icons/AccountBalanceRounded';
 import Map from '../../components/map';
 import ActiveShipments from '../../components/ActiveShipments/ActiveShipments';
 import ActiveQuotes from '../../components/ActiveQuotes/ActiveQuotes';
+import DashboardBillings from '../../components/DashboardBillings/DashboardBillings';
 
 const Container = styled.div`
     display: flex;
@@ -103,6 +104,7 @@ class Dashboard extends React.Component {
                     </Tabs>
                     {tabIndex===0&&<ActiveShipments/>}
                     {tabIndex===1&&<ActiveQuotes/>}
+                    {tabIndex===2&&<DashboardBillings/>}
                 </DetailsContainer>
             </Container>
         );
