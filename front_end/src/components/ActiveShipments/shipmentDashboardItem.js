@@ -74,6 +74,8 @@ const ShipmentProgressRow = styled.div`
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 `;
 
 const ItemLocation = styled.h1`
@@ -133,7 +135,6 @@ class ShipmentDashboardItem extends React.Component {
                                 {
                                     row.state!==1&&<LinearProgress style={{width: "100%", borderRadius: "2px" }}variant="determinate" value={row.progress} color="primary"/>
                                 }
-                                {row.progress}
                             </ThemeProvider>                            
                             {/* <CustomProgressBar max="100" value={row.progress}></CustomProgressBar> */}
                         </ShipmentProgressRow>
