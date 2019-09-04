@@ -75,125 +75,131 @@ function loadPage(page) {
     }
 
     return dispatch => {
+
+        const info = {
+            shipments: [
+                {
+                    id: "FLEX-51782",
+                    venderID: "VND-0923-1938",
+                    location: "Seller's Location",
+                    route: 1,
+                    progress: 30,
+                    commit: "Planned transit changed",
+                    state: 1,
+                },
+                {
+                    id: "FLEX-48740",
+                    venderID: "VND-44097-11111",
+                    location: "Arrival Port",
+                    route: 2,
+                    progress: 70,
+                    commit: "Planned transit changed",
+                    state: 1,
+                },
+                {
+                    id: "FLEX-46986",
+                    venderID: "VND-33006-22079",
+                    location: "Arrival Port",
+                    route: 1,
+                    progress: 70,
+                    commit: "Booking Approved",
+                    state: 2,
+                },
+                {
+                    id: "FLEX-50008",
+                    venderID: "VND-06021-98662",
+                    location: "Seller's Location",
+                    route: 2,
+                    progress: 30,
+                    commit: "Document Uploaded",
+                    state: 3,
+                },
+                {
+                    id: "FLEX-49998",
+                    venderID: "VND-86612-44444",
+                    location: "In Transit to Arrival Port",
+                    route: 3,
+                    progress: 50,
+                    commit: "Document Uploaded",
+                    state: 3,
+                }
+            ],
+            quotes: [
+                {
+                    id: "FLEX-68880",
+                    venderID: "VND-28453-28123",
+                    reviewCnt: 2,
+                    newCnt: 1,
+                    name: "Shenzen",
+                    freight: 2,
+                    cargoReadyState: 0,
+                    from: "Yantian, China",
+                    to: "Vacouver, Canada",
+                    cargoDetails: "N/A",
+                    submittedBy: "Bill Camarda",
+                    status: 2,
+                },
+                {
+                    id: "FLEX-68887",
+                    venderID: "VND-58453-22123",
+                    reviewCnt: 3,
+                    newCnt: 2,
+                    name: "Shenyang",
+                    freight: 1,
+                    cargoReadyState: 0,
+                    from: "Liaoning, China",
+                    to: "Vacouver, Canada",
+                    cargoDetails: "N/A",
+                    submittedBy: "Bill Camarda",
+                    status: 2,
+                }
+            ],
+            billings: [
+                {
+                    id: "FLEX-68880",
+                    venderID: "VND-58453-22123",
+                    state: 1,
+                    date: "2019-08-31",
+                },
+                {
+                    id: "FLEX-31845",
+                    venderID: "VND-74253-73122",
+                    state: 1,
+                    date: "2019-09-01",
+                }
+            ],
+            reports: [
+                {
+                    id: "FLEX-68887",
+                    venderID: "VND-58453-22123",
+                    state: 1,
+                },
+                {
+                    id: "FLEX-44887",
+                    venderID: "VND-23453-27823",
+                    state: 2,
+                }
+            ]
+        };
+
         if(page === pageConstants.DASHBOARD){
-            const info = {
-                shipments: [
-                    {
-                        id: "FLEX-51782",
-                        venderID: "VND-0923-1938",
-                        location: "Seller's Location",
-                        route: 1,
-                        progress: 30,
-                        commit: "Planned transit changed",
-                        state: 1,
-                    },
-                    {
-                        id: "FLEX-48740",
-                        venderID: "VND-44097-11111",
-                        location: "Arrival Port",
-                        route: 2,
-                        progress: 70,
-                        commit: "Planned transit changed",
-                        state: 1,
-                    },
-                    {
-                        id: "FLEX-46986",
-                        venderID: "VND-33006-22079",
-                        location: "Arrival Port",
-                        route: 1,
-                        progress: 70,
-                        commit: "Booking Approved",
-                        state: 2,
-                    },
-                    {
-                        id: "FLEX-50008",
-                        venderID: "VND-06021-98662",
-                        location: "Seller's Location",
-                        route: 2,
-                        progress: 30,
-                        commit: "Document Uploaded",
-                        state: 3,
-                    },
-                    {
-                        id: "FLEX-49998",
-                        venderID: "VND-86612-44444",
-                        location: "In Transit to Arrival Port",
-                        route: 3,
-                        progress: 50,
-                        commit: "Document Uploaded",
-                        state: 3,
-                    }
-                ],
-                quotes: [
-                    {
-                        id: "FLEX-68880",
-                        venderID: "VND-28453-28123",
-                        reviewCnt: 2,
-                        newCnt: 1,
-                        name: "Shenzen",
-                        freight: 2,
-                        cargoReadyState: 0,
-                        from: "Yantian, China",
-                        to: "Vacouver, Canada",
-                        cargoDetails: "N/A",
-                        submittedBy: "Bill Camarda",
-                        status: 2,
-                    },
-                    {
-                        id: "FLEX-68887",
-                        venderID: "VND-58453-22123",
-                        reviewCnt: 3,
-                        newCnt: 2,
-                        name: "Shenyang",
-                        freight: 1,
-                        cargoReadyState: 0,
-                        from: "Liaoning, China",
-                        to: "Vacouver, Canada",
-                        cargoDetails: "N/A",
-                        submittedBy: "Bill Camarda",
-                        status: 2,
-                    }
-                ],
-                billings: [
-                    {
-                        id: "FLEX-68880",
-                        venderID: "VND-58453-22123",
-                        state: 1,
-                        date: "2019-08-31",
-                    },
-                    {
-                        id: "FLEX-31845",
-                        venderID: "VND-74253-73122",
-                        state: 1,
-                        date: "2019-09-01",
-                    }
-                ],
-                reports: [
-                    {
-                        id: "FLEX-68887",
-                        venderID: "VND-58453-22123",
-                        state: 1,
-                    },
-                    {
-                        id: "FLEX-44887",
-                        venderID: "VND-23453-27823",
-                        state: 2,
-                    }
-                ]
-            };
             dispatch(requestDashboard(info));
             history.push('/pages/dashboard');
         }
         if(page === pageConstants.QUOTES){
+            dispatch(requestQuotes(info));
             history.push('/pages/quotes');
         }
         if(page === pageConstants.SHIPMENTS){
+            dispatch(requestShipments(info));
             history.push('/pages/shipments');
         }
         if(page === pageConstants.BILLING){
+            dispatch(requestBilling(info));
             history.push('/pages/billing');
         }
         if(page === pageConstants.REPORTS){
+            dispatch(requestReports(info));
             history.push('/pages/reports');
         }
     };

@@ -62,6 +62,26 @@ export function pages(state = initialState, action) {
             ...state,
             info: action.info
         };
+    case pageConstants.QUOTES:
+        return {
+            ...state,
+            info: action.info
+        };
+    case pageConstants.SHIPMENTS:
+        return {
+            ...state,
+            info: action.info
+        };
+    case pageConstants.BILLING:
+        return {
+            ...state,
+            info: action.info
+        };
+    case pageConstants.REPORTS:
+        return {
+            ...state,
+            info: action.info
+        };
     default:
         return state;
     }

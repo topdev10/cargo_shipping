@@ -14,6 +14,9 @@ import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import LocalShipping from '@material-ui/icons/LocalShipping';
 
+import { pageConstants } from '../../constants';
+import { pageActions } from '../../actions';
+
 const Container = styled.div`
     displa: flex;
     flex-direction: column;
@@ -203,12 +206,14 @@ class Quotes extends React.Component{
             isflight: false,
             isShip: false,
             isVan: false,
-            quotes: this.props.quotes,
-        }
+        };
     }
 
     componentDidMount(){
-
+        const { quotes, loadPage } = this.props;
+        if(quotes == null){
+            loadPage(pageConstants.QUOTES);
+        }
     }
 
     handleQuoteScopeSelection = (event) => {
@@ -238,7 +243,8 @@ class Quotes extends React.Component{
     }
 
     render(){
-        const { quoteState, location, isflight, isShip, isVan, quotes } = this.state;
+        const { quoteState, location, isflight, isShip, isVan } = this.state;
+        const { quotes } = this.props;
         return (
             <Container>
                 <QuotesFilterBar>
@@ -395,6 +401,11 @@ Quotes.defaultProps = {
 Quotes.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     quotes: PropTypes.array,
+    loadPage: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Quotes);
+const actionCreators = {
+    loadPage: pageActions.loadPage,
+};
+
+export default connect(mapStateToProps, actionCreators)(Quotes);
