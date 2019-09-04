@@ -50,6 +50,7 @@ const useTreeItemStyles = makeStyles(theme => ({
         borderBottomRightRadius: theme.spacing(2),
         paddingRight: theme.spacing(1),
         fontWeight: theme.typography.fontWeightMedium,
+        fontFamily: "Oswald",
         '$expanded > &': {
             fontWeight: theme.typography.fontWeightRegular,
         },

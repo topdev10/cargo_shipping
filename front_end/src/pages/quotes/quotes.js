@@ -1,11 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableHead from '@material-ui/core/TableHead';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
+import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
 
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import LocalShipping from '@material-ui/icons/LocalShipping';
-
-import QuotesTableHeader from './QuotesTableHeader';
 
 const Container = styled.div`
     displa: flex;
@@ -44,9 +51,11 @@ const CustomSelectorOption = styled.option`
 
 const QuotesTableContainer = styled.div`
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: calc(100vh - 150px);
     border: top: 2px solid #ccc;
+    overflow-x: auto;
 `;
 
 const FreightSelectionButtonLeft = styled.button`
@@ -155,9 +164,39 @@ const RequestQuoteButton = styled.button`
     }
 `;
 
-const Quotes = () => {
+const ViewQuoteButton = styled.button`
+    border-radius: 4px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 17px;
+    color: #FFFFFF;
+    background: #4D7CFE;
+    padding: 0px 8px;
+    flex: flex-end;
+
+    &:hover {
+        background: #6688e4;
+    }
+`;
+
+const HeaderRowLabelContainer = styled.div`
+    color: black;
+    cursor: pointer;
+
+    &:hover {
+        color: #093eda;
+    }
+`;
+
+const Quotes = (props) => {
     
-    const [quotes, SelectQuotes] = React.useState(0);
+    const { quotes } = props;
+    const [quoteState, SelectQuotes] = React.useState(0);
     const [location, SelectLocation] = React.useState('ca');
     const [isflight, SetFlight] = React.useState(false);
     const [isShip, SetShip] = React.useState(false);
@@ -189,7 +228,7 @@ const Quotes = () => {
     return (
         <Container>
             <QuotesFilterBar>
-                <CustomSelector value={quotes} onChange={handleQuoteScopeSelection}>
+                <CustomSelector value={quoteState} onChange={handleQuoteScopeSelection}>
                     <CustomSelectorOption value={0}>All</CustomSelectorOption>
                     <CustomSelectorOption value={1}>Active Quotes</CustomSelectorOption>
                     <CustomSelectorOption value={2}>Ready to Book</CustomSelectorOption>
@@ -227,10 +266,120 @@ const Quotes = () => {
                 <RequestQuoteButton>Request Quote</RequestQuoteButton>
             </QuotesFilterBar>
             <QuotesTableContainer>
-                <QuotesTableHeader/>
+                <Table stickyHeader>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center">
+                                <HeaderRowLabelContainer>
+                                    Name
+                                    <ArrowDropDown />
+                                </HeaderRowLabelContainer>
+                            </TableCell>
+                            <TableCell align="center">
+                                <HeaderRowLabelContainer>
+                                    Freight
+                                    <ArrowDropUp />
+                                </HeaderRowLabelContainer>
+                            </TableCell>
+                            <TableCell align="center">
+                                <HeaderRowLabelContainer>
+                                    Cargo Ready Date
+                                    <ArrowDropUp />
+                                </HeaderRowLabelContainer>
+                            </TableCell>
+                            <TableCell align="center">
+                                <HeaderRowLabelContainer>
+                                    From
+                                    <ArrowDropUp />
+                                </HeaderRowLabelContainer>
+                            </TableCell>
+                            <TableCell align="center">
+                                <HeaderRowLabelContainer>
+                                    To
+                                    <ArrowDropUp />
+                                </HeaderRowLabelContainer>
+                            </TableCell>
+                            <TableCell align="center">
+                                <HeaderRowLabelContainer>
+                                    Cargo Details
+                                    <ArrowDropUp />
+                                </HeaderRowLabelContainer>
+                            </TableCell>
+                            <TableCell align="center">
+                                <HeaderRowLabelContainer>
+                                    Submitted By
+                                    <ArrowDropUp />
+                                </HeaderRowLabelContainer>
+                            </TableCell>
+                            <TableCell align="center">
+                                <HeaderRowLabelContainer>
+                                    Status
+                                    <ArrowDropUp />
+                                </HeaderRowLabelContainer>
+                            </TableCell>
+                            <TableCell align="left">
+                                <HeaderRowLabelContainer>
+                                    Action
+                                    <ArrowDropUp />
+                                </HeaderRowLabelContainer>
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {quotes!=null&&quotes.map(row => {
+                            return(
+                                <TableRow hover role='checkbox' key={row.id}>
+                                    <TableCell align="center" style={{maxWidth: "120px"}}>
+                                        {row.name}
+                                    </TableCell>
+                                    <TableCell align="center" style={{minWidth: "120px"}}>
+                                        {row.freight}
+                                    </TableCell>
+                                    <TableCell align="center" style={{minWidth: "170px"}}>
+                                        {row.cargoReadyState}
+                                    </TableCell>
+                                    <TableCell align="center" style={{maxWidth: "115px"}}>
+                                        {row.from}
+                                    </TableCell>
+                                    <TableCell align="center" style={{maxWidth: "110px"}}>
+                                        {row.to}
+                                    </TableCell>
+                                    <TableCell align="center" style={{minWidth: "150px"}}>
+                                        {row.cargoDetails}
+                                    </TableCell>
+                                    <TableCell align="center" style={{minWidth: "150px"}}>
+                                        {row.submittedBy}
+                                    </TableCell>
+                                    <TableCell align="center" style={{minWidth: "120px"}}>
+                                        {row.status===1&&"Quotes Ready"}
+                                        {row.status===2&&"Quotes Expired"}
+                                    </TableCell>
+                                    <TableCell align="left" style={{minWidth: "200px"}}>
+                                        <ViewQuoteButton>View Quote</ViewQuoteButton>
+                                    </TableCell>
+                                </TableRow>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
             </QuotesTableContainer>
         </Container>
     );
 };
 
-export default Quotes;
+function mapStateToProps(state) {
+    return {
+        quotes: state.page.info!==null?state.page.info.quotes: null,
+    };
+}
+
+Quotes.defaultProps = {
+    quotes: null,
+};
+
+Quotes.propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    quotes: PropTypes.array,
+};
+
+export default connect(mapStateToProps)(Quotes);

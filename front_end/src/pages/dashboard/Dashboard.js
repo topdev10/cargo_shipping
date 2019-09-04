@@ -6,7 +6,11 @@ import DirectionsBoatRounded from '@material-ui/icons/DirectionsBoatRounded';
 import AssignmentRounded from '@material-ui/icons/AssignmentRounded';
 import AssessmentRounded from '@material-ui/icons/AssessmentRounded';
 import AccountBalanceRounded from '@material-ui/icons/AccountBalanceRounded';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
+import { pageActions } from '../../actions';
+import { pageConstants } from '../../constants';
 import Map from '../../components/map';
 import ActiveShipments from '../../components/ActiveShipments/ActiveShipments';
 import ActiveQuotes from '../../components/ActiveQuotes/ActiveQuotes';
@@ -50,7 +54,11 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount(){
-
+        const {info} = this.props;
+        if(info){
+            const { loadPage } = this.props;
+            loadPage(pageConstants.DASHBOARD);
+        }
     }
 
     handleTabChange = (e, newValue) => {
@@ -113,4 +121,28 @@ class Dashboard extends React.Component {
     }
 };
 
-export default Dashboard;
+function mapStateToProps(state) {
+    return {
+        info: state.page.info,
+    };
+}
+
+Dashboard.defaultProps = {
+    info: null,
+};
+
+Dashboard.propTypes = {
+    info: PropTypes.shape({
+        shipments: PropTypes.array,
+        quotes: PropTypes.array,
+        billings: PropTypes.array,
+        reports: PropTypes.array,
+    }),
+    loadPage: PropTypes.func.isRequired,
+};
+
+const actionCreators = {
+    loadPage: pageActions.loadPage,
+};
+
+export default connect(mapStateToProps, actionCreators)(Dashboard);
