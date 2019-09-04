@@ -14,8 +14,9 @@ import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import LocalShipping from '@material-ui/icons/LocalShipping';
 
-import { pageConstants } from '../../constants';
-import { pageActions } from '../../actions';
+import { pageConstants, quoteConstants } from '../../constants';
+import { pageActions, quoteActions } from '../../actions';
+import NewQuotePanel from './NewQuotePanel';
 
 const Container = styled.div`
     displa: flex;
@@ -242,12 +243,18 @@ class Quotes extends React.Component{
         this.setState({isVan: !isVan});
     }
 
+    onNewQuote = (event) => {
+        event.preventDefault();
+        const { onNewFreightQuote } = this.props;
+        onNewFreightQuote(quoteConstants.ON_NEW_FREIGHT_QUOTE);
+    }
+
     render(){
         const { quoteState, location, isflight, isShip, isVan } = this.state;
-        const { quotes } = this.props;
+        const { quotes, onrequestpage } = this.props;
         return (
             <Container>
-                <QuotesFilterBar>
+                {!onrequestpage&&<QuotesFilterBar>
                     <CustomSelector value={quoteState} onChange={e => this.handleQuoteScopeSelection(e)}>
                         <CustomSelectorOption value={0}>All</CustomSelectorOption>
                         <CustomSelectorOption value={1}>Active Quotes</CustomSelectorOption>
@@ -283,9 +290,9 @@ class Quotes extends React.Component{
                         <CustomSelectorOption value='au'>Australia</CustomSelectorOption>
                         <CustomSelectorOption value='ru'>Russia</CustomSelectorOption>
                     </CustomSelector>
-                    <RequestQuoteButton>Request Quote</RequestQuoteButton>
-                </QuotesFilterBar>
-                <QuotesTableContainer>
+                    <RequestQuoteButton onClick={e => this.onNewQuote(e)}>Request Quote</RequestQuoteButton>
+                </QuotesFilterBar>}
+                {!onrequestpage&&<QuotesTableContainer>
                     <Table stickyHeader>
                         <TableHead>
                             <TableRow>
@@ -382,7 +389,8 @@ class Quotes extends React.Component{
                             })}
                         </TableBody>
                     </Table>
-                </QuotesTableContainer>
+                </QuotesTableContainer>}
+                {onrequestpage&&<NewQuotePanel></NewQuotePanel>}
             </Container>
         );
     }
@@ -391,6 +399,7 @@ class Quotes extends React.Component{
 function mapStateToProps(state) {
     return {
         quotes: state.page.info!==null?state.page.info.quotes: null,
+        onrequestpage: state.quote!==null?state.quote.onrequestpage:false,
     };
 }
 
@@ -401,11 +410,14 @@ Quotes.defaultProps = {
 Quotes.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     quotes: PropTypes.array,
+    onrequestpage: PropTypes.bool.isRequired,
     loadPage: PropTypes.func.isRequired,
+    onNewFreightQuote: PropTypes.func.isRequired,
 };
 
 const actionCreators = {
     loadPage: pageActions.loadPage,
+    onNewFreightQuote: quoteActions.onNewFreightQuote,
 };
 
 export default connect(mapStateToProps, actionCreators)(Quotes);

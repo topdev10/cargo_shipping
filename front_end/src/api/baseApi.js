@@ -155,6 +155,11 @@ const BaseApi = {
         },
         (err, res) => callback(err, res));
     },
+
+    requestNewQuote(data, callback) {
+        console.log("new quote data:",data);
+        callback(null, true);
+    },
 };
 
 export default BaseApi;
