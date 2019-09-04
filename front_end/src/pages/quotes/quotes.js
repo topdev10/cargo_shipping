@@ -193,179 +193,194 @@ const HeaderRowLabelContainer = styled.div`
     }
 `;
 
-const Quotes = (props) => {
+class Quotes extends React.Component{
+    constructor(props){
+        super(props);
+
+        this.state = {
+            quoteState: 0,
+            location: "ca",
+            isflight: false,
+            isShip: false,
+            isVan: false,
+            quotes: this.props.quotes,
+        }
+    }
+
+    componentDidMount(){
+
+    }
+
+    handleQuoteScopeSelection = (event) => {
+        this.setState({quoteState: event.target.value});
+    }
+
+    handleLocationSeltion = (event) => {
+        this.setState({location: event.target.value});
+    }
+
+    onFlightButton = (event) => {
+        event.preventDefault();
+        const { isflight } = this.state;
+        this.setState({isflight: !isflight});
+    }
+
+    onShipButton = (event) => {
+        event.preventDefault();
+        const { isShip } = this.state;
+        this.setState({isShip: !isShip});
+    }
+
+    onVanButton = (event) => {
+        event.preventDefault();
+        const { isVan } = this.state;
+        this.setState({isVan: !isVan});
+    }
+
+    render(){
+        const { quoteState, location, isflight, isShip, isVan, quotes } = this.state;
+        return (
+            <Container>
+                <QuotesFilterBar>
+                    <CustomSelector value={quoteState} onChange={e => this.handleQuoteScopeSelection(e)}>
+                        <CustomSelectorOption value={0}>All</CustomSelectorOption>
+                        <CustomSelectorOption value={1}>Active Quotes</CustomSelectorOption>
+                        <CustomSelectorOption value={2}>Ready to Book</CustomSelectorOption>
+                        <CustomSelectorOption value={3}>Accepted Quotes</CustomSelectorOption>
+                        <CustomSelectorOption value={4}>Expired Quotes</CustomSelectorOption>
+                        <CustomSelectorOption value={5}>All Quotes</CustomSelectorOption>
+                    </CustomSelector>
+                    {isflight?<FreightSelectionButtonLeft active onClick={e => this.onFlightButton(e)}>
+                        <FlightTakeoff></FlightTakeoff>
+                    </FreightSelectionButtonLeft>:<FreightSelectionButtonLeft onClick={e => this.onFlightButton(e)}>
+                        <FlightTakeoff></FlightTakeoff>
+                    </FreightSelectionButtonLeft>}
+                    
+                    {isShip?<FreightSelectionButtonCenter active onClick={e => this.onShipButton(e)}>
+                        <DirectionsBoat></DirectionsBoat>
+                    </FreightSelectionButtonCenter>:<FreightSelectionButtonCenter onClick={e => this.onShipButton(e)}>
+                        <DirectionsBoat></DirectionsBoat>
+                    </FreightSelectionButtonCenter>}
     
-    const { quotes } = props;
-    const [quoteState, SelectQuotes] = React.useState(0);
-    const [location, SelectLocation] = React.useState('ca');
-    const [isflight, SetFlight] = React.useState(false);
-    const [isShip, SetShip] = React.useState(false);
-    const [isVan, SetVan] = React.useState(false);
-
-    function handleQuoteScopeSelection(event) {
-        SelectQuotes(event.target.value);
+                    {isVan?<FreightSelectionButtonRight active onClick={e => this.onVanButton(e)}>
+                        <LocalShipping></LocalShipping>
+                    </FreightSelectionButtonRight>:<FreightSelectionButtonRight onClick={e => this.onVanButton(e)}>
+                        <LocalShipping></LocalShipping>
+                    </FreightSelectionButtonRight>}
+    
+                    {/* Location Selctor */}
+                    <CustomSelector value={location} onChange={e => this.handleLocationSeltion(e)}>
+                        <CustomSelectorOption value='all'>Select a Location</CustomSelectorOption>
+                        <CustomSelectorOption value='ca'>Canada</CustomSelectorOption>
+                        <CustomSelectorOption value='us'>United States</CustomSelectorOption>
+                        <CustomSelectorOption value='cn'>China</CustomSelectorOption>
+                        <CustomSelectorOption value='au'>Australia</CustomSelectorOption>
+                        <CustomSelectorOption value='ru'>Russia</CustomSelectorOption>
+                    </CustomSelector>
+                    <RequestQuoteButton>Request Quote</RequestQuoteButton>
+                </QuotesFilterBar>
+                <QuotesTableContainer>
+                    <Table stickyHeader>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer>
+                                        Name
+                                        <ArrowDropDown />
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer>
+                                        Freight
+                                        <ArrowDropUp />
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer>
+                                        Cargo Ready Date
+                                        <ArrowDropUp />
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer>
+                                        From
+                                        <ArrowDropUp />
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer>
+                                        To
+                                        <ArrowDropUp />
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer>
+                                        Cargo Details
+                                        <ArrowDropUp />
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer>
+                                        Submitted By
+                                        <ArrowDropUp />
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer>
+                                        Status
+                                        <ArrowDropUp />
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="left">
+                                    <HeaderRowLabelContainer>
+                                        Action
+                                        <ArrowDropUp />
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {quotes!=null&&quotes.map(row => {
+                                return(
+                                    <TableRow hover role='checkbox' key={row.id}>
+                                        <TableCell align="center" style={{maxWidth: "120px"}}>
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: "120px"}}>
+                                            {row.freight}
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: "170px"}}>
+                                            {row.cargoReadyState}
+                                        </TableCell>
+                                        <TableCell align="center" style={{maxWidth: "115px"}}>
+                                            {row.from}
+                                        </TableCell>
+                                        <TableCell align="center" style={{maxWidth: "110px"}}>
+                                            {row.to}
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: "150px"}}>
+                                            {row.cargoDetails}
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: "150px"}}>
+                                            {row.submittedBy}
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: "120px"}}>
+                                            {row.status===1&&"Quotes Ready"}
+                                            {row.status===2&&"Quotes Expired"}
+                                        </TableCell>
+                                        <TableCell align="left" style={{minWidth: "200px"}}>
+                                            <ViewQuoteButton>View Quote</ViewQuoteButton>
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </QuotesTableContainer>
+            </Container>
+        );
     }
-
-    function handleLocationSeltion(event) {
-        SelectLocation(event.target.value);
-    }
-
-    function onFlightButton(event) {
-        event.preventDefault();
-        SetFlight(!isflight);
-    }
-
-    function onShipButton(event) {
-        event.preventDefault();
-        SetShip(!isShip);
-    }
-
-    function onVanButton(event) {
-        event.preventDefault();
-        SetVan(!isVan);
-    }
-
-    return (
-        <Container>
-            <QuotesFilterBar>
-                <CustomSelector value={quoteState} onChange={handleQuoteScopeSelection}>
-                    <CustomSelectorOption value={0}>All</CustomSelectorOption>
-                    <CustomSelectorOption value={1}>Active Quotes</CustomSelectorOption>
-                    <CustomSelectorOption value={2}>Ready to Book</CustomSelectorOption>
-                    <CustomSelectorOption value={3}>Accepted Quotes</CustomSelectorOption>
-                    <CustomSelectorOption value={4}>Expired Quotes</CustomSelectorOption>
-                    <CustomSelectorOption value={5}>All Quotes</CustomSelectorOption>
-                </CustomSelector>
-                {isflight?<FreightSelectionButtonLeft active onClick={onFlightButton}>
-                    <FlightTakeoff></FlightTakeoff>
-                </FreightSelectionButtonLeft>:<FreightSelectionButtonLeft onClick={onFlightButton}>
-                    <FlightTakeoff></FlightTakeoff>
-                </FreightSelectionButtonLeft>}
-                
-                {isShip?<FreightSelectionButtonCenter active onClick={onShipButton}>
-                    <DirectionsBoat></DirectionsBoat>
-                </FreightSelectionButtonCenter>:<FreightSelectionButtonCenter onClick={onShipButton}>
-                    <DirectionsBoat></DirectionsBoat>
-                </FreightSelectionButtonCenter>}
-
-                {isVan?<FreightSelectionButtonRight active onClick={onVanButton}>
-                    <LocalShipping></LocalShipping>
-                </FreightSelectionButtonRight>:<FreightSelectionButtonRight onClick={onVanButton}>
-                    <LocalShipping></LocalShipping>
-                </FreightSelectionButtonRight>}
-
-                {/* Location Selctor */}
-                <CustomSelector value={location} onChange={handleLocationSeltion}>
-                    <CustomSelectorOption value='all'>Select a Location</CustomSelectorOption>
-                    <CustomSelectorOption value='ca'>Canada</CustomSelectorOption>
-                    <CustomSelectorOption value='us'>United States</CustomSelectorOption>
-                    <CustomSelectorOption value='cn'>China</CustomSelectorOption>
-                    <CustomSelectorOption value='au'>Australia</CustomSelectorOption>
-                    <CustomSelectorOption value='ru'>Russia</CustomSelectorOption>
-                </CustomSelector>
-                <RequestQuoteButton>Request Quote</RequestQuoteButton>
-            </QuotesFilterBar>
-            <QuotesTableContainer>
-                <Table stickyHeader>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center">
-                                <HeaderRowLabelContainer>
-                                    Name
-                                    <ArrowDropDown />
-                                </HeaderRowLabelContainer>
-                            </TableCell>
-                            <TableCell align="center">
-                                <HeaderRowLabelContainer>
-                                    Freight
-                                    <ArrowDropUp />
-                                </HeaderRowLabelContainer>
-                            </TableCell>
-                            <TableCell align="center">
-                                <HeaderRowLabelContainer>
-                                    Cargo Ready Date
-                                    <ArrowDropUp />
-                                </HeaderRowLabelContainer>
-                            </TableCell>
-                            <TableCell align="center">
-                                <HeaderRowLabelContainer>
-                                    From
-                                    <ArrowDropUp />
-                                </HeaderRowLabelContainer>
-                            </TableCell>
-                            <TableCell align="center">
-                                <HeaderRowLabelContainer>
-                                    To
-                                    <ArrowDropUp />
-                                </HeaderRowLabelContainer>
-                            </TableCell>
-                            <TableCell align="center">
-                                <HeaderRowLabelContainer>
-                                    Cargo Details
-                                    <ArrowDropUp />
-                                </HeaderRowLabelContainer>
-                            </TableCell>
-                            <TableCell align="center">
-                                <HeaderRowLabelContainer>
-                                    Submitted By
-                                    <ArrowDropUp />
-                                </HeaderRowLabelContainer>
-                            </TableCell>
-                            <TableCell align="center">
-                                <HeaderRowLabelContainer>
-                                    Status
-                                    <ArrowDropUp />
-                                </HeaderRowLabelContainer>
-                            </TableCell>
-                            <TableCell align="left">
-                                <HeaderRowLabelContainer>
-                                    Action
-                                    <ArrowDropUp />
-                                </HeaderRowLabelContainer>
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {quotes!=null&&quotes.map(row => {
-                            return(
-                                <TableRow hover role='checkbox' key={row.id}>
-                                    <TableCell align="center" style={{maxWidth: "120px"}}>
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell align="center" style={{minWidth: "120px"}}>
-                                        {row.freight}
-                                    </TableCell>
-                                    <TableCell align="center" style={{minWidth: "170px"}}>
-                                        {row.cargoReadyState}
-                                    </TableCell>
-                                    <TableCell align="center" style={{maxWidth: "115px"}}>
-                                        {row.from}
-                                    </TableCell>
-                                    <TableCell align="center" style={{maxWidth: "110px"}}>
-                                        {row.to}
-                                    </TableCell>
-                                    <TableCell align="center" style={{minWidth: "150px"}}>
-                                        {row.cargoDetails}
-                                    </TableCell>
-                                    <TableCell align="center" style={{minWidth: "150px"}}>
-                                        {row.submittedBy}
-                                    </TableCell>
-                                    <TableCell align="center" style={{minWidth: "120px"}}>
-                                        {row.status===1&&"Quotes Ready"}
-                                        {row.status===2&&"Quotes Expired"}
-                                    </TableCell>
-                                    <TableCell align="left" style={{minWidth: "200px"}}>
-                                        <ViewQuoteButton>View Quote</ViewQuoteButton>
-                                    </TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </QuotesTableContainer>
-        </Container>
-    );
-};
+}
 
 function mapStateToProps(state) {
     return {

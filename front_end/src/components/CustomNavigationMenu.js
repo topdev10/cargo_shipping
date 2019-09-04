@@ -43,6 +43,7 @@ const useTreeItemStyles = makeStyles(theme => ({
             backgroundColor: `var(--tree-view-bg-color, ${theme.palette.grey[400]})`,
             color: 'var(--tree-view-color)',
         },
+        fontFamily: "Oswald",
     },
     content: {
         color: theme.palette.text.secondary,
