@@ -27,7 +27,8 @@ const Container = styled.div`
     margin-top: 64px;
     width: calc(100% - 320px);
     height: calc(100vh - 64px);
-    padding: 12px;
+    padding: 7px;
+    overflow: auto;
 `;
 
 const QuotesFilterBar = styled.div`
