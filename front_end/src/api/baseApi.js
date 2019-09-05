@@ -157,7 +157,6 @@ const BaseApi = {
     },
 
     requestNewQuote(data, callback) {
-        console.log("new quote data:",data);
         callback(null, true);
     },
 };
