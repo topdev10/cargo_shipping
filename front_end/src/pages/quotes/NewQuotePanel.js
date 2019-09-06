@@ -14,6 +14,7 @@ import BatteryCharging50 from '@material-ui/icons/BatteryCharging50';
 import Warning from '@material-ui/icons/Warning';
 
 import { quoteActions } from '../../actions';
+import NuClearIcon from '../../images/Nuclear_symbol.svg';
 
 const Container = styled.div`
     display: flex;
@@ -737,7 +738,6 @@ const NewQuotePanel = (props) => {
                             <BatteryCharging50 />
                             Batterries
                         </div>
-                        ?
                     </PruductCheckBoxBound>
                     <PruductCheckBoxBound>
                         <Checkbox
@@ -750,9 +750,9 @@ const NewQuotePanel = (props) => {
                             }}
                         />
                         <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                            <img src={NuClearIcon} alt="nuclear" style={{height: "24px", width: "24px"}}/>
                             Hazardous Materials
                         </div>
-                        ?
                     </PruductCheckBoxBound>
                     <PruductCheckBoxBound>
                         <Checkbox
@@ -768,7 +768,6 @@ const NewQuotePanel = (props) => {
                             <Warning />
                             Other (Creams, Liquids, Powders)
                         </div>
-                        ?
                     </PruductCheckBoxBound>
                     <PruductCheckBoxBound>
                         <Checkbox
@@ -783,7 +782,6 @@ const NewQuotePanel = (props) => {
                         <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
                             No, my shipment does not contain any of the goods listed
                         </div>
-                        ?
                     </PruductCheckBoxBound>
                 </ProductComplianceRow>
             </ProductComplianceContainer>
