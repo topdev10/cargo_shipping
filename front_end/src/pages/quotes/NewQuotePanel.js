@@ -2,6 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Radio from '@material-ui/core/Radio';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
@@ -123,6 +127,7 @@ const TransportationMethodItem = styled.div`
     justify-content: center;
     cursor: pointer;
     padding: 5px;
+    text-align: center;
 
     &:hover {
         border: 2px solid #576cef;
@@ -148,6 +153,7 @@ const TransportationMethodItemLast = styled.div`
     justify-content: center;
     padding: 5px;
     cursor: pointer;
+    text-align: center;
 
     border: ${props => {
         let border = "2px solid #ccc";
@@ -257,6 +263,116 @@ const DateInputBox = styled.input`
     }
 `;
 
+const DestinationContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    padding: 0px 0px 20px 0px;
+    border-bottom: 2px solid #ccc;
+`;
+
+const DestinationRow = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0px;
+`;
+
+const DestinationInLabel = styled.h1`
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    color: #808080;
+    margin: 5px 0px;
+`;
+
+const DestinationYesNoButton = styled.button`
+    display: flex;
+    padding: 5px 15px;
+    border-radius: 4px;
+    border: ${props => {
+        let border = "2px solid #ccc";
+        if(props.active)
+            border = "2px solid #576cef";
+        return border;
+    }}
+    cursor: pointer;
+    margin-right: 10px;
+
+    &:hover {
+        border: 2px solid #576cef;
+    }
+`;
+
+const CargoContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    padding: 0px 0px 20px 0px;
+    border-bottom: 2px solid #ccc;
+`;
+
+const CargoRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0px;
+`;
+
+const CargoInlabel = styled.h1`
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    color: #808080;
+    margin: 5px 0px;
+`;
+
+const CargoRadioBound = styled.label`
+    display: flex;
+    flex-direction: row;
+    padding: 5px 8px;
+    margin-right: 12px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+`;
+
+const ProductComplianceContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+    padding: 0px 0px 20px 0px;
+    border-bottom: 2px solid #ccc;
+`;
+
+const ProductComplianceRow = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0px;
+`;
+
+const ProductInlabel = styled.h1`
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 19px;
+    color: #808080;
+    margin: 5px 0px;
+`;
+
+const PruductCheckBoxBound = styled.label`
+    display: flex;
+    padding: 5px 8px;
+    align-items: center;
+    text-align: left;
+    border-radius: 5px;
+
+    border: 2px solid #ccc
+`;
+
 const NewQuotePanel = (props) => {
 
     const [shipmentName, setShipmentName] = React.useState('');
@@ -267,6 +383,19 @@ const NewQuotePanel = (props) => {
     const [originLocation, setOriginLocation] = React.useState('ca');
     const [originPort, setOriginPort] = React.useState(1);
     const [pickupReadyDate, setPickupReadyDate] = React.useState("");
+    const [delieverToLocation, setDelieverToLocation] = React.useState(false);
+    const [destLocation, setDestLocation] = React.useState('ca');
+    const [destPort, setDestPort] = React.useState(1);
+    const [targetDeliveryDate, setTargetDeliveryDate] = React.useState("");
+    const [cargoUnit, setCargoUnit] = React.useState(true);
+    const [ispackageDetails, setPackageDetails] = React.useState(false);
+    const [cargoweight, setCargoWeight] = React.useState(0);
+    const [cargovolume, setCargoVolume] = React.useState(0);
+    const [description, setDescription] = React.useState("");
+    const [haveBattery, setHaveBattery] = React.useState(false);
+    const [haveHazardous, setHaveHazardous] = React.useState(false);
+    const [haveLiquids, setHaveLiquids] = React.useState(false);
+    const [haveNothing, setHaveNothing] = React.useState(true);
 
     const { requestFreightQuote } = props;
 
@@ -298,7 +427,7 @@ const NewQuotePanel = (props) => {
         else setIncotermsValue(type);
     }
 
-    function onLocationChanged(event){
+    function onOriginLocationChanged(event){
         setOriginLocation(event.target.value);
     }
 
@@ -308,6 +437,52 @@ const NewQuotePanel = (props) => {
 
     function onChangePickupDate(event) {
         setPickupReadyDate(event.target.value);
+    }
+
+    function onClickDelieveryMode(event, type) {
+        event.preventDefault();
+        setDelieverToLocation(type);
+    }
+
+    function onDestPortChanged(event) {
+        setDestPort(event.target.value);
+    }
+
+    function onDestLocationChanged(event) {
+        setDestLocation(event.target.value);
+    }
+
+    function onChangeTargetDeliveryDate(event) {
+        setTargetDeliveryDate(event.target.value);
+    }
+
+    function handleChangeUnitSelection(event, mode) {
+        setCargoUnit(mode);
+    }
+
+    function handleIfKnowPackageDetails(event, mode) {
+        setPackageDetails(mode);
+    }
+
+    function handleChangeWeight(event) {
+        setCargoWeight(event.target.value);
+    }
+
+    function handleChangeVolume(event) {
+        setCargoVolume(event.target.value);
+    }
+
+    function onChangeDescription(event) {
+        setDescription(event.target.value);
+    }
+
+    function onChangeNothing(event) {
+        setHaveNothing(!haveNothing);
+        if(event.target.value){
+            setHaveBattery(false);
+            setHaveHazardous(false);
+            setHaveLiquids(false);
+        }
     }
 
     return (
@@ -395,7 +570,7 @@ const NewQuotePanel = (props) => {
                 <NameLabel>Origin</NameLabel>
                 <OriginRow>
                     <OriginInLabel>Origin Location *</OriginInLabel>
-                    <DefaultSelector value={originLocation} onChange={e => onLocationChanged(e)}>
+                    <DefaultSelector value={originLocation} onChange={e => onOriginLocationChanged(e)}>
                         <DefaultSelectorOption value="us" > United States </DefaultSelectorOption>
                         <DefaultSelectorOption value="ca" > Canada </DefaultSelectorOption>
                         <DefaultSelectorOption value="cn" > China </DefaultSelectorOption>
@@ -416,6 +591,194 @@ const NewQuotePanel = (props) => {
                     <DateInputBox placeholder="MM/DD/YYYY" type="date" value={pickupReadyDate} onChange={e=>onChangePickupDate(e)}/>
                 </OriginRow>
             </OriginContainer>
+
+            <DestinationContainer>
+                <NameLabel>Destination</NameLabel>
+                <DestinationRow>
+                    <DestinationInLabel>I want Flexport to deliever the cargo from the port to the destination location.</DestinationInLabel>
+                    <div style={{display : "flex", flexDirection: "row"}}>
+                        <DestinationYesNoButton active={delieverToLocation} onClick={e=>onClickDelieveryMode(e, true)}>Yes</DestinationYesNoButton>
+                        <DestinationYesNoButton active={!delieverToLocation} onClick={e=>onClickDelieveryMode(e, false)}>No</DestinationYesNoButton>
+                    </div>
+                </DestinationRow>
+                <DestinationRow>
+                    <DestinationInLabel>Destination Port *</DestinationInLabel>
+                    <DefaultSelector value={destPort} onChange={e => onDestPortChanged(e)}>
+                        <DefaultSelectorOption value={1} > Port of Houston </DefaultSelectorOption>
+                        <DefaultSelectorOption value={2} > Port of Shanghai </DefaultSelectorOption>
+                        <DefaultSelectorOption value={3} > Port of Qingdao </DefaultSelectorOption>
+                        <DefaultSelectorOption value={4} > Port Metro Vancouver </DefaultSelectorOption>
+                    </DefaultSelector>
+                </DestinationRow>
+                <DestinationRow>
+                    <DestinationInLabel>Destination Location *</DestinationInLabel>
+                    <DefaultSelector value={destLocation} onChange={e => onDestLocationChanged(e)}>
+                        <DefaultSelectorOption value="us" > United States </DefaultSelectorOption>
+                        <DefaultSelectorOption value="ca" > Canada </DefaultSelectorOption>
+                        <DefaultSelectorOption value="cn" > China </DefaultSelectorOption>
+                        <DefaultSelectorOption value="ru" > Russia </DefaultSelectorOption>
+                    </DefaultSelector>
+                </DestinationRow>
+                <DestinationRow>
+                    <OriginInLabel>What is your target delivery date? *</OriginInLabel>
+                    <DateInputBox placeholder="MM/DD/YYYY" type="date" value={targetDeliveryDate} onChange={e=>onChangeTargetDeliveryDate(e)}/>
+                </DestinationRow>
+            </DestinationContainer>
+
+            <CargoContainer>
+                <NameLabel>Cargo</NameLabel>
+                <CargoInlabel>Cargo Units</CargoInlabel>
+                <CargoRow>
+                    <CargoRadioBound>
+                        <Radio
+                            checked={cargoUnit}
+                            onChange={e => handleChangeUnitSelection(e, true)}
+                            value="kg/cbm"
+                            name="radio-button-unit"
+                            inputProps={{ 'aria-label': 'kg/cbm' }}
+                        />
+                        kg/cbm
+                    </CargoRadioBound>
+                    <CargoRadioBound>
+                        <Radio
+                            checked={!cargoUnit}
+                            onChange={e => handleChangeUnitSelection(e, false)}
+                            value="lb/cft"
+                            name="radio-button-unit"
+                            inputProps={{ 'aria-label': 'lb/cft' }}
+                        />
+                        lb/cft
+                    </CargoRadioBound>
+                </CargoRow>
+                <CargoInlabel>Do you know package details?</CargoInlabel>
+                <CargoRow>
+                    <CargoRadioBound>
+                        <Radio
+                            checked={ispackageDetails}
+                            onChange={e => handleIfKnowPackageDetails(e, true)}
+                            value="yes"
+                            name="radio-button-unit"
+                            inputProps={{ 'aria-label': 'yes' }}
+                        />
+                        Yes
+                    </CargoRadioBound>
+                    <CargoRadioBound>
+                        <Radio
+                            checked={!ispackageDetails}
+                            onChange={e => handleIfKnowPackageDetails(e, false)}
+                            value="no"
+                            name="radio-button-unit"
+                            inputProps={{ 'aria-label': 'no' }}
+                        />
+                        No
+                    </CargoRadioBound>
+                </CargoRow>
+                <div style={{display: "flex", flexDirection: "row"}}>
+                    <div style={{display: "flex", flexDirection: "column", marginRight: "15px"}}>
+                        <CargoInlabel>Total Weight *</CargoInlabel>
+                        <TextField
+                            id="outlined-adornment-weight"
+                            variant="outlined"
+                            value={cargoweight}
+                            onChange={e => handleChangeWeight(e)}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">kg</InputAdornment>,
+                            }}
+                        />
+                    </div>
+                    <div style={{display: "flex", flexDirection: "column"}}>
+                        <CargoInlabel>Total Volume *</CargoInlabel>
+                        <TextField
+                            id="outlined-adornment-weight"
+                            variant="outlined"
+                            value={cargovolume}
+                            onChange={e => handleChangeVolume(e)}
+                            InputProps={{
+                                endAdornment: <InputAdornment position="end">cbm</InputAdornment>,
+                            }}
+                        />
+                    </div>
+                </div>
+            </CargoContainer>
+
+            <ProductComplianceContainer>
+                <NameLabel>Product & Compliance</NameLabel>
+                <ProductComplianceRow>
+                    <ProductInlabel>Description of Products</ProductInlabel>
+                    <TextField
+                        multiline
+                        rows="3"
+                        value={description}
+                        margin="normal"
+                        variant="outlined"
+                        onChange={e => onChangeDescription(e)}
+                        style={{display: "flex", width: "100%"}}
+                    />
+                </ProductComplianceRow>
+                <ProductComplianceRow>
+                    <ProductInlabel>Does your shipment contain any of the following goods? *</ProductInlabel>
+                    <PruductCheckBoxBound>
+                        <Checkbox
+                            checked={haveBattery}
+                            onChange={()=>!haveNothing&&setHaveBattery(!haveBattery)}
+                            value={haveBattery}
+                            color="secondary"
+                            inputProps={{
+                                'aria-label': 'secondary checkbox',
+                            }}
+                        />
+                        <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                            Batterries
+                        </div>
+                        ?
+                    </PruductCheckBoxBound>
+                    <PruductCheckBoxBound>
+                        <Checkbox
+                            checked={haveHazardous}
+                            onChange={()=>!haveNothing&&setHaveHazardous(!haveHazardous)}
+                            value={haveHazardous}
+                            color="secondary"
+                            inputProps={{
+                                'aria-label': 'secondary checkbox',
+                            }}
+                        />
+                        <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                            Haazardous Materials
+                        </div>
+                        ?
+                    </PruductCheckBoxBound>
+                    <PruductCheckBoxBound>
+                        <Checkbox
+                            checked={haveLiquids}
+                            onChange={()=>!haveNothing&&setHaveLiquids(!haveLiquids)}
+                            value={haveLiquids}
+                            color="secondary"
+                            inputProps={{
+                                'aria-label': 'secondary checkbox',
+                            }}
+                        />
+                        <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                            Other (Creams, Liquids, Powders)
+                        </div>
+                        ?
+                    </PruductCheckBoxBound>
+                    <PruductCheckBoxBound>
+                        <Checkbox
+                            checked={haveNothing}
+                            onChange={(e)=>onChangeNothing(e)}
+                            value={haveNothing}
+                            color="primary"
+                            inputProps={{
+                                'aria-label': 'secondary checkbox',
+                            }}
+                        />
+                        <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                            No, my shipment does not contain any of the goods listed
+                        </div>
+                        ?
+                    </PruductCheckBoxBound>
+                </ProductComplianceRow>
+            </ProductComplianceContainer>
 
             <RequestFreightQuoteButton onClick={requestFreightQuote}>
                 Request Freight Quote
