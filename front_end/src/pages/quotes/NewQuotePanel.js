@@ -10,6 +10,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import LocalShipping from '@material-ui/icons/LocalShipping';
+import BatteryCharging50 from '@material-ui/icons/BatteryCharging50';
+import Warning from '@material-ui/icons/Warning';
 
 import { quoteActions } from '../../actions';
 
@@ -396,7 +398,7 @@ const NewQuotePanel = (props) => {
     const [haveHazardous, setHaveHazardous] = React.useState(false);
     const [haveLiquids, setHaveLiquids] = React.useState(false);
     const [haveNothing, setHaveNothing] = React.useState(true);
-
+    const [instruction, setInstruction] = React.useState("");
     const { requestFreightQuote } = props;
 
     function onShipmentNameChanged(event) {
@@ -483,6 +485,10 @@ const NewQuotePanel = (props) => {
             setHaveHazardous(false);
             setHaveLiquids(false);
         }
+    }
+
+    function onChangeInstruction(event) {
+        setInstruction(event.target.value);
     }
 
     return (
@@ -728,6 +734,7 @@ const NewQuotePanel = (props) => {
                             }}
                         />
                         <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                            <BatteryCharging50 />
                             Batterries
                         </div>
                         ?
@@ -743,7 +750,7 @@ const NewQuotePanel = (props) => {
                             }}
                         />
                         <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
-                            Haazardous Materials
+                            Hazardous Materials
                         </div>
                         ?
                     </PruductCheckBoxBound>
@@ -758,6 +765,7 @@ const NewQuotePanel = (props) => {
                             }}
                         />
                         <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                            <Warning />
                             Other (Creams, Liquids, Powders)
                         </div>
                         ?
@@ -779,6 +787,16 @@ const NewQuotePanel = (props) => {
                     </PruductCheckBoxBound>
                 </ProductComplianceRow>
             </ProductComplianceContainer>
+            <NameLabel>Special Instructions</NameLabel>
+            <TextField
+                multiline
+                rows="3"
+                value={instruction}
+                margin="normal"
+                variant="outlined"
+                onChange={e => onChangeInstruction(e)}
+                style={{display: "flex", width: "100%"}}
+            />
 
             <RequestFreightQuoteButton onClick={requestFreightQuote}>
                 Request Freight Quote
