@@ -17,6 +17,7 @@ import LocalShipping from '@material-ui/icons/LocalShipping';
 import { pageConstants, quoteConstants } from '../../constants';
 import { pageActions, quoteActions } from '../../actions';
 import NewQuotePanel from './NewQuotePanel';
+import QuoteDetails from './QuoteDetails';
 
 const Container = styled.div`
     displa: flex;
@@ -252,10 +253,10 @@ class Quotes extends React.Component{
 
     render(){
         const { quoteState, location, isflight, isShip, isVan } = this.state;
-        const { quotes, onrequestpage } = this.props;
+        const { quotes, onpagestatus } = this.props;
         return (
             <Container>
-                {!onrequestpage&&<QuotesFilterBar>
+                {onpagestatus===0&&<QuotesFilterBar>
                     <CustomSelector value={quoteState} onChange={e => this.handleQuoteScopeSelection(e)}>
                         <CustomSelectorOption value={0}>All</CustomSelectorOption>
                         <CustomSelectorOption value={1}>Active Quotes</CustomSelectorOption>
@@ -293,7 +294,7 @@ class Quotes extends React.Component{
                     </CustomSelector>
                     <RequestQuoteButton onClick={e => this.onNewQuote(e)}>Request Quote</RequestQuoteButton>
                 </QuotesFilterBar>}
-                {!onrequestpage&&<QuotesTableContainer>
+                {onpagestatus===0&&<QuotesTableContainer>
                     <Table stickyHeader>
                         <TableHead>
                             <TableRow>
@@ -391,7 +392,8 @@ class Quotes extends React.Component{
                         </TableBody>
                     </Table>
                 </QuotesTableContainer>}
-                {onrequestpage&&<NewQuotePanel></NewQuotePanel>}
+                {onpagestatus===1&&<NewQuotePanel></NewQuotePanel>}
+                {onpagestatus===2&&<QuoteDetails></QuoteDetails>}
             </Container>
         );
     }
@@ -400,7 +402,7 @@ class Quotes extends React.Component{
 function mapStateToProps(state) {
     return {
         quotes: state.page.info!==null?state.page.info.quotes: null,
-        onrequestpage: state.quote!==null?state.quote.onrequestpage:false,
+        onpagestatus: state.quote!==null?state.quote.onpagestatus:0,
     };
 }
 
@@ -411,7 +413,7 @@ Quotes.defaultProps = {
 Quotes.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     quotes: PropTypes.array,
-    onrequestpage: PropTypes.bool.isRequired,
+    onpagestatus: PropTypes.number.isRequired,
     loadPage: PropTypes.func.isRequired,
     onNewFreightQuote: PropTypes.func.isRequired,
 };

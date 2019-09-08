@@ -28,9 +28,17 @@ function onNewFreightQuote() {
     };
 }
 
+function onReviewFreightQuote(data) {
+    return {
+        type: quoteConstants.ON_REVIEW_FREIGHT_QUOTE,
+        quote: data
+    };
+}
+
 export const quoteActions = {
     requestFreightQuote,
     onNewFreightQuote,
+    onReviewFreightQuote,
 };
 
 export default quoteActions;

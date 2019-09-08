@@ -4,7 +4,8 @@ const initialState = {
     requested: false,
     succeed: false,
     failed: false,
-    onrequestpage: false,
+    onpagestatus: 0,
+    newquote: null,
 };
 
 export function quotes(state = initialState, action) {
@@ -15,14 +16,14 @@ export function quotes(state = initialState, action) {
             requested: true,
             succeed: false,
             failed: false,
-            onrequestpage: true,
+            onpagestatus: 1,
         };
     case quoteConstants.SUCCESS_FREIGHT_QUOTE:
         return {
             ...state,
             succeed: true,
             failed: false,
-            onrequestpage: false,
+            onpagestatus: 0,
         };
     case quoteConstants.FAILED_FREIGHT_QUOTE:
         return {
@@ -30,12 +31,18 @@ export function quotes(state = initialState, action) {
             requested: true,
             succeed: false,
             failed: true,
-            onrequestpage: true,
+            onpagestatus: 1,
         };
     case quoteConstants.ON_NEW_FREIGHT_QUOTE:
         return {
             ...state,
-            onrequestpage: true,
+            onpagestatus: 1,
+        };
+    case quoteConstants.ON_REVIEW_FREIGHT_QUOTE:
+        return {
+            ...state,
+            onpagestatus: 2,
+            newquote: action.quote
         };
     default:
         return state;

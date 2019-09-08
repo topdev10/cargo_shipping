@@ -400,7 +400,6 @@ const NewQuotePanel = (props) => {
     const [haveLiquids, setHaveLiquids] = React.useState(false);
     const [haveNothing, setHaveNothing] = React.useState(true);
     const [instruction, setInstruction] = React.useState("");
-    const { requestFreightQuote } = props;
 
     function onShipmentNameChanged(event) {
         setShipmentName(event.target.value);
@@ -490,6 +489,36 @@ const NewQuotePanel = (props) => {
 
     function onChangeInstruction(event) {
         setInstruction(event.target.value);
+    }
+
+    function handleReviewQuote(event) {
+        event.preventDefault();
+        const { onReviewFreightQuote } = props;
+        const data = {
+            shipmentName,
+            freightMethod,
+            shipmentType,
+            containerType,
+            incoterms,
+            originLocation,
+            originPort,
+            pickupReadyDate,
+            delieverToLocation,
+            destLocation,
+            destPort,
+            targetDeliveryDate,
+            cargoUnit,
+            ispackageDetails,
+            cargoweight,
+            cargovolume,
+            description,
+            haveBattery,
+            haveHazardous,
+            haveLiquids,
+            haveNothing,
+            instruction,
+        };
+        onReviewFreightQuote(data);
     }
 
     return (
@@ -734,7 +763,7 @@ const NewQuotePanel = (props) => {
                                 'aria-label': 'secondary checkbox',
                             }}
                         />
-                        <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                        <div style={{display: "flex", flex: 1, flexDirection: "row"}}>
                             <BatteryCharging50 />
                             Batterries
                         </div>
@@ -749,7 +778,7 @@ const NewQuotePanel = (props) => {
                                 'aria-label': 'secondary checkbox',
                             }}
                         />
-                        <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                        <div style={{display: "flex", flex: 1, flexDirection: "row"}}>
                             <img src={NuClearIcon} alt="nuclear" style={{height: "24px", width: "24px"}}/>
                             Hazardous Materials
                         </div>
@@ -764,7 +793,7 @@ const NewQuotePanel = (props) => {
                                 'aria-label': 'secondary checkbox',
                             }}
                         />
-                        <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                        <div style={{display: "flex", flex: 1, flexDirection: "row"}}>
                             <Warning />
                             Other (Creams, Liquids, Powders)
                         </div>
@@ -779,7 +808,7 @@ const NewQuotePanel = (props) => {
                                 'aria-label': 'secondary checkbox',
                             }}
                         />
-                        <div styles={{display: "flex", flex: 1, flexDirection: "row"}}>
+                        <div style={{display: "flex", flex: 1, flexDirection: "row"}}>
                             No, my shipment does not contain any of the goods listed
                         </div>
                     </PruductCheckBoxBound>
@@ -796,7 +825,7 @@ const NewQuotePanel = (props) => {
                 style={{display: "flex", width: "100%"}}
             />
 
-            <RequestFreightQuoteButton onClick={requestFreightQuote}>
+            <RequestFreightQuoteButton onClick={e => handleReviewQuote(e)}>
                 Request Freight Quote
             </RequestFreightQuoteButton>
         </Container>
@@ -805,11 +834,11 @@ const NewQuotePanel = (props) => {
 };
 
 NewQuotePanel.propTypes = {
-    requestFreightQuote: PropTypes.func.isRequired,
+    onReviewFreightQuote: PropTypes.func.isRequired,
 };
 
 const actionCreators = {
-    requestFreightQuote: quoteActions.requestFreightQuote,
+    onReviewFreightQuote: quoteActions.onReviewFreightQuote,
 };
 
 export default connect(null, actionCreators)(NewQuotePanel);
