@@ -18,18 +18,24 @@ import { pageConstants, quoteConstants } from '../../constants';
 import { pageActions, quoteActions } from '../../actions';
 import NewQuotePanel from './NewQuotePanel';
 import QuoteDetails from './QuoteDetails';
+import Device from '../../css/device';
 
 const Container = styled.div`
     displa: flex;
     flex-direction: column;
     position: absolute;
     top: 0px;
-    left: 320px;
     margin-top: 64px;
-    width: calc(100% - 320px);
     height: calc(100vh - 64px);
     padding: 7px;
     overflow: auto;
+    min-width: 650px;
+    width: 100%;
+    left: 0px;
+    @media ${Device.laptop} {
+        left: 320px;
+        width: calc(100% - 320px);
+    }
 `;
 
 const QuotesFilterBar = styled.div`

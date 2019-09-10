@@ -5,7 +5,7 @@ const reset = css`
         box-sizing: border-box;
         /* Nicer looking fonts for OS X and iOS */
         -webkit-font-smoothing: antialiased;
-        font-family: Rubik;
+        font-family: Arial;
         font-style: normal;
         font-weight: normal;
     }

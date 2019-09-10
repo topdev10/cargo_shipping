@@ -17,6 +17,11 @@ import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 import Exit from '@material-ui/icons/ExitToApp';
 import AccountBox from '@material-ui/icons/AccountBox';
+import Dashboard from '@material-ui/icons/Dashboard';
+import Assessment from '@material-ui/icons/Assessment';
+import MonetizationOn from '@material-ui/icons/MonetizationOn';
+import Assignment from '@material-ui/icons/Assignment';
+import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import { userActions, pageActions } from '../actions';
 
 import logo from '../images/logo.svg';
@@ -203,6 +208,30 @@ const Header = (props) => {
         setSearchValue(event.target.value);
     }
 
+    function onNavigate(e, type) {
+        e.preventDefault();
+        switch(type){
+        case "DASHBOARD":
+            loadPage(pageConstants.DASHBOARD);
+            break;
+        case "QUOTES":
+            loadPage(pageConstants.QUOTES);
+            break;
+        case "SHIPMENTS":
+            loadPage(pageConstants.SHIPMENTS);
+            break;
+        case "BILLING":
+            loadPage(pageConstants.BILLING);
+            break;
+        case "REPORTS":
+            loadPage(pageConstants.REPORTS);
+            break;
+        default:
+            break;
+        }
+        handleMenuClose();
+    }
+
     const renderMenu = (
         <Menu
             anchorEl={anchorEl}
@@ -241,6 +270,46 @@ const Header = (props) => {
                 </IconButton>
                 <Typography variant="h6" noWrap>
                     Notifications
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "DASHBOARD")}>
+                <IconButton color="inherit">
+                    <Dashboard />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Dashboard
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "QUOTES")}>
+                <IconButton color="inherit">
+                    <Assignment />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Quotes
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "SHIPMENTS")}>
+                <IconButton color="inherit">
+                    <DirectionsBoat />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Shipments
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "BILLING")}>
+                <IconButton color="inherit">
+                    <MonetizationOn />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Billing
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "REPORTS")}>
+                <IconButton color="inherit">
+                    <Assessment />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Reports
                 </Typography>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>

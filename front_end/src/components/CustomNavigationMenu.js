@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import styled from 'styled-components';
 import Assignment from '@material-ui/icons/Assignment';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
-import AccountBalance from '@material-ui/icons/AccountBalance';
+import MonetizationOn from '@material-ui/icons/MonetizationOn';
 import Assessment from '@material-ui/icons/Assessment';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 import InfoIcon from '@material-ui/icons/Info';
@@ -19,6 +19,8 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import Dashboard from '@material-ui/icons/Dashboard';
 import { pageActions } from '../actions/page.action';
 import { pageConstants } from '../constants';
+
+import Device from '../css/device';
 
 const Container = styled.div`
     // position: fixed;
@@ -34,6 +36,10 @@ const Container = styled.div`
     background: #eff7ff;
     padding: 20px 30px;
     box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
+    display: none;
+    @media ${Device.laptop} {
+        display: block;
+    }
 `;
 
 const useTreeItemStyles = makeStyles(theme => ({
@@ -208,7 +214,7 @@ function GmailTreeView(props) {
                         loadPage={loadPage}
                     />
                 </StyledTreeItem>
-                <StyledTreeItem nodeId="4" labelText="Billing" labelIcon={AccountBalance} loadPage={loadPage}/>
+                <StyledTreeItem nodeId="4" labelText="Billing" labelIcon={MonetizationOn} loadPage={loadPage}/>
                 <StyledTreeItem nodeId="5" labelText="Reports" labelIcon={Assessment} loadPage={loadPage}/>
             </TreeView>
         </Container>

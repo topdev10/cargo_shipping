@@ -6,9 +6,14 @@ import Config from '../config';
 const mapStyles = {
     position: "relative",
     background: "green",
-    width: "calc(100vw - 324px)",
     height: "45%",
     minWidth: "500px",
+    width: "100%",
+    left: "0px",
+    '@media (minWidth: 1024px)': {
+        left: "320px",
+        width: "calc(100% - 324px)",
+    }
 };
 
 export class GoogleMap extends Component {

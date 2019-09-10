@@ -2,20 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import DirectionsBoatRounded from '@material-ui/icons/DirectionsBoatRounded';
+// import DirectionsBoatRounded from '@material-ui/icons/DirectionsBoatRounded';
 import AssignmentRounded from '@material-ui/icons/AssignmentRounded';
 import AssessmentRounded from '@material-ui/icons/AssessmentRounded';
-import AccountBalanceRounded from '@material-ui/icons/AccountBalanceRounded';
+import MonetizationOn from '@material-ui/icons/MonetizationOn';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { pageActions } from '../../actions';
 import { pageConstants } from '../../constants';
 import Map from '../../components/map';
-import ActiveShipments from '../../components/ActiveShipments/ActiveShipments';
+// import ActiveShipments from '../../components/ActiveShipments/ActiveShipments';
 import ActiveQuotes from '../../components/ActiveQuotes/ActiveQuotes';
 import DashboardBillings from '../../components/DashboardBillings/DashboardBillings';
 import DashboardReports from '../../components/DashboardReports/DashboardReports';
+import Device from '../../css/device';
 
 const Container = styled.div`
     display: flex;
@@ -23,25 +24,35 @@ const Container = styled.div`
     position: fixed;
     z-index: 999;
     top: 0px;
-    left: 322px;
     margin-top: 64px;
-    width: calc(100% - 320px);
     height: calc(100vh - 64px);
+    width: 100%;
+    left: 0px;
+    @media ${Device.laptop} {
+        left: 322px;
+        width: calc(100% - 320px);
+    }
 `;
 
 const GoogleMapWrapper = styled.div`
-    width: calc(100vw - 320px);
     height: 45%;
     min-width: 500px;
+    width: 100%;
+    left: 0px;
+    @media ${Device.laptop} {
+        left: 320px;
+        width: calc(100% - 320px);
+    }
 `;
 
 const DetailsContainer = styled.div`
-    width: calc(100vw - 320px);
     height: 55%;
     position: relative;
     overflow: hidden;
     padding: 0px 20px 20px 20px;
     z-index: 999;
+    width: 100%;
+    left: 0px;
 `;
 
 class Dashboard extends React.Component {
@@ -104,17 +115,17 @@ class Dashboard extends React.Component {
                         indicatorColor="secondary"
                         textColor="secondary"
                         aria-label="icon label tabs example"
-                        style={{height: "48px", alignItems: "center"}}
+                        style={{height: "56px", alignItems: "center"}}
                     >
-                        <Tab icon={<DirectionsBoatRounded />} />
-                        <Tab icon={<AssignmentRounded />} />
-                        <Tab icon={<AccountBalanceRounded />} />
-                        <Tab icon={<AssessmentRounded />} />
+                        {/* <Tab icon={<DirectionsBoatRounded/>} label="Shipments" wrapped={flag}/> */}
+                        <Tab icon={<AssignmentRounded />} label="Quotes"/>
+                        <Tab icon={<MonetizationOn />} label="Invoices"/>
+                        <Tab icon={<AssessmentRounded />}  label="Reports"/>
                     </Tabs>
-                    {tabIndex===0&&<ActiveShipments/>}
-                    {tabIndex===1&&<ActiveQuotes/>}
-                    {tabIndex===2&&<DashboardBillings/>}
-                    {tabIndex===3&&<DashboardReports/>}
+                    {/* {tabIndex===0&&<ActiveShipments/>} */}
+                    {tabIndex===0&&<ActiveQuotes/>}
+                    {tabIndex===1&&<DashboardBillings/>}
+                    {tabIndex===2&&<DashboardReports/>}
                 </DetailsContainer>
             </Container>
         );
