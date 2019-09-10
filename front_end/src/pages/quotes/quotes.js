@@ -212,9 +212,10 @@ class Quotes extends React.Component{
         this.state = {
             quoteState: 0,
             location: "ca",
-            isflight: false,
-            isShip: false,
-            isVan: false,
+            isflight: true,
+            isShip: true,
+            isVan: true,
+            sortBy: "status",
         };
     }
 
@@ -226,7 +227,7 @@ class Quotes extends React.Component{
     }
 
     handleQuoteScopeSelection = (event) => {
-        this.setState({quoteState: event.target.value});
+        this.setState({quoteState: parseInt(event.target.value, 10)});
     }
 
     handleLocationSeltion = (event) => {
@@ -257,9 +258,58 @@ class Quotes extends React.Component{
         onNewFreightQuote(quoteConstants.ON_NEW_FREIGHT_QUOTE);
     }
 
-    render(){
+    onChangeFilterBy = (e, type) => {
+        e.preventDefault();
+        this.setState({sortBy: type});
+    }
+
+    sortArray = (array) => {
+        const { sortBy } = this.state;
+        const res = array.sort((a,b) => {
+            if(sortBy === 'name') return a.name > b.name;
+            if(sortBy === 'freight') return a.freight - b.freight;
+            if(sortBy === 'date') return a.cargoReadyState > b.cargoReadyState;
+            if(sortBy === 'from') return a.from > b.from;
+            if(sortBy === 'to') return a.to > b.to;
+            if(sortBy === 'submitted') return a.submittedBy > b.submittedBy;
+            if(sortBy === 'status') return a.status - b.status;
+            return b.status - a.status;
+        });
+        return res;
+    }
+
+    customFilter = (array) => {
+        let result = [];
         const { quoteState, location, isflight, isShip, isVan } = this.state;
+        if(array !==null && array.length > 0){
+            array.forEach(element => {
+                let insertFlag = true;
+                if(quoteState!==0 && element.status!== quoteState) insertFlag = false;
+                if(element.freight===1&&!isflight) insertFlag=false;
+                if(element.freight===2&&!isShip) insertFlag=false;
+                if(element.freight===3&&!isVan) insertFlag=false;
+                if(location !== "all"){
+                    if(location === 'ca' && (!element.from.includes("Canada") && !element.to.includes("Canada")))
+                        insertFlag = false;
+                    if(location === 'us' && (!element.from.includes("United States") && !element.to.includes("United States")))
+                        insertFlag = false;
+                    if(location === 'cn' && (!element.from.includes("China") && !element.to.includes("China")))
+                        insertFlag = false;
+                    if(location === 'au' && (!element.from.includes("Australia") && !element.to.includes("Australia")))
+                        insertFlag = false;
+                    if(location === 'ru' && (!element.from.includes("Russia") && !element.to.includes("Russia")))
+                        insertFlag = false;
+                }
+                if(insertFlag) result.push(element);
+            });
+        } else result = null;
+        return result;
+    }
+
+    render(){
+        const { quoteState, location, isflight, isShip, isVan, sortBy } = this.state;
         const { quotes, onpagestatus } = this.props;
+        const mlistData = this.customFilter(quotes);
         return (
             <Container>
                 {onpagestatus===0&&<QuotesFilterBar>
@@ -305,70 +355,70 @@ class Quotes extends React.Component{
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center">
-                                    <HeaderRowLabelContainer>
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "name")}>
                                         Name
-                                        <ArrowDropDown />
+                                        { sortBy==='name' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <HeaderRowLabelContainer>
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "freight")}>
                                         Freight
-                                        <ArrowDropUp />
+                                        { sortBy==='freight' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <HeaderRowLabelContainer>
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "date")}>
                                         Cargo Ready Date
-                                        <ArrowDropUp />
+                                        { sortBy==='date' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <HeaderRowLabelContainer>
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "from")}>
                                         From
-                                        <ArrowDropUp />
+                                        { sortBy==='from' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <HeaderRowLabelContainer>
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "to")}>
                                         To
-                                        <ArrowDropUp />
+                                        { sortBy==='to' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
                                 <TableCell align="center">
                                     <HeaderRowLabelContainer>
                                         Cargo Details
-                                        <ArrowDropUp />
                                     </HeaderRowLabelContainer>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <HeaderRowLabelContainer>
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "submitted")}>
                                         Submitted By
-                                        <ArrowDropUp />
+                                        { sortBy==='submitted' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
                                 <TableCell align="center">
-                                    <HeaderRowLabelContainer>
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "status")}>
                                         Status
-                                        <ArrowDropUp />
+                                        { sortBy==='status' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
                                 <TableCell align="left">
                                     <HeaderRowLabelContainer>
                                         Action
-                                        <ArrowDropUp />
                                     </HeaderRowLabelContainer>
                                 </TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {quotes!=null&&quotes.map(row => {
+                            {mlistData!=null&&this.sortArray(mlistData).map(row => {
                                 return(
                                     <TableRow hover role='checkbox' key={row.id}>
                                         <TableCell align="center" style={{maxWidth: "120px"}}>
                                             {row.name}
                                         </TableCell>
                                         <TableCell align="center" style={{minWidth: "120px"}}>
-                                            {row.freight}
+                                            {row.freight===1&&<FlightTakeoff />}
+                                            {row.freight===2&&<DirectionsBoat />}
+                                            {row.freight===3&&<LocalShipping />}
                                         </TableCell>
                                         <TableCell align="center" style={{minWidth: "170px"}}>
                                             {row.cargoReadyState}
@@ -386,8 +436,8 @@ class Quotes extends React.Component{
                                             {row.submittedBy}
                                         </TableCell>
                                         <TableCell align="center" style={{minWidth: "120px"}}>
-                                            {row.status===1&&"Quotes Ready"}
-                                            {row.status===2&&"Quotes Expired"}
+                                            {row.status===2&&"Quotes Ready"}
+                                            {row.status===4&&"Quotes Expired"}
                                         </TableCell>
                                         <TableCell align="left" style={{minWidth: "200px"}}>
                                             <ViewQuoteButton>View Quote</ViewQuoteButton>

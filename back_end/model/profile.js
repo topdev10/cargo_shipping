@@ -21,7 +21,10 @@ var ProfileSchema = new mongoose.Schema({
   address: {
     type: String,
     required: false,
-  }
+  },
+  img: {
+    type: String,
+  },
 });
 var Profile = mongoose.model('Profile', ProfileSchema);
 module.exports = Profile;

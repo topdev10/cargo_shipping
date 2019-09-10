@@ -1,21 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Pdf from "react-to-pdf";
 import { connect } from 'react-redux';
 import { quoteActions } from '../../actions';
-import Device from '../../css/device';
+// import Device from '../../css/device';
+const ref = React.createRef();
+const options = {
+    orientation: 'landscape',
+    unit: 'in',
+    format: "a3",
+};
 
 const Container = styled.div`
     displa: flex;
     flex-direction: column;
     position: absolute;
     top: 0px;
-    margin-top: 64px;
     height: calc(100vh - 64px);
     padding: 40px 25px 0px 25px;
     overflow: auto;
     width: 100%;
     left: 0px;
+`;
+
+const PDFContainer = styled.div`
+    display: flex;
+    flex-direction: column;
 `;
 
 const HeadRow = styled.div`
@@ -126,59 +137,65 @@ class QuoteDetails extends React.Component{
     render(){
         const {requestFreightQuote, newquote} = this.props;
         return(
-            <Container>
-                <HeadRow>
-                    <HeadTitle>
-                        Quote Details:
-                    </HeadTitle>
-                    <DownloadButton>
-                        Download
-                    </DownloadButton>
-                </HeadRow>
-                <TransitInformationContainer>
-                    <ContainerTitle>
-                        Transit Information
-                    </ContainerTitle>
-                    <TransitInformationFirstRow>
-                        <TransitItem>
-                            <TransitItemTop>Mode</TransitItemTop>
-                            <TransitItemBottom>{newquote.freightMethod}</TransitItemBottom>
-                        </TransitItem>
-                        <TransitItem>
-                            <TransitItemTop>Port to Port</TransitItemTop>
-                            <TransitItemBottom>{newquote.pickupReadyDate}</TransitItemBottom>
-                        </TransitItem>
-                        <TransitItem>
-                            <TransitItemTop>Rate expiration</TransitItemTop>
-                            <TransitItemBottom>{newquote.targetDeliveryDate}</TransitItemBottom>
-                        </TransitItem>
-                        <TransitItem>
-                            <TransitItemTop>Carrier</TransitItemTop>
-                            <TransitItemBottom>Mode</TransitItemBottom>
-                        </TransitItem>
-                    </TransitInformationFirstRow>
-                    <TransitInformationSecondRow>
-                        <TransitItem>
-                            <TransitItemTop>Freight Service</TransitItemTop>
-                            <TransitItemBottom>Unspecified</TransitItemBottom>
-                        </TransitItem>
-                        <TransitItem>
-                            <TransitItemTop>Closing days</TransitItemTop>
-                            <TransitItemBottom>Unspecified</TransitItemBottom>
-                        </TransitItem>
-                        <TransitItem>
-                            <TransitItemTop>Departure Days</TransitItemTop>
-                            <TransitItemBottom>Unspecified</TransitItemBottom>
-                        </TransitItem>
-                        <TransitItem>
-                            <TransitItemTop>Pre-carriage</TransitItemTop>
-                            <TransitItemBottom>Unspecified</TransitItemBottom>
-                        </TransitItem>
-                    </TransitInformationSecondRow>
-                </TransitInformationContainer>
-                <RestInformationContainer>
-                    <RequestButton onClick={e => requestFreightQuote(e, newquote)} > Next </RequestButton>
-                </RestInformationContainer>
+            <Container ref={ref}>
+                {/* <Pdf targetRef={ref} filename="code-example.pdf">
+                    {({ toPdf }) => <button onClick={toPdf}>Generate Pdf</button>}
+                </Pdf> */}
+                <PDFContainer>
+                    <HeadRow>
+                        <HeadTitle>
+                            Quote Details:
+                        </HeadTitle>
+                        
+                        <Pdf targetRef={ref} filename="code-example.pdf" options={options} onComplete={e => requestFreightQuote(e, newquote)}>
+                            {({ toPdf }) => <DownloadButton onClick={toPdf}>Download</DownloadButton>}
+                        </Pdf>
+                    </HeadRow>
+                    <TransitInformationContainer>
+                        <ContainerTitle>
+                            Transit Information
+                        </ContainerTitle>
+                        <TransitInformationFirstRow>
+                            <TransitItem>
+                                <TransitItemTop>Mode</TransitItemTop>
+                                <TransitItemBottom>{newquote.freightMethod}</TransitItemBottom>
+                            </TransitItem>
+                            <TransitItem>
+                                <TransitItemTop>Port to Port</TransitItemTop>
+                                <TransitItemBottom>{newquote.pickupReadyDate}</TransitItemBottom>
+                            </TransitItem>
+                            <TransitItem>
+                                <TransitItemTop>Rate expiration</TransitItemTop>
+                                <TransitItemBottom>{newquote.targetDeliveryDate}</TransitItemBottom>
+                            </TransitItem>
+                            <TransitItem>
+                                <TransitItemTop>Carrier</TransitItemTop>
+                                <TransitItemBottom>Mode</TransitItemBottom>
+                            </TransitItem>
+                        </TransitInformationFirstRow>
+                        <TransitInformationSecondRow>
+                            <TransitItem>
+                                <TransitItemTop>Freight Service</TransitItemTop>
+                                <TransitItemBottom>Unspecified</TransitItemBottom>
+                            </TransitItem>
+                            <TransitItem>
+                                <TransitItemTop>Closing days</TransitItemTop>
+                                <TransitItemBottom>Unspecified</TransitItemBottom>
+                            </TransitItem>
+                            <TransitItem>
+                                <TransitItemTop>Departure Days</TransitItemTop>
+                                <TransitItemBottom>Unspecified</TransitItemBottom>
+                            </TransitItem>
+                            <TransitItem>
+                                <TransitItemTop>Pre-carriage</TransitItemTop>
+                                <TransitItemBottom>Unspecified</TransitItemBottom>
+                            </TransitItem>
+                        </TransitInformationSecondRow>
+                    </TransitInformationContainer>
+                    <RestInformationContainer>
+                        <RequestButton onClick={e => requestFreightQuote(e, newquote)} > Next </RequestButton>
+                    </RestInformationContainer>
+                </PDFContainer>
             </Container>
         );
     }

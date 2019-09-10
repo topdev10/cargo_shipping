@@ -80,9 +80,11 @@
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-pdf": "^4.1.0",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-testing-library": "^7.0.1",
+    "react-to-pdf": "0.0.8",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
@@ -96,5 +98,7 @@
     "webpack-jarvis": "^0.3.2",
     "webpack-merge": "^4.2.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.0.4"
+  }
 }

@@ -137,7 +137,7 @@ function loadPage(page) {
                     to: "Vacouver, Canada",
                     cargoDetails: "N/A",
                     submittedBy: "Bill Camarda",
-                    status: 2,
+                    status: 4,
                 },
                 {
                     id: "FLEX-68887",
