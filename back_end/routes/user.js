@@ -258,7 +258,7 @@ router.post('/signup', [
             to: req.body.email,         // List of recipients
             subject: 'Please Verify your Freight Genius Account.', // Subject line
             // text: `Your Verification Code is ${m_code}`, // Plain text body
-            html: `<h1>Here is your verification Code! </h1> <p><b>${m_code}</b></p><br/><h1>Or you can just click this link to activate your account</h1><a>http://localhost:8080/auth/${req.body.username}/${m_token}</a>`
+            html: `<h1>Here is your verification Code! </h1> <p><b>${m_code}</b></p><br/><h1>Or you can just click this link to activate your account</h1><a>${process.env.FRONT_URL}/auth/${req.body.username}/${m_token}</a>`
         };
 
         transport.sendMail(message, function(err, info) {
@@ -390,14 +390,17 @@ function handshake(code, ores) {
             //     //need to find better way and proper authetication for the user
             //     ores.redirect('http://localhost:3000/dashboard/' + id);
             // });
-            getLinkedInData(JSON.parse(data).access_token, (profile) => {
-                if(profile.elements)
-                {
-                    const emailAddr = profile.elements[0]['handle~'].emailAddress;
-                    console.log(emailAddr);
-                    ores.redirect(`http://localhost:8080/linkedIn/${emailAddr}/Guest`)
-                }
-            })
+            console.log(JSON.parse(data));
+            if(JSON.parse(data).access_token)
+                getLinkedInData(JSON.parse(data).access_token, (profile) => {
+                    if(profile.elements)
+                    {
+                        const emailAddr = profile.elements[0]['handle~'].emailAddress;
+                        console.log(emailAddr);
+                        ores.redirect(`${process.env.FRONT_URL}/linkedIn/${emailAddr}/Guest`)
+                    }
+                })
+            else ores.redirect(`${process.env.FRONT_URL}/login`)
         });
         req.on('error', function (e) {
             console.log("problem with request: " + e.message);
