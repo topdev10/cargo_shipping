@@ -143,7 +143,7 @@ const ForgotPasswordBTN = styled.button`
     line-height: 17px;
     text-align: right;
     text-decoration-line: underline;
-    color: #4D7CFE;
+    color: #fff;
     border-radius: 8px;
     float: right;
     cursor: pointer;
@@ -309,6 +309,10 @@ const Login = (props) => {
                         inputProps={{
                             'aria-label': 'uncontrolled-checkbox',
                         }}
+                        labelStyle={{color: 'white'}}
+                        iconStyle={{fill: 'white'}}
+                        inputStyle={{color:'white'}}
+                        style={{color:'white'}}
                     />
                     Keep me signed in
                 </MLabel>
