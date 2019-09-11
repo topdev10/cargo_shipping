@@ -309,9 +309,6 @@ const Login = (props) => {
                         inputProps={{
                             'aria-label': 'uncontrolled-checkbox',
                         }}
-                        labelStyle={{color: 'white'}}
-                        iconStyle={{fill: 'white'}}
-                        inputStyle={{color:'white'}}
                         style={{color:'white'}}
                     />
                     Keep me signed in
