@@ -3,9 +3,16 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Checkbox from '@material-ui/core/Checkbox';
+import BackgroundSlider from 'react-background-slider';
 import { userActions } from '../../actions';
-import background from '../../images/background.jpg';
 import Device from '../../css/device';
+
+import IntexFreightShip from '../../images/ship.png';
+import IntexFreightTruck from '../../images/truck.png';
+import IntexFreightTrain from '../../images/train.png';
+import GtIntelBackgroundShip from '../../images/gt-intl-background-ship.jpg';
+import GtIntelBackgroundLocal from '../../images/gt-intl-background-local.jpg';
+import GtIntelBackgroundAir from '../../images/gt-intl-background-flight.jpg';
 
 const Container = styled.div`
     display: flex;
@@ -28,7 +35,6 @@ const LeftSide = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #E5E5E5;
     width: 100%;
     @media ${Device.laptop} {
         width: 50%;
@@ -45,7 +51,7 @@ const CLabel = styled.label`
     line-height: 17px;
     width: 400px;
     height: 17px;
-    color: #778CA2;
+    color: #74e07d;
     border-radius: 8px;
     margin: 10px 0px 0px 0px;
 `;
@@ -66,6 +72,25 @@ const InputBox = styled.input`
     }
 `;
 
+const CustomSelector = styled.select`
+    display: flex;
+    border-radius: 4px;
+    border: 1px solid #E8ECEF;
+    margin: 10px 0px 20px 0px;
+    padding: 7px 10px;
+    width: 400px;
+    height: 52px;
+    transition: border-color .15s 
+    &:hover,
+    &.active {
+        border: 2px solid #4ec8da;
+    }
+`;
+
+const CustomSelectorOption = styled.option`
+    display: flex;
+`;
+
 const OptionsContainer = styled.div`
     display: flex;
     width: 400px;
@@ -84,19 +109,6 @@ const RightSide = styled.div`
         width: 50%;
         height: 100vh;
     }
-`;
-
-const BackgroundImage = styled.img`
-    display: none;
-    width: 100%;
-    height: 100%;
-`;
-
-const BackgroundCover = styled.div`
-    display: flex;
-    width: 100%;
-    height: 100%;
-    background: #4b0a7bd6;
 `;
 
 const BriefComment = styled.label`
@@ -208,6 +220,7 @@ const LoginLinkedInBtn = styled.a`
 const MLabel = styled.label`
     width: 50%;
     cursor: pointer;
+    color: #74e07d;
 `;
 
 const BLabel = styled.label`
@@ -218,7 +231,7 @@ const BLabel = styled.label`
     font-weight: 500;
     font-size: 18px;
     line-height: 17px;
-    color: #778CA2;
+    color: #74e07d;
     border-radius: 8px;
 `;
 
@@ -228,6 +241,7 @@ const Login = (props) => {
     const [display, setDisplay] = React.useState("step1");
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [company, setCompany] = React.useState('intexfreight');
     const [cpassword, setConfirmPassword] = React.useState('');
     const [code, setCode] = React.useState('');
     let checked = false;
@@ -267,8 +281,12 @@ const Login = (props) => {
         event.preventDefault();
 
         if(email && password){
-            login(email, password, checked);
+            login(email, password, checked, company);
         }
+    };
+
+    function handleCompanyChanged(e){
+        setCompany(e.target.value);
     };
 
     const linkedInAuthUri = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86rytomxqk2lfz&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fauth%2Flinkedin&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share";
@@ -279,6 +297,11 @@ const Login = (props) => {
             <InputBox type="text" value={email} onChange={ handleInput('email') }/>
             <CLabel>Password</CLabel>
             <InputBox type="password" value={password} onChange={ handleInput('password') }/>
+            <CLabel>Company</CLabel>
+            <CustomSelector value={company} onChange={e => handleCompanyChanged(e)}>
+                <CustomSelectorOption value="intexfreight">IntexFreight</CustomSelectorOption>
+                <CustomSelectorOption value="Gt-Intl">Gt-Intl</CustomSelectorOption>
+            </CustomSelector>
             <OptionsContainer>
                 <MLabel onChange={handleChange()}>
                     <Checkbox
@@ -345,12 +368,19 @@ const Login = (props) => {
             <LoginButton onClick={(e) => resetpassword(e, 'step3')}>RESET PASSWORD</LoginButton>         
             <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step1')}>Back to Login</ForgotPasswordBTN>
         </LeftSide>;
+
+    let backgroundImages;
+    if(company === 'intexfreight'){
+        backgroundImages = <BackgroundSlider images={[ GtIntelBackgroundAir, GtIntelBackgroundLocal, GtIntelBackgroundShip ]}/>;
+    }
+    else if (company === 'Gt-Intl'){
+        backgroundImages = <BackgroundSlider images={[ IntexFreightShip, IntexFreightTrain, IntexFreightTruck ]} />;
+    }
     return (
-        <Container>
+        <Container >
+            {backgroundImages}
             {leftShow}
             <RightSide>
-                <BackgroundImage src={background} aria="background"/>
-                <BackgroundCover></BackgroundCover>
                 <BriefComment>
                     Welcome to Freight-Genius... <br/>
                     We are online shipping company and you can easily ship your goods in time. <br/>

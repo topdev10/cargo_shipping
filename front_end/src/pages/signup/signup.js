@@ -2,9 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import BackgroundSlider from 'react-background-slider';
 import { userActions } from '../../actions';
-import background from '../../images/background.jpg';
 import Device from '../../css/device';
+
+import IntexFreightShip from '../../images/ship.png';
+import IntexFreightTruck from '../../images/truck.png';
+import IntexFreightTrain from '../../images/train.png';
+import GtIntelBackgroundShip from '../../images/gt-intl-background-ship.jpg';
+import GtIntelBackgroundLocal from '../../images/gt-intl-background-local.jpg';
+import GtIntelBackgroundAir from '../../images/gt-intl-background-flight.jpg';
 
 const Container = styled.div`
     display: flex;
@@ -27,7 +34,6 @@ const LeftSide = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #E5E5E5;
     width: 100%;
     @media ${Device.laptop} {
         width: 50%;
@@ -44,7 +50,7 @@ const CLabel = styled.label`
     line-height: 17px;
     width: 400px;
     height: 17px;
-    color: #778CA2;
+    color: #74e07d;
     border-radius: 8px;
     margin: 10px 0px 0px 0px;
 `;
@@ -77,19 +83,6 @@ const RightSide = styled.div`
         width: 50%;
         height: 100vh;
     }
-`;
-
-const BackgroundImage = styled.img`
-    display: none;
-    width: 100%;
-    height: 100%;
-`;
-
-const BackgroundCover = styled.div`
-    display: flex;
-    width: 100%;
-    height: 100%;
-    background: #4b0a7bd6;
 `;
 
 const BriefComment = styled.label`
@@ -232,10 +225,9 @@ const Signup = (props) => {
 
     return (
         <Container>
+            <BackgroundSlider images={[ GtIntelBackgroundAir, GtIntelBackgroundLocal, GtIntelBackgroundShip, IntexFreightShip, IntexFreightTrain, IntexFreightTruck ]}/>
             { leftShow }
             <RightSide>
-                <BackgroundImage src={background} aria="background"/>
-                <BackgroundCover></BackgroundCover>
                 <BriefComment>
                     Welcome to Freight-Genius... <br/>
                     We are online shipping company and you can easily ship your goods in time. <br/>
