@@ -202,18 +202,19 @@ export class Profile extends React.Component {
     enableEdit = () => {
         const { editable } = this.state;
         const { userProfile } = this.props;
-        this.setState({
-            firstname : userProfile.firstname,
-            // eslint-disable-next-line prefer-destructuring
-            lastname : userProfile.lastname,
-            // eslint-disable-next-line prefer-destructuring
-            email : userProfile.email,
-            // eslint-disable-next-line prefer-destructuring
-            phonenumber : userProfile.phonenumber,
-            // eslint-disable-next-line prefer-destructuring
-            address : userProfile.address,
-            editable: !editable
-        });
+        if(userProfile !== null)
+            this.setState({
+                firstname : userProfile.firstname,
+                // eslint-disable-next-line prefer-destructuring
+                lastname : userProfile.lastname,
+                // eslint-disable-next-line prefer-destructuring
+                email : userProfile.email,
+                // eslint-disable-next-line prefer-destructuring
+                phonenumber : userProfile.phonenumber,
+                // eslint-disable-next-line prefer-destructuring
+                address : userProfile.address,
+                editable: !editable
+            });
     }
 
     render(){
