@@ -263,6 +263,7 @@ router.post('/signup', [
 
         transport.sendMail(message, function(err, info) {
             if (err) {
+console.log(err);
                 res.status(500).send();
             } else {
                 // TODO: Save User info to DB
