@@ -245,6 +245,8 @@ router.post('/signup', [
         // TODO: Send Email with Verification code to User email and save User data to DB
         let transport = nodemailer.createTransport({
             service: 'gmail',
+            secure: false,//true
+            port: 25,//465
             tls: { rejectUnauthorized: false },
             auth: {
                 user: process.env.SERVER_EMAIL,
