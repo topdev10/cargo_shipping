@@ -14,6 +14,8 @@ import GtIntelBackgroundShip from '../../images/gt-intl-background-ship.jpg';
 import GtIntelBackgroundLocal from '../../images/gt-intl-background-local.jpg';
 import GtIntelBackgroundAir from '../../images/gt-intl-background-flight.jpg';
 
+import Config from '../../config';
+
 const Container = styled.div`
     display: flex;
     align-items: center;
@@ -290,7 +292,7 @@ const Login = (props) => {
         setCompany(e.target.value);
     };
 
-    const linkedInAuthUri = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86w9dm8at7hfq5&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fauth%2Flinkedin&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share";
+    const linkedInAuthUri = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Config.LINKEDIN_CLIENT_ID}&redirect_uri=${Config.LINKEDIN_REDIRECT_URL_DEPLOY}&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share`;
     let leftShow;
     if(display === "step1" && !cpRequested || cpSuccess)
         leftShow = <LeftSide>

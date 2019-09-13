@@ -260,7 +260,7 @@ router.post('/signup', [
             to: req.body.email,         // List of recipients
             subject: 'Please Verify your Freight Genius Account.', // Subject line
             // text: `Your Verification Code is ${m_code}`, // Plain text body
-            html: `<h1>Here is your verification Code! </h1> <p><b>${m_code}</b></p><br/><h1>Or you can just click this link to activate your account</h1><a>${process.env.FRONT_URL_LOCAL}/auth/${req.body.username}/${m_token}</a>`
+            html: `<h1>Here is your verification Code! </h1> <p><b>${m_code}</b></p><br/><h1>Or you can just click this link to activate your account</h1><a>${process.env.FRONT_URL_DEPLOY}/auth/${req.body.username}/${m_token}</a>`
         };
 
         transport.sendMail(message, function(err, info) {
@@ -363,7 +363,7 @@ function handshake(code, ores) {
     var data = querystring.stringify({
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: process.env.LINKEDIN_REDIRECT_URL_LOCAL,//should match as in Linkedin application setup
+        redirect_uri: process.env.LINKEDIN_REDIRECT_URL_DEPLOY,//should match as in Linkedin application setup
         client_id: process.env.LINKEDIN_CLIENT_ID,
         client_secret: process.env.LINKEDIN_SECRET_KEY// the secret
     });
@@ -399,10 +399,10 @@ function handshake(code, ores) {
                     {
                         const emailAddr = profile.elements[0]['handle~'].emailAddress;
                         console.log(emailAddr);
-                        ores.redirect(`${process.env.FRONT_URL_LOCAL}/linkedIn/${emailAddr}/Guest`)
+                        ores.redirect(`${process.env.FRONT_URL_DEPLOY}/linkedIn/${emailAddr}/Guest`)
                     }
                 })
-            else ores.redirect(`${process.env.FRONT_URL_LOCAL}/login`)
+            else ores.redirect(`${process.env.FRONT_URL_DEPLOY}/login`)
         });
         req.on('error', function (e) {
             console.log("problem with request: " + e.message);
