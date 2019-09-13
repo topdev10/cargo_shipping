@@ -2,13 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Tab from '@material-ui/core/Tab';
+import MonetizationOn from '@material-ui/icons/MonetizationOn';
 
 import BillingDashboardItem from './BillingDashboardItem';
 
 const Container = styled.div`
     position: relative;
     display: flex;
-    height: calc(100% - 48px);
+    flex: 1;
     flex-direction: column;
     z-index: 999;
 `;
@@ -43,6 +45,7 @@ const DashboardBillings = (props) => {
 
     return (
         <Container>
+            <Tab icon={<MonetizationOn />} label="Invoices" disabled/>
             {billings!==null&&
                 <BillingDashboardItem billings={billings}></BillingDashboardItem>
             }

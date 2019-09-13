@@ -2,13 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Tab from '@material-ui/core/Tab';
+import AssessmentRounded from '@material-ui/icons/AssessmentRounded';
 
 import DashboardReportsItem from './DashboardReportsItem';
 
 const Container = styled.div`
     position: relative;
     display: flex;
-    height: calc(100% - 48px);
+    flex: 1;
     flex-direction: column;
     z-index: 999;
 `;
@@ -43,6 +45,7 @@ const DashboardReports = (props) => {
 
     return (
         <Container>
+            <Tab icon={<AssessmentRounded />}  label="Reports" disabled/>
             {reports!==null&&
                 <DashboardReportsItem reports={reports}></DashboardReportsItem>
             }

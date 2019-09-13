@@ -3,12 +3,15 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import Tab from '@material-ui/core/Tab';
+import AssignmentRounded from '@material-ui/icons/AssignmentRounded';
+
 import QuotesDashboardItem from './quotesDashboardItem';
 
 const Container = styled.div`
     position: relative;
     display: flex;
-    height: calc(100% - 48px);
+    flex: 1;
     flex-direction: column;
     z-index: 999;
 `;
@@ -43,6 +46,7 @@ const ActiveQuotes = (props) => {
 
     return (
         <Container>
+            <Tab icon={<AssignmentRounded />} label="Quotes" disabled/>
             {quotes!==null&&
                 <QuotesDashboardItem quotes={quotes}></QuotesDashboardItem>
             }

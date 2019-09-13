@@ -20,6 +20,7 @@ const Container = styled.div`
     justify-content: center;
     width: 100%;
     height: 100vh;
+    overflow-y: hidden;
     flex-direction: row;
     font-familiy: 'Rubik';
     flex-direction: column;
@@ -77,7 +78,7 @@ const CustomSelector = styled.select`
     border-radius: 4px;
     border: 1px solid #E8ECEF;
     margin: 10px 0px 20px 0px;
-    padding: 7px 10px;
+    padding: 10px 10px;
     width: 400px;
     height: 52px;
     transition: border-color .15s 
@@ -156,7 +157,7 @@ const ForgotPasswordBTN = styled.button`
 const SignupButton = styled.button`
     display: flex;
     width: 400px;
-    height: 52px;
+    padding: 18px 8px;
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
@@ -177,7 +178,7 @@ const SignupButton = styled.button`
 const LoginButton = styled.button`
     display: flex;
     width: 400px;
-    height: 52px;
+    padding: 18px 8px;
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
@@ -198,7 +199,7 @@ const LoginButton = styled.button`
 const LoginLinkedInBtn = styled.a`
     display: flex;
     width: 400px;
-    height: 52px;
+    padding: 18px 8px;
     border-radius: 4px;
     justify-content: center;
     align-items: center;

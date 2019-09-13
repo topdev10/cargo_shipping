@@ -1,11 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+// import Tabs from '@material-ui/core/Tabs';
+// import Tab from '@material-ui/core/Tab';
 // import DirectionsBoatRounded from '@material-ui/icons/DirectionsBoatRounded';
-import AssignmentRounded from '@material-ui/icons/AssignmentRounded';
-import AssessmentRounded from '@material-ui/icons/AssessmentRounded';
-import MonetizationOn from '@material-ui/icons/MonetizationOn';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -47,6 +44,8 @@ const GoogleMapWrapper = styled.div`
 
 const DetailsContainer = styled.div`
     height: 55%;
+    display: flex;
+    flex-direction: column;
     position: relative;
     overflow: hidden;
     padding: 0px 20px 20px 20px;
@@ -55,12 +54,22 @@ const DetailsContainer = styled.div`
     left: 0px;
 `;
 
+const InfosContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    flex: 1;
+    @media ${Device.laptop} {
+        flex-direction: row;
+    }
+`;
+
 class Dashboard extends React.Component {
     
     constructor(props){
         super(props);
         this.state = {
-            tabIndex: 0,
+            // tabIndex: 0,
         };
     }
 
@@ -72,10 +81,10 @@ class Dashboard extends React.Component {
         }
     }
 
-    handleTabChange = (e, newValue) => {
-        e.preventDefault();
-        this.setState({tabIndex: newValue});
-    }
+    // handleTabChange = (e, newValue) => {
+    //     e.preventDefault();
+    //     this.setState({tabIndex: newValue});
+    // }
 
     render(){
         const data = {latitude: 31.024956, longitude: 121.441061};
@@ -101,31 +110,26 @@ class Dashboard extends React.Component {
                 longitude: 42.542654
             }
         ];
-        const { tabIndex } = this.state;
+        // const { tabIndex } = this.state;
         return (
             <Container>
                 <GoogleMapWrapper>
                     <Map data={data} locationList={locationList}/>
                 </GoogleMapWrapper>
                 <DetailsContainer>
-                    <Tabs
-                        value={tabIndex}
-                        onChange={this.handleTabChange}
-                        variant="fullWidth"
-                        indicatorColor="secondary"
-                        textColor="secondary"
-                        aria-label="icon label tabs example"
-                        style={{height: "56px", alignItems: "center"}}
-                    >
-                        {/* <Tab icon={<DirectionsBoatRounded/>} label="Shipments" wrapped={flag}/> */}
-                        <Tab icon={<AssignmentRounded />} label="Quotes"/>
-                        <Tab icon={<MonetizationOn />} label="Invoices"/>
-                        <Tab icon={<AssessmentRounded />}  label="Reports"/>
-                    </Tabs>
+                    {/* <Tab icon={<DirectionsBoatRounded/>} label="Shipments" wrapped={flag}/>
+                    <Tab icon={<AssignmentRounded />} label="Quotes" disabled/>
+                    <Tab icon={<MonetizationOn />} label="Invoices" disabled/>
+                    <Tab icon={<AssessmentRounded />}  label="Reports" disabled/> */}
                     {/* {tabIndex===0&&<ActiveShipments/>} */}
-                    {tabIndex===0&&<ActiveQuotes/>}
+                    <InfosContainer>
+                        <ActiveQuotes/>
+                        <DashboardBillings />
+                        <DashboardReports />
+                    </InfosContainer>
+                    {/* {tabIndex===0&&<ActiveQuotes/>}
                     {tabIndex===1&&<DashboardBillings/>}
-                    {tabIndex===2&&<DashboardReports/>}
+                    {tabIndex===2&&<DashboardReports/>} */}
                 </DetailsContainer>
             </Container>
         );
