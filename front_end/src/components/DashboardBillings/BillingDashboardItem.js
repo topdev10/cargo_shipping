@@ -3,14 +3,18 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Subtitles from '@material-ui/icons/SubtitlesOutlined';
+import Device from '../../css/device';
 
 const Container = styled.div`
     display: flex;
     position: relative;
     flex-direction: column;
     width: 100%;
-    height: 100%;
-    overflow-y: scroll;
+    height: auto;
+    overflow-y: auto;
+    @media ${Device.laptop} {
+        height: calc(100% - 48px);
+    }
 `;
 
 const BillingsItem = styled.div`

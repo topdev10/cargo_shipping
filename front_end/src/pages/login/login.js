@@ -14,12 +14,15 @@ import GtIntelBackgroundShip from '../../images/gt-intl-background-ship.jpg';
 import GtIntelBackgroundLocal from '../../images/gt-intl-background-local.jpg';
 import GtIntelBackgroundAir from '../../images/gt-intl-background-flight.jpg';
 
+import Config from '../../config';
+
 const Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100vh;
+    overflow-y: hidden;
     flex-direction: row;
     font-familiy: 'Rubik';
     flex-direction: column;
@@ -77,7 +80,7 @@ const CustomSelector = styled.select`
     border-radius: 4px;
     border: 1px solid #E8ECEF;
     margin: 10px 0px 20px 0px;
-    padding: 7px 10px;
+    padding: 10px 10px;
     width: 400px;
     height: 52px;
     transition: border-color .15s 
@@ -156,7 +159,7 @@ const ForgotPasswordBTN = styled.button`
 const SignupButton = styled.button`
     display: flex;
     width: 400px;
-    height: 52px;
+    padding: 18px 8px;
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
@@ -177,7 +180,7 @@ const SignupButton = styled.button`
 const LoginButton = styled.button`
     display: flex;
     width: 400px;
-    height: 52px;
+    padding: 18px 8px;
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
@@ -198,7 +201,7 @@ const LoginButton = styled.button`
 const LoginLinkedInBtn = styled.a`
     display: flex;
     width: 400px;
-    height: 52px;
+    padding: 18px 8px;
     border-radius: 4px;
     justify-content: center;
     align-items: center;
@@ -289,7 +292,7 @@ const Login = (props) => {
         setCompany(e.target.value);
     };
 
-    const linkedInAuthUri = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=86w9dm8at7hfq5&redirect_uri=http%3A%2F%2Flocalhost%3A8000%2Fauth%2Flinkedin&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share";
+    const linkedInAuthUri = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Config.LINKEDIN_CLIENT_ID}&redirect_uri=${Config.LINKEDIN_REDIRECT_URL_DEPLOY}&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share`;
     let leftShow;
     if(display === "step1" && !cpRequested || cpSuccess)
         leftShow = <LeftSide>

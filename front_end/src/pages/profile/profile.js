@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { pageActions } from '../../actions';
 import { history } from '../../helpers';
+import Device from '../../css/device';
 
 const Container = styled.div`
     position: relative;
@@ -20,7 +21,11 @@ const InfoContainer = styled.div`
     flex-direction: column;
     height: calc(100% - 75px);
     background: #f8fafb;
-    padding: 50px 64px;
+    padding: 24px 8px;
+    overflow-y: auto;
+    @media ${Device.laptop} {
+        padding: 50px 64px;
+    }
 `;
 
 const Title = styled.h1`

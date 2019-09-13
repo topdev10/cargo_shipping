@@ -5,14 +5,18 @@ import PropTypes from 'prop-types';
 import AirplanemodeActiveOutlined from '@material-ui/icons/AirplanemodeActiveOutlined';
 import LocalShipping from '@material-ui/icons/LocalShipping';
 import DirectionsBoatOutlined from '@material-ui/icons/DirectionsBoatOutlined';
+import Device from '../../css/device';
 
 const Container = styled.div`
     display: flex;
     position: relative;
     flex-direction: column;
     width: 100%;
-    height: 100%;
-    overflow-y: scroll;
+    height: auto;
+    overflow-y: auto;
+    @media ${Device.laptop} {
+        height: calc(100% - 48px);
+    }
 `;
 
 const ReportsItem = styled.div`
