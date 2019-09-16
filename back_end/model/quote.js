@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 var QuoteSchema = new mongoose.Schema({
     id: {
         type: String,
+        unique: true,
         required: true,
     },
     email: {
         type: String,
-        unique: true,
         required: true,
         trim: true
     },
@@ -24,7 +24,7 @@ var QuoteSchema = new mongoose.Schema({
     },
     cargoReadyDate: {
         type: Date,
-        default: null,
+        default: new Date(),
     },
     from: {
         type: String,
