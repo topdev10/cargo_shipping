@@ -6,6 +6,29 @@ const Quote = require('../model/quote');
 const Auth = require('../controller/auth');
 const dotenv = require('dotenv');
 var http = require('https');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, callback){
+        callback(null, './uploads/');
+    },
+    filename: function(req, file, callback){
+        callback(null, file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png')
+        cb(null, true);
+    else cb(null, false);
+};
+
+const upload = multer({storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+});
 
 // Define the dotenv package
 dotenv.config();
@@ -87,7 +110,7 @@ router.post('/addQuote', [
                 });
 
                 newQuote.save((error, result) => {
-                    if(error) res.status(426).send();   // previous request failed
+                    if(error) res.status(500).send();   // previous request failed
                     else res.status(200).send();        // Success
                 })
             } else res.status(401).send();
@@ -117,7 +140,7 @@ router.post('/updateQuote', [
                     submittedBy: req.body.submittedBy,
                     status: req.body.status
                 }, (error, modified) => {
-                    if(error) res.status(426).send();   // previous request failed
+                    if(error) res.status(500).send();   // previous request failed
                     else if(modified.nModified>0) res.status(200).send();   //profile successfully updated
                     else res.status(426).send();                    //update failed (426: failed previous request)
                 })
@@ -139,7 +162,7 @@ router.post('/removeQuote', [
             if(err) res.status(401).send(); //Unauthorized User or Token
             else if(result) {
                 Quote.deleteOne({ id: req.body.id }, (error, result) => {
-                    if(error) res.status(426).send();   // previous request failed
+                    if(error) res.status(500).send();   // previous request failed
                     else if(result) res.status(200).send();   //profile successfully updated
                 })
             } else res.status(401).send();
@@ -161,7 +184,7 @@ router.post('/getQuote', [
             if(err) res.status(401).send(); //Unauthorized User or Token
             else if(result) {
                 getOneQuote( req.body.id, req.body.email, (e1, r1) => {
-                    if(e1) res.status(426).send();
+                    if(e1) res.status(500).send();
                     else res.status(200).send(r1);
                 });
             } else res.status(401).send();
@@ -182,9 +205,33 @@ router.post('/getAllQuotes', [
             if(err) res.status(401).send(); //Unauthorized User or Token
             else if(result) {
                 getAllQuotes(req.body.email, (e1, r1) => {
-                    if(e1) res.status(426).send();
+                    if(e1) res.status(500).send();
                     else res.status(200).send(r1);
                 });
+            } else res.status(401).send();
+        });
+    }
+});
+
+// Upload New Quote Document
+router.post('/uploadQD', upload.single('newQuotePDF'),[
+    check('email', "Invalid Email").isEmail(),
+    check('id', "ID is required").isEmail(),
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).send({ errors: errors.array() });
+    } else {
+        const token = req.headers.authorization?req.headers.authorization.substring(7):"";
+        Auth.authenticate(req.body.email, token, (err, result) => {
+            if(err) res.status(401).send(); //Unauthorized User or Token
+            else if(result) {
+                // TODO: Save 
+                Quote.findOneAndUpdate({id: req.body.id, email: req.body.email}, {document: req.file.path}, (e1, r1) => {
+                    if(e1) res.status(500).send();
+                    else if(r1.nModified > 0) res.status(200).send();
+                    else res.status(426).send();
+                })
             } else res.status(401).send();
         });
     }

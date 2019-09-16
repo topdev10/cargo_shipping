@@ -24,6 +24,7 @@ var ProfileSchema = new mongoose.Schema({
   },
   img: {
     type: String,
+    default: "/uploads/default.png"
   },
 });
 var Profile = mongoose.model('Profile', ProfileSchema);

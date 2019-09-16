@@ -10,6 +10,29 @@ const dotenv = require('dotenv');
 const crypto = require('crypto');
 var http = require('https');
 var querystring = require('querystring');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, callback){
+        callback(null, './uploads/');
+    },
+    filename: function(req, file, callback){
+        callback(null, file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png')
+        cb(null, true);
+    else cb(null, false);
+};
+
+const upload = multer({storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+});
 
 // Define the dotenv package
 dotenv.config();
@@ -425,6 +448,14 @@ router.get('/linkedin', (req, res) => {
 
     //once the code is received handshake back with linkedin to send over the secret key
     handshake(req.query.code, res);
+});
+
+router.post('/uploadProfileImage', upload.single('profileAvatar'), (req, res, next) => {
+    // console.log(req.file);
+    Profile.findOneAndUpdate({email: req.body.email}, {img: req.file.path}, (err, result) => {
+        if(err) res.status(426).send();
+        else res.status(200).send();
+    });
 });
 
 router.post('/addprofile', [

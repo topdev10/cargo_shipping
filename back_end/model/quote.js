@@ -46,6 +46,10 @@ var QuoteSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 1,
+    },
+    document: {
+        type: String,
+        default: null,
     }
 });
 var Quote = mongoose.model('Quote', QuoteSchema);

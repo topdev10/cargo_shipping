@@ -25,6 +25,7 @@ db.once('open', function(){
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(flash());
+    // make uploads folder public
 
     app.use(session({
         cookie: { maxAge: 60000 },
@@ -46,6 +47,8 @@ db.once('open', function(){
     app.use(passport.initialize());
     app.use(passport.session());
 
+    app.use('/uploads', express.static('uploads'));
+    
     app.get('*', function(req, res, next){
         res.locals.user = req.user||null;
         next();
