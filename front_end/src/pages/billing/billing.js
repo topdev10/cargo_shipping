@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import Device from '../../css/device';
 
+import SearchBox from '../../components/BillFilters/SearchBox'
+import StatusBox from '../../components/BillFilters/StatusBox'
+
 const Container = styled.div`
     displa: flex;
     flex-direction: column;
@@ -21,7 +24,14 @@ const Container = styled.div`
 const Billing = () => {
     return (
         <Container>
-            This is Billing page
+            <div className="row">
+                <div className="col-md-3">
+                    <SearchBox />
+                </div>
+                <div className="col-md-3">
+                    <StatusBox />
+                </div>
+            </div>
         </Container>
     );
 };
