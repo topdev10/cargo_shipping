@@ -18,15 +18,21 @@ const Container = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
-    flex: 1;
-    height: 100%;
     justify-content: center;
     align-items: center;
     text-align: center;
     border: 2px solid ${maincolor};
     color: ${maincolor};
     cursor: pointer;
-    margin: 0px 8px;
+    width: calc((100vw - 16px - 64px) / 4);
+    height: calc((100vw - 16px - 36px) / 8);
+    float: left;
+    margin: 8px;
+
+    @media ${Device.laptopL} {
+        width: calc((100vw - 320px - 96px - 64px) / 4);
+        height: calc((100vw - 320px - 96px - 36px) / 8);
+    }
 
     &:hover{
         border: 2px solid red;
@@ -54,8 +60,7 @@ const ActionContainerBackImage = styled.img`
 `;
 
 const DetailsContainer = styled.div`
-    display: none;
-    height: 48px;
+    height: 32px;
     width: 100%;
     padding: 2px 4px;
     justify-content: center;
@@ -64,17 +69,21 @@ const DetailsContainer = styled.div`
     border-top: 2px solid;
     background: #ececec;
     font-size: 14px;
-
-    @media ${Device.laptopL} {
-        display: flex;
+    display: flex;
+    
+    @media ${Device.laptop} {
+        height: 48px
     }
 `;
 
 const RouteAndDateWrapper = styled.div`
-    display: flex;
+    display: none;
     flex-direction: column;
     flex: 3;
     color: black;
+    @media ${Device.laptop} {
+        display: flex;
+    }
 `;
 
 const ExtensionWrapper = styled.div`

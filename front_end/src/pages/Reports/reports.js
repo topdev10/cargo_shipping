@@ -28,13 +28,8 @@ const Container = styled.div`
 `;
 
 const ReportsContainerRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    height: calc((100vw - 16px - 36px) / 8);
-
-    @media ${Device.laptop} {
-        height: calc((100vw - 320px - 96px - 36px) / 8);
-    }
+    justify-content: center;
+    margin-bottom: 12px;
 `;
 
 class Reports extends React.Component {
@@ -65,21 +60,22 @@ class Reports extends React.Component {
     render(){
         const { reports } = this.props;
         const { pageIndex } = this.state;
+
         return (
             <Container>
                 {
-                    reports === null
-                        ?<div>Reports null</div>
-                        :<div>Have reports</div>
+                    pageIndex === 0 &&<ReportsContainerRow>
+                        <NewReport onNewReport={this.onNewReport} />
+                        {
+                            reports !== null
+                                &&(
+                                    reports.length > 0 && 
+                                        reports.map((report) =>
+                                            <ExistingReport onExistingReport={this.onExistingReport} data={report} key={report.id}/>)
+                                )
+                        }
+                    </ReportsContainerRow>
                 }
-                <ReportsContainerRow>
-                    <NewReport onNewReport={this.onNewReport}></NewReport>
-                    <ExistingReport onExistingReport={this.onExistingReport} />
-                    <ExistingReport onExistingReport={this.onExistingReport} />
-                    <ExistingReport onExistingReport={this.onExistingReport} />
-                </ReportsContainerRow>
-                This is Reports page
-                {pageIndex&&<div>New Report Clicked</div>}
             </Container>
         );
     }

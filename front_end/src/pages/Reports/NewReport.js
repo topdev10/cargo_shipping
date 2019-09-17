@@ -6,17 +6,25 @@ import { connect } from 'react-redux';
 import NewReportNormal from '../../images/add-report-normal.png';
 import NewReportActive from '../../images/add-report-active.png';
 
+import Device from '../../css/device';
+
 const Container = styled.div`
     display: flex;
-    flex: 1;
-    height: 100%;
     justify-content: center;
     align-items: center;
     text-align: center;
     border: 2px dashed #51d1f5;
     color: #51d1f5;
     cursor: pointer;
-    margin: 0px 8px;
+    width: calc((100vw - 16px - 64px) / 4);
+    height: calc((100vw - 16px - 36px) / 8);
+    float: left;
+    margin: 8px;
+
+    @media ${Device.laptopL} {
+        width: calc((100vw - 320px - 96px - 64px) / 4);
+        height: calc((100vw - 320px - 96px - 36px) / 8);
+    }
 
     &:hover{
         border: 2px solid #51d1f5;
