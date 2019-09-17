@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import Pdf from "react-to-pdf";
 import { connect } from 'react-redux';
 import { quoteActions } from '../../actions';
-// import Device from '../../css/device';
+
+import Device from '../../css/device';
+
+import PinStart from '../../images/maps-and-flags.png';
+import Anchor from '../../images/big-anchor.png';
+import DownloadIcon from '../../images/file.png';
+
 const ref = React.createRef();
 const options = {
     orientation: 'landscape',
@@ -18,7 +24,7 @@ const Container = styled.div`
     position: absolute;
     top: 0px;
     height: calc(100vh - 64px);
-    padding: 40px 25px 0px 25px;
+    padding: 40px 25px 10px 25px;
     overflow: auto;
     width: 100%;
     left: 0px;
@@ -49,16 +55,13 @@ const DownloadButton = styled.button`
     display: flex;
     border-radius: 6px;
     padding: 0px 8px;
-    border: 2px solid #576cef;
 
     &:hover {
-        border: 2px solid #007708;
         background: #d3f1ef;
     }
 `;
 
 const ContainerTitle = styled.h1`
-    display: flex;
     flex: 1;
     font-size: 18px;
     font-weight: 600;
@@ -107,6 +110,9 @@ const TransitItemBottom = styled.h1`
 
 const RestInformationContainer = styled.div`
     display: flex;
+    flex-direction: row;
+    padding: 0px 12px;
+    margin: 12px 0px;
 `;
 
 const RequestButton = styled.button`
@@ -120,9 +126,143 @@ const RequestButton = styled.button`
     font-size: 18px;
 
     &:hover {
-        background: #4D7CFE;
+        background: #FE7C4D;
         color: white;
     }
+`;
+
+const RateAndRouteContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    @media ${Device.laptopL} {
+        flex-direction: row;
+    }
+`;
+
+const RateInformationContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+`;
+
+const RouteContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-left: 0px;
+    @media ${Device.laptopL} {
+        margin-left: 16px;
+        width: 400px;
+        min-width: 340px;
+    }
+`;
+
+const RateSubContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0px;
+`;
+
+const SubLabelRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px solid #ccc;
+`;
+
+const SubValueRow = styled.div`
+    padding: 5px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`;
+
+const SubtotalRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 5px 0px;
+`;
+
+const BLabel = styled.h1`
+    flex: 2;
+    font-size: 16px;
+    font-weight: 500;
+`;
+
+const SLabel = styled.h1`
+    flex: 1;
+    font-size: 16px;
+    font-weight: 400;
+`;
+
+const RouteHeadRow = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
+const RouteFirstForm = styled.div`
+    display: flex;
+    flex-direction: column;
+    margin: 12px 0px;
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    padding: 8px 0px;
+`;
+
+const RouteFirstFormRow = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
+const RouteFirstFormElement = styled.div`
+    display: flex;
+    flex: 1;
+    justify-content: center;
+`;
+
+const RouteSecondForm = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+const RouteSecondFormPlaceRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    border-left: 2px solid #ccc;
+    width: calc(100% - 67px);
+    height: 45px;
+    justify-content: center;
+`;
+
+const RouteSecondFormLabelRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    text-transform: uppercase;
+    width: 100%;
+    padding: 0px 20px;
+`;
+
+const CustomIcon = styled.img`
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    height: 24px;
+    width: 30px;
+    background: #eee;
+    border: 2px solid #ccc;
+`;
+
+const RouteDiaLabel = styled.h1`
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
 `;
 
 class QuoteDetails extends React.Component{
@@ -147,8 +287,8 @@ class QuoteDetails extends React.Component{
                             Quote Details:
                         </HeadTitle>
                         
-                        <Pdf targetRef={ref} filename="code-example.pdf" options={options} onComplete={e => requestFreightQuote(e, newquote)}>
-                            {({ toPdf }) => <DownloadButton onClick={toPdf}>Download</DownloadButton>}
+                        <Pdf targetRef={ref} filename="QuoteDetails.pdf" options={options} onComplete={e => requestFreightQuote(e, newquote)}>
+                            {({ toPdf }) => <DownloadButton onClick={toPdf}><img src={DownloadIcon} alt="Download"/></DownloadButton>}
                         </Pdf>
                     </HeadRow>
                     <TransitInformationContainer>
@@ -192,8 +332,108 @@ class QuoteDetails extends React.Component{
                             </TransitItem>
                         </TransitInformationSecondRow>
                     </TransitInformationContainer>
+                    <RateAndRouteContainer>
+                        <RateInformationContainer>
+                            <ContainerTitle>Rate Information</ContainerTitle>
+                            <RateSubContainer>
+                                <SubLabelRow>
+                                    <BLabel>Freight Charges</BLabel>
+                                    <SLabel>Rate</SLabel>
+                                    <SLabel>Quantity</SLabel>
+                                    <SLabel style={{textAlign: "right", flex: 2}}>Price</SLabel>
+                                </SubLabelRow>
+                                <SubValueRow>
+                                    <BLabel>FCL - 40 HQ Container</BLabel>
+                                    <SLabel>$1,917.60</SLabel>
+                                    <SLabel>x 1 container</SLabel>
+                                    <SLabel style={{textAlign: "right", flex: 2}}>$1,917.60</SLabel>
+                                </SubValueRow>
+                                <SubtotalRow>
+                                    <ContainerTitle>Subtotal</ContainerTitle>
+                                    <ContainerTitle style={{textAlign: "right", flex: 2}}>$1,917.60</ContainerTitle>
+                                </SubtotalRow>
+                            </RateSubContainer>
+                            <RateSubContainer>
+                                <SubLabelRow>
+                                    <BLabel>Destination Charges</BLabel>
+                                    <SLabel>Rate</SLabel>
+                                    <SLabel>Quantity</SLabel>
+                                    <SLabel style={{textAlign: "right", flex: 2}}>Price</SLabel>
+                                </SubLabelRow>
+                                <SubValueRow>
+                                    <BLabel>Destination Handling</BLabel>
+                                    <SLabel></SLabel>
+                                    <SLabel></SLabel>
+                                    <SLabel style={{textAlign: "right", flex: 2}}>$63.00</SLabel>
+                                </SubValueRow>
+                                <SubtotalRow>
+                                    <ContainerTitle>Subtotal</ContainerTitle>
+                                    <ContainerTitle style={{textAlign: "right", flex: 2}}>$63.60</ContainerTitle>
+                                </SubtotalRow>
+                            </RateSubContainer>
+                            <RateSubContainer>
+                                <SubLabelRow>
+                                    <BLabel>Additional Charges</BLabel>
+                                    <SLabel>Rate</SLabel>
+                                    <SLabel>Quantity</SLabel>
+                                    <SLabel style={{textAlign: "right", flex: 2}}>Price</SLabel>
+                                </SubLabelRow>
+                                <SubValueRow>
+                                    <BLabel>Freight Insurance 2</BLabel>
+                                    <SLabel></SLabel>
+                                    <SLabel></SLabel>
+                                    <SLabel style={{textAlign: "right", flex: 2}}>0.4% of Insured Amount</SLabel>
+                                </SubValueRow>
+                                <SubtotalRow>
+                                    <ContainerTitle>Subtotal</ContainerTitle>
+                                    <ContainerTitle style={{textAlign: "right", flex: 2}}>$0.00</ContainerTitle>
+                                </SubtotalRow>
+                            </RateSubContainer>
+                        </RateInformationContainer>
+                        <RouteContainer>
+                            <RouteHeadRow>
+                                <ContainerTitle style={{flex: 1}}>Route</ContainerTitle>
+                                <BLabel style={{textAlign: "right"}}>Port To Port Estimate</BLabel>
+                            </RouteHeadRow>
+                            <RouteFirstForm>
+                                <RouteFirstFormRow>
+                                    <RouteFirstFormElement>Origin:</RouteFirstFormElement>
+                                    <RouteFirstFormElement>Port to Port:</RouteFirstFormElement>
+                                    <RouteFirstFormElement>Destination:</RouteFirstFormElement>
+                                </RouteFirstFormRow>
+                                <RouteFirstFormRow>
+                                    <RouteFirstFormElement>--</RouteFirstFormElement>
+                                    <RouteFirstFormElement>~ 13 days</RouteFirstFormElement>
+                                    <RouteFirstFormElement>--</RouteFirstFormElement>
+                                </RouteFirstFormRow>
+                            </RouteFirstForm>
+                            <RouteSecondForm>
+                                <RouteSecondFormLabelRow>
+                                    <CustomIcon src={PinStart}/>
+                                    <RouteDiaLabel>
+                                        Place of Pickup
+                                    </RouteDiaLabel>
+                                </RouteSecondFormLabelRow>
+                                <RouteSecondFormPlaceRow>Yantian, China</RouteSecondFormPlaceRow>
+                                <RouteSecondFormLabelRow>
+                                    <CustomIcon src={Anchor}/>
+                                    <RouteDiaLabel>
+                                        Place of Pickup
+                                    </RouteDiaLabel>
+                                </RouteSecondFormLabelRow>
+                                <RouteSecondFormPlaceRow>Yantian, China</RouteSecondFormPlaceRow>
+                                <RouteSecondFormLabelRow>
+                                    <CustomIcon src={Anchor} />
+                                    <RouteDiaLabel>
+                                        Place of Pickup
+                                    </RouteDiaLabel>
+                                </RouteSecondFormLabelRow>
+                                <RouteSecondFormPlaceRow>Yantian, China</RouteSecondFormPlaceRow>
+                            </RouteSecondForm>
+                        </RouteContainer>
+                    </RateAndRouteContainer>
                     <RestInformationContainer>
-                        <RequestButton onClick={e => requestFreightQuote(e, newquote)} > Next </RequestButton>
+                        <RequestButton onClick={e => requestFreightQuote(e, newquote)} > Cancel </RequestButton>
                     </RestInformationContainer>
                 </PDFContainer>
             </Container>

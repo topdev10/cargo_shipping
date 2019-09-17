@@ -268,7 +268,7 @@ class Quotes extends React.Component{
         const res = array.sort((a,b) => {
             if(sortBy === 'name') return a.name > b.name;
             if(sortBy === 'freight') return a.freight - b.freight;
-            if(sortBy === 'date') return a.cargoReadyState > b.cargoReadyState;
+            if(sortBy === 'date') return a.cargoReadyDate > b.cargoReadyDate;
             if(sortBy === 'from') return a.from > b.from;
             if(sortBy === 'to') return a.to > b.to;
             if(sortBy === 'submitted') return a.submittedBy > b.submittedBy;
@@ -421,7 +421,7 @@ class Quotes extends React.Component{
                                             {row.freight===3&&<LocalShipping />}
                                         </TableCell>
                                         <TableCell align="center" style={{minWidth: "170px"}}>
-                                            {row.cargoReadyState}
+                                            {row.cargoReadyDate}
                                         </TableCell>
                                         <TableCell align="center" style={{maxWidth: "115px"}}>
                                             {row.from}
