@@ -1,0 +1,71 @@
+.toolbox {
+    padding: 4px;
+}
+
+.toolkit {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.toolkit .left-icon {
+    text-align: center;
+}
+
+.highlight {
+    border-color:#80bdff;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+}
+
+.row .grid-divider > [class*="col-"]:nth-child(n + 2):after {
+    content: "";
+    background-color: #ccc;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.highlight > [class*="col-"]:nth-child(n + 2):after {
+    background-color: #80bdff !important;
+}
+
+.grid-divider {
+    /* overflow-x: hidden; */
+    position: relative;
+}
+  
+.grid-divider > [class*="col-"]:nth-child(n + 2):after {
+    content: "";
+    background-color: #ccc;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+.highlight > [class*="col-"]:nth-child(n + 2):after {
+    background-color: #80bdff !important;
+}
+
+@media (max-width: 767px) {
+    .grid-divider > [class*="col-"]:nth-child(n + 2):after {
+      width: 100%;
+      height: 1px;
+      left: 0;
+      top: -4px;
+    }
+}
+
+@media (min-width: 768px) {
+.grid-divider > [class*="col-"]:nth-child(n + 2):after {
+      width: 1px;
+      height: auto;
+      left: -1px;
+    }
+}
