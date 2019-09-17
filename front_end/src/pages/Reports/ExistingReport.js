@@ -121,6 +121,11 @@ const ExistingReport = (props) => {
 
     const [background, setBackground] = React.useState(ReportNormal);
 
+    function onEditReport(e) {
+        e.preventDefault();
+        onExistingReport();
+    }
+
     return(
         <Container onClick={onExistingReport} 
             onMouseEnter={() => setBackground(ReportActive)}
@@ -130,7 +135,7 @@ const ExistingReport = (props) => {
             </ActionContainer>
             <ActionButtonContainer>
                 <EditWrapper>
-                    <CustomTooltip title="Edit">
+                    <CustomTooltip title="Edit" onClick={e=> onEditReport(e)}>
                         <Edit />
                     </CustomTooltip>
                 </EditWrapper>
