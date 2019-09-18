@@ -18,6 +18,7 @@ function login(email, password, checked, company) {
             }
             else if( res != null ){
                 dispatch(success({email: res.uemail, username: res.username ,password, company}));
+                dispatch(alertActions.success("login success"));
                 history.push('/landing');
             }
         });
