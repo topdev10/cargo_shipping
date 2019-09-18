@@ -16,14 +16,18 @@ const theme = createMuiTheme({
 });
 
 const options = [
-    { value: 1, label: "All dates" },
-    { value: 2, label: "This year" },
-    { value: 3, label: "Last year" },
-    { value: 4, label: "Next Month" },
-    { value: 5, label: "This Month" },
-    { value: 6, label: "Last Month" },
-    { value: 7, label: "Next 7 days" },
-    { value: 8, label: "Custom" },
+    { value: 1, label: "All Currencies" },
+    { value: 2, label: "USD" },
+    { value: 3, label: "EUR" },
+    { value: 4, label: "CNY" },
+    { value: 5, label: "GBP" },
+    { value: 6, label: "JPY" },
+    { value: 7, label: "HKD" },
+    { value: 8, label: "CAD" },
+    { value: 9, label: "AUD" },
+    { value: 10, label: "KRW" },
+    { value: 11, label: "NZD" },
+    { value: 12, label: "SEK" },
 ];
 
 class CurrencyBox extends Component {
