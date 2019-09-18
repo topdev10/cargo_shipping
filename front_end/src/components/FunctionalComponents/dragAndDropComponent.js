@@ -41,15 +41,12 @@ const DADComponent = styled.div`
 
     &:hover {
         color: blue;
+        cursor: grabbing;
     }
 `;
 
 const SelectIcon = styled.span`
     cursor: grab;
-
-    &:hover {
-        cursor: grabbing;
-    }
 `;
 
 const NextButton = styled.div`
@@ -89,8 +86,8 @@ const DragAndDropComponent = (props) => {
                     {items.map(p => {
                         return (
                             <Draggable key={p.id} style={{width: "100%", padding: "4px", margin: "4px"}}>
-                                <DADComponent>
-                                    <SelectIcon className="column-drag-handle" style={{float:'left', padding:'0 10px'}}>&#x2630;</SelectIcon>
+                                <DADComponent className="column-drag-handle">
+                                    <SelectIcon style={{float:'left', padding:'0 10px'}}>&#x2630;</SelectIcon>
                                     {p.label}
                                 </DADComponent>
                             </Draggable>

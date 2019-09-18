@@ -11,6 +11,7 @@ const crypto = require('crypto');
 var http = require('https');
 var querystring = require('querystring');
 const multer = require('multer');
+var Pusher = require('pusher');
 
 const storage = multer.diskStorage({
     destination: function(req, file, callback){
@@ -37,7 +38,29 @@ const upload = multer({storage: storage,
 // Define the dotenv package
 dotenv.config();
 
+/**
+ *  Implement Notification Feature with Pusher
+ **/
 
+// Declare Main Chanel for Notificaiton
+var channels_client = new Pusher({
+    appId: process.env.PUSHER_APP_ID,
+    key: process.env.PUSHER_KEY,
+    secret: process.env.PUSHER_SECRET,
+    cluster: process.env.PUSHER_CLUSTER,
+    encrypted: true
+});
+
+//Send Notification Function
+const sendNotification = (message, eventType) => {
+    channels_client.trigger(process.env.PUSHER_CHANNEL|"tpChannel", eventType, {
+        "message": message 
+    });
+}
+
+/**
+ * Main Routing...
+ */
 router.post('/login', [
     check('password', "Invalid Length").isLength({min: 6})
 ], function(req, res){
