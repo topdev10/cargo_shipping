@@ -22,7 +22,10 @@ import Assessment from '@material-ui/icons/Assessment';
 import MonetizationOn from '@material-ui/icons/MonetizationOn';
 import Assignment from '@material-ui/icons/Assignment';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
-import { userActions, pageActions } from '../actions';
+import Pusher from 'pusher-js';
+import { userActions, pageActions, alertActions } from '../actions';
+
+import Config from '../config';
 
 import logo from '../images/logo.svg';
 import { pageConstants } from "../constants";
@@ -164,7 +167,21 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = (props) => {
-    const { username, email, logout, getProfile, loadPage } = props;
+
+    // Pusher.logToConsole = true;
+    /**
+     * Implement Notification With Pusher
+     */
+    const pusher = new Pusher(Config.PUSHER_KEY, {
+        cluster: Config.PUSHER_CLUSTER,
+        forceTLS: true
+    });
+
+    const channel = pusher.subscribe(Config.PUSHER_CHANNEL);
+    /**
+     * Functional Component Main Body
+     */
+    const { username, email, logout, getProfile, loadPage, notification } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -172,6 +189,11 @@ const Header = (props) => {
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    // Wait for New Notification
+    channel.bind('notification', (data) => {
+        notification(JSON.stringify(data));
+    });
 
     function handleProfileMenuOpen(event) {
         setAnchorEl(event.currentTarget);
@@ -375,6 +397,7 @@ Header.propTypes = {
     logout: PropTypes.func.isRequired,
     getProfile: PropTypes.func.isRequired,
     loadPage: PropTypes.func.isRequired,
+    notification: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -388,6 +411,7 @@ const actionCreators = {
     logout: userActions.logout,
     getProfile: pageActions.getProfile,
     loadPage: pageActions.loadPage,
+    notification: alertActions.notification,
 };
 
 export default connect(mapStateToProps, actionCreators)(Header);

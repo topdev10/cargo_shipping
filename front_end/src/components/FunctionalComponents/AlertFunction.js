@@ -5,6 +5,7 @@ import { useAlert } from 'react-alert';
 import styled from 'styled-components';
 
 import { alertActions } from '../../actions';
+import { alertConstants } from '../../constants';
 
 const Mbutton = styled.div`
     display: none;
@@ -31,7 +32,30 @@ const AlertFunction = (props) => {
     const { clear, alert } = props;
 
     if(cnt === 0){
-        Alert.show((alert!==null||alert!=='undefined')?alert.message:"you have no message");
+        if(alert!==null||alert!=='undefined'){
+            switch(alert.type){
+            case alertConstants.SUCCESS:
+                Alert.success(alert.message);
+                break;
+            case alertConstants.ERROR:
+                Alert.error(alert.message);
+                break;
+            case alertConstants.NOTIFICATION:
+                Alert.info(alert.message, {
+                    timeout: 5000,
+                    onOpen: () => {
+                        console.log("You have new Notification");
+                    },
+                    onClose: () => {
+                        console.log("You closed New Notification");
+                    }
+                });
+                break;
+            default:
+                Alert.info(alert.message);
+                break;
+            }
+        }
         cnt += 1;
         clear();
     }

@@ -13,9 +13,9 @@ const GlobalStyle = createGlobalStyle`${reset}`;
 // optional cofiguration
 const options = {
     // you can also just use 'bottom center'
-    position: positions.BOTTOM_CENTER,
-    timeout: 5000,
-    offset: '30px',
+    position: positions.TOP_RIGHT,
+    timeout: 3000,
+    offset: '80px 20px',
     // you can also just use 'scale'
     transition: transitions.SCALE
 };
