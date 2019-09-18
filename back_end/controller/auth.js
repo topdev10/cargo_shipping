@@ -8,5 +8,10 @@ module.exports = {
             else if(res) callback(null, res)
             else callback("UnAuthrized", null)
         });
+    },
+    authenticate: function(req) {
+        if(!req.session.user)
+            return false;
+        else return true;
     }
 }
