@@ -18,11 +18,15 @@ import Shipments from './pages/shipments/shipments';
 import Billing from './pages/billing/billing';
 import Reports from './pages/Reports/reports';
 
+import AlertFunction from './components/FunctionalComponents/AlertFunction';
+
 const Routes = (props) => {
-    const { username } = props;
+    // alert.show('oh look, an alert!');
+    const { username, alerts } = props;
     return (
         <Router history={history}>
             <Fragment>
+                {alerts !== null && <AlertFunction />}
                 {username !== 'newuser' && <Header></Header>}
                 <Switch>
                     <AuthRoute exact path="/landing" component={Landing}/>
@@ -49,13 +53,20 @@ const Routes = (props) => {
     );
 };
 
+Routes.defaultProps = {
+    alerts: null,
+};
+
 Routes.propTypes = {
     username: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    alerts: PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
         username: state.auth.user ? state.auth.user.email : "newuser",
+        alerts: state.alert
     };
 }
 export default connect(mapStateToProps)(Routes);
