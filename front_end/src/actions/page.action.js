@@ -156,16 +156,22 @@ function loadPage(page) {
             ],
             billings: [
                 {
-                    id: "FLEX-68880",
-                    venderID: "VND-58453-22123",
-                    state: 1,
+                    shipID: "FLEX-68880",
+                    id: "FLEX-68880-2",
                     date: "2019-08-31",
+                    balance: "$13,063.43"
                 },
                 {
-                    id: "FLEX-31845",
-                    venderID: "VND-74253-73122",
-                    state: 1,
+                    shipID: "FLEX-31845",
+                    id: "FLEX-31845-3",
                     date: "2019-09-01",
+                    balance: "$11,136.67"
+                },
+                {
+                    shipID: "FLEX-31225",
+                    id: "FLEX-31225-1",
+                    date: "2019-09-21",
+                    balance: "$2,436.72"
                 }
             ],
             reports: [

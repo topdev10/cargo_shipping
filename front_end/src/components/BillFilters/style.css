@@ -19,8 +19,8 @@
     display: inline-block;
     vertical-align: middle;
     float: none;
-    justify-content: center;
-    align-items: center;
+    padding: 0 0 !important;
+    text-align: center;
     margin: auto;
 }
 
@@ -51,6 +51,15 @@
 
 .highlight > [class*="col-"]:nth-child(n + 2):after {
     background-color: #80bdff !important;
+}
+
+.dropdown-heading {
+    border: none !important;
+}
+
+.dropdown-heading:hover,
+.dropdown-heading:hover .dropdown-heading-value span {
+  border-color: #80bdff !important;
 }
 
 @media (max-width: 767px) {

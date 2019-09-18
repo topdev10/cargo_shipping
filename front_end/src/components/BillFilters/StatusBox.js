@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 
-import '../BillFilters/style.css';
+import "./style.css";
 
 import Explore from '@material-ui/icons/Explore';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
-import MultiSelect from "@khanacademy/react-multi-select";
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import MultiSelect from "@khanacademy/react-multi-select";
+import Checkbox from 'material-ui/Checkbox';
+
+const muiTheme = getMuiTheme({});
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -16,45 +21,83 @@ const theme = createMuiTheme({
 });
 
 const options = [
-    {label: "One", value: 1},
-    {label: "Two", value: 2},
-    {label: "Three", value: 3},
+    { value: 1, label: "Past-due" },
+    { value: 2, label: "Outstanding" },
+    { value: 3, label: "Paid" },
+    { value: 4, label: "Voided" },
 ];
 
 class StatusBox extends Component {
 
     state = {
-        focus: false,
-        selected: [],
-    };
-    
-    onFocus = () => {
-        // this.setState({ focus: true });
+        selectedOptions: [],
     };
 
-    onBlur = () => {
-        this.setState({ focus: false });
-    };
+    handleSelectedChanged = (selectedOptions) => (
+        this.setState({ selectedOptions })
+    )
+
+    handleUnselectItem = (removedVal) => () => (
+        this.setState({
+            selectedOptions: this.state.selectedOptions
+                .filter(option => option !== removedVal)
+        })
+    )
+
+    renderOption = ({ checked, option, onClick }) => (
+        <Checkbox
+            label={option.label}
+            onCheck={onClick}
+            checked={checked}
+            iconStyle={{ fill: '#80bdff' }}
+        />
+    )
+
+    renderSelected = (selected, properties) => {
+        if (!properties.length) {
+            return <span>No Status available</span>;
+        }
+
+        if (!selected.length) {
+            return <span>Select Status</span>;
+        }
+
+        if (selected.length === properties.length) {
+            return <span>All Status</span>;
+        }
+
+        if (selected.length > 3) {
+            return <span>Selected {selected.length} users</span>;
+        }
+
+    }
 
     render() {
-        const {selected} = this.state;
+        const { selectedOptions } = this.state;
         return (
-            <div className={"container toolkit " + (focus ? 'highlight' : '')}>
-                <div className={"row grid-divider " + (focus ? 'highlight' : '')}>
-                    <div className="col-md-3 vcenter">
+            <div className="container toolkit">
+                <div className="row grid-divider">
+                    <div className="col-md-2 vcenter">
                         <div className="left-icon">
                             <ThemeProvider theme={theme}>
-                                <Explore color={focus ? 'primary' : 'disabled'} />
+                                <Explore color='primary' />
                             </ThemeProvider>
                         </div>
                     </div>
-                    <div className="col-md-9">
+                    <div className="col-md-10">
+                        <div className="toolbox">
                             <span>Status</span>
-                            <MultiSelect
-                                options={options}
-                                selected={selected}
-                                onSelectedChanged={selected => this.setState({selected})}
-                            />
+                            <MuiThemeProvider muiTheme={muiTheme}>
+                                <MultiSelect
+                                    options={options}
+                                    selected={selectedOptions}
+                                    ItemRenderer={this.renderOption}
+                                    valueRenderer={this.renderSelected}
+                                    onSelectedChanged={this.handleSelectedChanged}
+                                    disableSearch
+                                />
+                            </MuiThemeProvider>
+                        </div>
                     </div>
                 </div>
             </div>
