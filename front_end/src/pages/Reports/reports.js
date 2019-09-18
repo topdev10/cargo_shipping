@@ -6,10 +6,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 import { withStyles } from '@material-ui/core/styles';
 
 import { pageConstants } from '../../constants';
-import { pageActions } from '../../actions';
+import { pageActions, reportActions } from '../../actions';
 
 import Device from '../../css/device';
 import NewReport from './NewReport';
@@ -71,9 +73,37 @@ const NewReportContainer = styled.div`
     align-items: center;
 
     @media ${Device.laptop} {
-        width: calc(60vw - 128px);
+        width: calc(72vw - 128px);
         height: calc(90vh - 96px);
     }
+`;
+
+const NewReportInputContainer = styled.div`
+    position: relative;
+    display: flex;
+    background: #fff;
+    width: calc(100vw - 24px);
+    height: calc(100vh - 18px);
+    border-radius: 12px;
+    border: 2px solid #ccc,
+    boxShadow: 2px,
+    padding: 12px,
+    border-radius: 20px;
+    justify-content: center;
+    align-items: center;
+
+    @media ${Device.laptop} {
+        width: calc(72vw - 128px);
+        height: calc(90vh - 96px);
+    }
+`;
+
+const NewQuoteInputRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin: 4px 12px;
+    padding: 4px;
+    align-items: center;
 `;
 
 const reportNodes = [
@@ -167,7 +197,8 @@ class Reports extends React.Component {
         super(props);
         
         this.state = {
-            openNewReport: false,
+            openNewReportSetting: false,
+            openNewReportInput: false,
             filterList: [],
         };
     }
@@ -180,16 +211,54 @@ class Reports extends React.Component {
     }
     
     onNewReport = () => {
-        this.setState({ openNewReport: true });
+        this.setState({ openNewReportSetting: true });
+    }
+
+    handleCloseNewReport = () => {
+        this.setState({openNewReportSetting: false, openNewReportInput: false });
+    };
+
+    onNewReportInput = () => {
+        this.setState({ openNewReportInput: true});
+    }
+
+    handleCloseNewReportInput = () => {
+        this.setState({ openNewReportInput: false });
     }
 
     onExistingReport = () => {
 
     }
 
-    handleCloseNewReport = () => {
-        this.setState({openNewReport: false});
+    handleCheckedStateChanged = (checked) => {
+        // eslint-disable-next-line react/destructuring-assignment
+        let tmpList = [];
+        let i = 0;
+        checked.forEach(item => {
+            tmpList.push({
+                id: i,
+                value: item,
+                label: this.getLabel(item)
+            });
+            i += 1;
+        });
+        this.setState({filterList: tmpList});
     };
+
+    onHandleDrop = (e) => {
+        const { filterList } = this.state;
+        this.setState({ filterList: applyDrag(filterList, e)});
+    }
+
+    handleNextStep = () => {
+        this.setState({openNewReportSetting: false, openNewReportInput: true});
+    }
+
+    handleRequestNewReport = () => {
+        // eslint-disable-next-line react/prop-types
+        const { requestNewQuote, report } = this.props;
+        requestNewQuote(report);
+    }
 
     getLabel = (value) => {
         let result = "";
@@ -249,35 +318,11 @@ class Reports extends React.Component {
         return result;
     };
 
-    handleCheckedStateChanged = (checked) => {
-        // eslint-disable-next-line react/destructuring-assignment
-        let tmpList = [];
-        let i = 0;
-        checked.forEach(item => {
-            tmpList.push({
-                id: i,
-                value: item,
-                label: this.getLabel(item)
-            });
-            i += 1;
-        });
-        this.setState({filterList: tmpList});
-    };
-
-    onHandleDrop = (e) => {
-        const { filterList } = this.state;
-        this.setState({ filterList: applyDrag(filterList, e)});
-    }
-
-    handleNextStep = () => {
-
-    }
-
     render(){
 
         // eslint-disable-next-line react/prop-types
         const { classes, reports } = this.props;
-        const { openNewReport, filterList } = this.state;
+        const { openNewReportSetting, openNewReportInput, filterList } = this.state;
 
         return (
             <Container>
@@ -297,7 +342,7 @@ class Reports extends React.Component {
                     aria-describedby="spring-modal-description"
                     // eslint-disable-next-line react/prop-types
                     className={classes.modal}
-                    open={openNewReport}
+                    open={openNewReportSetting||openNewReportInput}
                     onClose={() => this.handleCloseNewReport()}
                     closeAfterTransition
                     BackdropComponent={Backdrop}
@@ -305,12 +350,33 @@ class Reports extends React.Component {
                         timeout: 500,
                     }}
                 >
-                    <Fade in={openNewReport}>
-                        <NewReportContainer>
-                            <TreeMultiSelector reportNodes={reportNodes} handleChecked={this.handleCheckedStateChanged} handleCancel={this.handleCloseNewReport} handleNext={this.handleNextStep}/>
-                            <DragAndDropComponent items={filterList} handleDrop={this.onHandleDrop}/>
-                        </NewReportContainer>
-                    </Fade>
+                    {
+                        openNewReportSetting?
+                            <Fade in={openNewReportSetting}>
+                                <NewReportContainer>
+                                    <TreeMultiSelector reportNodes={reportNodes} handleChecked={this.handleCheckedStateChanged} handleCancel={this.handleCloseNewReport} />
+                                    <DragAndDropComponent items={filterList} handleDrop={this.onHandleDrop} handleNext={this.handleNextStep}/>
+                                </NewReportContainer>
+                            </Fade>:
+                            openNewReportInput&&
+                            <Fade in={openNewReportInput}>
+                                <NewReportInputContainer>
+                                    <NewQuoteInputRow>
+                                        <InputLabel htmlFor="report-title">
+                                            Report Title
+                                        </InputLabel>
+                                        <Input
+                                            defaultValue="Routes - Active Shipments"
+                                            label="Report Title"
+                                            inputProps={{
+                                                'aria-label': 'description',
+                                            }}
+                                            id="report-title"
+                                        />
+                                    </NewQuoteInputRow>
+                                </NewReportInputContainer>
+                            </Fade>
+                    }
                 </Modal>
             </Container>
         );
@@ -325,15 +391,18 @@ Reports.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     reports: PropTypes.array,
     loadPage: PropTypes.func.isRequired,
+    requestNewQuote: PropTypes.func.isRequired,
 };
 
 const actionCreators = {
     loadPage: pageActions.loadPage,
+    requestNewQuote: reportActions.requestNewQuote,
 };
 
 function mapStateToProps(state) {
     return {
         reports: state.page.info!==null?state.page.info.reports: null,
+        newReport: state.report.report,
     };
 }
 

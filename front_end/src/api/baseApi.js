@@ -159,6 +159,10 @@ const BaseApi = {
     requestNewQuote(data, callback) {
         callback(null, true);
     },
+
+    requestNewReport(report, callback) {
+        callback(null, true);
+    }
 };
 
 export default BaseApi;

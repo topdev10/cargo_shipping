@@ -74,7 +74,7 @@ const NextButton = styled.div`
 
 const DragAndDropComponent = (props) => {
     // eslint-disable-next-line react/prop-types
-    const { items, handleDrop } = props;
+    const { items, handleDrop, handleNext } = props;
 
     return (
         <DADContainer>
@@ -95,7 +95,7 @@ const DragAndDropComponent = (props) => {
                     })}
                 </Container>
             </DADWrapper>
-            <NextButton>Next</NextButton>
+            <NextButton onClick={handleNext}>Next</NextButton>
         </DADContainer>
     );
 };
