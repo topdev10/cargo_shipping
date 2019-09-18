@@ -324,7 +324,7 @@ const Header = (props) => {
     );
   
     return (
-        <div className={classes.grow}>
+        <div className={classes.grow} >
             <ThemeProvider theme={theme}>
                 <AppBar position="fixed" color="inherit">
                     <Toolbar>

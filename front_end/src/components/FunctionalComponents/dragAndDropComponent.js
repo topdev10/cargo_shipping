@@ -10,7 +10,6 @@ const DADContainer = styled.div`
     flex: 1;
     height: 100%;
     padding: 32px 12px 12px 12px;
-    overflow: auto;
 `;
 
 const DADHeader = styled.div`
@@ -27,12 +26,13 @@ const DADWrapper = styled.div`
     display: flex;
     height: 100%;
     border: 2px solid #ccc;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 `;
 
 const DADComponent = styled.div`
     display: flex;
-    width: 100%;
+    width: calc(100% - 8px);
     flex-direction: row;
     color: black;
     border: 2px solid #ccc;
@@ -88,7 +88,7 @@ const DragAndDropComponent = (props) => {
                 <Container dragHandleSelector=".column-drag-handle" style={{width: "100%"}} onDrop={(e) => handleDrop(e)}>
                     {items.map(p => {
                         return (
-                            <Draggable key={p.id} style={{width: "100%"}}>
+                            <Draggable key={p.id} style={{width: "100%", padding: "4px", margin: "4px"}}>
                                 <DADComponent>
                                     <SelectIcon className="column-drag-handle" style={{float:'left', padding:'0 10px'}}>&#x2630;</SelectIcon>
                                     {p.label}
