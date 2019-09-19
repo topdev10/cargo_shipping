@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Modal from 'react-modal';
 
 import Device from '../../css/device';
 import SearchBox from '../../components/BillFilters/SearchBox';
@@ -8,6 +9,7 @@ import DateRangeBox from '../../components/BillFilters/DateRangeBox';
 import CurrencyBox from '../../components/BillFilters/CurrencyBox';
 import ToolBar from '../../components/BillFilters/ToolBar';
 import BillsTable from '../../components/BillFilters/BillsTable';
+import CardPayment from '../../components/BillFilters/CardPayment';
 
 import "./style.css";
 
@@ -27,8 +29,44 @@ const Container = styled.div`
     }
 `;
 
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+    }
+};
+Modal.setAppElement('#root');
 // eslint-disable-next-line react/prefer-stateless-function
 class Billing extends React.Component {
+    constructor() {
+        super();
+     
+        this.state = {
+            modalIsOpen: false
+        };
+     
+        this.openModal = this.openModal.bind(this);
+        this.afterOpenModal = this.afterOpenModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    openModal() {
+        this.setState({modalIsOpen: true});
+    }
+     
+    afterOpenModal() {
+        // references are now sync'd and can be accessed.
+        // this.subtitle.style.color = '#f00';
+    }
+     
+    closeModal() {
+        this.setState({modalIsOpen: false});
+    }
+
     render() {
         return (
             <Container>
@@ -49,7 +87,15 @@ class Billing extends React.Component {
                         </div>
                     </div>
                 </div>
-                <BillsTable />
+                <BillsTable makePayment={this.openModal}/>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onAfterOpen={this.afterOpenModal}
+                    onRequestClose={this.closeModal}
+                    style={customStyles}
+                    contentLabel="Example Modal"
+                ><CardPayment /></Modal>
+                
             </Container>
         );
     }

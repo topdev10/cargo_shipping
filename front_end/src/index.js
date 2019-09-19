@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AlertTemplate from 'react-alert-template-basic';
 import { Provider} from 'react-redux';
 import { createGlobalStyle } from 'styled-components';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
+
+import AlertTemplate from './components/AlertTemplate';
 import store from './store';
 import Routes from './routes';
 import reset from './constants/css/reset';
@@ -14,10 +15,10 @@ const GlobalStyle = createGlobalStyle`${reset}`;
 const options = {
     // you can also just use 'bottom center'
     position: positions.BOTTOM_RIGHT,
-    timeout: 5000,
-    offset: '20px 20px',
+    timeout: 4000,
+    offset: '10px 10px',
     // you can also just use 'scale'
-    transition: transitions.SCALE
+    transition: transitions.FADE,
 };
 
 const App = () => (
