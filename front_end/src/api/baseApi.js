@@ -184,7 +184,12 @@ const BaseApi = {
     },
 
     requestNewQuote(data, callback) {
-        callback(null, true);
+        this.baseApi({
+            sub_url: 'api/addQuote',
+            method: 'POST',
+            data
+        },
+        (err, res) => callback(err, res));
     },
 
     requestNewReport(report, callback) {

@@ -6,8 +6,24 @@ import BaseApi from '../api/baseApi';
 function requestFreightQuote(data) {
     function request(_data) {return { type: quoteConstants.REQUEST_FREIGHT_QUOTE, _data};};
     function success(_data) {return { type: quoteConstants.SUCCESS_FREIGHT_QUOTE, _data};};
-    function failure(error) {return { type: quoteConstants.FAILED_FREIGHT_QUOTE, error};};
     
+    return dispatch => {
+        dispatch(request(data));
+        dispatch(success(data));
+    };
+}
+
+function onNewFreightQuote() {
+    return {
+        type: quoteConstants.ON_NEW_FREIGHT_QUOTE,
+    };
+}
+
+function onReviewFreightQuote(data) {
+    function request(_data) {return { type: quoteConstants.REQUEST_FREIGHT_QUOTE, _data};};
+    function success(_data) {return { type: quoteConstants.SUCCESS_FREIGHT_QUOTE, _data};};
+    function failure(error) {return { type: quoteConstants.FAILED_FREIGHT_QUOTE, error};};
+
     return dispatch => {
         dispatch(request(data));
 
@@ -19,19 +35,6 @@ function requestFreightQuote(data) {
                 dispatch(success(data));
             }
         });
-    };
-}
-
-function onNewFreightQuote() {
-    return {
-        type: quoteConstants.ON_NEW_FREIGHT_QUOTE,
-    };
-}
-
-function onReviewFreightQuote(data) {
-    return {
-        type: quoteConstants.ON_REVIEW_FREIGHT_QUOTE,
-        quote: data
     };
 }
 
