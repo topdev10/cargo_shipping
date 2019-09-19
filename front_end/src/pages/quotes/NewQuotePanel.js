@@ -434,7 +434,7 @@ const NewQuotePanel = (props) => {
     }
 
     function onOriginPortChanged(event) {
-        setOriginPort(event.target.value);
+        setOriginPort(parseInt(event.target.value,10));
     }
 
     function onChangePickupDate(event) {
@@ -447,7 +447,7 @@ const NewQuotePanel = (props) => {
     }
 
     function onDestPortChanged(event) {
-        setDestPort(event.target.value);
+        setDestPort(parseInt(event.target.value, 10));
     }
 
     function onDestLocationChanged(event) {
@@ -616,10 +616,10 @@ const NewQuotePanel = (props) => {
                 <OriginRow>
                     <OriginInLabel>Origin Port *</OriginInLabel>
                     <DefaultSelector value={originPort} onChange={e => onOriginPortChanged(e)}>
-                        <DefaultSelectorOption value={1} > Port of Houston </DefaultSelectorOption>
-                        <DefaultSelectorOption value={2} > Port of Shanghai </DefaultSelectorOption>
-                        <DefaultSelectorOption value={3} > Port of Qingdao </DefaultSelectorOption>
-                        <DefaultSelectorOption value={4} > Port Metro Vancouver </DefaultSelectorOption>
+                        <DefaultSelectorOption value="1" > Port of Houston </DefaultSelectorOption>
+                        <DefaultSelectorOption value="2" > Port of Shanghai </DefaultSelectorOption>
+                        <DefaultSelectorOption value="3" > Port of Qingdao </DefaultSelectorOption>
+                        <DefaultSelectorOption value="4" > Port Metro Vancouver </DefaultSelectorOption>
                     </DefaultSelector>
                 </OriginRow>
                 <OriginRow>
@@ -640,10 +640,10 @@ const NewQuotePanel = (props) => {
                 <DestinationRow>
                     <DestinationInLabel>Destination Port *</DestinationInLabel>
                     <DefaultSelector value={destPort} onChange={e => onDestPortChanged(e)}>
-                        <DefaultSelectorOption value={1} > Port of Houston </DefaultSelectorOption>
-                        <DefaultSelectorOption value={2} > Port of Shanghai </DefaultSelectorOption>
-                        <DefaultSelectorOption value={3} > Port of Qingdao </DefaultSelectorOption>
-                        <DefaultSelectorOption value={4} > Port Metro Vancouver </DefaultSelectorOption>
+                        <DefaultSelectorOption value="1" > Port of Houston </DefaultSelectorOption>
+                        <DefaultSelectorOption value="2" > Port of Shanghai </DefaultSelectorOption>
+                        <DefaultSelectorOption value="3" > Port of Qingdao </DefaultSelectorOption>
+                        <DefaultSelectorOption value="4" > Port Metro Vancouver </DefaultSelectorOption>
                     </DefaultSelector>
                 </DestinationRow>
                 <DestinationRow>

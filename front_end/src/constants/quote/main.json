@@ -1,0 +1,29 @@
+{
+    "transportation_freight_methods": [
+        "Ocean Freight",
+        "Show Both",
+        "Air Freight",
+        "Truck"
+    ],
+    "transportation_shipment_types": [
+        "LCL",
+        "FCL"
+    ],
+    "transportation_container_types": [
+        "20 ft",
+        "40 ft",
+        "40 ft HC",
+        "45 ft HC"
+    ],
+    "transportation_incoterms": [
+        "FOB",
+        "EXW",
+        "Other"
+    ],
+    "port_lists": [
+        "Port of Houston",
+        "Port of Shanghai",
+        "Port of Qingdao",
+        "Port Metro Vancouver"
+    ]
+}
