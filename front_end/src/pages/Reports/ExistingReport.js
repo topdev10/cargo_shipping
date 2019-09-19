@@ -27,10 +27,10 @@ const Container = styled.div`
     width: calc((100vw - 16px - 64px) / 4);
     height: calc((100vw - 16px - 36px) / 8);
     float: left;
-    margin: 8px;
+    margin: 4px;
 
     @media ${Device.laptopL} {
-        width: calc((100vw - 320px - 96px - 64px) / 4);
+        width: calc((100vw - 320px - 96px - 48px) / 4);
         height: calc((100vw - 320px - 96px - 36px) / 8);
     }
 
