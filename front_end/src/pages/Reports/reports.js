@@ -215,7 +215,10 @@ class Reports extends React.Component {
     }
 
     handleCloseNewReport = () => {
-        this.setState({openNewReportSetting: false, openNewReportInput: false });
+        const { openNewReportSetting } = this.state;
+        if(openNewReportSetting)
+            this.setState({ openNewReportSetting: false });
+        else this.setState({ openNewReportInput: false });
     };
 
     onNewReportInput = () => {
@@ -223,7 +226,10 @@ class Reports extends React.Component {
     }
 
     handleCloseNewReportInput = () => {
-        this.setState({ openNewReportInput: false });
+        const { openNewReportSetting } = this.state;
+        if(openNewReportSetting)
+            this.setState({ openNewReportSetting: false });
+        else this.setState({ openNewReportInput: false });
     }
 
     onExistingReport = () => {
@@ -324,6 +330,40 @@ class Reports extends React.Component {
         const { classes, reports } = this.props;
         const { openNewReportSetting, openNewReportInput, filterList } = this.state;
 
+        let FadeComponent;
+
+        if(openNewReportSetting)
+            FadeComponent = <Fade in={openNewReportSetting}>
+                <NewReportContainer>
+                    <TreeMultiSelector reportNodes={reportNodes} handleChecked={this.handleCheckedStateChanged} handleCancel={this.handleCloseNewReport} />
+                    <DragAndDropComponent items={filterList} handleDrop={this.onHandleDrop} handleNext={this.handleNextStep}/>
+                </NewReportContainer>
+            </Fade>;
+        else if(openNewReportInput)
+            FadeComponent = <Fade in={openNewReportInput}>
+                <NewReportInputContainer>
+                    <NewQuoteInputRow>
+                        <InputLabel htmlFor="report-title">
+                            Report Title
+                        </InputLabel>
+                        <Input
+                            defaultValue="Routes - Active Shipments"
+                            label="Report Title"
+                            inputProps={{
+                                'aria-label': 'description',
+                            }}
+                            id="report-title"
+                        />
+                    </NewQuoteInputRow>
+                </NewReportInputContainer>
+            </Fade>;
+        else FadeComponent = <Fade in={openNewReportSetting}>
+            <NewReportContainer>
+                <TreeMultiSelector reportNodes={reportNodes} handleChecked={this.handleCheckedStateChanged} handleCancel={this.handleCloseNewReport} />
+                <DragAndDropComponent items={filterList} handleDrop={this.onHandleDrop} handleNext={this.handleNextStep}/>
+            </NewReportContainer>
+        </Fade>;
+
         return (
             <Container>
                 <ReportsContainerRow>
@@ -351,31 +391,7 @@ class Reports extends React.Component {
                     }}
                 >
                     {
-                        openNewReportSetting?
-                            <Fade in={openNewReportSetting}>
-                                <NewReportContainer>
-                                    <TreeMultiSelector reportNodes={reportNodes} handleChecked={this.handleCheckedStateChanged} handleCancel={this.handleCloseNewReport} />
-                                    <DragAndDropComponent items={filterList} handleDrop={this.onHandleDrop} handleNext={this.handleNextStep}/>
-                                </NewReportContainer>
-                            </Fade>:
-                            openNewReportInput&&
-                            <Fade in={openNewReportInput}>
-                                <NewReportInputContainer>
-                                    <NewQuoteInputRow>
-                                        <InputLabel htmlFor="report-title">
-                                            Report Title
-                                        </InputLabel>
-                                        <Input
-                                            defaultValue="Routes - Active Shipments"
-                                            label="Report Title"
-                                            inputProps={{
-                                                'aria-label': 'description',
-                                            }}
-                                            id="report-title"
-                                        />
-                                    </NewQuoteInputRow>
-                                </NewReportInputContainer>
-                            </Fade>
+                        FadeComponent
                     }
                 </Modal>
             </Container>
