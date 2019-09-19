@@ -375,10 +375,10 @@ const Login = (props) => {
 
     let backgroundImages;
     if(company === 'intexfreight'){
-        backgroundImages = <BackgroundSlider images={[ GtIntelBackgroundAir, GtIntelBackgroundLocal, GtIntelBackgroundShip ]}/>;
+        backgroundImages = <BackgroundSlider images={[ IntexFreightShip, IntexFreightTrain, IntexFreightTruck ]} />;
     }
     else if (company === 'Gt-Intl'){
-        backgroundImages = <BackgroundSlider images={[ IntexFreightShip, IntexFreightTrain, IntexFreightTruck ]} />;
+        backgroundImages = <BackgroundSlider images={[ GtIntelBackgroundAir, GtIntelBackgroundLocal, GtIntelBackgroundShip ]}/>;
     }
     return (
         <Container >

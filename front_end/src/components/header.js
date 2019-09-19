@@ -34,8 +34,8 @@ const SearchBox = styled.input`
     height: 42px;
     width: calc(100vw - 250px);
     margin-left: 15px;
-    border-radius: 20px;
-    border: 2px solid #ccc;
+    border-radius: 10px;
+    border: 2px solid #78c2ec;
     padding: 5px 15px 5px 50px;
 
     font-family: Rubik;
@@ -185,6 +185,7 @@ const Header = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
     const [searchValue, setSearchValue] = React.useState('');
+    const [onSearch, setSearchFlag] = React.useState(false);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -214,6 +215,7 @@ const Header = (props) => {
     function viewProfile(){
         // history.push("/profile");
         getProfile(username, email);
+        handleMenuClose();
     }
 
     function gotoHomepage(){
@@ -350,13 +352,24 @@ const Header = (props) => {
                 <AppBar position="fixed" color="inherit">
                     <Toolbar>
                         <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onMouseDownCapture={gotoHomepage}/>
-                        <SearchBox type='text' value={searchValue} onChange={onSearchChanged} />
-                        <IconButton style={{position: "fixed", left: "275px"}} aria-label="Search">
-                            <SearchIcon />
-                        </IconButton>
-                        {/* <input type="text" value={searchValue} onChange={onSearchChanged} /> */}
+                        {
+                            onSearch&&<SearchBox type='text' value={searchValue} onChange={onSearchChanged} style={{opacity: 1}}/>
+                        }
+                        {
+                            onSearch&&<IconButton style={{position: "fixed", left: "275px"}} aria-label="Search" onClick={() => setSearchFlag(false)}>
+                                <SearchIcon />
+                            </IconButton>
+                        }
                         <div className={classes.grow} />
                         <div className={classes.sectionDesktop}>
+                            {
+                                !onSearch&&<IconButton  color='inherit' className={classes.mIconButton} onClick={() => setSearchFlag(true)}>
+                                    <SearchIcon />
+                                </IconButton>
+                            }
+                            <IconButton color='inherit' className={classes.mIconButton} onClick={gotoHomepage}>
+                                <Dashboard />
+                            </IconButton>
                             <IconButton color="inherit" className={classes.mIconButton}>
                                 <Badge badgeContent={0} color="secondary">
                                     <NotificationsIcon />
