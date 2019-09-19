@@ -229,8 +229,9 @@ export class Profile extends React.Component {
                 phonenumber : userProfile.phonenumber,
                 // eslint-disable-next-line prefer-destructuring
                 address : userProfile.address,
-                editable: !editable
             });
+        
+        this.setState({editable: !editable});
     }
 
     onAvatarChanged = (e) => {
