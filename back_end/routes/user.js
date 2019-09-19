@@ -67,7 +67,7 @@ router.post('/login', [
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).send({ errors: errors.array() });
-    } else if(Auth.authenticate(req))
+    } else if(Auth.auth(req))
         res.status(200).send();
     else {
         // Todo: Check if user exists in DB and save session
@@ -89,7 +89,7 @@ router.post('/login', [
                     if(isMatch){
                         if(user.status){
                             req.session.user = user;
-                            res.status(200).send({email: user.email, username: user.username}); //success response
+                            res.status(200).send({email: user.email, username: user.username, token: user.token}); //success response
                         } else {
                             res.status(403).send(); //Not Active user
                         }                        
@@ -279,7 +279,7 @@ router.post('/signup', [
         res.status(422).json({ errors: errors.array() });       //Return Validation Errors
     } else if(req.body.password != req.body.confirm_password){
         res.status(422).json({ errors: errors.array() });
-    } else if(Auth.authenticate(req))
+    } else if(Auth.auth(req))
         res.status(409).send();     //conflict
     else {
         let m_code = '';
@@ -491,7 +491,7 @@ router.post('/addprofile', [
     let errors = validationResult(req);
     if(!errors.isEmpty()){
         res.status(422).json({ errors: errors.array() });
-    } else {    //if(Auth.authenticate(req))
+    } else {    //if(Auth.auth(req))
         // TODO: Add profile into to DB based on email address
         Profile.findOne({email: req.body.email}, (error, profile) => {      //check if profile already exists
             // TODO: if profile exists Update current profile, otherwise add new profile to DB

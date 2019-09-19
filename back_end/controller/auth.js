@@ -9,7 +9,7 @@ module.exports = {
             else callback("UnAuthrized", null)
         });
     },
-    authenticate: function(req) {
+    auth: function(req) {
         if(!req.session.user)
             return false;
         else return true;
