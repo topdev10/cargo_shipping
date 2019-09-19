@@ -15,7 +15,7 @@ function getProfile(username, email) {
         BaseApi.getProfile({ username, email }, (error, profile) => {
             if(error){
                 dispatch(failure(error.toString()));
-                dispatch(alertActions.error(error.toString()));
+                dispatch(alertActions.error("Get Profile Failed"));
             } else if(profile===""){
                 dispatch(success(null));
             } else dispatch(success(profile));
@@ -25,8 +25,8 @@ function getProfile(username, email) {
 
 function updateProfile(profile) {
 
-    function request(_profile) { return { type: pageConstants.UPDATE_PROFILE_REQUEST, _profile }; }
-    function success(_profile) { return { type: pageConstants.UPDATE_PROFILE_SUCCESS, _profile }; }
+    function request(mprofile) { return { type: pageConstants.UPDATE_PROFILE_REQUEST, mprofile }; }
+    function success(mprofile) { return { type: pageConstants.UPDATE_PROFILE_SUCCESS, mprofile }; }
     function failure(error) { return { type: pageConstants.UPDATE_PROFILE_FAILED, error }; }
 
     return dispatch => {
@@ -34,9 +34,30 @@ function updateProfile(profile) {
         BaseApi.updateProfile(profile, (error) => {
             if(error){
                 dispatch(failure(error.toString()));
-                dispatch(alertActions.error(error.toString()));
+                dispatch(alertActions.error("Update Profile Failed"));
             } else {
-                dispatch(success({profile}));
+                dispatch(success(profile));
+                dispatch(alertActions.success("Update Profile Success!"));
+            }
+        });
+    };
+}
+
+function updateAvatar(data) {
+    function request(avatar) { return { type: pageConstants.UPDATE_AVATAR_REQUEST, avatar }; }
+    function success(avatar) { return { type: pageConstants.UPDATE_AVATAR_SUCCESS, avatar }; }
+    function failure(error) { return { type: pageConstants.UPDATE_AVATAR_FAILED, error }; }
+
+    return dispatch => {
+        dispatch(request(data));
+        console.log(data.avatar.name);
+        BaseApi.updateAvatar(data, (error, result) => {
+            if(error){
+                dispatch(failure(error.toString()));
+                dispatch(alertActions.error(error.toString()));
+            } else if(result) {
+                dispatch(success(data.avatar));
+                dispatch(alertActions.success("Update Avatar Success!"));
             }
         });
     };
@@ -386,6 +407,7 @@ function loadPage(page) {
 export const pageActions = {
     getProfile,
     updateProfile,
+    updateAvatar,
     loadPage,
 };
 

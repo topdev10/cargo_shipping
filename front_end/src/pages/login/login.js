@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Checkbox from '@material-ui/core/Checkbox';
 import BackgroundSlider from 'react-background-slider';
-import { userActions } from '../../actions';
+import { userActions, alertActions } from '../../actions';
 import Device from '../../css/device';
 
 import IntexFreightShip from '../../images/ship.png';
@@ -240,7 +240,7 @@ const BLabel = styled.label`
 
 const Login = (props) => {
 
-    const { history, login, forgotPassword, resetPassword, verifyCodeRequested, vCSuccess, cpRequested, cpSuccess } = props;
+    const { history, login, forgotPassword, resetPassword, verifyCodeRequested, error, vCSuccess, cpRequested, cpSuccess } = props;
     const [display, setDisplay] = React.useState("step1");
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -265,7 +265,7 @@ const Login = (props) => {
             // TODO: Change password and send request to back-end and redirect to login page or home page
             resetPassword(email, password, cpassword, code);
             setDisplay(step);
-        }
+        } else setDisplay('step1');
     }
 
     const handleChange = () => event => {
@@ -285,7 +285,7 @@ const Login = (props) => {
 
         if(email && password){
             login(email, password, checked, company);
-        }
+        } else error("Input Email & Password");
     };
 
     function handleCompanyChanged(e){
@@ -343,7 +343,7 @@ const Login = (props) => {
             <CLabel>Email Address</CLabel>
             <InputBox type="text" value={email} onChange={ handleInput('email') }/>
             <LoginButton onClick={(e) => resetpassword(e, 'step3')}>RESET PASSWORD</LoginButton>         
-            <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step1')}>Back to Login</ForgotPasswordBTN>
+            <ForgotPasswordBTN onClick={(e) => resetpassword(e, '')}>Back to Login</ForgotPasswordBTN>
         </LeftSide>;
     else if(display === 'step3' && vCSuccess)
         leftShow = <LeftSide>
@@ -413,6 +413,7 @@ Login.propTypes = {
     vCSuccess: PropTypes.bool,
     cpRequested: PropTypes.bool,
     cpSuccess: PropTypes.bool,
+    error:PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, props) {
@@ -430,6 +431,7 @@ const actionCreators = {
     login: userActions.login,
     forgotPassword: userActions.forgotPassword,
     resetPassword: userActions.resetPassword,
+    error: alertActions.error,
 };
 
 export default connect(mapStateToProps, actionCreators)(Login);

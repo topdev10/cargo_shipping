@@ -6,6 +6,9 @@ const initialState = {
     receivedProfile: false,
     profileUpdateRequsted: false,
     profileUpdateSuccess: false,
+    avatarUpdateRequested: false,
+    avatarUpdateSuccess: false,
+    avatarUpdateFailed: false,
     error: null,
     info: {
         shipments: null,
@@ -49,13 +52,31 @@ export function pages(state = initialState, action) {
             ...state,
             profileUpdateRequsted: false,
             profileUpdateSuccess: true,
+            userProfile: action.mprofile
         };
     case pageConstants.UPDATE_PROFILE_FAILED:
         return {
             ...state,
             profileUpdateRequsted: false,
             profileUpdateSuccess: false,
-            userProfile: null,
+        };
+    case pageConstants.UPDATE_AVATAR_REQUEST:
+        return {
+            ...state,
+            avatarUpdateRequested: true,
+        };
+    case pageConstants.UPDATE_AVATAR_FAILED:
+        return {
+            ...state,
+            avatarUpdateFailed: true,
+            avatarUpdateRequested: false,
+        };
+    case pageConstants.UPDATE_AVATAR_SUCCESS:
+        return {
+            ...state,
+            avatarUpdateSuccess: true,
+            avatarUpdateRequested: false,
+            userProfile: {...state.userProfile, img: `uploads/${action.avatar.name}`}
         };
     case pageConstants.DASHBOARD:
         return {

@@ -133,6 +133,33 @@ const BaseApi = {
         (err, res) => callback(err, res));
     },
 
+    updateAvatar(data, callback) {
+        const formData = new FormData();
+        formData.append('profileAvatar',data.avatar);
+        formData.append('email', data.email);
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data'
+            }
+        };
+        axios.post("auth/uploadProfileImage",formData,config)
+            .then((res) => {
+                callback(null, res);
+            }, (error) => {
+                switch(error.status){
+                case 401:
+                    callback("Unauthorized Request", null);
+                    break;
+                case 426:
+                    callback("Upload Avatar Failied", null);
+                    break;
+                default:
+                    callback("Upload Avatar Failied", null);
+                    break;
+                }
+            });
+    },
+
     forgotPassword(email, callback){
         this.baseApi({
             sub_url: 'auth/forgotPassword',
