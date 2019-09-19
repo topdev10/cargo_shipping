@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { pageConstants } from '../../constants';
 import { pageActions } from '../../actions';
 
-const columns = [
+const columns = (onMakePayment) => ([
     {
         name: 'Invoice #',
         selector: 'id',
@@ -31,10 +31,10 @@ const columns = [
         name: '',
         allowOverflow: true,
         cell: () => <div className="">
-            <button type="button" className="btn btn-default btn-outline-primary btn-sm">MakePayment</button><button type="button" className="btn btn-link btn-sm"><GetApp></GetApp></button></div>,
+            <button type="button" onClick={onMakePayment} className="btn btn-default btn-outline-primary btn-sm">MakePayment</button><button type="button" className="btn btn-link btn-sm"><GetApp></GetApp></button></div>,
     },
     
-];
+]);
 
 class BillsTable extends Component {
     componentDidMount() {
@@ -45,13 +45,13 @@ class BillsTable extends Component {
     }
     
     render() {
-        const { billings } = this.props;
+        const { billings, makePayment } = this.props;
         return (
             <div className="w-100 card board">
                 {
                     billings!==null?
                         <DataTable
-                            columns={columns}
+                            columns={columns(makePayment)}
                             data={billings}
                             fixedHeader
                             fixedHeaderScrollHeight="200px"
