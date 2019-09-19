@@ -61,14 +61,13 @@ const theme = createMuiTheme({
     },
 });
 
-// eslint-disable-next-line no-shadow
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(mtheme => ({
     grow: {
         flexGrow: 1,
         backgroundImage: "radial-gradient(circle at 1% 1%, #f7f9fc, #eff2f6)"
     },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: mtheme.spacing(2),
     },
     avatar_mobile:{
         width: 32,
@@ -83,7 +82,7 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto',
         marginLeft: "10px",
         color: "#515665",
-        [theme.breakpoints.up('sm')]: {
+        [mtheme.breakpoints.up('sm')]: {
             display: 'block',
         },
     },
@@ -106,16 +105,16 @@ const useStyles = makeStyles(theme => ({
         }
     },
     inputInput: {
-        padding: theme.spacing(1, 1, 1, 7),
-        transition: theme.transitions.create('width'),
+        padding: mtheme.spacing(1, 1, 1, 7),
+        transition: mtheme.transitions.create('width'),
         width: '100%',
-        [theme.breakpoints.up('md')]: {
+        [mtheme.breakpoints.up('md')]: {
             width: 200,
         },
     },
     sectionDesktop: {
         display: 'none',
-        [theme.breakpoints.up('md')]: {
+        [mtheme.breakpoints.up('md')]: {
             display: 'flex',
         },
     },
@@ -131,7 +130,7 @@ const useStyles = makeStyles(theme => ({
     },
     sectionMobile: {
         display: 'flex',
-        [theme.breakpoints.up('md')]: {
+        [mtheme.breakpoints.up('md')]: {
             display: 'none',
         },
     },

@@ -87,27 +87,31 @@ class Dashboard extends React.Component {
     // }
 
     render(){
-        const data = {latitude: 31.024956, longitude: 121.441061};
+        const data = {latitude: 31.023536, longitude: 121.424031};
         const locationList = [
             {
                 type: 1,
-                latitude: 31.002152,
-                longitude: 32.542654
+                label:"Flight",
+                latitude: 31.024056,
+                longitude: 121.441071
             },
             {
                 type: 2,
-                latitude: 21.002152,
-                longitude: 32.542654
+                label:"Boat",
+                latitude: 31.025976,
+                longitude: 121.431021
             },
             {
                 type: 3,
-                latitude: 29.002152,
-                longitude: 132.542654
+                label:"Local",
+                latitude: 31.023936,
+                longitude: 121.421031
             },
             {
                 type: 4,
-                latitude: 10.002152,
-                longitude: 42.542654
+                label:"Paused",
+                latitude: 31.022916,
+                longitude: 121.413090
             }
         ];
         // const { tabIndex } = this.state;
