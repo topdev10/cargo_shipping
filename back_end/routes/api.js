@@ -73,7 +73,7 @@ router.post('/getAll', [
 // Add New Quote API
 router.post('/addQuote', [
     check('email', "Invalid Email").isEmail(),
-    check('venderID', "Vender Id is required").not().isEmpty(),
+    // check('venderID', "Vender Id is required").not().isEmpty(),
     check('freight', "Freight is required").isNumeric(),
     check('cargoReadyDate', "Cargo Ready Date is Required").not().isEmpty(),
     check('from', "From is required").not().isEmpty(),
@@ -96,9 +96,8 @@ router.post('/addQuote', [
                 // const VID = "FREIGHT-" + pad(vidNum, 6);
                 // console.log(ID, VID);
                 const newQuote = new Quote({
-                    id: req.body.id,
                     email: req.body.email,
-                    venderID: req.body.venderID,
+                    // venderID: req.body.venderID,
                     name: req.body.name,
                     freight: req.body.freight,
                     cargoReadyDate: req.body.cargoreadyDate,
@@ -110,6 +109,7 @@ router.post('/addQuote', [
                 });
 
                 newQuote.save((error, result) => {
+                    console.log(error, "=========")
                     if(error) res.status(500).send();   // previous request failed
                     else res.status(200).send();        // Success
                 })

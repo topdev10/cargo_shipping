@@ -25,5 +25,9 @@
         "Port of Shanghai",
         "Port of Qingdao",
         "Port Metro Vancouver"
+    ],
+    "cargo_units": [
+        "kg/cbm",
+        "lb/cft"
     ]
 }

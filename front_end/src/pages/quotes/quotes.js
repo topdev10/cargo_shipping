@@ -73,84 +73,84 @@ const QuotesTableContainer = styled.div`
 const FreightSelectionButtonLeft = styled.button`
 
     border: ${props => {
-        let border = "2px solid #576cef";
+        let border = "2px solid grey";
         if(props.active)
-            border = "2px solid #007708";
+            border = "2px solid #4d7cfe";
         return border;
     }}
 
-    background: ${props => {
-        let background = "white";
+    color: ${props => {
+        let color = "grey";
         if(props.active)
-            background = "#d3f1ef";
-        return background;
+            color = "#4d7cfe";
+        return color;
     }}
 
     display: flex;
     border-radius: 6px 0px 0px 6px;
-    padding: 0px 8px;
+    padding: 0px 20px;
 
     &:hover {
-        border: 2px solid #007708;
-        background: #d3f1ef;
+        border: 2px solid #4d7cfe;
+        color: #4d7cfe;
     }
 `;
 
 const FreightSelectionButtonCenter = styled.button`
 
     border-top: ${props => {
-        let border = "2px solid #576cef";
+        let border = "2px solid grey";
         if(props.active)
-            border = "2px solid #007708";
+            border = "2px solid #4d7cfe";
         return border;
     }}
 
     border-bottom: ${props => {
-        let border = "2px solid #576cef";
+        let border = "2px solid grey";
         if(props.active)
-            border = "2px solid #007708";
+            border = "2px solid #4d7cfe";
         return border;
     }}
-    padding: 0px 8px;
+    padding: 0px 20px;
 
-    background: ${props => {
-        let background = "white";
+    color: ${props => {
+        let color = "grey";
         if(props.active)
-            background = "#d3f1ef";
-        return background;
+            color = "#4d7cfe";
+        return color;
     }}
 
     display: flex;
 
     &:hover {
         border: 2px 0px 2px 0px solid #576cef;
-        background: #d3f1ef;
+        color: #4d7cfe;
     }
 `;
 
 const FreightSelectionButtonRight = styled.button`
 
     border: ${props => {
-        let border = "2px solid #576cef";
+        let border = "2px solid grey";
         if(props.active)
-            border = "2px solid #007708";
+            border = "2px solid #4d7cfe";
         return border;
     }}
 
-    background: ${props => {
-        let background = "white";
+    color: ${props => {
+        let color = "grey";
         if(props.active)
-            background = "#d3f1ef";
-        return background;
+            color = "#4d7cfe";
+        return color;
     }}
 
     display: flex;
     border-radius: 0px 6px 6px 0px;
-    padding: 0px 8px;
+    padding: 0px 20px;
 
     &:hover {
-        border: 2px solid #007708;
-        background: #d3f1ef;
+        border: 2px solid #4d7cfe;
+        color: #4d7cfe;
     }
 `;
 
@@ -168,7 +168,7 @@ const RequestQuoteButton = styled.button`
     line-height: 17px;
     color: #FFFFFF;
     background: #4D7CFE;
-    padding: 0px 8px;
+    padding: 0px 20px;
     flex: flex-end;
     
     &:hover {
@@ -188,7 +188,7 @@ const ViewQuoteButton = styled.button`
     line-height: 17px;
     color: #FFFFFF;
     background: #4D7CFE;
-    padding: 0px 8px;
+    padding: 0px 20px;
     flex: flex-end;
 
     &:hover {

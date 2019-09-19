@@ -11,6 +11,7 @@ const BaseApi = {
             method: params.method,
             data: typeof params.data !== 'undefined' ? JSON.stringify(params.data) : {}
         };
+
         axios(request).then((res) => {
             if (callback) callback(res.status===200 ? null : res.status, res.data);
         }, (error) => {
@@ -41,9 +42,9 @@ const BaseApi = {
                     if (res!= null) {
                         if(checked)
                         {
-                            localStorage.user = JSON.stringify({email: res.email, username: res.username});
+                            localStorage.user = JSON.stringify({email: res.email, username: res.username, token: res.token});
                         }
-                        callback(null, {uemail: res.email, username: res.username});
+                        callback(null, {uemail: res.email, username: res.username, token: res.token});
                     } else callback(err, null);
                 } else callback(err, null);
             }
@@ -184,12 +185,32 @@ const BaseApi = {
     },
 
     requestNewQuote(data, callback) {
-        this.baseApi({
-            sub_url: 'api/addQuote',
-            method: 'POST',
-            data
-        },
-        (err, res) => callback(err, res));
+        // const formData = {
+        //     email: JSON.parse(localStorage.user).email,
+        //     name: data.shipmentName,
+        //     submittedBy: JSON.parse(localStorage.user).username,
+        //     freight: data.freightMethod,
+        //     cargoReadyDate: data.pickupReadyDate,
+        //     from: data.originPort,
+        //     to: data.destPort,
+        //     cargoDetails: data.description,
+        // };
+        // const config = {
+        //     headers: {
+        //         'authorization': `Bearer ${JSON.parse(localStorage.user).token}`
+        //     }
+        // };
+        
+        // axios.defaults.baseURL = Config.BACKEND_API_URL;
+        // axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+        // axios.post("/api/addQuote", formData, config)
+        //     .then((res) => {
+        //         callback(null, res);
+        //     }, (error) => {
+        //         callback(error, null);
+        //     });
+        callback(null, true);
     },
 
     requestNewReport(report, callback) {

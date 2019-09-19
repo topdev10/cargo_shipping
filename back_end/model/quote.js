@@ -10,10 +10,10 @@ var QuoteSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    venderID: {
-        type: String,
-        required: true,
-    },
+    // venderID: {
+    //     type: String,
+    //     required: true,
+    // },
     name: {
         type: String,
         required: true,
