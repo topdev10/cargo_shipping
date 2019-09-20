@@ -6,6 +6,7 @@ import Radio from '@material-ui/core/Radio';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
@@ -15,6 +16,7 @@ import Warning from '@material-ui/icons/Warning';
 
 import { quoteActions } from '../../actions';
 import NuClearIcon from '../../images/Nuclear_symbol.svg';
+import LocationSearchInput from '../../components/FunctionalComponents/LocationSearchInputBox';
 
 const Container = styled.div`
     display: flex;
@@ -383,11 +385,9 @@ const NewQuotePanel = (props) => {
     const [shipmentType, setShipmentType] = React.useState(2);
     const [containerType, setContainerType] = React.useState(1);
     const [incoterms, setIncotermsValue] = React.useState(1);
-    const [originLocation, setOriginLocation] = React.useState('ca');
     const [originPort, setOriginPort] = React.useState(1);
     const [pickupReadyDate, setPickupReadyDate] = React.useState("");
     const [delieverToLocation, setDelieverToLocation] = React.useState(false);
-    const [destLocation, setDestLocation] = React.useState('ca');
     const [destPort, setDestPort] = React.useState(1);
     const [targetDeliveryDate, setTargetDeliveryDate] = React.useState("");
     const [cargoUnit, setCargoUnit] = React.useState(true);
@@ -400,6 +400,23 @@ const NewQuotePanel = (props) => {
     const [haveLiquids, setHaveLiquids] = React.useState(false);
     const [haveNothing, setHaveNothing] = React.useState(true);
     const [instruction, setInstruction] = React.useState("");
+    const [originAddress, setOriginAddress] = React.useState("Canada");
+    const [destAddress, setDestAddress] = React.useState("Canada");
+
+    function handleChangeOrigin(address){
+        setOriginAddress(address);
+    };
+
+    function handleChangeDest(address){
+        setDestAddress(address);
+    };
+
+    function handleSelect(address) {
+        geocodeByAddress(address)
+            .then(results => getLatLng(results[0]))
+            .then(latLng => console.log('Success', latLng))
+            .catch(error => console.error('Error', error));
+    };
 
     function onShipmentNameChanged(event) {
         setShipmentName(event.target.value);
@@ -429,10 +446,6 @@ const NewQuotePanel = (props) => {
         else setIncotermsValue(type);
     }
 
-    function onOriginLocationChanged(event){
-        setOriginLocation(event.target.value);
-    }
-
     function onOriginPortChanged(event) {
         setOriginPort(parseInt(event.target.value,10));
     }
@@ -448,10 +461,6 @@ const NewQuotePanel = (props) => {
 
     function onDestPortChanged(event) {
         setDestPort(parseInt(event.target.value, 10));
-    }
-
-    function onDestLocationChanged(event) {
-        setDestLocation(event.target.value);
     }
 
     function onChangeTargetDeliveryDate(event) {
@@ -500,11 +509,11 @@ const NewQuotePanel = (props) => {
             shipmentType,
             containerType,
             incoterms,
-            originLocation,
+            originAddress,
             originPort,
             pickupReadyDate,
             delieverToLocation,
-            destLocation,
+            destAddress,
             destPort,
             targetDeliveryDate,
             cargoUnit,
@@ -606,12 +615,13 @@ const NewQuotePanel = (props) => {
                 <NameLabel>Origin</NameLabel>
                 <OriginRow>
                     <OriginInLabel>Origin Location *</OriginInLabel>
-                    <DefaultSelector value={originLocation} onChange={e => onOriginLocationChanged(e)}>
+                    <LocationSearchInput address={originAddress} handleChange={handleChangeOrigin} handleSelect={handleSelect}/>
+                    {/* <DefaultSelector value={originLocation} onChange={e => onOriginLocationChanged(e)}>
                         <DefaultSelectorOption value="us" > United States </DefaultSelectorOption>
                         <DefaultSelectorOption value="ca" > Canada </DefaultSelectorOption>
                         <DefaultSelectorOption value="cn" > China </DefaultSelectorOption>
                         <DefaultSelectorOption value="ru" > Russia </DefaultSelectorOption>
-                    </DefaultSelector>
+                    </DefaultSelector> */}
                 </OriginRow>
                 <OriginRow>
                     <OriginInLabel>Origin Port *</OriginInLabel>
@@ -648,12 +658,13 @@ const NewQuotePanel = (props) => {
                 </DestinationRow>
                 <DestinationRow>
                     <DestinationInLabel>Destination Location *</DestinationInLabel>
-                    <DefaultSelector value={destLocation} onChange={e => onDestLocationChanged(e)}>
+                    <LocationSearchInput address={destAddress} handleChange={handleChangeDest} handleSelect={handleSelect}/>
+                    {/* <DefaultSelector value={destLocation} onChange={e => onDestLocationChanged(e)}>
                         <DefaultSelectorOption value="us" > United States </DefaultSelectorOption>
                         <DefaultSelectorOption value="ca" > Canada </DefaultSelectorOption>
                         <DefaultSelectorOption value="cn" > China </DefaultSelectorOption>
                         <DefaultSelectorOption value="ru" > Russia </DefaultSelectorOption>
-                    </DefaultSelector>
+                    </DefaultSelector> */}
                 </DestinationRow>
                 <DestinationRow>
                     <OriginInLabel>What is your target delivery date? *</OriginInLabel>
