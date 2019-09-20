@@ -9,10 +9,10 @@ import { connect } from 'react-redux';
 import { pageActions } from '../../actions';
 import { pageConstants } from '../../constants';
 import Map from '../../components/map';
-// import ActiveShipments from '../../components/ActiveShipments/ActiveShipments';
+import ActiveShipments from '../../components/ActiveShipments/ActiveShipments';
 import ActiveQuotes from '../../components/ActiveQuotes/ActiveQuotes';
 import DashboardBillings from '../../components/DashboardBillings/DashboardBillings';
-import DashboardReports from '../../components/DashboardReports/DashboardReports';
+// import DashboardReports from '../../components/DashboardReports/DashboardReports';
 import Device from '../../css/device';
 
 const Container = styled.div`
@@ -128,8 +128,8 @@ class Dashboard extends React.Component {
                     {/* {tabIndex===0&&<ActiveShipments/>} */}
                     <InfosContainer>
                         <ActiveQuotes/>
+                        <ActiveShipments/>
                         <DashboardBillings />
-                        <DashboardReports />
                     </InfosContainer>
                     {/* {tabIndex===0&&<ActiveQuotes/>}
                     {tabIndex===1&&<DashboardBillings/>}

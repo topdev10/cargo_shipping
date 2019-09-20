@@ -410,7 +410,7 @@ function handshake(code, ores) {
     var data = querystring.stringify({
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: process.env.LINKEDIN_REDIRECT_URL_DEPLOY,//should match as in Linkedin application setup
+        redirect_uri: process.env.LINKEDIN_REDIRECT_URL_LOCAL,//should match as in Linkedin application setup
         client_id: process.env.LINKEDIN_CLIENT_ID,
         client_secret: process.env.LINKEDIN_SECRET_KEY// the secret
     });

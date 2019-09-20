@@ -2,15 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import Tab from '@material-ui/core/Tab';
+import DirectionsBoatRounded from '@material-ui/icons/DirectionsBoatRounded';
 
 import ShipmentDashboardItem from './shipmentDashboardItem';
 
 const Container = styled.div`
     position: relative;
     display: flex;
-    height: calc(100% - 48px);
+    flex: 1;
     flex-direction: column;
     z-index: 999;
+    align-items: center;
 `;
 
 const ViewAllShipmentsButton = styled.button`
@@ -43,6 +46,7 @@ const ActiveShipments = (props) => {
 
     return (
         <Container>
+            <Tab icon={<DirectionsBoatRounded />}  label="Active Shipments" disabled/>
             {shipments!==null&&
                 <ShipmentDashboardItem shipments={shipments}></ShipmentDashboardItem>
             }

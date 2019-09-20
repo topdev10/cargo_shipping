@@ -58,6 +58,7 @@ const CommitLabel = styled.h1`
     font-size: 14px;
     color: black;
     font-weight: 500;
+    text-align: left;
 `;
 
 class QuotesDashboardItem extends React.Component {

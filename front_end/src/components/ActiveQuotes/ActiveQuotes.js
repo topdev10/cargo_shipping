@@ -14,6 +14,7 @@ const Container = styled.div`
     flex: 1;
     flex-direction: column;
     z-index: 999;
+    align-items: center;
 `;
 
 const NewQuotesButton = styled.button`

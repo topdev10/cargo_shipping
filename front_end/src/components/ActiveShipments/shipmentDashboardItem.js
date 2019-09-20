@@ -88,16 +88,19 @@ const ItemLocation = styled.h1`
     font-size: 14px;
     color: black;
     flex: 1;
+    text-align: left;
 `;
 
 const ShipmentTypeItem = styled.div`
     display: flex-end;
+    color: #4D7CFE;
 `;
 
 const CommitLabel = styled.h1`
     font-size: 14px;
     color: black;
     font-weight: 500;
+    text-align: left;
 `;
 
 class ShipmentDashboardItem extends React.Component {
@@ -151,7 +154,7 @@ class ShipmentDashboardItem extends React.Component {
                 )}
             </Container>
         );
-    }    
+    }
 };
 
 ShipmentDashboardItem.propTypes = {
