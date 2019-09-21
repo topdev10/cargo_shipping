@@ -23,6 +23,7 @@ const Container = styled.div`
     padding: 12px;
     width: 100%;
     left: 0px;
+    background: #cccccc40;
     @media ${Device.laptop} {
         left: 320px;
         width: calc(100% - 320px);
@@ -49,18 +50,15 @@ class Billing extends React.Component {
             modalIsOpen: false
         };
      
-        this.openModal = this.openModal.bind(this);
-        this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
     }
 
-    openModal() {
+    openModal = () => {
         this.setState({modalIsOpen: true});
     }
      
-    afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        // this.subtitle.style.color = '#f00';
+    afterOpenModal = () => {
+
     }
      
     closeModal() {
@@ -68,6 +66,7 @@ class Billing extends React.Component {
     }
 
     render() {
+        const { modalIsOpen } = this.state;
         return (
             <Container>
                 <ToolBar />
@@ -89,7 +88,7 @@ class Billing extends React.Component {
                 </div>
                 <BillsTable makePayment={this.openModal}/>
                 <Modal
-                    isOpen={this.state.modalIsOpen}
+                    isOpen={modalIsOpen}
                     onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
                     style={customStyles}

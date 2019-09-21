@@ -45,6 +45,7 @@ class BillsTable extends Component {
     }
     
     render() {
+        // eslint-disable-next-line react/prop-types
         const { billings, makePayment } = this.props;
         return (
             <div className="w-100 card board">

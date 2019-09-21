@@ -32,6 +32,7 @@ const Container = styled.div`
     min-width: 650px;
     width: 100%;
     left: 0px;
+    background: #cccccc40;
     @media ${Device.laptop} {
         left: 320px;
         width: calc(100% - 320px);
