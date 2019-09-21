@@ -23,6 +23,7 @@ import MonetizationOn from '@material-ui/icons/MonetizationOn';
 import Assignment from '@material-ui/icons/Assignment';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import Pusher from 'pusher-js';
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import { userActions, pageActions, alertActions } from '../actions';
 
 import Config from '../config';
@@ -56,7 +57,7 @@ const theme = createMuiTheme({
             main: '#ec4535',
         },
         primary: {
-            main: '#f6ffde',
+            main: fade('#32314c', 0.1),
         }
     },
 });
@@ -349,7 +350,7 @@ const Header = (props) => {
     return (
         <div className={classes.grow} >
             <ThemeProvider theme={theme}>
-                <AppBar position="fixed" color="inherit">
+                <AppBar position="fixed" color="primary">
                     <Toolbar>
                         <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onMouseDownCapture={gotoHomepage}/>
                         {

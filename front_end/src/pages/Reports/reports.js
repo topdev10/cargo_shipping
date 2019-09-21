@@ -71,6 +71,7 @@ const NewReportContainer = styled.div`
     border-radius: 20px;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 
     @media ${Device.laptop} {
         width: calc(72vw - 128px);
@@ -78,32 +79,31 @@ const NewReportContainer = styled.div`
     }
 `;
 
+const SettingsContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    flex: 1;
+`;
+
 const NewReportInputContainer = styled.div`
+    margin-top: 24px;
     position: relative;
     display: flex;
     background: #fff;
-    width: calc(100vw - 24px);
-    height: calc(100vh - 18px);
     border-radius: 12px;
-    border: 2px solid #ccc,
-    boxShadow: 2px,
-    padding: 12px,
-    border-radius: 20px;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-
-    @media ${Device.laptop} {
-        width: calc(72vw - 128px);
-        height: calc(90vh - 96px);
-    }
+    width: 100%;
 `;
 
 const NewQuoteInputRow = styled.div`
     display: flex;
     flex-direction: row;
-    margin: 4px 12px;
-    padding: 4px;
     align-items: center;
+    width: 100%;
+    padding: 0px 25px;
+    justify-content: space-between;
 `;
 
 const reportNodes = [
@@ -197,9 +197,9 @@ class Reports extends React.Component {
         super(props);
         
         this.state = {
-            openNewReportSetting: false,
-            openNewReportInput: false,
+            onNewReport: false,
             filterList: [],
+            reportTitle: "",
         };
     }
 
@@ -211,25 +211,15 @@ class Reports extends React.Component {
     }
     
     onNewReport = () => {
-        this.setState({ openNewReportSetting: true });
+        this.setState({ onNewReport: true });
     }
 
     handleCloseNewReport = () => {
-        const { openNewReportSetting } = this.state;
-        if(openNewReportSetting)
-            this.setState({ openNewReportSetting: false });
-        else this.setState({ openNewReportInput: false });
+        this.setState({ onNewReport: false });
     };
 
-    onNewReportInput = () => {
-        this.setState({ openNewReportInput: true});
-    }
-
     handleCloseNewReportInput = () => {
-        const { openNewReportSetting } = this.state;
-        if(openNewReportSetting)
-            this.setState({ openNewReportSetting: false });
-        else this.setState({ openNewReportInput: false });
+        this.setState({ onNewReport: false });
     }
 
     onExistingReport = () => {
@@ -254,10 +244,6 @@ class Reports extends React.Component {
     onHandleDrop = (e) => {
         const { filterList } = this.state;
         this.setState({ filterList: applyDrag(filterList, e)});
-    }
-
-    handleNextStep = () => {
-        this.setState({openNewReportSetting: false, openNewReportInput: true});
     }
 
     handleRequestNewReport = () => {
@@ -324,46 +310,40 @@ class Reports extends React.Component {
         return result;
     };
 
+    onChangeReportTitle = (e) => {
+        this.setState({reportTitle: e.target.value});
+    }
+
     render(){
 
         // eslint-disable-next-line react/prop-types
         const { classes, reports } = this.props;
-        const { openNewReportSetting, openNewReportInput, filterList } = this.state;
+        const { onNewReport, filterList, reportTitle } = this.state;
 
-        let FadeComponent;
-
-        if(openNewReportSetting)
-            FadeComponent = <Fade in={openNewReportSetting}>
-                <NewReportContainer>
-                    <TreeMultiSelector reportNodes={reportNodes} handleChecked={this.handleCheckedStateChanged} handleCancel={this.handleCloseNewReport} />
-                    <DragAndDropComponent items={filterList} handleDrop={this.onHandleDrop} handleNext={this.handleNextStep}/>
-                </NewReportContainer>
-            </Fade>;
-        else if(openNewReportInput)
-            FadeComponent = <Fade in={openNewReportInput}>
+        const FadeComponent = <Fade in={onNewReport}>
+            <NewReportContainer>
                 <NewReportInputContainer>
                     <NewQuoteInputRow>
-                        <InputLabel htmlFor="report-title">
-                            Report Title
-                        </InputLabel>
+                        <div style={{ width: "112px" }}>Report Title: </div>
                         <Input
-                            defaultValue="Routes - Active Shipments"
+                            value={reportTitle}
+                            onChange={e => this.onChangeReportTitle(e)}
                             label="Report Title"
                             inputProps={{
                                 'aria-label': 'description',
                             }}
                             id="report-title"
+                            fullWidth
                         />
                     </NewQuoteInputRow>
                 </NewReportInputContainer>
-            </Fade>;
-        else FadeComponent = <Fade in={openNewReportSetting}>
-            <NewReportContainer>
-                <TreeMultiSelector reportNodes={reportNodes} handleChecked={this.handleCheckedStateChanged} handleCancel={this.handleCloseNewReport} />
-                <DragAndDropComponent items={filterList} handleDrop={this.onHandleDrop} handleNext={this.handleNextStep}/>
+                
+                <SettingsContainer>
+                    <TreeMultiSelector reportNodes={reportNodes} handleChecked={this.handleCheckedStateChanged} handleCancel={this.handleCloseNewReport} />
+                    <DragAndDropComponent items={filterList} handleDrop={this.onHandleDrop} handleNext={this.handleNextStep}/>
+                </SettingsContainer>
             </NewReportContainer>
         </Fade>;
-
         return (
             <Container>
                 <ReportsContainerRow>
@@ -382,7 +362,7 @@ class Reports extends React.Component {
                     aria-describedby="spring-modal-description"
                     // eslint-disable-next-line react/prop-types
                     className={classes.modal}
-                    open={openNewReportSetting||openNewReportInput}
+                    open={onNewReport}
                     onClose={() => this.handleCloseNewReport()}
                     closeAfterTransition
                     BackdropComponent={Backdrop}

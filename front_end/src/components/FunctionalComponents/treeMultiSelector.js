@@ -14,7 +14,7 @@ const TreeContainer = styled.div`
     flex-direction: column;
     flex: 1;
     height: 100%;
-    padding: 32px 12px 12px 12px;
+    padding: 12px 12px 12px 12px;
 `;
 
 const TreeHeader = styled.div`
