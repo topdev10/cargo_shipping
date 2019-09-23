@@ -25,6 +25,7 @@ const Container = styled.div`
     height: calc(100vh - 64px);
     width: 100%;
     left: 0px;
+    background: #cccccc40;
     @media ${Device.laptop} {
         left: 322px;
         width: calc(100% - 320px);

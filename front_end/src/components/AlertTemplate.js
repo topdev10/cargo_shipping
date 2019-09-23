@@ -1,10 +1,8 @@
 import React from 'react';
 
-var BaseIcon = function BaseIcon(_ref) {
-    var color = _ref.color,
-        _ref$pushRight = _ref.pushRight,
-        pushRight = _ref$pushRight === undefined ? true : _ref$pushRight,
-        children = _ref.children;
+const BaseIcon = function BaseIcon(_ref) {
+    const { color, pushRight, children } = _ref;
+    const mpushRight = pushRight === undefined ? true : pushRight;
     return React.createElement(
         'svg',
         {
@@ -17,26 +15,26 @@ var BaseIcon = function BaseIcon(_ref) {
             strokeWidth: '2',
             strokeLinecap: 'round',
             strokeLinejoin: 'round',
-            style: { marginRight: pushRight ? '20px' : '0', minWidth: 24 }
+            style: { marginRight: mpushRight ? '20px' : '0', minWidth: 24 }
         },
         children
     );
 };
 
-var InfoIcon = function InfoIcon() {
+const InfoIcon = function InfoIcon() {
     return React.createElement(
         BaseIcon,
-        { color: '#2E9AFE' },
+        { color: 'white' },
         React.createElement('circle', { cx: '12', cy: '12', r: '10' }),
         React.createElement('line', { x1: '12', y1: '16', x2: '12', y2: '12' }),
         React.createElement('line', { x1: '12', y1: '8', x2: '12', y2: '8' })
     );
 };
 
-var SuccessIcon = function SuccessIcon() {
+const SuccessIcon = function SuccessIcon() {
     return React.createElement(
         BaseIcon,
-        { color: '#31B404' },
+        { color: 'white' },
         React.createElement('path', {
             d: 'M22 11.08V12a10 10 0 1 1-5.93-9.14'
         }),
@@ -44,26 +42,26 @@ var SuccessIcon = function SuccessIcon() {
     );
 };
 
-var ErrorIcon = function ErrorIcon() {
+const ErrorIcon = function ErrorIcon() {
     return React.createElement(
         BaseIcon,
-        { color: '#FF0040' },
+        { color: 'white' },
         React.createElement('circle', { cx: '12', cy: '12', r: '10' }),
         React.createElement('line', { x1: '12', y1: '8', x2: '12', y2: '12' }),
         React.createElement('line', { x1: '12', y1: '16', x2: '12', y2: '16' })
     );
 };
 
-var CloseIcon = function CloseIcon() {
+const CloseIcon = function CloseIcon() {
     return React.createElement(
         BaseIcon,
-        { color: '#FFFFFF', pushRight: false },
+        { color: '#FFFFFF', mpushRight: false },
         React.createElement('line', { x1: '18', y1: '6', x2: '6', y2: '18' }),
         React.createElement('line', { x1: '6', y1: '6', x2: '18', y2: '18' })
     );
 };
 
-var _extends =
+const _extends =
     Object.assign ||
     function (target) {
         for (var i = 1; i < arguments.length; i++) {
@@ -79,8 +77,8 @@ var _extends =
         return target;
     };
 
-var alertStyle = {
-    backgroundColor: '#4d7cfe',
+const infoStyle = {
+    backgroundColor: `#2196F3`,
     color: 'white',
     padding: '10px',
     textTransform: 'uppercase',
@@ -94,7 +92,37 @@ var alertStyle = {
     boxSizing: 'border-box'
 };
 
-var buttonStyle = {
+const successStyle = {
+    backgroundColor: `#4CAF50`,
+    color: 'white',
+    padding: '10px',
+    textTransform: 'uppercase',
+    borderRadius: '3px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    boxShadow: '0px 2px 2px 2px rgba(0, 0, 0, 0.03)',
+    fontFamily: 'Arial',
+    width: '300px',
+    boxSizing: 'border-box'
+};
+
+const errorStyle = {
+    backgroundColor: `#f44336`,
+    color: 'white',
+    padding: '10px',
+    textTransform: 'uppercase',
+    borderRadius: '3px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    boxShadow: '0px 2px 2px 2px rgba(0, 0, 0, 0.03)',
+    fontFamily: 'Arial',
+    width: '300px',
+    boxSizing: 'border-box'
+};
+
+const buttonStyle = {
     marginLeft: '20px',
     border: 'none',
     backgroundColor: 'transparent',
@@ -102,19 +130,25 @@ var buttonStyle = {
     color: '#FFFFFF'
 };
 
-var AlertTemplate = function AlertTemplate(_ref) {
-    var message = _ref.message,
-        options = _ref.options,
-        style = _ref.style,
-        close = _ref.close;
+const AlertTemplate = function AlertTemplate(_ref) {
+    // const message = _ref.message,
+    //     options = _ref.options,
+    //     style = _ref.style,
+    //     close = _ref.close;
+    const { message, options, style, close } = _ref;
 
     return React.createElement(
         'div',
-        { style: _extends({}, alertStyle, style) },
+        { style: _extends({}, 
+            options.type === 'info' && infoStyle,
+            options.type === 'success' && successStyle,
+            options.type === 'error' && errorStyle,
+            style) },
         options.type === 'info' && React.createElement(InfoIcon, null),
         options.type === 'success' && React.createElement(SuccessIcon, null),
         options.type === 'error' && React.createElement(ErrorIcon, null),
         React.createElement('span', { style: { flex: 2 } }, message),
+        // eslint-disable-next-line react/button-has-type
         React.createElement(
             'button',
             { onClick: close, style: buttonStyle },

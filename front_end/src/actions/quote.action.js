@@ -28,6 +28,12 @@ function onNewFreightQuote() {
     };
 }
 
+function onCancelFreightQuote() {
+    return {
+        type: quoteConstants.ON_CANCEL_FREIGHT_QUOTE
+    };
+}
+
 function onReviewFreightQuote(data) {
     return {
         type: quoteConstants.ON_REVIEW_FREIGHT_QUOTE,
@@ -38,6 +44,7 @@ function onReviewFreightQuote(data) {
 export const quoteActions = {
     requestFreightQuote,
     onNewFreightQuote,
+    onCancelFreightQuote,
     onReviewFreightQuote,
 };
 

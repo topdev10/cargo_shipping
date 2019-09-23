@@ -44,8 +44,7 @@ const CancelButton = styled.div`
     font-weight: normal;
     font-size: 16px;
     line-height: 17px;
-    color: #FFFFFF;
-    background: #4D7CFE;
+    color: black;
     padding: 8px 12px;
     flex: flex-end;
     cursor: pointer;
@@ -53,7 +52,7 @@ const CancelButton = styled.div`
     margin: 8px 0px 0px 0px;
 
     &:hover {
-        background: red;
+        color: red;
     }
 `;
 

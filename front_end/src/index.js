@@ -15,10 +15,10 @@ const GlobalStyle = createGlobalStyle`${reset}`;
 const options = {
     // you can also just use 'bottom center'
     position: positions.BOTTOM_RIGHT,
-    timeout: 4000,
+    timeout: 5000,
     offset: '10px 10px',
     // you can also just use 'scale'
-    transition: transitions.FADE,
+    transition: transitions.SCALE,
 };
 
 const App = () => (
