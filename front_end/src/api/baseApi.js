@@ -185,32 +185,32 @@ const BaseApi = {
     },
 
     requestNewQuote(data, callback) {
-        // const formData = {
-        //     email: JSON.parse(localStorage.user).email,
-        //     name: data.shipmentName,
-        //     submittedBy: JSON.parse(localStorage.user).username,
-        //     freight: data.freightMethod,
-        //     cargoReadyDate: data.pickupReadyDate,
-        //     from: data.originPort,
-        //     to: data.destPort,
-        //     cargoDetails: data.description,
-        // };
-        // const config = {
-        //     headers: {
-        //         'authorization': `Bearer ${JSON.parse(localStorage.user).token}`
-        //     }
-        // };
+        const formData = {
+            email: JSON.parse(localStorage.user).email,
+            name: data.shipmentName,
+            submittedBy: JSON.parse(localStorage.user).username,
+            freight: data.freightMethod,
+            cargoReadyDate: data.pickupReadyDate,
+            from: data.originPort,
+            to: data.destPort,
+            cargoDetails: data.description,
+        };
+        const config = {
+            headers: {
+                'authorization': `Bearer ${JSON.parse(localStorage.user).token}`
+            }
+        };
         
-        // axios.defaults.baseURL = Config.BACKEND_API_URL;
-        // axios.defaults.headers.post['Content-Type'] = 'application/json';
+        axios.defaults.baseURL = Config.BACKEND_API_URL;
+        axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-        // axios.post("/api/addQuote", formData, config)
-        //     .then((res) => {
-        //         callback(null, res);
-        //     }, (error) => {
-        //         callback(error, null);
-        //     });
-        callback(null, true);
+        axios.post("/api/addQuote", formData, config)
+            .then((res) => {
+                callback(null, res);
+            }, (error) => {
+                callback(error, null);
+            });
+        // callback(null, true);
     },
 
     requestNewReport(report, callback) {

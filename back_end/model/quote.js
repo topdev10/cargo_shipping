@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 var QuoteSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        unique: true,
-        required: true,
-    },
+    // id: {
+    //     type: String,
+    //     unique: true,
+    //     required: true,
+    // },
     email: {
         type: String,
         required: true,
