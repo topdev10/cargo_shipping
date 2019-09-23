@@ -309,7 +309,7 @@ class Quotes extends React.Component{
 
     render(){
         const { quoteState, location, isflight, isShip, isVan, sortBy } = this.state;
-        const { quotes, onpagestatus } = this.props;
+        const { quotes, onpagestatus, onCancelFreightQuote } = this.props;
         const mlistData = this.customFilter(quotes);
         return (
             <Container>

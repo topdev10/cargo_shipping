@@ -56,6 +56,28 @@ const RequestFreightQuoteButton = styled.button`
     }
 `;
 
+const CancelFreightQuoteButton = styled.button`
+    display: flex;
+    width: 200px;
+    height: 52px;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0px 0px 15px 0px;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 17px;
+    color: #FFFFFF;
+    background: #dc362d;
+
+    &:hover {
+        background: #ec464d;
+    }
+`;
+
 const ShipmentNameContainer = styled.div`
     display: flex;
     position: relative;
@@ -500,6 +522,12 @@ const NewQuotePanel = (props) => {
         setInstruction(event.target.value);
     }
 
+    function handleCancelQuote(event) {
+        event.preventDefault();
+        const { onCancelFreightQuote } = props;
+        onCancelFreightQuote();
+    }
+
     function handleReviewQuote(event) {
         event.preventDefault();
         const { onReviewFreightQuote } = props;
@@ -836,9 +864,14 @@ const NewQuotePanel = (props) => {
                 style={{display: "flex", width: "100%"}}
             />
 
-            <RequestFreightQuoteButton onClick={e => handleReviewQuote(e)}>
-                Request Freight Quote
-            </RequestFreightQuoteButton>
+            <div style={{display: 'flex', flexDirection: "row", justifyContent: "space-between"}}>
+                <CancelFreightQuoteButton onClick={e => handleCancelQuote(e)}>
+                    Cancel
+                </CancelFreightQuoteButton>
+                <RequestFreightQuoteButton onClick={e => handleReviewQuote(e)}>
+                    Request Freight Quote
+                </RequestFreightQuoteButton>
+            </div>
         </Container>
     );
 
@@ -846,10 +879,12 @@ const NewQuotePanel = (props) => {
 
 NewQuotePanel.propTypes = {
     onReviewFreightQuote: PropTypes.func.isRequired,
+    onCancelFreightQuote: PropTypes.func.isRequired,
 };
 
 const actionCreators = {
     onReviewFreightQuote: quoteActions.onReviewFreightQuote,
+    onCancelFreightQuote: quoteActions.onCancelFreightQuote,
 };
 
 export default connect(null, actionCreators)(NewQuotePanel);

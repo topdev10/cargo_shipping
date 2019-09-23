@@ -223,12 +223,12 @@ class Reports extends React.Component {
         this.setState({ onNewReport: false });
     }
 
-    onEditREport = () => {
-        alert("do you want to edit existing report?");
+    onEditReport = () => {
+        // alert("do you want to edit existing report?");
     }
 
     onRemoveReport = () => {
-        alert("do you want to remove existing report?");
+        // alert("do you want to remove existing report?");
     }
 
     handleCheckedStateChanged = (checked) => {
