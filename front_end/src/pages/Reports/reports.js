@@ -223,8 +223,12 @@ class Reports extends React.Component {
         this.setState({ onNewReport: false });
     }
 
-    onExistingReport = () => {
+    onEditREport = () => {
+        alert("do you want to edit existing report?");
+    }
 
+    onRemoveReport = () => {
+        alert("do you want to remove existing report?");
     }
 
     handleCheckedStateChanged = (checked) => {
@@ -354,7 +358,7 @@ class Reports extends React.Component {
                             &&(
                                 reports.length > 0 && 
                                     reports.map((report) =>
-                                        <ExistingReport onExistingReport={this.onExistingReport} data={report} key={report.id}/>)
+                                        <ExistingReport onEditReport={this.onEditReport} onRemoveReport={this.onRemoveReport} data={report} key={report.id}/>)
                             )
                     }
                 </ReportsContainerRow>
