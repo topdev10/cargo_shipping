@@ -278,7 +278,7 @@ export class Profile extends React.Component {
             phonenumber = userProfile.phonenumber;
             // eslint-disable-next-line prefer-destructuring
             address = userProfile.address;
-        }
+        } else img = `${Config.BACKEND_API_URL}uploads/default.png`;
 
         return(
             <Container>
