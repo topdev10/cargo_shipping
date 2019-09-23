@@ -7,6 +7,7 @@ const Auth = require('../controller/auth');
 const dotenv = require('dotenv');
 var http = require('https');
 const multer = require('multer');
+const stripe = require("stripe")("sk_test_oyPm28o5OOJkArfdU0dAplWj00g0Ygec9n");
 
 const storage = multer.diskStorage({
     destination: function(req, file, callback){
@@ -235,6 +236,31 @@ router.post('/uploadQD', upload.single('newQuotePDF'),[
             } else res.status(401).send();
         });
     }
+});
+
+// stripe payment part
+router.post('/requestPayment', function(req, res) {
+    // console.log(req.body);
+    var amount = req.body.amount;
+    var token_id = req.body.token_id; 
+    var ship_id = req.body.ship_id; 
+    var number = Number(amount.replace(/[^0-9.-]+/g,""));
+    // console.log(amount);
+    stripe.charges.create({
+        amount: parseInt(number*100),
+        currency: "usd",
+        source: token_id, // obtained with Stripe.js
+        description: "Charge for test"
+      }, function(err, charge) {
+        // asynchronously called
+        if(err) {
+            console.log(err);
+            res.status(400).send({error: err, data: null});
+        } else {
+            console.log(ship_id,"=============")
+            res.status(200).send({error: null, ship_id});
+        }
+    });
 });
 
 module.exports = router;

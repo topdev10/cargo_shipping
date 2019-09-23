@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import Modal from 'react-modal';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
+import { billActions } from '../../actions';
 import Device from '../../css/device';
 import SearchBox from '../../components/BillFilters/SearchBox';
 import StatusBox from '../../components/BillFilters/StatusBox';
@@ -11,7 +14,7 @@ import ToolBar from '../../components/BillFilters/ToolBar';
 import BillsTable from '../../components/BillFilters/BillsTable';
 import CardPayment from '../../components/BillFilters/CardPayment';
 
-import "./style.css";
+import './style.css';
 
 const Container = styled.div`
     display: flex;
@@ -30,13 +33,13 @@ const Container = styled.div`
 `;
 
 const customStyles = {
-    content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)'
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
     }
 };
 Modal.setAppElement('#root');
@@ -44,30 +47,47 @@ Modal.setAppElement('#root');
 class Billing extends React.Component {
     constructor() {
         super();
-     
+
         this.state = {
-            modalIsOpen: false
+            selectedRow: [],
         };
-     
+
         this.openModal = this.openModal.bind(this);
         this.afterOpenModal = this.afterOpenModal.bind(this);
         this.closeModal = this.closeModal.bind(this);
+        this.submitPayment = this.submitPayment.bind(this);
     }
 
-    openModal() {
-        this.setState({modalIsOpen: true});
+    submitPayment = (payload) => {
+        const { PaymentRequest } = this.props;
+        const { selectedRow } = this.state;
+        PaymentRequest({
+            token_id: payload.token.id,
+            amount: selectedRow.balance,
+            ship_id: selectedRow.shipID
+        });
     }
-     
+
+    openModal(record) {
+        const { ModalOpen } = this.props;
+        ModalOpen();
+        this.setState({ selectedRow:record });
+    }
+
+    closeModal() {
+        const { ModalClose } = this.props;
+        ModalClose();
+    }
+
+    // eslint-disable-next-line class-methods-use-this
     afterOpenModal() {
         // references are now sync'd and can be accessed.
         // this.subtitle.style.color = '#f00';
-    }
-     
-    closeModal() {
-        this.setState({modalIsOpen: false});
+        // return 0;
     }
 
     render() {
+        const { modalStatus } = this.props;
         return (
             <Container>
                 <ToolBar />
@@ -87,18 +107,41 @@ class Billing extends React.Component {
                         </div>
                     </div>
                 </div>
-                <BillsTable makePayment={this.openModal}/>
+                <BillsTable makePayment={this.openModal} />
                 <Modal
-                    isOpen={this.state.modalIsOpen}
+                    isOpen={modalStatus}
                     onAfterOpen={this.afterOpenModal}
                     onRequestClose={this.closeModal}
                     style={customStyles}
                     contentLabel="Example Modal"
-                ><CardPayment /></Modal>
-                
+                >
+                    <CardPayment
+                        stripePublicKey="pk_test_mfCPqZtW4If6nVmSF2Ahv2xp0013VlcByR"
+                        handleCharge={this.submitPayment}
+                    />
+                </Modal>
             </Container>
         );
     }
 }
 
-export default Billing;
+function mapStateToProps(state) {
+    return {
+        modalStatus: state.bill.modal_status
+    };
+}
+
+const actionCreators = {
+    PaymentRequest: billActions.onPaymentRequest,
+    ModalOpen: billActions.onClickModal,
+    ModalClose: billActions.onMissModal,
+};
+
+Billing.propTypes = {
+    modalStatus: PropTypes.bool.isRequired,
+    ModalOpen: PropTypes.func.isRequired,
+    ModalClose: PropTypes.func.isRequired,
+    PaymentRequest: PropTypes.func.isRequired,
+};
+
+export default connect(mapStateToProps, actionCreators)(Billing);

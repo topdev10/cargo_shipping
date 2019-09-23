@@ -1,138 +1,108 @@
-import React from 'react';
-import { render } from 'react-dom';
-import Card from 'react-credit-cards';
-
+import React, { Component } from 'react';
+import PropsType from 'prop-types';
+import './card.css';
 import {
-    formatCreditCardNumber,
-    formatCVC,
-    formatExpirationDate,
-    formatFormData,
-} from './utils';
+    CardElement,
+    injectStripe,
+    StripeProvider,
+    Elements
+} from 'react-stripe-elements';
 
-import card from './card.css';
+const createOptions = () => {
+    return {
+        style: {
+            base: {
+                fontSize: '16px',
+                color: '#424770',
+                fontFamily: 'Open Sans, sans-serif',
+                letterSpacing: '0.025em',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#c23d4b'
+            }
+        }
+    };
+};
 
-import 'react-credit-cards/es/styles-compiled.css';
+class _CardForm extends Component {
 
-export default class CardPayment extends React.Component {
+    constructor(props){
+        super(props);
+        this.state={};
+    }
+
     state = {
-        number: '',
-        name: '',
-        expiry: '',
-        cvc: '',
-        issuer: '',
-        focused: '',
-        formData: null,
+        errorMessage: ''
     };
-    
-    handleCallback = ({ issuer }, isValid) => {
-        if (isValid) {
-            this.setState({ issuer });
+
+    handleChange = ({ error }) => {
+        if (error) {
+            this.setState({ errorMessage: error.message });
         }
     };
-    
-    handleInputFocus = ({ target }) => {
-        this.setState({
-            focused: target.name,
-        });
-    };
-    
-    handleInputChange = ({ target }) => {
-        if (target.name === 'number') {
-            target.value = formatCreditCardNumber(target.value);
-        } else if (target.name === 'expiry') {
-            target.value = formatExpirationDate(target.value);
-        } else if (target.name === 'cvc') {
-            target.value = formatCVC(target.value);
+
+    handleSubmit = evt => {
+        evt.preventDefault();
+        // eslint-disable-next-line react/prop-types
+        const { handlePayment, stripe } = this.props;
+
+        if (stripe) {
+            stripe
+                // eslint-disable-next-line react/prop-types
+                .createToken()
+                .then(payload => handlePayment(payload));
+        } else {
+            console.log("Stripe.js hasn't loaded yet.");
         }
-        this.setState({ [target.name]: target.value });
     };
-    
-    handleSubmit = e => {
-        e.preventDefault();
-        const { issuer } = this.state;
-        const formData = [...e.target.elements]
-            .filter(d => d.name)
-            .reduce((acc, d) => {
-                acc[d.name] = d.value;
-                return acc;
-            }, {});
-    
-        this.setState({ formData });
-        this.form.reset();
-    };
-    
+
     render() {
-        const { name, number, expiry, cvc, focused, issuer, formData } = this.state;
-        return(
-            <div key="Payment">
-                <div className="App-payment">
-                    <h4>credit cards for your payment forms</h4>
-                    <Card
-                        number={number}
-                        name={name}
-                        expiry={expiry}
-                        cvc={cvc}
-                        focused={focused}
-                        callback={this.handleCallback}
-                    />
-                    <form ref={c => (this.form = c)} onSubmit={this.handleSubmit}>
-                        <div className="form-group">
-                            <input
-                                type="tel"
-                                name="number"
-                                className="form-control"
-                                placeholder="Card Number"
-                                pattern="[\d| ]{16,22}"
-                                required
-                                onChange={this.handleInputChange}
-                                onFocus={this.handleInputFocus}
-                            />
-                            <small>E.g.: 49..., 51..., 36..., 37...</small>
-                        </div>
-                        <div className="form-group">
-                            <input
-                                type="text"
-                                name="name"
-                                className="form-control"
-                                placeholder="Name"
-                                required
-                                onChange={this.handleInputChange}
-                                onFocus={this.handleInputFocus}
-                            />
-                        </div>
-                        <div className="row">
-                            <div className="col-6">
-                                <input
-                                    type="tel"
-                                    name="expiry"
-                                    className="form-control"
-                                    placeholder="Valid Thru"
-                                    pattern="\d\d/\d\d"
-                                    required
-                                    onChange={this.handleInputChange}
-                                    onFocus={this.handleInputFocus}
-                                />
-                            </div>
-                            <div className="col-6">
-                                <input
-                                    type="tel"
-                                    name="cvc"
-                                    className="form-control"
-                                    placeholder="CVC"
-                                    pattern="\d{3,4}"
-                                    required
-                                    onChange={this.handleInputChange}
-                                    onFocus={this.handleInputFocus}
-                                />
-                            </div>
-                        </div>
-                        <input type="hidden" name="issuer" value={issuer} />
-                        <div className="form-actions">
-                            <button className="btn btn-primary btn-block">PAY</button>
-                        </div>
-                    </form>
-                </div>
+        const {errorMessage} = this.state;
+        return (
+            <div className="CardDemo">
+                <form onSubmit={this.handleSubmit.bind(this)}>
+                    <label>
+                        Card details
+                        <CardElement
+                            onChange={this.handleChange}
+                            {...createOptions()}
+                        />
+                    </label>
+                    <div className="error" role="alert">
+                        {errorMessage}
+                    </div>
+                    <button>Pay</button>
+                </form>
             </div>
         );
     }
 }
+
+const CardForm = injectStripe(_CardForm);
+
+// eslint-disable-next-line react/prefer-stateless-function
+class CardPayment extends React.Component {
+    render() {
+        const { handleCharge, stripePublicKey, handleResult } = this.props;
+        return (
+            <StripeProvider apiKey={stripePublicKey}>
+                <Elements>
+                    <CardForm 
+                        handleResult={ handleResult }
+                        handlePayment={ handleCharge }
+                    />
+                </Elements>
+            </StripeProvider>
+        );
+    }
+}
+
+CardPayment.propTypes = {
+    handleCharge: PropsType.func.isRequired,
+    stripePublicKey: PropsType.string.isRequired,
+};
+
+export default CardPayment;

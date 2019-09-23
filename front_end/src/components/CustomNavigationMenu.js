@@ -18,7 +18,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import Dashboard from '@material-ui/icons/Dashboard';
 import { pageActions } from '../actions/page.action';
-import { pageConstants } from '../constants';
+import { pageConstants, billConstants } from '../constants';
 
 import Device from '../css/device';
 
@@ -102,7 +102,7 @@ function StyledTreeItem(props) {
         else if(labelText === 'Shipments')
             loadPage(pageConstants.SHIPMENTS);
         else if(labelText === 'Billing')
-            loadPage(pageConstants.BILLING);
+            loadPage(billConstants.BILLING);
         else if(labelText === 'Reports')
             loadPage(pageConstants.REPORTS);
     };
