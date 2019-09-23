@@ -205,10 +205,19 @@ export class Profile extends React.Component {
     }
 
     saveProfile = () => {
-        const { updateProfile, updateAvatar } = this.props;
-        const {firstname, lastname, email, phonenumber, address, editable, avatar } = this.state;
+        const { updateProfile } = this.props;
+        const {firstname, lastname, email, phonenumber, address, editable } = this.state;
         updateProfile({firstname, lastname, email, phonenumber, address, editable });
-        if(avatar!==null)
+    }
+
+    UpdateAvatar = () => {
+        const {  updateAvatar } = this.props;
+        const { email, avatar, editable } = this.state;
+        if(!editable) {
+            const { error } = this.props;
+            error("Please Press Edit First");
+        }
+        else if(avatar!==null)
             updateAvatar({email, avatar});
     }
 
@@ -292,6 +301,7 @@ export class Profile extends React.Component {
                         <PAvatar src={img}></PAvatar>
                         <PSelectBtn type="file" style={{display: "none"}} ref={this.fileInputRef} onChange= {e => this.onAvatarChanged(e)} />
                         <PSelectBtn type="button" onClick={e => this.openFileDialog(e)} value="Select Photo" />
+                        <PSelectBtn type="button" onClick={e => this.UpdateAvatar(e)} value="Update Photo" />
                     </PRow>
                     <PRow>
                         <PLabel>
