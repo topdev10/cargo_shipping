@@ -4,3 +4,4 @@ export * from './page.constants';
 export * from './quotes.constants';
 export * from './bill.constants';
 export * from './report.constants';
+export * from './menu.constants';

@@ -14,7 +14,7 @@ import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import LocalShipping from '@material-ui/icons/LocalShipping';
 
-import { pageConstants, quoteConstants } from '../../constants';
+import { pageConstants, quoteConstants, menuConstants } from '../../constants';
 import { pageActions, quoteActions } from '../../actions';
 import NewQuotePanel from './NewQuotePanel';
 import QuoteDetails from './QuoteDetails';
@@ -23,7 +23,8 @@ import Device from '../../css/device';
 const Container = styled.div`
     displa: flex;
     flex-direction: column;
-    position: absolute;
+    position: relative;
+    float: left;
     top: 0px;
     margin-top: 64px;
     height: calc(100vh - 64px);
@@ -33,9 +34,14 @@ const Container = styled.div`
     width: 100%;
     left: 0px;
     background: #cccccc40;
-    @media ${Device.laptop} {
-        left: 320px;
-        width: calc(100% - 320px);
+    transition: width 1s;
+    @media ${Device.laptop} {    
+        width: ${props => {
+        let width = "100%";
+        if(props.menuState === menuConstants.MENU_OPEN)
+            width = "calc(100% - 320px)";
+        return width;
+    }}
     }
 `;
 
@@ -309,10 +315,10 @@ class Quotes extends React.Component{
 
     render(){
         const { quoteState, location, isflight, isShip, isVan, sortBy } = this.state;
-        const { quotes, onpagestatus } = this.props;
+        const { quotes, onpagestatus, menuState } = this.props;
         const mlistData = this.customFilter(quotes);
         return (
-            <Container>
+            <Container menuState={menuState}>
                 {onpagestatus===0&&<QuotesFilterBar>
                     <CustomSelector value={quoteState} onChange={e => this.handleQuoteScopeSelection(e)}>
                         <CustomSelectorOption value={0}>All</CustomSelectorOption>
@@ -460,6 +466,7 @@ function mapStateToProps(state) {
     return {
         quotes: state.page.info!==null?state.page.info.quotes: null,
         onpagestatus: state.quote!==null?state.quote.onpagestatus:0,
+        menuState: state.menu.menuState,
     };
 }
 
@@ -473,6 +480,7 @@ Quotes.propTypes = {
     onpagestatus: PropTypes.number.isRequired,
     loadPage: PropTypes.func.isRequired,
     onNewFreightQuote: PropTypes.func.isRequired,
+    menuState: PropTypes.string.isRequired,
 };
 
 const actionCreators = {

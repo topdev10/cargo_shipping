@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { billActions } from '../../actions';
+import { menuConstants } from '../../constants';
 import Device from '../../css/device';
 import SearchBox from '../../components/BillFilters/SearchBox';
 import StatusBox from '../../components/BillFilters/StatusBox';
@@ -19,17 +20,22 @@ import './style.css';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: relative;
+    float: left;
     top: 0px;
     margin-top: 64px;
     height: calc(100vh - 64px);
     padding: 12px;
     width: 100%;
-    left: 0px;
     background: #cccccc40;
+    transition: width 1s;
     @media ${Device.laptop} {
-        left: 320px;
-        width: calc(100% - 320px);
+        width: ${props => {
+        let width = "100%";
+        if(props.menuState === menuConstants.MENU_OPEN)
+            width = "calc(100% - 320px)";
+        return width;
+    }}
     }
 `;
 
@@ -88,9 +94,9 @@ class Billing extends React.Component {
     }
 
     render() {
-        const { modalStatus } = this.props;
+        const { modalStatus, menuState } = this.props;
         return (
-            <Container>
+            <Container menuState={menuState}>
                 <ToolBar />
                 <div className="w-100 card board">
                     <div className="row">
@@ -128,7 +134,8 @@ class Billing extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        modalStatus: state.bill.modal_status
+        modalStatus: state.bill.modal_status,
+        menuState: state.menu.menuState,
     };
 }
 
@@ -143,6 +150,7 @@ Billing.propTypes = {
     ModalOpen: PropTypes.func.isRequired,
     ModalClose: PropTypes.func.isRequired,
     PaymentRequest: PropTypes.func.isRequired,
+    menuState: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps, actionCreators)(Billing);

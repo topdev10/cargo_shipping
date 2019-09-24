@@ -18,7 +18,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import Dashboard from '@material-ui/icons/Dashboard';
 import { pageActions } from '../actions/page.action';
-import { pageConstants, billConstants } from '../constants';
+import { pageConstants, billConstants, menuConstants } from '../constants';
 
 import Device from '../css/device';
 
@@ -26,17 +26,18 @@ const Container = styled.div`
     // position: fixed;
     z-index: 1200;
     display: flex;
+    float: left;
     flex-direction: column;
-    width: 320px;
     overflow-x: hidden;
     height: calc(100vh - 64px);
     margin-top: 64px;
     justify-content: center;
     transition: width 2s;
-    padding: 20px 30px;
     background: #0d121914;
     box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12);
     display: none;
+    transition: width 1s;
+
     @media ${Device.laptop} {
         display: block;
     }
@@ -90,7 +91,7 @@ const useTreeItemStyles = makeStyles(theme => ({
 
 function StyledTreeItem(props) {
     const classes = useTreeItemStyles();
-    const { labelText, labelIcon: LabelIcon, labelInfo, color, bgColor, loadPage,  ...other } = props;
+    const { labelText, labelIcon: LabelIcon, labelInfo, color, bgColor, loadPage, ...other } = props;
 
     const redirectPage = (e) => {
         e.preventDefault();
@@ -158,15 +159,16 @@ const useStyles = makeStyles({
         height: 264,
         flexGrow: 1,
         maxWidth: 400,
+        padding: "20px 30px",
     },
 });
 
 function GmailTreeView(props) {
     const classes = useStyles();
-    const { loadPage } = props;
+    const { loadPage, menuState } = props;
 
     return (
-        <Container>
+        <Container style={menuState===menuConstants.MENU_OPEN&&{width: "320px"}||menuState===menuConstants.MENU_CLOSE&&{width: "0px"}}>
             <TreeView
                 className={classes.root}
                 defaultExpanded={['3']}
@@ -221,12 +223,19 @@ function GmailTreeView(props) {
     );
 }
 
+function mapStateToProps(state) {
+    return {
+        menuState: state.menu.menuState,
+    };
+}
+
 GmailTreeView.propTypes = {
     loadPage: PropTypes.func.isRequired,
+    menuState: PropTypes.string.isRequired,
 };
 
 const actionCreators = {
     loadPage: pageActions.loadPage,
 };
 
-export default connect(null, actionCreators)(GmailTreeView);
+export default connect(mapStateToProps, actionCreators)(GmailTreeView);

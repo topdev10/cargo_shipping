@@ -24,12 +24,14 @@ import Assignment from '@material-ui/icons/Assignment';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import Pusher from 'pusher-js';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import { userActions, pageActions, alertActions } from '../actions';
+import MenuOutlined from '@material-ui/icons/MenuOutlined';
+import Close from '@material-ui/icons/Close';
+import { userActions, pageActions, alertActions, menuActions } from '../actions';
 
 import Config from '../config';
 
 import logo from '../images/logo.svg';
-import { pageConstants } from "../constants";
+import { pageConstants, menuConstants } from "../constants";
 
 const SearchBox = styled.input`
     height: 42px;
@@ -181,7 +183,7 @@ const Header = (props) => {
     /**
      * Functional Component Main Body
      */
-    const { username, email, logout, getProfile, loadPage, notification } = props;
+    const { username, email, menuState, logout, getProfile, loadPage, notification, openHamburgerMenu, closeHamburgerMenu } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -254,6 +256,14 @@ const Header = (props) => {
             break;
         }
         handleMenuClose();
+    }
+
+    function onMenuOpenClose(e) {
+        e.preventDefault();
+        if(menuState === menuConstants.MENU_OPEN)
+            closeHamburgerMenu();
+        else if(menuState === menuConstants.MENU_CLOSE)
+            openHamburgerMenu();
     }
 
     const renderMenu = (
@@ -352,6 +362,10 @@ const Header = (props) => {
             <ThemeProvider theme={theme}>
                 <AppBar position="fixed" color="primary">
                     <Toolbar>
+                        <IconButton onClick={e => onMenuOpenClose(e)}>
+                            {menuState === menuConstants.MENU_OPEN && <MenuOutlined />}
+                            {menuState === menuConstants.MENU_CLOSE && <Close />}
+                        </IconButton>
                         <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onMouseDownCapture={gotoHomepage}/>
                         {
                             onSearch&&<SearchBox type='text' value={searchValue} onChange={onSearchChanged} onBlur={() => setSearchFlag(false)} style={{opacity: 1}}/>
@@ -411,12 +425,16 @@ Header.propTypes = {
     getProfile: PropTypes.func.isRequired,
     loadPage: PropTypes.func.isRequired,
     notification: PropTypes.func.isRequired,
+    openHamburgerMenu: PropTypes.func.isRequired,
+    closeHamburgerMenu: PropTypes.func.isRequired,
+    menuState: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         username: state.auth.user?state.auth.user.username:"newuser",
-        email: state.auth.user?state.auth.user.email:"tmp@tmp.com"
+        email: state.auth.user?state.auth.user.email:"tmp@tmp.com",
+        menuState: state.menu.menuState,
     };
 }
 
@@ -425,6 +443,8 @@ const actionCreators = {
     getProfile: pageActions.getProfile,
     loadPage: pageActions.loadPage,
     notification: alertActions.notification,
+    openHamburgerMenu: menuActions.openHamburgerMenu,
+    closeHamburgerMenu: menuActions.closeHamburgerMenu,
 };
 
 export default connect(mapStateToProps, actionCreators)(Header);

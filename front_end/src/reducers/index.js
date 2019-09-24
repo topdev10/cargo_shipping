@@ -6,6 +6,7 @@ import pageReducer from './page.reducer';
 import quoteReducer from './quote.reducer';
 import billReducer from './bill.reducer';
 import reportReducer from './report.reducer';
+import menuReducer from './menu.reducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     quote:quoteReducer,
     bill:billReducer,
     report: reportReducer,
+    menu: menuReducer,
 });
 
 export default rootReducer;

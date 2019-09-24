@@ -9,7 +9,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Input from '@material-ui/core/Input';
 import { withStyles } from '@material-ui/core/styles';
 
-import { pageConstants } from '../../constants';
+import { pageConstants, menuConstants } from '../../constants';
 import { pageActions, reportActions } from '../../actions';
 
 import Device from '../../css/device';
@@ -39,18 +39,22 @@ const styles = theme => ({
 const Container = styled.div`
     displa: flex;
     flex-direction: column;
-    position: absolute;
+    position: relative;
+    float: left;
     top: 0px;
     margin-top: 64px;
     padding: 8px;
     height: calc(100vh - 64px);
     width: 100%;
-    left: 0px;
     background: #cccccc40;
-    @media ${Device.laptop} {
-        left: 320px;
-        width: calc(100% - 320px);
-        padding: 48px;
+    transition: width 1s;
+    @media ${Device.laptop} {    
+        width: ${props => {
+        let width = "100%";
+        if(props.menuState === menuConstants.MENU_OPEN)
+            width = "calc(100% - 320px)";
+        return width;
+    }}
     }
 `;
 
@@ -322,7 +326,7 @@ class Reports extends React.Component {
     render(){
 
         // eslint-disable-next-line react/prop-types
-        const { classes, reports } = this.props;
+        const { classes, reports, menuState } = this.props;
         const { onNewReport, filterList, reportTitle } = this.state;
 
         const FadeComponent = <Fade in={onNewReport}>
@@ -350,7 +354,7 @@ class Reports extends React.Component {
             </NewReportContainer>
         </Fade>;
         return (
-            <Container>
+            <Container menuState={menuState}>
                 <ReportsContainerRow>
                     <NewReport onNewReport={this.onNewReport} />
                     {
@@ -393,6 +397,7 @@ Reports.propTypes = {
     reports: PropTypes.array,
     loadPage: PropTypes.func.isRequired,
     requestNewQuote: PropTypes.func.isRequired,
+    menuState: PropTypes.string.isRequired,
 };
 
 const actionCreators = {
@@ -404,6 +409,7 @@ function mapStateToProps(state) {
     return {
         reports: state.page.info!==null?state.page.info.reports: null,
         newReport: state.report.report,
+        menuState: state.menu.menuState,
     };
 }
 

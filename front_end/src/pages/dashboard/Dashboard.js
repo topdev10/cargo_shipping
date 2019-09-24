@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { pageActions } from '../../actions';
-import { pageConstants } from '../../constants';
+import { pageConstants, menuConstants } from '../../constants';
 import Map from '../../components/map';
 import ActiveShipments from '../../components/ActiveShipments/ActiveShipments';
 import ActiveQuotes from '../../components/ActiveQuotes/ActiveQuotes';
@@ -18,17 +18,21 @@ import Device from '../../css/device';
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    position: fixed;
-    z-index: 999;
+    position: relative;
+    float: left;
     top: 0px;
     margin-top: 64px;
     height: calc(100vh - 64px);
     width: 100%;
-    left: 0px;
     background: #cccccc40;
-    @media ${Device.laptop} {
-        left: 322px;
-        width: calc(100% - 320px);
+    transition: width 1s;
+    @media ${Device.laptop} {    
+        width: ${props => {
+        let width = "100%";
+        if(props.menuState === menuConstants.MENU_OPEN)
+            width = "calc(100% - 320px)";
+        return width;
+    }}
     }
 `;
 
@@ -115,9 +119,10 @@ class Dashboard extends React.Component {
                 longitude: 121.413090
             }
         ];
+        const { menuState } = this.props;
         // const { tabIndex } = this.state;
         return (
-            <Container>
+            <Container menuState={menuState}>
                 <GoogleMapWrapper>
                     <Map data={data} locationList={locationList}/>
                 </GoogleMapWrapper>
@@ -144,6 +149,7 @@ class Dashboard extends React.Component {
 function mapStateToProps(state) {
     return {
         info: state.page.info,
+        menuState: state.menu.menuState,
     };
 }
 
@@ -159,6 +165,7 @@ Dashboard.propTypes = {
         reports: PropTypes.array,
     }),
     loadPage: PropTypes.func.isRequired,
+    menuState: PropTypes.string.isRequired,
 };
 
 const actionCreators = {
