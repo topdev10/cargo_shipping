@@ -8,7 +8,7 @@ class ToolBar extends Component {
 
     render() {
         return (
-            <div className="w-100 card board">
+            <div className="w-100 card board" style={{background: "#cccccc40"}}>
                 <div className="row">
                     <div className = "col-auto ml-auto">
                         <button type="button" className="btn btn-light">

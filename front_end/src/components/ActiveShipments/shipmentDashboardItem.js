@@ -8,6 +8,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import AirplanemodeActiveOutlined from '@material-ui/icons/AirplanemodeActiveOutlined';
 import LocalShipping from '@material-ui/icons/LocalShipping';
 import DirectionsBoatOutlined from '@material-ui/icons/DirectionsBoatOutlined';
+import Device from '../../css/device';
 
 const theme = createMuiTheme({
     palette: {
@@ -31,6 +32,9 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     overflow-y: scroll;
+    @media ${Device.laptop} {
+        height: calc(100% - 48px);
+    }
 `;
 
 const ShipmentItem = styled.div`

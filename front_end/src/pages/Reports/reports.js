@@ -46,6 +46,7 @@ const Container = styled.div`
     height: calc(100vh - 64px);
     width: 100%;
     left: 0px;
+    background: #cccccc40;
     @media ${Device.laptop} {
         left: 320px;
         width: calc(100% - 320px);
@@ -82,6 +83,7 @@ const SettingsContainer = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
+    height: 100%;
     flex: 1;
 `;
 
@@ -221,8 +223,12 @@ class Reports extends React.Component {
         this.setState({ onNewReport: false });
     }
 
-    onExistingReport = () => {
+    onEditReport = () => {
+        // alert("do you want to edit existing report?");
+    }
 
+    onRemoveReport = () => {
+        // alert("do you want to remove existing report?");
     }
 
     handleCheckedStateChanged = (checked) => {
@@ -352,7 +358,7 @@ class Reports extends React.Component {
                             &&(
                                 reports.length > 0 && 
                                     reports.map((report) =>
-                                        <ExistingReport onExistingReport={this.onExistingReport} data={report} key={report.id}/>)
+                                        <ExistingReport onEditReport={this.onEditReport} onRemoveReport={this.onRemoveReport} data={report} key={report.id}/>)
                             )
                     }
                 </ReportsContainerRow>

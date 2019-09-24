@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Edit from '@material-ui/icons/Edit';
-import Schedule from '@material-ui/icons/Schedule';
+import Delete from '@material-ui/icons/Delete';
 
 import CustomTooltip from '../../components/CustomToolTip/CustomToolTip';
 
@@ -117,17 +117,21 @@ const ScheduleWrapper = styled.span`
 `;
 
 const ExistingReport = (props) => {
-    const { onExistingReport } = props;
+    const { onEditReport, onRemoveReport } = props;
 
     const [background, setBackground] = React.useState(ReportNormal);
 
-    function onEditReport(e) {
+    function handleEditReport(e) {
         e.preventDefault();
-        onExistingReport();
+        onEditReport();
     }
 
+    function handleRemoveReport(e) {
+        e.preventDefault();
+        onRemoveReport();
+    }
     return(
-        <Container onClick={onExistingReport} 
+        <Container onClick={handleEditReport} 
             onMouseEnter={() => setBackground(ReportActive)}
             onMouseLeave={() => setBackground(ReportNormal)}>
             <ActionContainer>
@@ -135,13 +139,13 @@ const ExistingReport = (props) => {
             </ActionContainer>
             <ActionButtonContainer>
                 <EditWrapper>
-                    <CustomTooltip title="Edit" onClick={e=> onEditReport(e)}>
+                    <CustomTooltip title="Edit" onClick={e=> handleEditReport(e)}>
                         <Edit />
                     </CustomTooltip>
                 </EditWrapper>
                 <ScheduleWrapper>
-                    <CustomTooltip title="Schedule">
-                        <Schedule />
+                    <CustomTooltip title="Delete" onClick={e=> handleRemoveReport(e)}>
+                        <Delete />
                     </CustomTooltip>
                 </ScheduleWrapper>
             </ActionButtonContainer>
@@ -165,12 +169,14 @@ const ExistingReport = (props) => {
 };
 
 ExistingReport.propTypes = {
-    onExistingReport: PropTypes.func.isRequired,
+    onEditReport: PropTypes.func.isRequired,
+    onRemoveReport: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, props){
     return {
-        onExistingReport: props.onExistingReport,
+        onEditReport: props.onEditReport,
+        onRemoveReport: props.onRemoveReport,
     };
 }
 

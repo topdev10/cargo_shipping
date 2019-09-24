@@ -354,7 +354,7 @@ const Header = (props) => {
                     <Toolbar>
                         <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onMouseDownCapture={gotoHomepage}/>
                         {
-                            onSearch&&<SearchBox type='text' value={searchValue} onChange={onSearchChanged} style={{opacity: 1}}/>
+                            onSearch&&<SearchBox type='text' value={searchValue} onChange={onSearchChanged} onBlur={() => setSearchFlag(false)} style={{opacity: 1}}/>
                         }
                         {
                             onSearch&&<IconButton style={{position: "fixed", left: "275px"}} aria-label="Search" onClick={() => setSearchFlag(false)}>
