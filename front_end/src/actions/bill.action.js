@@ -7,12 +7,12 @@ function onPaymentRequest(data) {
 
     return dispatch => {
         BaseApi.requestPayment(data, (error, result) => {
-            if(error || result.data.error){
-                // dispatch(failure(error.toString()));
-                // dispatch(alertActions.error(error.toString));
-            } else {
+            console.log(error, result);
+            if(result.data.ship_id) {
                 dispatch(success(result.data.ship_id));
                 dispatch(alertActions.success("Payment Success!"));
+            } else {
+                dispatch(alertActions.error(result.data.error));
             }
         });
     };

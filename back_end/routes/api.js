@@ -7,7 +7,6 @@ const Auth = require('../controller/auth');
 const dotenv = require('dotenv');
 var http = require('https');
 const multer = require('multer');
-const stripe = require("stripe")("sk_test_oyPm28o5OOJkArfdU0dAplWj00g0Ygec9n");
 
 const storage = multer.diskStorage({
     destination: function(req, file, callback){
@@ -37,6 +36,7 @@ dotenv.config();
 /**
 * Functions to be used several times
 **/
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 // Generate 
 function pad (str, max) {
@@ -254,10 +254,9 @@ router.post('/requestPayment', function(req, res) {
       }, function(err, charge) {
         // asynchronously called
         if(err) {
-            console.log(err);
-            res.status(400).send({error: err, data: null});
+            console.log(err.raw.message);
+            res.send({error: err.raw.message, ship_id: null});
         } else {
-            console.log(ship_id,"=============")
             res.status(200).send({error: null, ship_id});
         }
     });
