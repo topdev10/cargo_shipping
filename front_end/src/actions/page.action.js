@@ -1,4 +1,4 @@
-import { pageConstants } from '../constants';
+import { pageConstants, billConstants } from '../constants';
 import { alertActions } from './alert.actions';
 import { history } from '../helpers';
 import BaseApi from '../api/baseApi';
@@ -83,9 +83,10 @@ function loadPage(page) {
         };
     }
 
-    function requestBilling(info) {
+    function requestBilling(billings) {
+        console.log("==123123==", billings);
         return {
-            type: pageConstants.BILLING, info
+            type: billConstants.BILLING, billings
         };
     }
     
@@ -236,19 +237,22 @@ function loadPage(page) {
                     shipID: "FLEX-68880",
                     id: "FLEX-68880-2",
                     date: "2019-08-31",
-                    balance: "$13,063.43"
+                    balance: "$13,063.43",
+                    status: 0
                 },
                 {
                     shipID: "FLEX-31845",
                     id: "FLEX-31845-3",
                     date: "2019-09-01",
-                    balance: "$11,136.67"
+                    balance: "$11,136.67",
+                    status: 0
                 },
                 {
                     shipID: "FLEX-31225",
                     id: "FLEX-31225-1",
                     date: "2019-09-21",
-                    balance: "$2,436.72"
+                    balance: "$2,436.72",
+                    status: 0
                 }
             ],
             reports: [
@@ -393,8 +397,9 @@ function loadPage(page) {
             dispatch(requestShipments(info));
             history.push('/pages/shipments');
         }
-        if(page === pageConstants.BILLING){
-            dispatch(requestBilling(info));
+        if(page === billConstants.BILLING){
+            console.log("=========================");
+            dispatch(requestBilling(info.billings));
             history.push('/pages/billing');
         }
         if(page === pageConstants.REPORTS){
