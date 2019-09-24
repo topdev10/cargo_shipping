@@ -88,6 +88,7 @@ const infoStyle = {
     alignItems: 'center',
     boxShadow: '0px 2px 2px 2px rgba(0, 0, 0, 0.03)',
     fontFamily: 'Arial',
+    fontSize: '12px',
     width: '300px',
     boxSizing: 'border-box'
 };
@@ -103,6 +104,7 @@ const successStyle = {
     alignItems: 'center',
     boxShadow: '0px 2px 2px 2px rgba(0, 0, 0, 0.03)',
     fontFamily: 'Arial',
+    fontSize: '12px',
     width: '300px',
     boxSizing: 'border-box'
 };
@@ -118,6 +120,7 @@ const errorStyle = {
     alignItems: 'center',
     boxShadow: '0px 2px 2px 2px rgba(0, 0, 0, 0.03)',
     fontFamily: 'Arial',
+    fontSize: '12px',
     width: '300px',
     boxSizing: 'border-box'
 };

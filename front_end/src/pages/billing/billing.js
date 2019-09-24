@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { billActions } from '../../actions';
 import { menuConstants } from '../../constants';
 import Device from '../../css/device';
+import Config from '../../config';
 import SearchBox from '../../components/BillFilters/SearchBox';
 import StatusBox from '../../components/BillFilters/StatusBox';
 import DateRangeBox from '../../components/BillFilters/DateRangeBox';
@@ -123,7 +124,7 @@ class Billing extends React.Component {
                     contentLabel="Example Modal"
                 >
                     <CardPayment
-                        stripePublicKey="pk_test_mfCPqZtW4If6nVmSF2Ahv2xp0013VlcByR"
+                        stripePublicKey={Config.STRIPE_PUBLIC_KEY}
                         handleCharge={this.submitPayment}
                     />
                 </Modal>
