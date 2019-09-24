@@ -17,6 +17,7 @@ import Quotes from './pages/quotes/quotes';
 import Shipments from './pages/shipments/shipments';
 import Billing from './pages/billing/billing';
 import Reports from './pages/Reports/reports';
+import Booking from './pages/booking/booking';
 
 import AlertFunction from './components/FunctionalComponents/AlertFunction';
 
@@ -43,6 +44,7 @@ const Routes = (props) => {
                             <AuthRoute path='/pages/quotes' component={Quotes}/>
                             <AuthRoute path='/pages/shipments' component={Shipments}/>
                             <AuthRoute path='/pages/billing' component={Billing}/>
+                            <AuthRoute path='/pages/booking' component={Booking}/>
                             <AuthRoute path='/pages/reports' component={Reports}/>
                         </AuthRoute>
                     }

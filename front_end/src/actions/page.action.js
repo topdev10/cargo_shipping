@@ -50,7 +50,6 @@ function updateAvatar(data) {
 
     return dispatch => {
         dispatch(request(data));
-        console.log(data.avatar.name);
         BaseApi.updateAvatar(data, (error, result) => {
             if(error){
                 dispatch(failure(error.toString()));
@@ -84,9 +83,14 @@ function loadPage(page) {
     }
 
     function requestBilling(billings) {
-        console.log("==123123==", billings);
         return {
             type: billConstants.BILLING, billings
+        };
+    }
+
+    function requestBooking(info) {
+        return {
+            type: pageConstants.BOOKING, info
         };
     }
     
@@ -398,9 +402,12 @@ function loadPage(page) {
             history.push('/pages/shipments');
         }
         if(page === billConstants.BILLING){
-            console.log("=========================");
             dispatch(requestBilling(info.billings));
             history.push('/pages/billing');
+        }
+        if(page === pageConstants.BOOKING) {
+            dispatch(requestBooking(info));
+            history.push('/pages/booking');
         }
         if(page === pageConstants.REPORTS){
             dispatch(requestReports(info));

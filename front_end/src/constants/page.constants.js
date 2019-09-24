@@ -18,7 +18,8 @@ export const pageConstants =  {
     QUOTES: 'QUOTES',
     SHIPMENTS: 'SHIPMENTS',
     BILLING: 'BILLING',
-    REPORTS: 'REPORTS'
+    REPORTS: 'REPORTS',
+    BOOKING: 'BOOKING',
 };
 
 export default pageConstants;

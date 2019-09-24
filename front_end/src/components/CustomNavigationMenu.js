@@ -16,6 +16,7 @@ import ForumIcon from '@material-ui/icons/Forum';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import EventNote from '@material-ui/icons/EventNote';
 import Dashboard from '@material-ui/icons/Dashboard';
 import { pageActions } from '../actions/page.action';
 import { pageConstants, billConstants, menuConstants } from '../constants';
@@ -106,6 +107,8 @@ function StyledTreeItem(props) {
             loadPage(billConstants.BILLING);
         else if(labelText === 'Reports')
             loadPage(pageConstants.REPORTS);
+        else if(labelText === 'Booking')
+            loadPage(pageConstants.BOOKING);
     };
 
     return (
@@ -179,8 +182,8 @@ function GmailTreeView(props) {
                 <StyledTreeItem nodeId="1" labelText="Dashboard" labelIcon={Dashboard} loadPage={loadPage}/>
                 <StyledTreeItem nodeId="2" labelText="Quotes" labelIcon={Assignment} loadPage={loadPage}/>
                 <StyledTreeItem nodeId="3" labelText="Shipments" labelIcon={DirectionsBoat} loadPage={loadPage}>
-                    <StyledTreeItem
-                        nodeId="6"
+                    {/* <StyledTreeItem
+                        nodeId="7"
                         labelText="Social"
                         labelIcon={SupervisorAccountIcon}
                         labelInfo=""
@@ -189,7 +192,7 @@ function GmailTreeView(props) {
                         loadPage={loadPage}
                     />
                     <StyledTreeItem
-                        nodeId="7"
+                        nodeId="8"
                         labelText="Updates"
                         labelIcon={InfoIcon}
                         labelInfo=""
@@ -198,7 +201,7 @@ function GmailTreeView(props) {
                         loadPage={loadPage}
                     />
                     <StyledTreeItem
-                        nodeId="8"
+                        nodeId="9"
                         labelText="Forums"
                         labelIcon={ForumIcon}
                         labelInfo=""
@@ -207,17 +210,18 @@ function GmailTreeView(props) {
                         loadPage={loadPage}
                     />
                     <StyledTreeItem
-                        nodeId="9"
+                        nodeId="10"
                         labelText="Promotions"
                         labelIcon={LocalOfferIcon}
                         labelInfo=""
                         color="#3c8039"
                         bgColor="#e6f4ea"
                         loadPage={loadPage}
-                    />
+                    /> */}
                 </StyledTreeItem>
                 <StyledTreeItem nodeId="4" labelText="Billing" labelIcon={MonetizationOn} loadPage={loadPage}/>
-                <StyledTreeItem nodeId="5" labelText="Reports" labelIcon={Assessment} loadPage={loadPage}/>
+                <StyledTreeItem nodeId="5" labelText="Booking" labelIcon={EventNote} loadPage={loadPage}/>
+                <StyledTreeItem nodeId="6" labelText="Reports" labelIcon={Assessment} loadPage={loadPage}/>
             </TreeView>
         </Container>
     );
