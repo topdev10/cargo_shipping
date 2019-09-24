@@ -6,6 +6,8 @@ import Tab from '@material-ui/core/Tab';
 import DirectionsBoatRounded from '@material-ui/icons/DirectionsBoatRounded';
 
 import ShipmentDashboardItem from './shipmentDashboardItem';
+import { pageActions } from '../../actions';
+import { pageConstants } from '../../constants';
 
 const Container = styled.div`
     position: relative;
@@ -42,6 +44,8 @@ const ActiveShipments = (props) => {
 
     function viewAllShipments(event) {
         event.preventDefault();
+        const { loadPage } = props;
+        loadPage(pageConstants.SHIPMENTS);
     }
 
     return (
@@ -70,6 +74,11 @@ ActiveShipments.defaultProps = {
 ActiveShipments.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     shipments: PropTypes.array,
+    loadPage: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(ActiveShipments);
+const actionCreators = {
+    loadPage: pageActions.loadPage,
+};
+
+export default connect(mapStateToProps, actionCreators)(ActiveShipments);

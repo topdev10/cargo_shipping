@@ -7,6 +7,8 @@ import Tab from '@material-ui/core/Tab';
 import AssignmentRounded from '@material-ui/icons/AssignmentRounded';
 
 import QuotesDashboardItem from './quotesDashboardItem';
+import { pageActions } from '../../actions';
+import { pageConstants } from '../../constants';
 
 const Container = styled.div`
     position: relative;
@@ -43,6 +45,8 @@ const ActiveQuotes = (props) => {
 
     function ViewAllQuotes(event) {
         event.preventDefault();
+        const { loadPage } = props;
+        loadPage(pageConstants.QUOTES);
     }
 
     return (
@@ -52,7 +56,7 @@ const ActiveQuotes = (props) => {
                 <QuotesDashboardItem quotes={quotes}></QuotesDashboardItem>
             }
             <NewQuotesButton onClick={ViewAllQuotes}>
-                New Quotes
+                View All Quotes
             </NewQuotesButton>
         </Container>
     );
@@ -71,6 +75,11 @@ ActiveQuotes.defaultProps = {
 ActiveQuotes.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     quotes: PropTypes.array,
+    loadPage: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(ActiveQuotes);
+const actionCreators = {
+    loadPage: pageActions.loadPage,
+};
+
+export default connect(mapStateToProps, actionCreators)(ActiveQuotes);

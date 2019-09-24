@@ -6,6 +6,8 @@ import Tab from '@material-ui/core/Tab';
 import MonetizationOn from '@material-ui/icons/MonetizationOn';
 
 import BillingDashboardItem from './BillingDashboardItem';
+import { pageActions } from '../../actions';
+import { billConstants } from '../../constants';
 
 const Container = styled.div`
     position: relative;
@@ -40,8 +42,10 @@ const DashboardBillings = (props) => {
     
     const { billings } = props;
 
-    function NewBilling(event) {
+    function ViewBillings(event) {
         event.preventDefault();
+        const { loadPage } = props;
+        loadPage(billConstants.BILLING);
     }
 
     return (
@@ -50,8 +54,8 @@ const DashboardBillings = (props) => {
             {billings!==null&&
                 <BillingDashboardItem billings={billings}></BillingDashboardItem>
             }
-            <NewInvoiceButton onClick={NewBilling}>
-                New Invoice
+            <NewInvoiceButton onClick={ViewBillings}>
+                View All Invoices
             </NewInvoiceButton>
         </Container>
     );
@@ -70,6 +74,11 @@ DashboardBillings.defaultProps = {
 DashboardBillings.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     billings: PropTypes.array,
+    loadPage: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(DashboardBillings);
+const actionCreators = {
+    loadPage: pageActions.loadPage,
+};
+
+export default connect(mapStateToProps, actionCreators)(DashboardBillings);
