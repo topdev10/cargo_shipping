@@ -91,7 +91,10 @@ class TreeMultiSelector extends React.Component {
             }
         });
         if(!flag)
-            checked.push(clicked.value);
+        {
+            if(!clicked.children)
+                checked.push(clicked.value);
+        }
         else checked.splice(pos, 1);
         handleChecked(checked);
     }
