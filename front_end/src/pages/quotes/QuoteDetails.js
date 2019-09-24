@@ -275,7 +275,7 @@ class QuoteDetails extends React.Component{
     }
 
     render(){
-        const {requestFreightQuote, newquote} = this.props;
+        const {requestFreightQuote, backRequestFreightQuote, newquote} = this.props;
         return(
             <Container ref={ref}>
                 {/* <Pdf targetRef={ref} filename="code-example.pdf">
@@ -433,7 +433,8 @@ class QuoteDetails extends React.Component{
                         </RouteContainer>
                     </RateAndRouteContainer>
                     <RestInformationContainer>
-                        <RequestButton onClick={e => requestFreightQuote(e, newquote)} > Cancel </RequestButton>
+                        <RequestButton onClick={ backRequestFreightQuote } > Back </RequestButton>
+                        <RequestButton onClick={e => requestFreightQuote(e, newquote)} > Add </RequestButton>
                     </RestInformationContainer>
                 </PDFContainer>
             </Container>
@@ -443,6 +444,7 @@ class QuoteDetails extends React.Component{
 
 QuoteDetails.propTypes = {
     requestFreightQuote: PropTypes.func.isRequired,
+    backRequestFreightQuote: PropTypes.func.isRequired,
     newquote: PropTypes.shape({
         shipmentName: PropTypes.string.isRequired,
         freightMethod: PropTypes.number.isRequired,
@@ -477,6 +479,7 @@ function mapStateToProps(state) {
 
 const actionCreators = {
     requestFreightQuote: quoteActions.requestFreightQuote,
+    backRequestFreightQuote: quoteActions.backRequestFreightQuote,
 };
 
 export default connect(mapStateToProps, actionCreators)(QuoteDetails);

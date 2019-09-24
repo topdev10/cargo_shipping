@@ -38,6 +38,11 @@ export function quotes(state = initialState, action) {
             ...state,
             onpagestatus: 1,
         };
+    case quoteConstants.BACK_REQUEST_QUOTE:
+        return {
+            ...state,
+            onpagestatus: 1
+        };
     case quoteConstants.ON_CANCEL_FREIGHT_QUOTE:
         return {
             ...state,

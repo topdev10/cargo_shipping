@@ -869,7 +869,7 @@ const NewQuotePanel = (props) => {
                     Cancel
                 </CancelFreightQuoteButton>
                 <RequestFreightQuoteButton onClick={e => handleReviewQuote(e)}>
-                    Request Freight Quote
+                    Review New Quote
                 </RequestFreightQuoteButton>
             </div>
         </Container>

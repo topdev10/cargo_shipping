@@ -13,8 +13,9 @@ function requestFreightQuote(data) {
 
         BaseApi.requestNewQuote(data, (error, result) => {
             if(error){
-                dispatch(failure(error.toString()));
-                dispatch(alertActions.error(error.toString));
+                // dispatch(failure(error.toString()));
+                // dispatch(alertActions.error(error.toString));
+                console.log(error, result);
             } else if(result){
                 dispatch(success(data));
             }
@@ -41,8 +42,15 @@ function onReviewFreightQuote(data) {
     };
 }
 
+function backRequestFreightQuote() {
+    return {
+        type: quoteConstants.BACK_REQUEST_QUOTE,
+    };
+}
+
 export const quoteActions = {
     requestFreightQuote,
+    backRequestFreightQuote,
     onNewFreightQuote,
     onCancelFreightQuote,
     onReviewFreightQuote,
