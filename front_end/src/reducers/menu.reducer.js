@@ -18,7 +18,7 @@ export function menu(state = initialState, action) {
         };
     default:
         return {
-            menuState: menuConstants.MENU_OPEN,
+            menuState: menuConstants.MENU_CLOSE,
         };
     }
 }

@@ -22,16 +22,18 @@ import Assessment from '@material-ui/icons/Assessment';
 import MonetizationOn from '@material-ui/icons/MonetizationOn';
 import Assignment from '@material-ui/icons/Assignment';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
+import EventNote from '@material-ui/icons/EventNote';
 import Pusher from 'pusher-js';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import MenuOutlined from '@material-ui/icons/MenuOutlined';
-import Close from '@material-ui/icons/Close';
+import CustomTooltip from './CustomToolTip/CustomToolTip';
+// import MenuOutlined from '@material-ui/icons/MenuOutlined';
+// import Close from '@material-ui/icons/Close';
 import { userActions, pageActions, alertActions, menuActions } from '../actions';
 
 import Config from '../config';
 
 import logo from '../images/logo.svg';
-import { pageConstants, menuConstants } from "../constants";
+import { pageConstants, menuConstants, billConstants } from "../constants";
 
 const SearchBox = styled.input`
     height: 42px;
@@ -258,6 +260,7 @@ const Header = (props) => {
         handleMenuClose();
     }
 
+    // eslint-disable-next-line no-unused-vars
     function onMenuOpenClose(e) {
         e.preventDefault();
         if(menuState === menuConstants.MENU_OPEN)
@@ -265,6 +268,23 @@ const Header = (props) => {
         else if(menuState === menuConstants.MENU_CLOSE)
             openHamburgerMenu();
     }
+
+    function redirectPage(e, labelText) {
+        e.preventDefault();
+        // history.push(`/pages/${labelText}`);
+        if(labelText === 'Dashboard')
+            loadPage(pageConstants.DASHBOARD);
+        else if(labelText === 'Quotes')
+            loadPage(pageConstants.QUOTES);
+        else if(labelText === 'Shipments')
+            loadPage(pageConstants.SHIPMENTS);
+        else if(labelText === 'Billing')
+            loadPage(billConstants.BILLING);
+        else if(labelText === 'Reports')
+            loadPage(pageConstants.REPORTS);
+        else if(labelText === 'Booking')
+            loadPage(pageConstants.BOOKING);
+    };
 
     const renderMenu = (
         <Menu
@@ -362,10 +382,10 @@ const Header = (props) => {
             <ThemeProvider theme={theme}>
                 <AppBar position="fixed" color="primary">
                     <Toolbar>
-                        <IconButton onClick={e => onMenuOpenClose(e)}>
+                        {/* <IconButton onClick={e => onMenuOpenClose(e)}>
                             {menuState === menuConstants.MENU_OPEN && <MenuOutlined />}
                             {menuState === menuConstants.MENU_CLOSE && <Close />}
-                        </IconButton>
+                        </IconButton> */}
                         <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onMouseDownCapture={gotoHomepage}/>
                         {
                             onSearch&&<SearchBox type='text' value={searchValue} onChange={onSearchChanged} onBlur={() => setSearchFlag(false)} style={{opacity: 1}}/>
@@ -378,18 +398,51 @@ const Header = (props) => {
                         <div className={classes.grow} />
                         <div className={classes.sectionDesktop}>
                             {
-                                !onSearch&&<IconButton  color='inherit' className={classes.mIconButton} onClick={() => setSearchFlag(true)}>
-                                    <SearchIcon />
-                                </IconButton>
+                                !onSearch&&
+                                <CustomTooltip title="Search">
+                                    <IconButton  color='inherit' className={classes.mIconButton} onClick={() => setSearchFlag(true)}>
+                                        <SearchIcon />
+                                    </IconButton>
+                                </CustomTooltip>
                             }
-                            <IconButton color='inherit' className={classes.mIconButton} onClick={gotoHomepage}>
-                                <Dashboard />
-                            </IconButton>
-                            <IconButton color="inherit" className={classes.mIconButton}>
-                                <Badge badgeContent={0} color="secondary">
-                                    <NotificationsIcon />
-                                </Badge>
-                            </IconButton>
+                            <CustomTooltip title="Dashboard">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Dashboard')}>
+                                    <Dashboard />
+                                </IconButton>
+                            </CustomTooltip>
+                            <CustomTooltip title="Quotes">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Quotes')}>
+                                    <Assignment />
+                                </IconButton>
+                            </CustomTooltip>
+                            <CustomTooltip title="Booking">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Booking')}>
+                                    <EventNote />
+                                </IconButton>
+                            </CustomTooltip>
+                            <CustomTooltip title="Shipments">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Shipments')}>
+                                    <DirectionsBoat />
+                                </IconButton>
+                            </CustomTooltip>
+                            <CustomTooltip title="Billing">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Billing')}>
+                                    <MonetizationOn />
+                                </IconButton>
+                            </CustomTooltip>
+                            <CustomTooltip title="Reports">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Reports')}>
+                                    <Assessment />
+                                </IconButton>
+                            </CustomTooltip>
+                            
+                            <CustomTooltip title="Notification">
+                                <IconButton color="inherit" className={classes.mIconButton}>
+                                    <Badge badgeContent={0} color="inherit">
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
+                            </CustomTooltip>
                             <IconButton
                                 color="inherit"
                                 edge="end"

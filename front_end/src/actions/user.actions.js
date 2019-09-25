@@ -19,7 +19,7 @@ function login(email, password, checked, company) {
             else if( res != null ){
                 dispatch(success({email: res.uemail, username: res.username , token: res.token, password, company}));
                 dispatch(alertActions.success("login success"));
-                history.push('/landing');
+                history.push('/pages/dashboard');
             }
         });
     };

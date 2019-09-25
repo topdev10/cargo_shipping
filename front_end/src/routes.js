@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { history } from './helpers';
 import AuthRoute from './components/PrivateRoute';
-import Landing from './pages/landing';
+// import Landing from './pages/landing';
 import Login from './pages/login/login';
 import Signup from './pages/signup/signup';
 import Header from './components/header';
 import ProfilePage from './pages/profile/profile';
 import TokenAuthComponent from './components/tokenAuthComponent';
 import LIAuthcomponent from './components/linkedinAuthComponent';
-import CustomNativationMenu from './components/CustomNavigationMenu';
+// import CustomNativationMenu from './components/CustomNavigationMenu';
 import Dashboard from './pages/dashboard/Dashboard';
 import Quotes from './pages/quotes/quotes';
 import Shipments from './pages/shipments/shipments';
@@ -30,7 +30,7 @@ const Routes = (props) => {
                 {alerts !== null && <AlertFunction />}
                 {username !== 'newuser' && <Header></Header>}
                 <Switch>
-                    <AuthRoute exact path="/landing" component={Landing}/>
+                    {/* <AuthRoute exact path="/landing" component={Landing}/> */}
                     <AuthRoute exact path="/Profile" component={ProfilePage}/>
                     <Route path="/auth/:username/:token" component={TokenAuthComponent}/>
                     <Route path="/linkedIn/:email/:username" component={LIAuthcomponent} />
@@ -38,8 +38,8 @@ const Routes = (props) => {
                     <Route path="/Signup" component={Signup} />
                     {
                         username!=='newuser'&&
-                        <AuthRoute path="/pages" component={CustomNativationMenu}>
-                            <CustomNativationMenu></CustomNativationMenu>
+                        <AuthRoute path="/pages">
+                            {/* <CustomNativationMenu></CustomNativationMenu> */}
                             <AuthRoute path="/pages/dashboard" component={Dashboard}/>
                             <AuthRoute path='/pages/quotes' component={Quotes}/>
                             <AuthRoute path='/pages/shipments' component={Shipments}/>
@@ -48,7 +48,7 @@ const Routes = (props) => {
                             <AuthRoute path='/pages/reports' component={Reports}/>
                         </AuthRoute>
                     }
-                    <Redirect from="/" to="/landing"></Redirect>
+                    <Redirect from="/" to="/pages/dashboard"></Redirect>
                 </Switch>
             </Fragment>
         </Router>

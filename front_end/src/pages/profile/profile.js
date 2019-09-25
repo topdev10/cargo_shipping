@@ -201,7 +201,7 @@ export class Profile extends React.Component {
     }
 
     backHomepage = () => {
-        history.push('/landing');
+        history.push('/pages/dashboard');
     }
 
     saveProfile = () => {
