@@ -373,11 +373,41 @@ router.post('/getProfile', [
 });
 
 function getLinkedInData(access_token,callback){
-    console.log("access token is ", access_token);
     var options = {
         host: 'api.linkedin.com',
         path: '/v2/emailAddress?q=members&projection=(elements*(handle~))',
         // path: '/v2/me?projection=(id,firstName,lastName)',
+        // path: '/v2/people/~:(id,first-name,last-name,headline,picture-url,location,industry,current-share,num-connections,summary,specialties,positions)?format=json',
+        protocol: 'https:',
+        method: 'GET',
+        headers: {
+            "Authorization": 'Bearer ' + access_token
+        }
+    };
+
+    var req = http.request(options, function (res) {
+        res.setEncoding('utf8');
+        var data = '';
+        res.on('data', function (chunk) {
+            console.log('PROFILE DATA  ', chunk);
+            data += chunk;
+        });
+        res.on('end', function () {
+            callback(JSON.parse(data));
+            console.log('No more data in response.');
+        });
+        req.on('error', function (e) {
+            console.log("problem with request: " + e.message);
+        });
+    });
+    req.end();
+}
+
+function getLinkedInName(access_token,callback){
+    var options = {
+        host: 'api.linkedin.com',
+        // path: '/v2/emailAddress?q=members&projection=(elements*(handle~))',
+        path: '/v2/me',
         // path: '/v2/people/~:(id,first-name,last-name,headline,picture-url,location,industry,current-share,num-connections,summary,specialties,positions)?format=json',
         protocol: 'https:',
         method: 'GET',
@@ -445,8 +475,12 @@ function handshake(code, ores) {
                     if(profile.elements)
                     {
                         const emailAddr = profile.elements[0]['handle~'].emailAddress;
-                        console.log(emailAddr);
-                        ores.redirect(`${process.env.FRONT_URL_DEPLOY}/linkedIn/${emailAddr}/Guest`)
+                        getLinkedInName(JSON.parse(data).access_token, (m_profile) => {
+                            console.log(emailAddr, m_profile);
+                            console.log(m_profile.localizedFirstName);
+                            if(m_profile.localizedFirstName)
+                                ores.redirect(`${process.env.FRONT_URL_DEPLOY}/linkedIn/${emailAddr}/${m_profile.localizedFirstName}`)
+                        })
                     }
                 })
             else ores.redirect(`${process.env.FRONT_URL_DEPLOY}/login`)

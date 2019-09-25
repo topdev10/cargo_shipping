@@ -37,16 +37,17 @@ const Routes = (props) => {
                     <Route path="/Login" component={Login} />
                     <Route path="/Signup" component={Signup} />
                     {
-                        username!=='newuser'&&
-                        <AuthRoute path="/pages">
-                            {/* <CustomNativationMenu></CustomNativationMenu> */}
-                            <AuthRoute path="/pages/dashboard" component={Dashboard}/>
-                            <AuthRoute path='/pages/quotes' component={Quotes}/>
-                            <AuthRoute path='/pages/shipments' component={Shipments}/>
-                            <AuthRoute path='/pages/billing' component={Billing}/>
-                            <AuthRoute path='/pages/booking' component={Booking}/>
-                            <AuthRoute path='/pages/reports' component={Reports}/>
-                        </AuthRoute>
+                        username!=='newuser'?
+                            <AuthRoute path="/pages">
+                                {/* <CustomNativationMenu></CustomNativationMenu> */}
+                                <AuthRoute path="/pages/dashboard" component={Dashboard}/>
+                                <AuthRoute path='/pages/quotes' component={Quotes}/>
+                                <AuthRoute path='/pages/shipments' component={Shipments}/>
+                                <AuthRoute path='/pages/billing' component={Billing}/>
+                                <AuthRoute path='/pages/booking' component={Booking}/>
+                                <AuthRoute path='/pages/reports' component={Reports}/>
+                            </AuthRoute>:
+                            <Redirect to='/login' />
                     }
                     <Redirect from="/" to="/pages/dashboard"></Redirect>
                 </Switch>

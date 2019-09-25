@@ -26,7 +26,6 @@ const Container = styled.div`
     flex-direction: row;
     font-familiy: 'Rubik';
     flex-direction: column;
-    min-width: 425px;
     @media ${Device.laptop} {
         flex-direction: row;
     }
@@ -39,9 +38,10 @@ const LeftSide = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
+    padding: 20px 8px;
+    height: 100vh;
     @media ${Device.laptop} {
-        width: 50%;
-        height: 100vh;
+        width: 40%;
     }
 `;
 
@@ -52,7 +52,7 @@ const CLabel = styled.label`
     font-weight: normal;
     font-size: 14px;
     line-height: 17px;
-    width: 400px;
+    width: 100%;
     height: 17px;
     color: #74e07d;
     border-radius: 8px;
@@ -64,7 +64,7 @@ const InputBox = styled.input`
     background: #FFFFFF;
     border: 1px solid #E8ECEF;
     border-radius: 4px;
-    width: 400px;
+    width: 100%;
     height: 52px;
     margin: 10px 0px 20px 0px;
     padding: 7px 10px;
@@ -81,7 +81,7 @@ const CustomSelector = styled.select`
     border: 1px solid #E8ECEF;
     margin: 10px 0px 20px 0px;
     padding: 10px 10px;
-    width: 400px;
+    width: 100%;
     height: 52px;
     transition: border-color .15s 
     &:hover,
@@ -96,47 +96,47 @@ const CustomSelectorOption = styled.option`
 
 const OptionsContainer = styled.div`
     display: flex;
-    width: 400px;
+    width: 100%;
     flex-direction: row;
 `;
 
-const RightSide = styled.div`
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100vh;
-    @media ${Device.laptop} {
-        display: flex;
-        width: 50%;
-        height: 100vh;
-    }
-`;
+// const RightSide = styled.div`
+//     position: relative;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     width: 100%;
+//     height: 100vh;
+//     @media ${Device.laptop} {
+//         display: flex;
+//         width: 50%;
+//         height: 100vh;
+//     }
+// `;
 
-const BriefComment = styled.label`
-    display: flex;
-    position: absolute;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    text-align: center;
-    padding: 20px;
-    right: 0px;
-    top: 35%;
+// const BriefComment = styled.label`
+//     display: flex;
+//     position: absolute;
+//     align-items: center;
+//     justify-content: center;
+//     width: 100%;
+//     text-align: center;
+//     padding: 20px;
+//     right: 0px;
+//     top: 35%;
 
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 24px;
-    display: flex;
-    align-items: center;
+//     font-family: Rubik;
+//     font-style: normal;
+//     font-weight: normal;
+//     font-size: 20px;
+//     line-height: 24px;
+//     display: flex;
+//     align-items: center;
 
-    color: #FFFFFF;
+//     color: #FFFFFF;
 
-    border-radius: 8px;
-`;
+//     border-radius: 8px;
+// `;
 
 const ForgotPasswordBTN = styled.button`
     font-family: Rubik;
@@ -158,7 +158,7 @@ const ForgotPasswordBTN = styled.button`
 
 const SignupButton = styled.button`
     display: flex;
-    width: 400px;
+    width: 100%;
     padding: 18px 8px;
     font-family: Rubik;
     font-style: normal;
@@ -179,7 +179,7 @@ const SignupButton = styled.button`
 
 const LoginButton = styled.button`
     display: flex;
-    width: 400px;
+    width: 100%;
     padding: 18px 8px;
     font-family: Rubik;
     font-style: normal;
@@ -200,7 +200,7 @@ const LoginButton = styled.button`
 
 const LoginLinkedInBtn = styled.a`
     display: flex;
-    width: 400px;
+    width: 100%;
     padding: 18px 8px;
     border-radius: 4px;
     justify-content: center;
@@ -227,7 +227,7 @@ const MLabel = styled.label`
 `;
 
 const BLabel = styled.label`
-    width: 400px;
+width: 100%;
     margin: 30px 0px;
     font-family: Rubik;
     font-style: normal;
@@ -244,7 +244,7 @@ const Login = (props) => {
     const [display, setDisplay] = React.useState("step1");
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [company, setCompany] = React.useState('intexfreight');
+    const [company, setCompany] = React.useState('Gt-Intl');
     const [cpassword, setConfirmPassword] = React.useState('');
     const [code, setCode] = React.useState('');
     let checked = false;
@@ -292,7 +292,7 @@ const Login = (props) => {
         setCompany(e.target.value);
     };
 
-    const linkedInAuthUri = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Config.LINKEDIN_CLIENT_ID}&redirect_uri=${Config.LINKEDIN_REDIRECT_URL_DEPLOY}&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share`;
+    const linkedInAuthUri = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Config.LINKEDIN_CLIENT_ID_LIVE}&redirect_uri=${Config.LINKEDIN_REDIRECT_URL_DEPLOY}&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share`;
     let leftShow;
     if(display === "step1" && !cpRequested || cpSuccess)
         leftShow = <LeftSide>
@@ -384,13 +384,13 @@ const Login = (props) => {
         <Container >
             {backgroundImages}
             {leftShow}
-            <RightSide>
+            {/* <RightSide>
                 <BriefComment>
                     Welcome to Freight-Genius... <br/>
                     We are online shipping company and you can easily ship your goods in time. <br/>
                     We are providing the best guarantee based on credit.
                 </BriefComment>
-            </RightSide>
+            </RightSide> */}
         </Container>
     );
 };

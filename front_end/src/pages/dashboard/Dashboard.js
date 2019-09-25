@@ -54,7 +54,6 @@ const DetailsContainer = styled.div`
     position: relative;
     overflow: hidden;
     padding: 0px 20px 20px 20px;
-    z-index: 999;
     width: 100%;
     left: 0px;
 `;

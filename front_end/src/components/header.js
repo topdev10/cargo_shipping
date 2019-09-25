@@ -342,6 +342,14 @@ const Header = (props) => {
                     Quotes
                 </Typography>
             </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "BOOKING")}>
+                <IconButton color="inherit">
+                    <EventNote />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Booking
+                </Typography>
+            </MenuItem>
             <MenuItem onClick={e => onNavigate(e, "SHIPMENTS")}>
                 <IconButton color="inherit">
                     <DirectionsBoat />
@@ -438,7 +446,7 @@ const Header = (props) => {
                             
                             <CustomTooltip title="Notification">
                                 <IconButton color="inherit" className={classes.mIconButton}>
-                                    <Badge badgeContent={0} color="inherit">
+                                    <Badge badgeContent={0} color="error">
                                         <NotificationsIcon />
                                     </Badge>
                                 </IconButton>
@@ -458,7 +466,7 @@ const Header = (props) => {
                             </IconButton>
                         </div>
                         <div className={classes.sectionMobile}>
-                            <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
+                            <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="default">
                                 <MoreIcon />
                             </IconButton>
                         </div>
