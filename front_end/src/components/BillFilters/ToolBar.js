@@ -11,11 +11,11 @@ class ToolBar extends Component {
             <div className="w-100 card board" style={{background: "#cccccc40"}}>
                 <div className="row">
                     <div className = "col-auto ml-auto">
-                        <button type="button" className="btn btn-light">
-                            <GetApp color='disabled'></GetApp>
+                        <button type="button" className="btn btn-default btn-outline-primary">
+                            <GetApp ></GetApp>
                         </button>
-                        <button type="button" className="btn btn-light">
-                            <SettingsApplications color='disabled'></SettingsApplications>
+                        <button type="button" className="btn btn-default btn-outline-primary" style={{marginLeft: '10px'}}>
+                            <SettingsApplications ></SettingsApplications>
                         </button>
                     </div>
                 </div>

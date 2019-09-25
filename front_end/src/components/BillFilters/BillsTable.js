@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { billConstants } from '../../constants';
 import { pageActions } from '../../actions';
+import './style.css';
 
 const columns = (onMakePayment) => ([
     {
@@ -32,9 +33,9 @@ const columns = (onMakePayment) => ([
         allowOverflow: true,
         cell: (record) => <div className="">
             {record.status === 1&&
-            <button type="button" onClick={() => onMakePayment(record)} className="btn btn-default btn-outline-primary btn-sm" disabled>Paid</button>}
+            <button type="button" onClick={() => onMakePayment(record)} className="btn btn-primary btn-outline-default btn-md" disabled>Paid</button>}
             {record.status === 0&&
-            <button type="button" onClick={() => onMakePayment(record)} className="btn btn-default btn-outline-primary btn-sm">MakePayment</button>}
+            <button type="button" onClick={() => onMakePayment(record)} className="btn btn-primary btn-outline-default btn-md">MakePayment</button>}
             <button type="button" className="btn btn-link btn-sm"><GetApp></GetApp></button></div>,
     },
     

@@ -3,9 +3,9 @@ class Config {
         this.config = {};
         this.configReady = false;
         // Deploy Url
-        this.BACKEND_API_URL = "http://ec2-35-182-231-236.ca-central-1.compute.amazonaws.com:8000/";
+        // this.BACKEND_API_URL = "http://ec2-35-182-231-236.ca-central-1.compute.amazonaws.com:8000/";
         // Local Url
-        // this.BACKEND_API_URL = "http://localhost:8000/";
+        this.BACKEND_API_URL = "http://localhost:8000/";
         this.PUSHER_APP_ID = "863077";
         this.PUSHER_KEY = "2ea31d0b05f2da4caf6e";
         this.PUSHER_SECRET = "7b5538b61ee06197ad3f";

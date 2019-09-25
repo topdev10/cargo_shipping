@@ -1,9 +1,17 @@
+div {
+    border-width: 2px !important;
+}
+
 .toolbox {
     padding: 4px;
 }
 
+.w-100 {
+    background-color: #f2f2f2 !important;
+}
+
 .toolkit {
-    border: 1px solid #ccc;
+    border: 1px solid #007bff;
     border-radius: 5px;
 }
 
@@ -12,7 +20,15 @@
 }
 
 .highlight {
-    border-color:#80bdff;
+    border-color:#007bff;
+}
+
+.rdt_TableCol_Sortable, .rdt_TableCell{
+    font-size:16px;
+}
+
+.rdt_TableHeadRow {
+    background-color: #fafafa !important;
 }
 
 .vcenter {
@@ -26,14 +42,15 @@
 
 .row .grid-divider > [class*="col-"]:nth-child(n + 2):after {
     content: "";
-    background-color: #ccc;
+    background-color: #007bff;
     position: absolute;
     top: 0;
     bottom: 0;
+    width: 2px;
 }
 
 .highlight > [class*="col-"]:nth-child(n + 2):after {
-    background-color: #80bdff !important;
+    background-color: #007bff !important;
 }
 
 .grid-divider {
@@ -41,26 +58,13 @@
     position: relative;
 }
   
-.grid-divider > [class*="col-"]:nth-child(n + 2):after {
-    content: "";
-    background-color: #ccc;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-}
-
 .highlight > [class*="col-"]:nth-child(n + 2):after {
-    background-color: #80bdff !important;
+    background-color: #007bff !important;
 }
 
 .dropdown-heading {
-    border: 1px solid #ccc !important;
+    border: none !important;
     border-radius: 4px;
-}
-
-.dropdown-heading:hover,
-.dropdown-heading:hover .dropdown-heading-value span {
-  border-color: #80bdff !important;
 }
 
 @media (max-width: 767px) {
