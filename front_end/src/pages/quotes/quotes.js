@@ -28,7 +28,7 @@ const Container = styled.div`
     top: 0px;
     margin-top: 64px;
     height: calc(100vh - 64px);
-    padding: 7px;
+    padding: 12px;
     overflow: auto;
     min-width: 650px;
     width: 100%;
@@ -72,7 +72,7 @@ const QuotesTableContainer = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: calc(100vh - 150px);
+    height: calc(100vh - 160px);
     border: top: 2px solid #ccc;
     overflow-x: auto;
 `;
@@ -446,7 +446,7 @@ class Quotes extends React.Component{
                                             {row.status===2&&"Quotes Ready"}
                                             {row.status===4&&"Quotes Expired"}
                                         </TableCell>
-                                        <TableCell align="left" style={{minWidth: "200px"}}>
+                                        <TableCell align="left" style={{minWidth: "100px"}}>
                                             <ViewQuoteButton>View Quote</ViewQuoteButton>
                                         </TableCell>
                                     </TableRow>
