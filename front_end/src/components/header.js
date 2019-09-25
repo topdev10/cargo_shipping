@@ -248,8 +248,11 @@ const Header = (props) => {
         case "SHIPMENTS":
             loadPage(pageConstants.SHIPMENTS);
             break;
+        case "BOOKING":
+            loadPage(pageConstants.BOOKING);
+            break;
         case "BILLING":
-            loadPage(pageConstants.BILLING);
+            loadPage(billConstants.BILLING);
             break;
         case "REPORTS":
             loadPage(pageConstants.REPORTS);
