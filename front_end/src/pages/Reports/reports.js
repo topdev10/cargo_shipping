@@ -19,7 +19,11 @@ import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import LocalShipping from '@material-ui/icons/LocalShipping';
-import { withStyles } from '@material-ui/core/styles';
+import { createMuiTheme, withStyles } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import Edit from '@material-ui/icons/Edit';
+import IconButton from '@material-ui/core/IconButton';
+import Remove from '@material-ui/icons/Remove';
 
 import { pageConstants, menuConstants } from '../../constants';
 import { pageActions, reportActions } from '../../actions';
@@ -31,8 +35,20 @@ import Fade from '../../components/FunctionalComponents/fade';
 import TreeMultiSelector from '../../components/FunctionalComponents/treeMultiSelector';
 import DragAndDropComponent from '../../components/FunctionalComponents/dragAndDropComponent';
 import { applyDrag } from '../../components/FunctionalComponents/utils';
+import CustomTooltip from '../../components/CustomToolTip/CustomToolTip';
 
-const styles = theme => ({
+const theme = createMuiTheme({
+    palette: {
+        secondary: {
+            main: '#ec4535',
+        },
+        primary: {
+            main: '#2d24b9',
+        }
+    },
+});
+
+const styles = styleTheme => ({
     modal: {
         height: "100%",
         width: "100%",
@@ -41,10 +57,10 @@ const styles = theme => ({
         justifyContent: 'center',
     },
     paper: {
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: styleTheme.palette.background.paper,
         border: '2px solid #000',
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
+        boxShadow: styleTheme.shadows[5],
+        padding: styleTheme.spacing(2, 4, 3),
     },
 });
 
@@ -532,6 +548,18 @@ class Reports extends React.Component {
                                             {row.shipperCompanyName}
                                         </TableCell>
                                         <TableCell align="left" style={{minWidth: "120px"}}>
+                                            <ThemeProvider theme={theme}>
+                                                <CustomTooltip title="Edit">
+                                                    <IconButton color="primary">
+                                                        <Edit />
+                                                    </IconButton>
+                                                </CustomTooltip>
+                                                <CustomTooltip title="Remove">
+                                                    <IconButton color="secondary">
+                                                        <Remove />
+                                                    </IconButton>
+                                                </CustomTooltip>
+                                            </ThemeProvider>
                                             {/* <ViewQuoteButton>View Quote</ViewQuoteButton> */}
                                         </TableCell>
                                     </TableRow>
