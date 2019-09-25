@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-access-state-in-setstate */
 /* eslint-disable prefer-const */
 import React from 'react';
@@ -7,6 +8,17 @@ import { connect } from 'react-redux';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Input from '@material-ui/core/Input';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableHead from '@material-ui/core/TableHead';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
+import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
+import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
+
+import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
+import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
+import LocalShipping from '@material-ui/icons/LocalShipping';
 import { withStyles } from '@material-ui/core/styles';
 
 import { pageConstants, menuConstants } from '../../constants';
@@ -43,9 +55,12 @@ const Container = styled.div`
     float: left;
     top: 0px;
     margin-top: 64px;
-    padding: 8px;
     height: calc(100vh - 64px);
+    padding: 7px;
+    overflow: auto;
+    min-width: 650px;
     width: 100%;
+    left: 0px;
     background: #cccccc40;
     transition: width 1s;
     @media ${Device.laptop} {    
@@ -109,6 +124,24 @@ const NewQuoteInputRow = styled.div`
     width: 100%;
     padding: 0px 25px;
     justify-content: space-between;
+`;
+
+const ReportsTableContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 150px);
+    border: top: 2px solid #ccc;
+    overflow-x: auto;
+`;
+
+const HeaderRowLabelContainer = styled.div`
+    color: black;
+    cursor: pointer;
+
+    &:hover {
+        color: #093eda;
+    }
 `;
 
 const reportNodes = [
@@ -205,6 +238,12 @@ class Reports extends React.Component {
             onNewReport: false,
             filterList: [],
             reportTitle: "",
+            location: "ca",
+            isflight: true,
+            isShip: true,
+            isVan: true,
+            // eslint-disable-next-line react/no-unused-state
+            sortBy: "status",
         };
     }
 
@@ -259,6 +298,49 @@ class Reports extends React.Component {
         // eslint-disable-next-line react/prop-types
         const { requestNewQuote, report } = this.props;
         requestNewQuote(report);
+    }
+
+    sortArray = (array) => {
+        const { sortBy } = this.state;
+        const res = array.sort((a,b) => {
+            if(sortBy === 'venderid') return a.venderID > b.venderID;
+            if(sortBy === 'containertype') return a.containerType - b.containerType;
+            if(sortBy === 'createdat') return a.createdat > b.createdat;
+            if(sortBy === 'incoterm') return a.incoterm > b.incoterm;
+            if(sortBy === 'pickup') return a.pickupCompanyName > b.pickupCompanyName;
+            if(sortBy === 'delievered') return a.delieveryCompanyName > b.delieveryCompanyName;
+            if(sortBy === 'shippedby') return a.shipperCompanyName - b.shipperCompanyName;
+            return b.shipperCompanyName - a.shipperCompanyName;
+        });
+        return res;
+    }
+
+    customFilter = (array) => {
+        let result = [];
+        const { quoteState, location, isflight, isShip, isVan } = this.state;
+        if(array !==null && array.length > 0){
+            array.forEach(element => {
+                let insertFlag = true;
+                if(quoteState!==0 && element.status!== quoteState) insertFlag = false;
+                if(element.freight===1&&!isflight) insertFlag=false;
+                if(element.freight===2&&!isShip) insertFlag=false;
+                if(element.freight===3&&!isVan) insertFlag=false;
+                if(location !== "all"){
+                    if(location === 'ca' && (!element.from.includes("Canada") && !element.to.includes("Canada")))
+                        insertFlag = false;
+                    if(location === 'us' && (!element.from.includes("United States") && !element.to.includes("United States")))
+                        insertFlag = false;
+                    if(location === 'cn' && (!element.from.includes("China") && !element.to.includes("China")))
+                        insertFlag = false;
+                    if(location === 'au' && (!element.from.includes("Australia") && !element.to.includes("Australia")))
+                        insertFlag = false;
+                    if(location === 'ru' && (!element.from.includes("Russia") && !element.to.includes("Russia")))
+                        insertFlag = false;
+                }
+                if(insertFlag) result.push(element);
+            });
+        } else result = null;
+        return result;
     }
 
     getLabel = (value) => {
@@ -323,11 +405,17 @@ class Reports extends React.Component {
         this.setState({reportTitle: e.target.value});
     }
 
+    onChangeFilterBy = (e, type) => {
+        e.preventDefault();
+        this.setState({sortBy: type});
+    }
+
     render(){
 
         // eslint-disable-next-line react/prop-types
         const { classes, reports, menuState } = this.props;
         const { onNewReport, filterList, reportTitle } = this.state;
+        const { quoteState, location, isflight, isShip, isVan, sortBy } = this.state;
 
         const FadeComponent = <Fade in={onNewReport}>
             <NewReportContainer>
@@ -354,36 +442,135 @@ class Reports extends React.Component {
             </NewReportContainer>
         </Fade>;
         return (
-            <Container menuState={menuState}>
-                <ReportsContainerRow>
-                    <NewReport onNewReport={this.onNewReport} />
-                    {
-                        reports !== null
-                            &&(
-                                reports.length > 0 && 
-                                    reports.map((report) =>
-                                        <ExistingReport onEditReport={this.onEditReport} onRemoveReport={this.onRemoveReport} data={report} key={report.id}/>)
-                            )
-                    }
-                </ReportsContainerRow>
-                <Modal
-                    aria-labelledby="spring-modal-title"
-                    aria-describedby="spring-modal-description"
-                    // eslint-disable-next-line react/prop-types
-                    className={classes.modal}
-                    open={onNewReport}
-                    onClose={() => this.handleCloseNewReport()}
-                    closeAfterTransition
-                    BackdropComponent={Backdrop}
-                    BackdropProps={{
-                        timeout: 500,
-                    }}
-                >
-                    {
-                        FadeComponent
-                    }
-                </Modal>
+            <Container>
+                <ReportsTableContainer>
+                    <Table stickyHeader>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "venderid")}>
+                                        VenderId
+                                        { sortBy==='venderid' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "containertype")}>
+                                        ContainerType
+                                        { sortBy==='containertype' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "createdat")}>
+                                        Created At
+                                        { sortBy==='createdat' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "incoterm")}>
+                                        Incoterm
+                                        { sortBy==='from' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "pickup")}>
+                                        PickUp
+                                        { sortBy==='pickup' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer>
+                                        CargoDetails
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "delievered")}>
+                                        Delievered
+                                        { sortBy==='delievered' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="center">
+                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "shippedby")}>
+                                        ShippedBy
+                                        { sortBy==='shippedby' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                                <TableCell align="left">
+                                    <HeaderRowLabelContainer>
+                                        Action
+                                    </HeaderRowLabelContainer>
+                                </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {reports!=null&&this.sortArray(reports).map(row => {
+                                return(
+                                    <TableRow hover role='checkbox' key={row.id}>
+                                        <TableCell align="center" style={{maxWidth: "120px"}}>
+                                            {row.venderID}
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: "120px"}}>
+                                            {row.containerType===1&&<FlightTakeoff />}
+                                            {row.containerType===2&&<DirectionsBoat />}
+                                            {row.containerType===3&&<LocalShipping />}
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: "170px"}}>
+                                            {row.createdat}
+                                        </TableCell>
+                                        <TableCell align="center" style={{maxWidth: "115px"}}>
+                                            {row.incoterm}
+                                        </TableCell>
+                                        <TableCell align="center" style={{maxWidth: "110px"}}>
+                                            {row.pickupCompanyName}
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: "150px"}}>
+                                            {row.cargoDetails}
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: "150px"}}>
+                                            {row.delieveryCompanyName}
+                                        </TableCell>
+                                        <TableCell align="center" style={{minWidth: "120px"}}>
+                                            {row.shipperCompanyName}
+                                        </TableCell>
+                                        <TableCell align="left" style={{minWidth: "120px"}}>
+                                            {/* <ViewQuoteButton>View Quote</ViewQuoteButton> */}
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                        </TableBody>
+                    </Table>
+                </ReportsTableContainer>
             </Container>
+            // <Container menuState={menuState}>
+            //     <ReportsContainerRow>
+            //         <NewReport onNewReport={this.onNewReport} />
+            //         {
+            //             reports !== null
+            //                 &&(
+            //                     reports.length > 0 && 
+            //                         reports.map((report) =>
+            //                             <ExistingReport onEditReport={this.onEditReport} onRemoveReport={this.onRemoveReport} data={report} key={report.id}/>)
+            //                 )
+            //         }
+            //     </ReportsContainerRow>
+            //     <Modal
+            //         aria-labelledby="spring-modal-title"
+            //         aria-describedby="spring-modal-description"
+            //         // eslint-disable-next-line react/prop-types
+            //         className={classes.modal}
+            //         open={onNewReport}
+            //         onClose={() => this.handleCloseNewReport()}
+            //         closeAfterTransition
+            //         BackdropComponent={Backdrop}
+            //         BackdropProps={{
+            //             timeout: 500,
+            //         }}
+            //     >
+            //         {
+            //             FadeComponent
+            //         }
+            //     </Modal>
+            // </Container>
         );
     }
 }
