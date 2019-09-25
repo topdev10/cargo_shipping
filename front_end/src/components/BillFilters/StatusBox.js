@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import "./style.css";
 
 import Explore from '@material-ui/icons/Explore';
-import { ThemeProvider } from '@material-ui/styles';
-import { createMuiTheme } from '@material-ui/core/styles';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -12,13 +10,6 @@ import MultiSelect from "@khanacademy/react-multi-select";
 import Checkbox from 'material-ui/Checkbox';
 
 const muiTheme = getMuiTheme({});
-const theme = createMuiTheme({
-    palette: {
-        primary: {
-            main: "#80bdff",
-        },
-    },
-});
 
 const options = [
     { value: 1, label: "Past-due" },
@@ -75,13 +66,11 @@ class StatusBox extends Component {
     render() {
         const { selectedOptions } = this.state;
         return (
-            <div className="container toolkit">
+            <div className="container toolkit border-primary">
                 <div className="row grid-divider">
                     <div className="col-md-2 vcenter">
                         <div className="left-icon">
-                            <ThemeProvider theme={theme}>
-                                <Explore color='primary' />
-                            </ThemeProvider>
+                            <Explore style={{color: "#007bff"}}/>
                         </div>
                     </div>
                     <div className="col-md-10">
