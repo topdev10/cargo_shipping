@@ -14,7 +14,7 @@ import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import LocalShipping from '@material-ui/icons/LocalShipping';
 
-import { pageConstants } from '../../constants';
+import { bookingConstants } from '../../constants';
 import { pageActions } from '../../actions';
 
 const Container = styled.div`
@@ -192,7 +192,7 @@ class Booking extends React.Component{
     componentDidMount(){
         const { bookings, loadPage } = this.props;
         if(bookings === null){
-            loadPage(pageConstants.BOOKING);
+            loadPage(bookingConstants.ON_REQUEST_ALL_BOOKINGS);
         }
     }
 
@@ -247,7 +247,8 @@ class Booking extends React.Component{
     render() {
         const { BookingState, location, isflight, isShip, isVan, sortBy } = this.state;
         const { bookings } = this.props;
-        const mlistData = this.customFilter(bookings);
+        let mlistData = this.customFilter(bookings);
+        mlistData = bookings;
         return (
             <Container >
                 <BookingsFilterBar>
@@ -376,7 +377,7 @@ class Booking extends React.Component{
                                             {row.status===2&&"Bookings Ready"}
                                             {row.status===4&&"Bookings Expired"}
                                         </TableCell>
-                                        <TableCell align="left" style={{minWidth: "200px"}}>
+                                        <TableCell align="left" style={{minWidth: "100px"}}>
                                             <ViewBookingButton>View Booking</ViewBookingButton>
                                         </TableCell>
                                     </TableRow>
@@ -385,7 +386,6 @@ class Booking extends React.Component{
                         </TableBody>
                     </Table>
                 </BookingsTableContainer>
-                {bookings}
             </Container>
         )
     }
@@ -393,7 +393,8 @@ class Booking extends React.Component{
 
 function mapStateToProps(state) {
     return {
-        bookings: state.bookings?state.bookings.details:null,
+        // bookings: state.booking?state.booking.details:null,
+        bookings: state.booking!==null?state.booking.bookings: null,
     };
 }
 

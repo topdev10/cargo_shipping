@@ -1,4 +1,4 @@
-import { pageConstants, billConstants } from '../constants';
+import { pageConstants, billConstants, bookingConstants } from '../constants';
 import { alertActions } from './alert.actions';
 import { history } from '../helpers';
 import BaseApi from '../api/baseApi';
@@ -88,9 +88,9 @@ function loadPage(page) {
         };
     }
 
-    function requestBooking(info) {
+    function requestBooking(bookings) {
         return {
-            type: pageConstants.BOOKING, info
+            type: bookingConstants.ON_REQUEST_ALL_BOOKINGS, bookings
         };
     }
     
@@ -491,8 +491,8 @@ function loadPage(page) {
             dispatch(requestBilling(info.billings));
             history.push('/pages/billing');
         }
-        if(page === pageConstants.BOOKING) {
-            dispatch(requestBooking(info));
+        if(page === bookingConstants.ON_REQUEST_ALL_BOOKINGS) {
+            dispatch(requestBooking(info.bookings));
             history.push('/pages/booking');
         }
         if(page === pageConstants.REPORTS){
