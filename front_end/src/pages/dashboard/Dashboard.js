@@ -40,11 +40,6 @@ const GoogleMapWrapper = styled.div`
     height: 45%;
     min-width: 500px;
     width: 100%;
-    left: 0px;
-    @media ${Device.laptop} {
-        left: 320px;
-        width: calc(100% - 320px);
-    }
 `;
 
 const DetailsContainer = styled.div`

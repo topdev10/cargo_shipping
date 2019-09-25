@@ -1,0 +1,13 @@
+.mapWrapper {
+    background: green;
+    height: 45% !important;
+    min-width: 500px;
+    width: 100%;
+    left: 0px !important;
+}
+
+@media (min-width: 1024px) {
+    .mapWrapper {
+        width: 66% !important;
+    }
+}
