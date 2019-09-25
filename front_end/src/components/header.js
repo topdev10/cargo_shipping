@@ -23,6 +23,7 @@ import MonetizationOn from '@material-ui/icons/MonetizationOn';
 import Assignment from '@material-ui/icons/Assignment';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import EventNote from '@material-ui/icons/EventNote';
+import Divider from '@material-ui/core/Divider';
 import Pusher from 'pusher-js';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import CustomTooltip from './CustomToolTip/CustomToolTip';
@@ -35,13 +36,19 @@ import Config from '../config';
 import logo from '../images/logo.svg';
 import { pageConstants, menuConstants, billConstants } from "../constants";
 
+// eslint-disable-next-line no-unused-vars
 const SearchBox = styled.input`
+    position: fixed;
+    z-index: 999;
+    top: 12px;
+    left: 33%;
+    margin: auto;
     height: 42px;
-    width: calc(100vw - 250px);
+    width: 250px;
     margin-left: 15px;
     border-radius: 10px;
     border: 2px solid #78c2ec;
-    padding: 5px 15px 5px 50px;
+    padding: 5px 10px 5px 10px;
 
     font-family: Rubik;
     font-style: normal;
@@ -49,6 +56,8 @@ const SearchBox = styled.input`
     font-size: 14px;
     line-height: 19px;
     color: #252631;
+    margin: auto;
+    transition: width 1s;
 
     &:hover {
         border: 2px solid #7595bb;
@@ -189,7 +198,9 @@ const Header = (props) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    // eslint-disable-next-line no-unused-vars
     const [searchValue, setSearchValue] = React.useState('');
+    // eslint-disable-next-line no-unused-vars
     const [onSearch, setSearchFlag] = React.useState(false);
 
     const isMenuOpen = Boolean(anchorEl);
@@ -232,6 +243,7 @@ const Header = (props) => {
         setMobileMoreAnchorEl(event.currentTarget);
     }
 
+    // eslint-disable-next-line no-unused-vars
     function onSearchChanged(event) {
         setSearchValue(event.target.value);
     }
@@ -303,6 +315,7 @@ const Header = (props) => {
                 </IconButton>
                 Profile
             </MenuItem>
+            <Divider />
             <MenuItem onClick={handleLogout}>
                 <IconButton>
                     <Exit></Exit>
@@ -319,16 +332,6 @@ const Header = (props) => {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <IconButton color="inherit">
-                    <Badge badgeContent={0} color="secondary">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <Typography variant="h6" noWrap>
-                    Notifications
-                </Typography>
-            </MenuItem>
             <MenuItem onClick={e => onNavigate(e, "DASHBOARD")}>
                 <IconButton color="inherit">
                     <Dashboard />
@@ -377,6 +380,17 @@ const Header = (props) => {
                     Reports
                 </Typography>
             </MenuItem>
+            <Divider />
+            <MenuItem>
+                <IconButton color="inherit">
+                    <Badge badgeContent={0} color="secondary">
+                        <NotificationsIcon />
+                    </Badge>
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Notifications
+                </Typography>
+            </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton color="inherit">
                     <AccountCircle className={classes.avatar_mobile} />
@@ -399,23 +413,19 @@ const Header = (props) => {
                         </IconButton> */}
                         <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onMouseDownCapture={gotoHomepage}/>
                         {
-                            onSearch&&<SearchBox type='text' value={searchValue} onChange={onSearchChanged} onBlur={() => setSearchFlag(false)} style={{opacity: 1}}/>
+                            <CustomTooltip title="Search">
+                                <IconButton  color='inherit' className={classes.mIconButton} onClick={() => setSearchFlag(true)}>
+                                    <SearchIcon />
+                                </IconButton>
+                            </CustomTooltip>
                         }
-                        {
-                            onSearch&&<IconButton style={{position: "fixed", left: "275px"}} aria-label="Search" onClick={() => setSearchFlag(false)}>
+                        {/* <SearchBox type='text' value={searchValue} onChange={onSearchChanged} onBlur={() => setSearchFlag(false)} style={onSearch?{width: '250px'}:{width: '100px'}}/> */}
+                        {/* {
+                            onSearch&&<IconButton style={{position: "absolute"}} aria-label="Search" onClick={() => setSearchFlag(false)}>
                                 <SearchIcon />
                             </IconButton>
-                        }
-                        <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
-                            {
-                                !onSearch&&
-                                <CustomTooltip title="Search">
-                                    <IconButton  color='inherit' className={classes.mIconButton} onClick={() => setSearchFlag(true)}>
-                                        <SearchIcon />
-                                    </IconButton>
-                                </CustomTooltip>
-                            }
+                        } */}
+                        <div className={classes.sectionDesktop} style={{alignItems: 'center'}}>
                             <CustomTooltip title="Dashboard">
                                 <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Dashboard')}>
                                     <Dashboard />
@@ -446,7 +456,9 @@ const Header = (props) => {
                                     <Assessment />
                                 </IconButton>
                             </CustomTooltip>
-                            
+                        </div>
+                        <div className={classes.grow} />
+                        <div className={classes.sectionDesktop} style={{alignItems: 'center'}}>                            
                             <CustomTooltip title="Notification">
                                 <IconButton color="inherit" className={classes.mIconButton}>
                                     <Badge badgeContent={0} color="error">
