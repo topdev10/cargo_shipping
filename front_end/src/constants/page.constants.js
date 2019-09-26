@@ -20,6 +20,7 @@ export const pageConstants =  {
     BILLING: 'BILLING',
     REPORTS: 'REPORTS',
     BOOKING: 'BOOKING',
+    ON_RELOAD_PAGE: "ON_RELOAD_PAGE",
 };
 
 export default pageConstants;

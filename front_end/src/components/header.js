@@ -34,7 +34,7 @@ import { userActions, pageActions, alertActions, menuActions } from '../actions'
 import Config from '../config';
 
 import logo from '../images/logo.svg';
-import { pageConstants, menuConstants, billConstants, bookingConstants } from "../constants";
+import { pageConstants, menuConstants, billConstants, bookingConstants, reportConstants } from "../constants";
 
 // eslint-disable-next-line no-unused-vars
 const SearchBox = styled.input`
@@ -194,7 +194,8 @@ const Header = (props) => {
     /**
      * Functional Component Main Body
      */
-    const { username, email, menuState, logout, getProfile, loadPage, notification, openHamburgerMenu, closeHamburgerMenu } = props;
+    const { username, email, menuState, logout, getProfile, loadPage,
+        notification, openHamburgerMenu, closeHamburgerMenu, curPage } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -202,7 +203,6 @@ const Header = (props) => {
     const [searchValue, setSearchValue] = React.useState('');
     // eslint-disable-next-line no-unused-vars
     const [onSearch, setSearchFlag] = React.useState(false);
-    const [curPage, setCurPage] = React.useState('Dashboard');
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -300,7 +300,6 @@ const Header = (props) => {
             loadPage(pageConstants.REPORTS);
         else if(labelText === 'Booking')
             loadPage(bookingConstants.ON_REQUEST_ALL_BOOKINGS);
-        setCurPage(labelText);
     };
 
     const renderMenu = (
@@ -430,32 +429,32 @@ const Header = (props) => {
                         <div className={classes.sectionDesktop} style={{alignItems: 'center'}}>
                             <CustomTooltip title="Dashboard">
                                 <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Dashboard')}>
-                                    <Dashboard style={curPage==="Dashboard"?{color: "blue"}:{color: "black"}}/>
+                                    <Dashboard style={curPage===pageConstants.DASHBOARD?{color: "#4d7cfe"}:{color: "black"}}/>
                                 </IconButton>
                             </CustomTooltip>
                             <CustomTooltip title="Quotes">
                                 <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Quotes')}>
-                                    <Assignment style={curPage==="Quotes"?{color: "blue"}:{color: "black"}}/>
+                                    <Assignment style={curPage===pageConstants.QUOTES?{color: "#4d7cfe"}:{color: "black"}}/>
                                 </IconButton>
                             </CustomTooltip>
                             <CustomTooltip title="Booking">
                                 <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Booking')}>
-                                    <EventNote style={curPage==="Booking"?{color: "blue"}:{color: "black"}}/>
+                                    <EventNote style={curPage===bookingConstants.ON_REQUEST_ALL_BOOKINGS?{color: "#4d7cfe"}:{color: "black"}}/>
                                 </IconButton>
                             </CustomTooltip>
                             <CustomTooltip title="Shipments">
                                 <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Shipments')}>
-                                    <DirectionsBoat style={curPage==="Shipments"?{color: "blue"}:{color: "black"}}/>
+                                    <DirectionsBoat style={curPage===pageConstants.SHIPMENTS?{color: "#4d7cfe"}:{color: "black"}}/>
                                 </IconButton>
                             </CustomTooltip>
                             <CustomTooltip title="Billing">
                                 <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Billing')}>
-                                    <MonetizationOn style={curPage==="Billing"?{color: "blue"}:{color: "black"}}/>
+                                    <MonetizationOn style={curPage===billConstants.BILLING?{color: "#4d7cfe"}:{color: "black"}}/>
                                 </IconButton>
                             </CustomTooltip>
                             <CustomTooltip title="Reports">
                                 <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Reports')}>
-                                    <Assessment style={curPage==="Reports"?{color: "blue"}:{color: "black"}}/>
+                                    <Assessment style={curPage===pageConstants.REPORTS?{color: "#4d7cfe"}:{color: "black"}}/>
                                 </IconButton>
                             </CustomTooltip>
                         </div>
@@ -506,6 +505,7 @@ Header.propTypes = {
     openHamburgerMenu: PropTypes.func.isRequired,
     closeHamburgerMenu: PropTypes.func.isRequired,
     menuState: PropTypes.string.isRequired,
+    curPage: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -513,6 +513,7 @@ function mapStateToProps(state) {
         username: state.auth.user?state.auth.user.username:"newuser",
         email: state.auth.user?state.auth.user.email:"tmp@tmp.com",
         menuState: state.menu.menuState,
+        curPage: state.page.curPage,
     };
 }
 

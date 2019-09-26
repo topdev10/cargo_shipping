@@ -100,6 +100,12 @@ function loadPage(page) {
         };
     }
 
+    function reloadPage(curPage) {
+        return {
+            type: pageConstants.ON_RELOAD_PAGE, curPage
+        };
+    }
+
     return dispatch => {
 
         const info = {
@@ -499,6 +505,7 @@ function loadPage(page) {
             dispatch(requestReports(info));
             history.push('/pages/reports');
         }
+        dispatch(reloadPage(page));
     };
 }
 

@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
@@ -9,13 +11,28 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
+import View from '@material-ui/icons/RemoveRedEye';
+import Cancel from '@material-ui/icons/Cancel';
+import IconButton from '@material-ui/core/IconButton';
 
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import LocalShipping from '@material-ui/icons/LocalShipping';
 
+import CustomTooltip from '../../components/CustomToolTip/CustomToolTip';
 import { bookingConstants } from '../../constants';
 import { pageActions } from '../../actions';
+
+const theme = createMuiTheme({
+    palette: {
+        secondary: {
+            main: '#ec4535',
+        },
+        primary: {
+            main: '#2d24b9',
+        }
+    },
+});
 
 const Container = styled.div`
     displa: flex;
@@ -153,26 +170,6 @@ const HeaderRowLabelContainer = styled.div`
 
     &:hover {
         color: #093eda;
-    }
-`;
-
-const ViewBookingButton = styled.button`
-    border-radius: 4px;
-    height: 40px;
-    justify-content: center;
-    align-items: center;
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 17px;
-    color: #FFFFFF;
-    background: #4D7CFE;
-    padding: 0px 20px;
-    flex: flex-end;
-
-    &:hover {
-        background: #6688e4;
     }
 `;
 
@@ -378,7 +375,18 @@ class Booking extends React.Component{
                                             {row.status===4&&"Bookings Expired"}
                                         </TableCell>
                                         <TableCell align="left" style={{minWidth: "100px"}}>
-                                            <ViewBookingButton>View Booking</ViewBookingButton>
+                                            <ThemeProvider theme={theme}>
+                                                <CustomTooltip title="View Booking">
+                                                    <IconButton color="primary">
+                                                        <View />
+                                                    </IconButton>
+                                                </CustomTooltip>
+                                                <CustomTooltip title="Cancel Booking">
+                                                    <IconButton color="secondary">
+                                                        <Cancel />
+                                                    </IconButton>
+                                                </CustomTooltip>
+                                            </ThemeProvider>
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -387,7 +395,7 @@ class Booking extends React.Component{
                     </Table>
                 </BookingsTableContainer>
             </Container>
-        )
+        );
     }
 };
 
