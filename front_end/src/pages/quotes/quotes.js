@@ -9,6 +9,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
+import Add from '@material-ui/icons/Add';
+import Delete from '@material-ui/icons/Delete';
+import View from '@material-ui/icons/RemoveRedEye';
+import Edit from '@material-ui/icons/Edit';
+
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import IconButton from '@material-ui/core/IconButton';
 
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
@@ -19,6 +27,18 @@ import { pageActions, quoteActions } from '../../actions';
 import NewQuotePanel from './NewQuotePanel';
 import QuoteDetails from './QuoteDetails';
 import Device from '../../css/device';
+import CustomToolTip from '../../components/CustomToolTip/CustomToolTip';
+
+const theme = createMuiTheme({
+    palette: {
+        secondary: {
+            main: '#ec4535',
+        },
+        primary: {
+            main: '#4d7cfe',
+        }
+    },
+});
 
 const Container = styled.div`
     displa: flex;
@@ -183,26 +203,6 @@ const RequestQuoteButton = styled.button`
     }
 `;
 
-const ViewQuoteButton = styled.button`
-    border-radius: 4px;
-    height: 40px;
-    justify-content: center;
-    align-items: center;
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 17px;
-    color: #FFFFFF;
-    background: #4D7CFE;
-    padding: 0px 20px;
-    flex: flex-end;
-
-    &:hover {
-        background: #6688e4;
-    }
-`;
-
 const HeaderRowLabelContainer = styled.div`
     color: black;
     cursor: pointer;
@@ -355,7 +355,11 @@ class Quotes extends React.Component{
                         <CustomSelectorOption value='au'>Australia</CustomSelectorOption>
                         <CustomSelectorOption value='ru'>Russia</CustomSelectorOption>
                     </CustomSelector>
-                    <RequestQuoteButton onClick={e => this.onNewQuote(e)}>Request Quote</RequestQuoteButton>
+                    <CustomToolTip title="New Quote">
+                        <RequestQuoteButton onClick={e => this.onNewQuote(e)}>
+                            <Add />
+                        </RequestQuoteButton>
+                    </CustomToolTip>
                 </QuotesFilterBar>}
                 {onpagestatus===0&&<QuotesTableContainer>
                     <Table stickyHeader>
@@ -447,7 +451,23 @@ class Quotes extends React.Component{
                                             {row.status===4&&"Quotes Expired"}
                                         </TableCell>
                                         <TableCell align="left" style={{minWidth: "100px"}}>
-                                            <ViewQuoteButton>View Quote</ViewQuoteButton>
+                                            <ThemeProvider theme={theme}>
+                                                <CustomToolTip title="View">
+                                                    <IconButton color='primary' >
+                                                        <View />
+                                                    </IconButton>
+                                                </CustomToolTip>
+                                                <CustomToolTip title="Edit">
+                                                    <IconButton color="primary">
+                                                        <Edit />
+                                                    </IconButton>
+                                                </CustomToolTip>
+                                                <CustomToolTip title="Delete">
+                                                    <IconButton color="secondary">
+                                                        <Delete />
+                                                    </IconButton>
+                                                </CustomToolTip>
+                                            </ThemeProvider>
                                         </TableCell>
                                     </TableRow>
                                 );

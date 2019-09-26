@@ -481,6 +481,7 @@ function loadPage(page) {
             ]
         };
 
+        dispatch(reloadPage(page));
         if(page === pageConstants.DASHBOARD){
             dispatch(requestDashboard(info));
             history.push('/pages/dashboard');
@@ -505,7 +506,6 @@ function loadPage(page) {
             dispatch(requestReports(info));
             history.push('/pages/reports');
         }
-        dispatch(reloadPage(page));
     };
 }
 

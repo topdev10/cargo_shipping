@@ -244,8 +244,9 @@ class Booking extends React.Component{
     render() {
         const { BookingState, location, isflight, isShip, isVan, sortBy } = this.state;
         const { bookings } = this.props;
-        let mlistData = this.customFilter(bookings);
-        mlistData = bookings;
+        // let mlistData = this.customFilter(bookings);
+        const mlistData = bookings;
+        console.log(mlistData);
         return (
             <Container >
                 <BookingsFilterBar>
