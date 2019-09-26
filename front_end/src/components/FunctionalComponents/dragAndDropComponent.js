@@ -15,8 +15,8 @@ const DADContainer = styled.div`
 const DADHeader = styled.div`
     display: flex;
     align-items: center;
-    background: #ccc;
-    color: black;
+    background: #696ef7;
+    color: white;
     font-size: 18px;
     height: 42px;
     padding: 5px 10px;
@@ -25,7 +25,7 @@ const DADHeader = styled.div`
 const DADWrapper = styled.div`
     display: flex;
     height: 100%;
-    border: 2px solid #ccc;
+    border: 2px solid #696ef7;
     overflow-y: auto;
     overflow-x: hidden;
 `;
@@ -38,6 +38,7 @@ const DADComponent = styled.div`
     border: 2px solid #ccc;
     cursor: pointer;
     padding: 8px 5px;
+    border-radius: 8px;
 
     &:hover {
         color: blue;
@@ -59,15 +60,19 @@ const NextButton = styled.div`
     font-weight: normal;
     font-size: 16px;
     line-height: 17px;
-    color: black;
-    padding: 8px 12px;
+    padding: 10px 12px;
     flex: flex-end;
     cursor: pointer;
     text-align: right;
     margin: 8px 0px 0px 0px;
+    background: #213dc7;
+    width: 100px;
+    text-align: center;
+    color: white;
+    align-self: flex-end;
 
     &:hover {
-        color: blue;
+        background: #1111e6;
     }
 `;
 

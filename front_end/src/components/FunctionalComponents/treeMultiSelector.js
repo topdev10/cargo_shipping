@@ -20,8 +20,8 @@ const TreeContainer = styled.div`
 const TreeHeader = styled.div`
     display: flex;
     align-items: center;
-    background: #ccc;
-    color: black;
+    background: #696ef7;
+    color: white;
     font-size: 18px;
     height: 42px;
     padding: 5px 10px;
@@ -30,7 +30,7 @@ const TreeHeader = styled.div`
 const TreeWrapper = styled.div`
     display: flex;
     height: 100%;
-    border: 2px solid #ccc;
+    border: 2px solid #696ef7;
     overflow: auto;
 `;
 
@@ -44,15 +44,19 @@ const CancelButton = styled.div`
     font-weight: normal;
     font-size: 16px;
     line-height: 17px;
-    color: black;
-    padding: 8px 12px;
+    padding: 10px 12px;
     flex: flex-end;
     cursor: pointer;
     text-align: right;
     margin: 8px 0px 0px 0px;
+    background: #c72121;
+    width: 100px;
+    text-align: center;
+    color: white;
+    align-self: flex-end;
 
     &:hover {
-        color: red;
+        background: #e61111;
     }
 `;
 

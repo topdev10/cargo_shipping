@@ -23,7 +23,9 @@ import { createMuiTheme, withStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Edit from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
-import Remove from '@material-ui/icons/Remove';
+import Delete from '@material-ui/icons/Delete';
+import View from '@material-ui/icons/RemoveRedEye';
+import Add from '@material-ui/icons/Add';
 
 import { pageConstants, menuConstants } from '../../constants';
 import { pageActions, reportActions } from '../../actions';
@@ -96,8 +98,6 @@ const ReportsContainerRow = styled.div`
 
 const NewReportContainer = styled.div`
     display: flex;
-    background: #fff;
-    width: calc(100vw - 24px);
     height: calc(100vh - 18px);
     border-radius: 12px;
     border: 2px solid #ccc,
@@ -109,8 +109,7 @@ const NewReportContainer = styled.div`
     flex-direction: column;
 
     @media ${Device.laptop} {
-        width: calc(72vw - 128px);
-        height: calc(90vh - 96px);
+        height: calc(100vh - 96px);
     }
 `;
 
@@ -126,14 +125,13 @@ const NewReportInputContainer = styled.div`
     margin-top: 24px;
     position: relative;
     display: flex;
-    background: #fff;
     border-radius: 12px;
     justify-content: space-evenly;
     align-items: center;
     width: 100%;
 `;
 
-const NewQuoteInputRow = styled.div`
+const NewReportInputRow = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -157,6 +155,134 @@ const HeaderRowLabelContainer = styled.div`
 
     &:hover {
         color: #093eda;
+    }
+`;
+
+const ReportsFilterBar = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 10px 8px;
+    height: 64px;
+    border-top: 2px solid #ccc;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 8px;
+`;
+
+const CustomSelector = styled.select`
+    display: flex;
+    padding: 3px 8px;
+    border-radius: 5px;
+    border: 2px solid #576cef;
+    margin: 0px 8px;
+`;
+
+const CustomSelectorOption = styled.option`
+    display: flex;
+`;
+const FreightSelectionButtonLeft = styled.button`
+
+    border: ${props => {
+        let border = "2px solid grey";
+        if(props.active)
+            border = "2px solid #4d7cfe";
+        return border;
+    }}
+
+    color: ${props => {
+        let color = "grey";
+        if(props.active)
+            color = "#4d7cfe";
+        return color;
+    }}
+
+    display: flex;
+    border-radius: 6px 0px 0px 6px;
+    padding: 0px 20px;
+
+    &:hover {
+        border: 2px solid #4d7cfe;
+        color: #4d7cfe;
+    }
+`;
+
+const FreightSelectionButtonCenter = styled.button`
+
+    border-top: ${props => {
+        let border = "2px solid grey";
+        if(props.active)
+            border = "2px solid #4d7cfe";
+        return border;
+    }}
+
+    border-bottom: ${props => {
+        let border = "2px solid grey";
+        if(props.active)
+            border = "2px solid #4d7cfe";
+        return border;
+    }}
+    padding: 0px 20px;
+
+    color: ${props => {
+        let color = "grey";
+        if(props.active)
+            color = "#4d7cfe";
+        return color;
+    }}
+
+    display: flex;
+
+    &:hover {
+        border: 2px 0px 2px 0px solid #576cef;
+        color: #4d7cfe;
+    }
+`;
+
+const FreightSelectionButtonRight = styled.button`
+
+    border: ${props => {
+        let border = "2px solid grey";
+        if(props.active)
+            border = "2px solid #4d7cfe";
+        return border;
+    }}
+
+    color: ${props => {
+        let color = "grey";
+        if(props.active)
+            color = "#4d7cfe";
+        return color;
+    }}
+
+    display: flex;
+    border-radius: 0px 6px 6px 0px;
+    padding: 0px 20px;
+
+    &:hover {
+        border: 2px solid #4d7cfe;
+        color: #4d7cfe;
+    }
+`;
+
+const RequestReportButton = styled.button`
+    position: absolute;
+    right: 24px;
+    height: 40px;
+    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 17px;
+    color: #FFFFFF;
+    background: #4D7CFE;
+    padding: 0px 20px;
+    flex: flex-end;
+    
+    &:hover {
+        background: #6688e4;
     }
 `;
 
@@ -260,6 +386,7 @@ class Reports extends React.Component {
             isVan: true,
             // eslint-disable-next-line react/no-unused-state
             sortBy: "status",
+            pageStatus: 0,  // 0: list, 1: new report, 2: ...
         };
     }
 
@@ -271,15 +398,41 @@ class Reports extends React.Component {
     }
     
     onNewReport = () => {
-        this.setState({ onNewReport: true });
+        this.setState({ onNewReport: true, pageStatus: 1 });
     }
 
     handleCloseNewReport = () => {
-        this.setState({ onNewReport: false });
+        this.setState({ onNewReport: false, pageStatus: 0 });
     };
 
     handleCloseNewReportInput = () => {
-        this.setState({ onNewReport: false });
+        this.setState({ onNewReport: false, pageStatus: 0 });
+    }
+
+    handleReportScopeSelection = (event) => {
+        this.setState({ReportState: parseInt(event.target.value, 10)});
+    }
+
+    handleLocationSeltion = (event) => {
+        this.setState({location: event.target.value});
+    }
+
+    onFlightButton = (event) => {
+        event.preventDefault();
+        const { isflight } = this.state;
+        this.setState({isflight: !isflight});
+    }
+
+    onShipButton = (event) => {
+        event.preventDefault();
+        const { isShip } = this.state;
+        this.setState({isShip: !isShip});
+    }
+
+    onVanButton = (event) => {
+        event.preventDefault();
+        const { isVan } = this.state;
+        this.setState({isVan: !isVan});
     }
 
     onEditReport = () => {
@@ -288,6 +441,10 @@ class Reports extends React.Component {
 
     onRemoveReport = () => {
         // alert("do you want to remove existing report?");
+    }
+
+    onViewReport = () => {
+
     }
 
     handleCheckedStateChanged = (checked) => {
@@ -312,8 +469,8 @@ class Reports extends React.Component {
 
     handleRequestNewReport = () => {
         // eslint-disable-next-line react/prop-types
-        const { requestNewQuote, report } = this.props;
-        requestNewQuote(report);
+        const { requestNewReport, report } = this.props;
+        requestNewReport(report);
     }
 
     sortArray = (array) => {
@@ -333,11 +490,11 @@ class Reports extends React.Component {
 
     customFilter = (array) => {
         let result = [];
-        const { quoteState, location, isflight, isShip, isVan } = this.state;
+        const { ReportState, location, isflight, isShip, isVan } = this.state;
         if(array !==null && array.length > 0){
             array.forEach(element => {
                 let insertFlag = true;
-                if(quoteState!==0 && element.status!== quoteState) insertFlag = false;
+                if(ReportState!==0 && element.status!== ReportState) insertFlag = false;
                 if(element.freight===1&&!isflight) insertFlag=false;
                 if(element.freight===2&&!isShip) insertFlag=false;
                 if(element.freight===3&&!isVan) insertFlag=false;
@@ -430,13 +587,13 @@ class Reports extends React.Component {
 
         // eslint-disable-next-line react/prop-types
         const { classes, reports, menuState } = this.props;
-        const { onNewReport, filterList, reportTitle } = this.state;
-        const { quoteState, location, isflight, isShip, isVan, sortBy } = this.state;
+        const { onNewReport, filterList, reportTitle, pageStatus } = this.state;
+        const { ReportState, location, isflight, isShip, isVan, sortBy } = this.state;
 
         const FadeComponent = <Fade in={onNewReport}>
             <NewReportContainer>
                 <NewReportInputContainer>
-                    <NewQuoteInputRow>
+                    <NewReportInputRow>
                         <div style={{ width: "112px" }}>Report Title: </div>
                         <Input
                             value={reportTitle}
@@ -448,7 +605,7 @@ class Reports extends React.Component {
                             id="report-title"
                             fullWidth
                         />
-                    </NewQuoteInputRow>
+                    </NewReportInputRow>
                 </NewReportInputContainer>
                 
                 <SettingsContainer>
@@ -459,115 +616,168 @@ class Reports extends React.Component {
         </Fade>;
         return (
             <Container>
-                <ReportsTableContainer>
-                    <Table stickyHeader>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center">
-                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "venderid")}>
-                                        VenderId
-                                        { sortBy==='venderid' ? <ArrowDropDown /> : <ArrowDropUp /> }
-                                    </HeaderRowLabelContainer>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "containertype")}>
-                                        ContainerType
-                                        { sortBy==='containertype' ? <ArrowDropDown /> : <ArrowDropUp /> }
-                                    </HeaderRowLabelContainer>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "createdat")}>
-                                        Created At
-                                        { sortBy==='createdat' ? <ArrowDropDown /> : <ArrowDropUp /> }
-                                    </HeaderRowLabelContainer>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "incoterm")}>
-                                        Incoterm
-                                        { sortBy==='from' ? <ArrowDropDown /> : <ArrowDropUp /> }
-                                    </HeaderRowLabelContainer>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "pickup")}>
-                                        PickUp
-                                        { sortBy==='pickup' ? <ArrowDropDown /> : <ArrowDropUp /> }
-                                    </HeaderRowLabelContainer>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <HeaderRowLabelContainer>
-                                        CargoDetails
-                                    </HeaderRowLabelContainer>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "delievered")}>
-                                        Delievered
-                                        { sortBy==='delievered' ? <ArrowDropDown /> : <ArrowDropUp /> }
-                                    </HeaderRowLabelContainer>
-                                </TableCell>
-                                <TableCell align="center">
-                                    <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "shippedby")}>
-                                        ShippedBy
-                                        { sortBy==='shippedby' ? <ArrowDropDown /> : <ArrowDropUp /> }
-                                    </HeaderRowLabelContainer>
-                                </TableCell>
-                                <TableCell align="left">
-                                    <HeaderRowLabelContainer>
-                                        Action
-                                    </HeaderRowLabelContainer>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {reports!=null&&this.sortArray(reports).map(row => {
-                                return(
-                                    <TableRow hover role='checkbox' key={row.id}>
-                                        <TableCell align="center" style={{maxWidth: "120px"}}>
-                                            {row.venderID}
-                                        </TableCell>
-                                        <TableCell align="center" style={{minWidth: "120px"}}>
-                                            {row.containerType===1&&<FlightTakeoff />}
-                                            {row.containerType===2&&<DirectionsBoat />}
-                                            {row.containerType===3&&<LocalShipping />}
-                                        </TableCell>
-                                        <TableCell align="center" style={{minWidth: "170px"}}>
-                                            {row.createdat}
-                                        </TableCell>
-                                        <TableCell align="center" style={{maxWidth: "115px"}}>
-                                            {row.incoterm}
-                                        </TableCell>
-                                        <TableCell align="center" style={{maxWidth: "110px"}}>
-                                            {row.pickupCompanyName}
-                                        </TableCell>
-                                        <TableCell align="center" style={{minWidth: "150px"}}>
-                                            {row.cargoDetails}
-                                        </TableCell>
-                                        <TableCell align="center" style={{minWidth: "150px"}}>
-                                            {row.delieveryCompanyName}
-                                        </TableCell>
-                                        <TableCell align="center" style={{minWidth: "120px"}}>
-                                            {row.shipperCompanyName}
-                                        </TableCell>
-                                        <TableCell align="left" style={{minWidth: "120px"}}>
-                                            <ThemeProvider theme={theme}>
-                                                <CustomTooltip title="Edit">
-                                                    <IconButton color="primary">
-                                                        <Edit />
-                                                    </IconButton>
-                                                </CustomTooltip>
-                                                <CustomTooltip title="Remove">
-                                                    <IconButton color="secondary">
-                                                        <Remove />
-                                                    </IconButton>
-                                                </CustomTooltip>
-                                            </ThemeProvider>
-                                            {/* <ViewQuoteButton>View Quote</ViewQuoteButton> */}
-                                        </TableCell>
-                                    </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </ReportsTableContainer>
+                {
+                    pageStatus===0&&
+                    <ReportsFilterBar>
+                        <CustomSelector value={ReportState} onChange={e => this.handleReportScopeSelection(e)}>
+                            <CustomSelectorOption value={0}>All</CustomSelectorOption>
+                            <CustomSelectorOption value={1}>Active Reports</CustomSelectorOption>
+                            <CustomSelectorOption value={2}>Ready to Book</CustomSelectorOption>
+                            <CustomSelectorOption value={3}>Accepted Reports</CustomSelectorOption>
+                            <CustomSelectorOption value={4}>Expired Reports</CustomSelectorOption>
+                            <CustomSelectorOption value={5}>All Reports</CustomSelectorOption>
+                        </CustomSelector>
+                        {isflight?<FreightSelectionButtonLeft active onClick={e => this.onFlightButton(e)}>
+                            <FlightTakeoff></FlightTakeoff>
+                        </FreightSelectionButtonLeft>:<FreightSelectionButtonLeft onClick={e => this.onFlightButton(e)}>
+                            <FlightTakeoff></FlightTakeoff>
+                        </FreightSelectionButtonLeft>}
+                        
+                        {isShip?<FreightSelectionButtonCenter active onClick={e => this.onShipButton(e)}>
+                            <DirectionsBoat></DirectionsBoat>
+                        </FreightSelectionButtonCenter>:<FreightSelectionButtonCenter onClick={e => this.onShipButton(e)}>
+                            <DirectionsBoat></DirectionsBoat>
+                        </FreightSelectionButtonCenter>}
+        
+                        {isVan?<FreightSelectionButtonRight active onClick={e => this.onVanButton(e)}>
+                            <LocalShipping></LocalShipping>
+                        </FreightSelectionButtonRight>:<FreightSelectionButtonRight onClick={e => this.onVanButton(e)}>
+                            <LocalShipping></LocalShipping>
+                        </FreightSelectionButtonRight>}
+        
+                        {/* Location Selctor */}
+                        <CustomSelector value={location} onChange={e => this.handleLocationSeltion(e)}>
+                            <CustomSelectorOption value='all'>Select a Location</CustomSelectorOption>
+                            <CustomSelectorOption value='ca'>Canada</CustomSelectorOption>
+                            <CustomSelectorOption value='us'>United States</CustomSelectorOption>
+                            <CustomSelectorOption value='cn'>China</CustomSelectorOption>
+                            <CustomSelectorOption value='au'>Australia</CustomSelectorOption>
+                            <CustomSelectorOption value='ru'>Russia</CustomSelectorOption>
+                        </CustomSelector>
+                        <CustomTooltip title="Create New Report">
+                            <RequestReportButton onClick={e => this.onNewReport(e)}><Add/></RequestReportButton>
+                        </CustomTooltip>
+                    </ReportsFilterBar>
+                }
+                {pageStatus===0&&
+                    <ReportsTableContainer>
+                        <Table stickyHeader>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align="center">
+                                        <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "venderid")}>
+                                            VenderId
+                                            { sortBy==='venderid' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                        </HeaderRowLabelContainer>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "containertype")}>
+                                            ContainerType
+                                            { sortBy==='containertype' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                        </HeaderRowLabelContainer>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "createdat")}>
+                                            Created At
+                                            { sortBy==='createdat' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                        </HeaderRowLabelContainer>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "incoterm")}>
+                                            Incoterm
+                                            { sortBy==='from' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                        </HeaderRowLabelContainer>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "pickup")}>
+                                            PickUp
+                                            { sortBy==='pickup' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                        </HeaderRowLabelContainer>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <HeaderRowLabelContainer>
+                                            CargoDetails
+                                        </HeaderRowLabelContainer>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "delievered")}>
+                                            Delievered
+                                            { sortBy==='delievered' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                        </HeaderRowLabelContainer>
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "shippedby")}>
+                                            ShippedBy
+                                            { sortBy==='shippedby' ? <ArrowDropDown /> : <ArrowDropUp /> }
+                                        </HeaderRowLabelContainer>
+                                    </TableCell>
+                                    <TableCell align="left">
+                                        <HeaderRowLabelContainer>
+                                            Action
+                                        </HeaderRowLabelContainer>
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {reports!=null&&this.sortArray(reports).map(row => {
+                                    return(
+                                        <TableRow hover role='checkbox' key={row.id}>
+                                            <TableCell align="center" style={{maxWidth: "120px"}}>
+                                                {row.venderID}
+                                            </TableCell>
+                                            <TableCell align="center" style={{minWidth: "120px"}}>
+                                                {row.containerType===1&&<FlightTakeoff />}
+                                                {row.containerType===2&&<DirectionsBoat />}
+                                                {row.containerType===3&&<LocalShipping />}
+                                            </TableCell>
+                                            <TableCell align="center" style={{minWidth: "170px"}}>
+                                                {row.createdat}
+                                            </TableCell>
+                                            <TableCell align="center" style={{maxWidth: "115px"}}>
+                                                {row.incoterm}
+                                            </TableCell>
+                                            <TableCell align="center" style={{maxWidth: "110px"}}>
+                                                {row.pickupCompanyName}
+                                            </TableCell>
+                                            <TableCell align="center" style={{minWidth: "150px"}}>
+                                                {row.cargoDetails}
+                                            </TableCell>
+                                            <TableCell align="center" style={{minWidth: "150px"}}>
+                                                {row.delieveryCompanyName}
+                                            </TableCell>
+                                            <TableCell align="center" style={{minWidth: "120px"}}>
+                                                {row.shipperCompanyName}
+                                            </TableCell>
+                                            <TableCell align="left" style={{minWidth: "120px"}}>
+                                                <ThemeProvider theme={theme}>
+                                                    <CustomTooltip title="View">
+                                                        <IconButton color='primary' >
+                                                            <View />
+                                                        </IconButton>
+                                                    </CustomTooltip>
+                                                    <CustomTooltip title="Edit">
+                                                        <IconButton color="primary">
+                                                            <Edit />
+                                                        </IconButton>
+                                                    </CustomTooltip>
+                                                    <CustomTooltip title="Delete">
+                                                        <IconButton color="secondary">
+                                                            <Delete />
+                                                        </IconButton>
+                                                    </CustomTooltip>
+                                                </ThemeProvider>
+                                                {/* <ViewReportButton>View Report</ViewReportButton> */}
+                                            </TableCell>
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </ReportsTableContainer>
+                }
+                {
+                    pageStatus===1&&FadeComponent
+                }
             </Container>
             // <Container menuState={menuState}>
             //     <ReportsContainerRow>
@@ -611,13 +821,13 @@ Reports.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     reports: PropTypes.array,
     loadPage: PropTypes.func.isRequired,
-    requestNewQuote: PropTypes.func.isRequired,
+    requestNewReport: PropTypes.func.isRequired,
     menuState: PropTypes.string.isRequired,
 };
 
 const actionCreators = {
     loadPage: pageActions.loadPage,
-    requestNewQuote: reportActions.requestNewQuote,
+    requestNewReport: reportActions.requestNewReport,
 };
 
 function mapStateToProps(state) {
