@@ -113,6 +113,7 @@ const RestInformationContainer = styled.div`
     flex-direction: row;
     padding: 0px 12px;
     margin: 12px 0px;
+    justify-content: space-between;
 `;
 
 const RequestButton = styled.button`
@@ -126,15 +127,16 @@ const RequestButton = styled.button`
     font-size: 18px;
 
     &:hover {
-        background: #FE7C4D;
+        background: #f14545;
         color: white;
+        border: 0px;
     }
 `;
 
 const RateAndRouteContainer = styled.div`
     display: flex;
     flex-direction: column;
-    @media ${Device.laptopL} {
+    @media ${Device.laptop} {
         flex-direction: row;
     }
 `;
@@ -150,7 +152,7 @@ const RouteContainer = styled.div`
     flex-direction: column;
     width: 100%;
     margin-left: 0px;
-    @media ${Device.laptopL} {
+    @media ${Device.laptop} {
         margin-left: 16px;
         width: 400px;
         min-width: 340px;
@@ -275,7 +277,13 @@ class QuoteDetails extends React.Component{
     }
 
     render(){
-        const {requestFreightQuote, backRequestFreightQuote, newquote, token} = this.props;
+        const {requestFreightQuote, backRequestFreightQuote, newquote, token, email, onview} = this.props;
+        let difDays = 0;
+        const puDate = new Date(newquote.pickupReadyDate);
+        const tdDate = new Date(newquote.targetDeliveryDate);
+        difDays = Math.abs((puDate.getTime() - tdDate.getTime())/(1000 * 3600 * 24));
+        let adDate = tdDate;
+        adDate.setDate(tdDate.getDate() +1);
         return(
             <Container ref={ref}>
                 {/* <Pdf targetRef={ref} filename="code-example.pdf">
@@ -302,21 +310,29 @@ class QuoteDetails extends React.Component{
                             </TransitItem>
                             <TransitItem>
                                 <TransitItemTop>Port to Port</TransitItemTop>
-                                <TransitItemBottom>{newquote.pickupReadyDate}</TransitItemBottom>
+                                <TransitItemBottom>{difDays - 1} ~ {difDays +1}
+                                </TransitItemBottom>
                             </TransitItem>
                             <TransitItem>
                                 <TransitItemTop>Rate expiration</TransitItemTop>
-                                <TransitItemBottom>{newquote.targetDeliveryDate}</TransitItemBottom>
+                                <TransitItemBottom>{adDate.toString()}</TransitItemBottom>
                             </TransitItem>
                             <TransitItem>
                                 <TransitItemTop>Carrier</TransitItemTop>
-                                <TransitItemBottom>Mode</TransitItemBottom>
+                                <TransitItemBottom>
+                                    {newquote.freightMethod===1&&"Freight Ocean Line"}
+                                    {newquote.freightMethod===2&&"Freight Air & Ocean Line"}
+                                    {newquote.freightMethod===3&&"Freight Airline"}
+                                    {newquote.freightMethod===4&&"Freight Truck"}
+                                </TransitItemBottom>
                             </TransitItem>
                         </TransitInformationFirstRow>
                         <TransitInformationSecondRow>
                             <TransitItem>
                                 <TransitItemTop>Freight Service</TransitItemTop>
-                                <TransitItemBottom>Unspecified</TransitItemBottom>
+                                <TransitItemBottom>{
+                                    newquote.shipmentType===1?"CY/CFS to CY/CFS":"CFS/CY to CY/CFS"
+                                }</TransitItemBottom>
                             </TransitItem>
                             <TransitItem>
                                 <TransitItemTop>Closing days</TransitItemTop>
@@ -403,7 +419,7 @@ class QuoteDetails extends React.Component{
                                 </RouteFirstFormRow>
                                 <RouteFirstFormRow>
                                     <RouteFirstFormElement>--</RouteFirstFormElement>
-                                    <RouteFirstFormElement>~ 13 days</RouteFirstFormElement>
+                                    <RouteFirstFormElement>~ {difDays} days</RouteFirstFormElement>
                                     <RouteFirstFormElement>--</RouteFirstFormElement>
                                 </RouteFirstFormRow>
                             </RouteFirstForm>
@@ -414,27 +430,50 @@ class QuoteDetails extends React.Component{
                                         Place of Pickup
                                     </RouteDiaLabel>
                                 </RouteSecondFormLabelRow>
-                                <RouteSecondFormPlaceRow>Yantian, China</RouteSecondFormPlaceRow>
+                                <RouteSecondFormPlaceRow>{
+                                    newquote.originAddress
+                                }, {
+                                    newquote.originPort
+                                }</RouteSecondFormPlaceRow>
                                 <RouteSecondFormLabelRow>
                                     <CustomIcon src={Anchor}/>
                                     <RouteDiaLabel>
-                                        Place of Pickup
+                                        Departure Port
                                     </RouteDiaLabel>
                                 </RouteSecondFormLabelRow>
-                                <RouteSecondFormPlaceRow>Yantian, China</RouteSecondFormPlaceRow>
+                                <RouteSecondFormPlaceRow>
+                                    {
+                                        newquote.destAddress
+                                    }
+                                </RouteSecondFormPlaceRow>
                                 <RouteSecondFormLabelRow>
                                     <CustomIcon src={Anchor} />
                                     <RouteDiaLabel>
-                                        Place of Pickup
+                                        Arrival Port
                                     </RouteDiaLabel>
                                 </RouteSecondFormLabelRow>
-                                <RouteSecondFormPlaceRow>Yantian, China</RouteSecondFormPlaceRow>
+                                <RouteSecondFormPlaceRow>
+                                    {
+                                        newquote.destPort === 1&& "Port of Houston"
+                                    }
+                                    {
+                                        newquote.destPort === 2&& "Port of Shanghai"
+                                    }
+                                    {
+                                        newquote.destPort === 3&& "Port of Qingdao"
+                                    }
+                                    {
+                                        newquote.destPort === 4&& "Port Metro Vancouver"
+                                    }
+                                </RouteSecondFormPlaceRow>
                             </RouteSecondForm>
                         </RouteContainer>
                     </RateAndRouteContainer>
                     <RestInformationContainer>
-                        <RequestButton onClick={ backRequestFreightQuote } > Back </RequestButton>
-                        <RequestButton onClick={e => requestFreightQuote(e, newquote, token)} > Add </RequestButton>
+                        <RequestButton onClick={ backRequestFreightQuote } > Cancel </RequestButton>
+                        {
+                            !onview&&<RequestButton onClick={e => requestFreightQuote(e, newquote, token, email)} > Submit </RequestButton>
+                        }
                     </RestInformationContainer>
                 </PDFContainer>
             </Container>
@@ -470,12 +509,16 @@ QuoteDetails.propTypes = {
         instruction: PropTypes.string.isRequired,
     }).isRequired,
     token: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    onview: PropTypes.bool.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         newquote: state.quote.newquote,
         token: state.auth.user.token,
+        email: state.auth.user.email,
+        onview: state.quote.onview,
     };
 }
 

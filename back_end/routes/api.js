@@ -81,7 +81,6 @@ router.post('/addQuote', [
     } else {
         const token = req.headers.authorization?req.headers.authorization.substring(7):"";
         Auth.authenticate(req.body.email, token, (err, result) => {
-            console.log(result.username);
             if(err) res.status(401).send(); //Unauthorized User or Token
             else if(result) {
 
@@ -89,7 +88,6 @@ router.post('/addQuote', [
                 const ID = "FREIGHT-" + pad(idNum, 5);
                 const vidNum = ((1000009 * Math.random())%999999).toString(10);
                 const VID = "FREIGHT-" + pad(vidNum, 6);
-                // console.log(ID, VID);
                 const newQuote = new Quote({
                     id: ID,
                     email: req.body.email,
@@ -123,7 +121,7 @@ router.post('/addQuote', [
                 newQuote.save((error, result) => {
                     console.log(error, result);
                     if(error) res.status(500).send(error.errmsg);   // previous request failed
-                    else res.status(200).send();        // Success
+                    else res.status(200).send(result);        // Success
                 })
             } else res.status(401).send();
         });
@@ -142,16 +140,32 @@ router.post('/updateQuote', [
         Auth.authenticate(req.body.email, token, (err, result) => {
             if(err) res.status(401).send(); //Unauthorized User or Token
             else if(result) {
+                console.log(req.body);
                 Quote.updateOne({ id: req.body.id }, {
-                    name: req.body.name,
-                    freight: req.body.freight,
-                    cargoReadyDate: req.body.cargoreadyDate,
-                    from: req.body.from,
-                    to: req.body.to,
-                    cargoDetails: req.body.cargoDetails,
-                    submittedBy: req.body.submittedBy,
-                    status: req.body.status
+                    shipmentName: req.body.shipmentName,
+                    freightMethod: req.body.freightMethod,
+                    shipmentType: req.body.shipmentType,
+                    containerType: req.body.containerType,
+                    incoterms: req.body.incoterms,
+                    originAddress: req.body.originAddress,
+                    originPort: req.body.originPort,
+                    pickupReadyDate: req.body.pickupReadyDate,
+                    delieverToLocation: req.body.delieverToLocation,
+                    destAddress: req.body.destAddress,
+                    destPort: req.body.destPort,
+                    targetDeliveryDate: req.body.targetDeliveryDate,
+                    cargoUnit: req.body.cargoUnit,
+                    ispackageDetails: req.body.ispackageDetails,
+                    cargoweight: req.body.cargoweight,
+                    cargovolume: req.body.cargovolume,
+                    description: req.body.description,
+                    haveBattery: req.body.haveBattery,
+                    haveHazardous: req.body.haveHazardous,
+                    haveLiquids: req.body.haveLiquids,
+                    haveNothing: req.body.haveNothing,
+                    instruction: req.body.instruction,
                 }, (error, modified) => {
+                    console.log(error, modified);
                     if(error) res.status(500).send();   // previous request failed
                     else if(modified.nModified>0) res.status(200).send();   //profile successfully updated
                     else res.status(426).send();                    //update failed (426: failed previous request)
@@ -214,7 +228,6 @@ router.post('/getAllQuotes', [
     } else {
         const token = req.headers.authorization?req.headers.authorization.substring(7):"";
         Auth.authenticate(req.body.email, token, (err, result) => {
-            console.log(req.body.email, token);
             if(err) res.status(401).send(); //Unauthorized User or Token
             else if(result) {
                 getAllQuotes((e1, r1) => {

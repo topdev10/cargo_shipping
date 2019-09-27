@@ -227,9 +227,9 @@ class Quotes extends React.Component{
     }
 
     componentDidMount(){
-        const { quotes, loadPage, token } = this.props;
+        const { quotes, loadPage, token, email } = this.props;
         if(quotes == null){
-            loadPage(pageConstants.QUOTES, token);
+            loadPage(pageConstants.QUOTES, token, email);
         }
     }
 
@@ -311,6 +311,24 @@ class Quotes extends React.Component{
             });
         } else result = null;
         return result;
+    }
+
+    onView = (e, quote) => {
+        e.preventDefault();
+        const{ onViewFreightQuote } = this.props;
+        onViewFreightQuote(quote);
+    }
+
+    onEdit = (e, quote) => {
+        e.preventDefault();
+        const{ onEditFreightQuote } = this.props;
+        onEditFreightQuote(quote);
+    }
+
+    onRemove = (e, quote) => {
+        e.preventDefault();
+        const{ onRemoveFreightQuote, email, token } = this.props;
+        onRemoveFreightQuote(email, quote, token);
     }
 
     render(){
@@ -460,17 +478,17 @@ class Quotes extends React.Component{
                                         <TableCell align="left" style={{minWidth: "100px"}}>
                                             <ThemeProvider theme={theme}>
                                                 <CustomToolTip title="View">
-                                                    <IconButton color='primary' >
+                                                    <IconButton color='primary' onClick={e => this.onView(e, row)}>
                                                         <View />
                                                     </IconButton>
                                                 </CustomToolTip>
                                                 <CustomToolTip title="Edit">
-                                                    <IconButton color="primary">
+                                                    <IconButton color="primary" onClick={e => this.onEdit(e, row)}>
                                                         <Edit />
                                                     </IconButton>
                                                 </CustomToolTip>
                                                 <CustomToolTip title="Delete">
-                                                    <IconButton color="secondary">
+                                                    <IconButton color="secondary" onClick={e => this.onRemove(e, row)}>
                                                         <Delete />
                                                     </IconButton>
                                                 </CustomToolTip>
@@ -495,6 +513,7 @@ function mapStateToProps(state) {
         onpagestatus: state.quote!==null?state.quote.onpagestatus:0,
         menuState: state.menu.menuState,
         token: state.auth.user.token,
+        email: state.auth.user.email,
         quotePageState: state.quote.quotePageState,
     };
 }
@@ -512,11 +531,18 @@ Quotes.propTypes = {
     menuState: PropTypes.string.isRequired,
     quotePageState: PropTypes.string.isRequired,
     token: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    onViewFreightQuote: PropTypes.func.isRequired,
+    onEditFreightQuote: PropTypes.func.isRequired,
+    onRemoveFreightQuote: PropTypes.func.isRequired,
 };
 
 const actionCreators = {
     loadPage: pageActions.loadPage,
     onNewFreightQuote: quoteActions.onNewFreightQuote,
+    onRemoveFreightQuote: quoteActions.onRemoveFreightQuote,
+    onViewFreightQuote: quoteActions.onViewFreightQuote,
+    onEditFreightQuote: quoteActions.onEditFreightQuote,
 };
 
 export default connect(mapStateToProps, actionCreators)(Quotes);

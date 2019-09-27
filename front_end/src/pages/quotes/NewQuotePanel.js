@@ -14,7 +14,7 @@ import LocalShipping from '@material-ui/icons/LocalShipping';
 import BatteryCharging50 from '@material-ui/icons/BatteryCharging50';
 import Warning from '@material-ui/icons/Warning';
 
-import { quoteActions } from '../../actions';
+import { quoteActions, alertActions } from '../../actions';
 import NuClearIcon from '../../images/Nuclear_symbol.svg';
 import LocationSearchInput from '../../components/FunctionalComponents/LocationSearchInputBox';
 
@@ -402,28 +402,30 @@ const PruductCheckBoxBound = styled.label`
 
 const NewQuotePanel = (props) => {
 
-    const [shipmentName, setShipmentName] = React.useState('');
-    const [freightMethod, setFreightMethod] = React.useState(1);    // 1: ocean freight, 2: both, 3: airfreight, 4: truck
-    const [shipmentType, setShipmentType] = React.useState(2);
-    const [containerType, setContainerType] = React.useState(1);
-    const [incoterms, setIncotermsValue] = React.useState(1);
-    const [originPort, setOriginPort] = React.useState(1);
-    const [pickupReadyDate, setPickupReadyDate] = React.useState("");
-    const [delieverToLocation, setDelieverToLocation] = React.useState(false);
-    const [destPort, setDestPort] = React.useState(1);
-    const [targetDeliveryDate, setTargetDeliveryDate] = React.useState("");
-    const [cargoUnit, setCargoUnit] = React.useState(true);
-    const [ispackageDetails, setPackageDetails] = React.useState(false);
-    const [cargoweight, setCargoWeight] = React.useState(0);
-    const [cargovolume, setCargoVolume] = React.useState(0);
-    const [description, setDescription] = React.useState("");
-    const [haveBattery, setHaveBattery] = React.useState(false);
-    const [haveHazardous, setHaveHazardous] = React.useState(false);
-    const [haveLiquids, setHaveLiquids] = React.useState(false);
-    const [haveNothing, setHaveNothing] = React.useState(true);
-    const [instruction, setInstruction] = React.useState("");
-    const [originAddress, setOriginAddress] = React.useState("Canada");
-    const [destAddress, setDestAddress] = React.useState("Canada");
+    const { onedit, token, email, newquote } = props;
+
+    const [shipmentName, setShipmentName] = React.useState(newquote!==null?newquote.shipmentName:'');
+    const [freightMethod, setFreightMethod] = React.useState(newquote!==null?newquote.freightMethod:1);    // 1: ocean freight, 2: both, 3: airfreight, 4: truck
+    const [shipmentType, setShipmentType] = React.useState(newquote!==null?newquote.shipmentType:2);
+    const [containerType, setContainerType] = React.useState(newquote!==null?newquote.containerType:1);
+    const [incoterms, setIncotermsValue] = React.useState(newquote!==null?newquote.incoterms:1);
+    const [originPort, setOriginPort] = React.useState(newquote!==null?newquote.originPort:1);
+    const [pickupReadyDate, setPickupReadyDate] = React.useState(newquote!==null?newquote.pickupReadyDate:"");
+    const [delieverToLocation, setDelieverToLocation] = React.useState(newquote!==null?newquote.delieverToLocation:false);
+    const [destPort, setDestPort] = React.useState(newquote!==null?newquote.destPort:1);
+    const [targetDeliveryDate, setTargetDeliveryDate] = React.useState(newquote!==null?newquote.targetDeliveryDate:"");
+    const [cargoUnit, setCargoUnit] = React.useState(newquote!==null?newquote.cargoUnit:true);
+    const [ispackageDetails, setPackageDetails] = React.useState(newquote!==null?newquote.ispackageDetails:false);
+    const [cargoweight, setCargoWeight] = React.useState(newquote!==null?newquote.cargoweight:0);
+    const [cargovolume, setCargoVolume] = React.useState(newquote!==null?newquote.cargovolume:0);
+    const [description, setDescription] = React.useState(newquote!==null?newquote.description:"");
+    const [haveBattery, setHaveBattery] = React.useState(newquote!==null?newquote.haveBattery:false);
+    const [haveHazardous, setHaveHazardous] = React.useState(newquote!==null?newquote.haveHazardous:false);
+    const [haveLiquids, setHaveLiquids] = React.useState(newquote!==null?newquote.haveLiquids:false);
+    const [haveNothing, setHaveNothing] = React.useState(newquote!==null?newquote.haveNothing:true);
+    const [instruction, setInstruction] = React.useState(newquote!==null?newquote.instruction:"");
+    const [originAddress, setOriginAddress] = React.useState(newquote!==null?newquote.originAddress:"Canada");
+    const [destAddress, setDestAddress] = React.useState(newquote!==null?newquote.destAddress:"Canada");
 
     function handleChangeOrigin(address){
         setOriginAddress(address);
@@ -530,32 +532,80 @@ const NewQuotePanel = (props) => {
 
     function handleReviewQuote(event) {
         event.preventDefault();
-        const { onReviewFreightQuote } = props;
-        const data = {
-            shipmentName,
-            freightMethod,
-            shipmentType,
-            containerType,
-            incoterms,
-            originAddress,
-            originPort,
-            pickupReadyDate,
-            delieverToLocation,
-            destAddress,
-            destPort,
-            targetDeliveryDate,
-            cargoUnit,
-            ispackageDetails,
-            cargoweight,
-            cargovolume,
-            description,
-            haveBattery,
-            haveHazardous,
-            haveLiquids,
-            haveNothing,
-            instruction,
-        };
-        onReviewFreightQuote(data);
+        const { onReviewFreightQuote, notification } = props;
+        if(shipmentName !== '' 
+        && pickupReadyDate !== ''
+        && targetDeliveryDate !== ''
+        && description !== ''
+        && cargoweight !== 0 ){
+            const data = {
+                shipmentName,
+                freightMethod,
+                shipmentType,
+                containerType,
+                incoterms,
+                originAddress,
+                originPort,
+                pickupReadyDate,
+                delieverToLocation,
+                destAddress,
+                destPort,
+                targetDeliveryDate,
+                cargoUnit,
+                ispackageDetails,
+                cargoweight,
+                cargovolume,
+                description,
+                haveBattery,
+                haveHazardous,
+                haveLiquids,
+                haveNothing,
+                instruction,
+            };
+            onReviewFreightQuote(data);
+        }
+        else {
+            notification("Please check if you provided required infos.");
+        }
+    }
+
+    function handleUpdateQuote(event){
+        event.preventDefault();
+        const { onUpdateFreightQuote } = props;
+        if(shipmentName !== '' 
+            && pickupReadyDate !== ''
+            && targetDeliveryDate !== ''
+            && description !== ''
+            && cargoweight !== 0 )
+        {
+            const quote = {
+                // eslint-disable-next-line react/prop-types
+                id: newquote.id,
+                shipmentName,
+                freightMethod,
+                shipmentType,
+                containerType,
+                incoterms,
+                originAddress,
+                originPort,
+                pickupReadyDate,
+                delieverToLocation,
+                destAddress,
+                destPort,
+                targetDeliveryDate,
+                cargoUnit,
+                ispackageDetails,
+                cargoweight,
+                cargovolume,
+                description,
+                haveBattery,
+                haveHazardous,
+                haveLiquids,
+                haveNothing,
+                instruction,
+            };
+            onUpdateFreightQuote(email, quote, token);
+        }
     }
 
     return (
@@ -868,23 +918,74 @@ const NewQuotePanel = (props) => {
                 <CancelFreightQuoteButton onClick={e => handleCancelQuote(e)}>
                     Cancel
                 </CancelFreightQuoteButton>
-                <RequestFreightQuoteButton onClick={e => handleReviewQuote(e)}>
-                    Request
-                </RequestFreightQuoteButton>
+                {
+                    onedit===true?
+                        <RequestFreightQuoteButton onClick={e => handleUpdateQuote(e)}>
+                            Update
+                        </RequestFreightQuoteButton>
+                        :
+                        <RequestFreightQuoteButton onClick={e => handleReviewQuote(e)}>
+                            Next
+                        </RequestFreightQuoteButton>
+                }
             </div>
         </Container>
     );
 
 };
 
+function mapStateToProps(state) {
+    return {
+        newquote: state.quote.newquote,
+        token: state.auth.user.token,
+        email: state.auth.user.email,
+        onedit: state.quote.onedit,
+    };
+}
+
+NewQuotePanel.defaultProps ={
+    newquote: null,
+};
+
 NewQuotePanel.propTypes = {
     onReviewFreightQuote: PropTypes.func.isRequired,
     onCancelFreightQuote: PropTypes.func.isRequired,
+    notification: PropTypes.func.isRequired,
+    onedit: PropTypes.bool.isRequired,
+    token: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    newquote: PropTypes.shape({
+        shipmentName: PropTypes.string,
+        freightMethod: PropTypes.number,
+        shipmentType: PropTypes.number,
+        containerType: PropTypes.number,
+        incoterms: PropTypes.number,
+        originAddress: PropTypes.string,
+        originPort: PropTypes.number,
+        pickupReadyDate: PropTypes.string,
+        delieverToLocation: PropTypes.bool,
+        destAddress: PropTypes.string,
+        destPort: PropTypes.number,
+        targetDeliveryDate: PropTypes.string,
+        cargoUnit: PropTypes.bool,
+        ispackageDetails: PropTypes.bool,
+        cargoweight: PropTypes.number,
+        cargovolume: PropTypes.number,
+        description: PropTypes.string,
+        haveBattery: PropTypes.bool,
+        haveHazardous: PropTypes.bool,
+        haveLiquids: PropTypes.bool,
+        haveNothing: PropTypes.bool,
+        instruction: PropTypes.string,
+    }),
+    onUpdateFreightQuote: PropTypes.func.isRequired,
 };
 
 const actionCreators = {
     onReviewFreightQuote: quoteActions.onReviewFreightQuote,
     onCancelFreightQuote: quoteActions.onCancelFreightQuote,
+    onUpdateFreightQuote: quoteActions.onUpdateFreightQuote,
+    notification: alertActions.notification,
 };
 
-export default connect(null, actionCreators)(NewQuotePanel);
+export default connect(mapStateToProps, actionCreators)(NewQuotePanel);

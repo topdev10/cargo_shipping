@@ -62,7 +62,7 @@ function updateAvatar(data) {
     };
 }
 
-function loadPage(page, token) {
+function loadPage(page, token, email) {
 
     function failure(_page) {return { type: pageConstants.ON_FAILED_LOADING_PAGE, _page};};
 
@@ -123,80 +123,6 @@ function loadPage(page, token) {
     return dispatch => {
 
         const info = {
-            shipments: [
-                {
-                    id: "FLEX-51782",
-                    venderID: "VND-0923-1938",
-                    location: "Seller's Location",
-                    route: 1,
-                    progress: 30,
-                    commit: "Planned transit changed",
-                    state: 1,
-                    plane_id: "S15332",
-                    user_id: "PO# 1245/P86-32",
-                    load_spec: "10*0.06cbm Test at 30kg", 
-                },
-                {
-                    id: "FLEX-48740",
-                    venderID: "VND-44097-11111",
-                    location: "Arrival Port",
-                    route: 2,
-                    progress: 70,
-                    commit: "Planned transit changed",
-                    state: 3,
-                    plane_id: "S15421",
-                    user_id: "PO# 1345/P86-37",
-                    load_spec: "20*36cbm Test at 20kg", 
-                },
-                {
-                    id: "FLEX-46986",
-                    venderID: "VND-33006-22079",
-                    location: "Arrival Port",
-                    route: 1,
-                    progress: 70,
-                    commit: "Booking Approved",
-                    state: 2,
-                    plane_id: "S25342",
-                    user_id: "PO# 1324/P86-31",
-                    load_spec: "11*16cbm Test at 10kg", 
-                },
-                {
-                    id: "FLEX-50008",
-                    venderID: "VND-06021-98662",
-                    location: "Seller's Location",
-                    route: 2,
-                    progress: 30,
-                    commit: "Document Uploaded",
-                    state: 3,
-                    plane_id: "S23242",
-                    user_id: "PO# 1135/P82-37",
-                    load_spec: "50*0.26cbm Test at 110kg", 
-                },
-                {
-                    id: "FLEX-49998",
-                    venderID: "VND-86612-44444",
-                    location: "In Transit to Arrival Port",
-                    route: 3,
-                    progress: 50,
-                    commit: "Document Uploaded",
-                    state: 1,
-                    plane_id: "S22532",
-                    user_id: "PO# 1345/P86-37",
-                    load_spec: "20*0.11cbm Test at 12kg", 
-                },
-                {
-                    id: "FLEX-49445",
-                    venderID: "VND-86616-84444",
-                    location: "In Transit to Arrival Port",
-                    route: 3,
-                    progress: 50,
-                    commit: "Document Uploaded",
-                    state: 4,
-                    plane_id: "S22532",
-                    user_id: "PO# 1345/P86-37",
-                    load_spec: "20*0.11cbm Test at 12kg", 
-                }
-            ],
             quotes: [
                 {
                     id: "FLEX-68880",
@@ -666,7 +592,7 @@ function loadPage(page, token) {
         }
         if(page === pageConstants.QUOTES){
             dispatch(requestQuotes());
-            BaseApi.requestAllQuotes(token,(error, result) => {
+            BaseApi.requestAllQuotes(token, email,(error, result) => {
                 if(error){
                     dispatch(failure(page));
                     dispatch(alertActions.error("Load All Quotes Failed."));
