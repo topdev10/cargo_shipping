@@ -38,32 +38,46 @@ const NewQuotesButton = styled.button`
     }
 `;
 
-const ActiveQuotes = (props) => {
-    
-    const { quotes } = props;
+class ActiveQuotes extends React.Component {
 
-    function ViewAllQuotes(event) {
-        event.preventDefault();
-        const { loadPage } = props;
-        loadPage(pageConstants.QUOTES);
+    constructor(props) {
+        super(props);
+        this.state = {};
     }
 
-    return (
-        <Container>
-            <Tab icon={<AssignmentRounded />} label="Quotes" disabled/>
-            {quotes!==null&&
-                <QuotesDashboardItem quotes={quotes}></QuotesDashboardItem>
-            }
-            <NewQuotesButton onClick={ViewAllQuotes}>
-                View All Quotes
-            </NewQuotesButton>
-        </Container>
-    );
+    componentDidMount(){
+        const { quotes, loadPage, email, token } = this.props;
+        if( quotes === null)
+            loadPage(pageConstants.DASHBOARD, token, email);
+    }
+
+    viewAllQuotes = (event) => {
+        event.preventDefault();
+        const { loadPage, email, token } = this.props;
+        loadPage(pageConstants.QUOTES, token, email);
+    }
+
+    render() {
+        const { quotes } = this.props;
+        return (
+            <Container>
+                <Tab icon={<AssignmentRounded />} label="Quotes" disabled/>
+                {quotes!==null&&
+                    <QuotesDashboardItem quotes={quotes}></QuotesDashboardItem>
+                }
+                <NewQuotesButton onClick={e => this.viewAllQuotes(e)}>
+                    View All Quotes
+                </NewQuotesButton>
+            </Container>
+        );
+    };
 };
 
 function mapStateToProps(state) {
     return {
-        quotes: state.page.info!==null?state.page.info.quotes: null,
+        quotes: state.quote.quotes,
+        email: state.auth.user.email,
+        token: state.auth.user.token,
     };
 }
 
@@ -75,6 +89,8 @@ ActiveQuotes.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     quotes: PropTypes.array,
     loadPage: PropTypes.func.isRequired,
+    email: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
 };
 
 const actionCreators = {

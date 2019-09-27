@@ -66,9 +66,15 @@ function loadPage(page, token, email) {
 
     function failure(_page) {return { type: pageConstants.ON_FAILED_LOADING_PAGE, _page};};
 
-    function requestDashboard(info) {
+    function succssOnDashboard(info) {
         return {
             type: pageConstants.DASHBOARD, info
+        };
+    }
+
+    function requestDashboard() {
+        return {
+            type: pageConstants.ON_REQUEST_DASHBOARD,
         };
     }
 
@@ -438,7 +444,15 @@ function loadPage(page, token, email) {
 
         dispatch(reloadPage(page));
         if(page === pageConstants.DASHBOARD){
-            dispatch(requestDashboard(info));
+            dispatch(requestDashboard());
+            BaseApi.requestAllQuotes(token, email,(error, result) => {
+                if(error){
+                    dispatch(failure(page));
+                } else if(result){
+                    dispatch(succssOnDashboard(info));
+                    dispatch(receiveQuotes(result));
+                }
+            });
             history.push('/pages/dashboard');
         }
         if(page === pageConstants.QUOTES){
