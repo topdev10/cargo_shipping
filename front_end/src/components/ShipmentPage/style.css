@@ -18,3 +18,7 @@ b {
 .border2 {
     border: 2px solid #4d7cfe!important;
 }
+
+.card {
+    background-color: #f2f2f2 !important;
+}
