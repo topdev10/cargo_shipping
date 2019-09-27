@@ -9,6 +9,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
+import Add from '@material-ui/icons/Add';
+import Delete from '@material-ui/icons/Delete';
+import View from '@material-ui/icons/RemoveRedEye';
+import Edit from '@material-ui/icons/Edit';
+
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import IconButton from '@material-ui/core/IconButton';
 
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
@@ -19,6 +27,18 @@ import { pageActions, quoteActions } from '../../actions';
 import NewQuotePanel from './NewQuotePanel';
 import QuoteDetails from './QuoteDetails';
 import Device from '../../css/device';
+import CustomToolTip from '../../components/CustomToolTip/CustomToolTip';
+
+const theme = createMuiTheme({
+    palette: {
+        secondary: {
+            main: '#ec4535',
+        },
+        primary: {
+            main: '#4d7cfe',
+        }
+    },
+});
 
 const Container = styled.div`
     displa: flex;
@@ -183,26 +203,6 @@ const RequestQuoteButton = styled.button`
     }
 `;
 
-const ViewQuoteButton = styled.button`
-    border-radius: 4px;
-    height: 40px;
-    justify-content: center;
-    align-items: center;
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 17px;
-    color: #FFFFFF;
-    background: #4D7CFE;
-    padding: 0px 20px;
-    flex: flex-end;
-
-    &:hover {
-        background: #6688e4;
-    }
-`;
-
 const HeaderRowLabelContainer = styled.div`
     color: black;
     cursor: pointer;
@@ -218,7 +218,7 @@ class Quotes extends React.Component{
 
         this.state = {
             quoteState: 0,
-            location: "ca",
+            location: "all",
             isflight: true,
             isShip: true,
             isVan: true,
@@ -227,9 +227,9 @@ class Quotes extends React.Component{
     }
 
     componentDidMount(){
-        const { quotes, loadPage } = this.props;
+        const { quotes, loadPage, token } = this.props;
         if(quotes == null){
-            loadPage(pageConstants.QUOTES);
+            loadPage(pageConstants.QUOTES, token);
         }
     }
 
@@ -273,11 +273,11 @@ class Quotes extends React.Component{
     sortArray = (array) => {
         const { sortBy } = this.state;
         const res = array.sort((a,b) => {
-            if(sortBy === 'name') return a.name > b.name;
-            if(sortBy === 'freight') return a.freight - b.freight;
-            if(sortBy === 'date') return a.cargoReadyDate > b.cargoReadyDate;
-            if(sortBy === 'from') return a.from > b.from;
-            if(sortBy === 'to') return a.to > b.to;
+            if(sortBy === 'name') return a.shipmentName > b.shipmentName;
+            if(sortBy === 'freight') return a.freightMethod - b.freightMethod;
+            if(sortBy === 'date') return a.pickupReadyDate > b.pickupReadyDate;
+            if(sortBy === 'from') return a.originAddress > b.originAddress;
+            if(sortBy === 'to') return a.destAddress > b.destAddress;
             if(sortBy === 'submitted') return a.submittedBy > b.submittedBy;
             if(sortBy === 'status') return a.status - b.status;
             return b.status - a.status;
@@ -292,19 +292,19 @@ class Quotes extends React.Component{
             array.forEach(element => {
                 let insertFlag = true;
                 if(quoteState!==0 && element.status!== quoteState) insertFlag = false;
-                if(element.freight===1&&!isflight) insertFlag=false;
-                if(element.freight===2&&!isShip) insertFlag=false;
-                if(element.freight===3&&!isVan) insertFlag=false;
+                if(element.freightMethod===1&&!isflight) insertFlag=false;
+                if(element.freightMethod===2&&!isShip) insertFlag=false;
+                if(element.freightMethod===3&&!isVan) insertFlag=false;
                 if(location !== "all"){
-                    if(location === 'ca' && (!element.from.includes("Canada") && !element.to.includes("Canada")))
+                    if(location === 'ca' && (!element.originAddress.includes("Canada") && !element.destAddress.includes("Canada")))
                         insertFlag = false;
-                    if(location === 'us' && (!element.from.includes("United States") && !element.to.includes("United States")))
+                    if(location === 'us' && (!element.originAddress.includes("United States") && !element.destAddress.includes("United States")))
                         insertFlag = false;
-                    if(location === 'cn' && (!element.from.includes("China") && !element.to.includes("China")))
+                    if(location === 'cn' && (!element.originAddress.includes("China") && !element.destAddress.includes("China")))
                         insertFlag = false;
-                    if(location === 'au' && (!element.from.includes("Australia") && !element.to.includes("Australia")))
+                    if(location === 'au' && (!element.originAddress.includes("Australia") && !element.destAddress.includes("Australia")))
                         insertFlag = false;
-                    if(location === 'ru' && (!element.from.includes("Russia") && !element.to.includes("Russia")))
+                    if(location === 'ru' && (!element.originAddress.includes("Russia") && !element.destAddress.includes("Russia")))
                         insertFlag = false;
                 }
                 if(insertFlag) result.push(element);
@@ -315,11 +315,14 @@ class Quotes extends React.Component{
 
     render(){
         const { quoteState, location, isflight, isShip, isVan, sortBy } = this.state;
-        const { quotes, onpagestatus, menuState } = this.props;
+        const { quotes, onpagestatus, menuState, quotePageState } = this.props;
         const mlistData = this.customFilter(quotes);
         return (
             <Container menuState={menuState}>
-                {onpagestatus===0&&<QuotesFilterBar>
+                {
+                    quotePageState==="loading"&&<div>Loading</div>
+                }
+                {quotePageState!=="loading"&&onpagestatus===0&&<QuotesFilterBar>
                     <CustomSelector value={quoteState} onChange={e => this.handleQuoteScopeSelection(e)}>
                         <CustomSelectorOption value={0}>All</CustomSelectorOption>
                         <CustomSelectorOption value={1}>Active Quotes</CustomSelectorOption>
@@ -348,16 +351,20 @@ class Quotes extends React.Component{
     
                     {/* Location Selctor */}
                     <CustomSelector value={location} onChange={e => this.handleLocationSeltion(e)}>
-                        <CustomSelectorOption value='all'>Select a Location</CustomSelectorOption>
+                        <CustomSelectorOption value='all'>All</CustomSelectorOption>
                         <CustomSelectorOption value='ca'>Canada</CustomSelectorOption>
                         <CustomSelectorOption value='us'>United States</CustomSelectorOption>
                         <CustomSelectorOption value='cn'>China</CustomSelectorOption>
                         <CustomSelectorOption value='au'>Australia</CustomSelectorOption>
                         <CustomSelectorOption value='ru'>Russia</CustomSelectorOption>
                     </CustomSelector>
-                    <RequestQuoteButton onClick={e => this.onNewQuote(e)}>Request Quote</RequestQuoteButton>
+                    <CustomToolTip title="New Quote">
+                        <RequestQuoteButton onClick={e => this.onNewQuote(e)}>
+                            <Add />
+                        </RequestQuoteButton>
+                    </CustomToolTip>
                 </QuotesFilterBar>}
-                {onpagestatus===0&&<QuotesTableContainer>
+                {quotePageState!=="loading"&&onpagestatus===0&&<QuotesTableContainer>
                     <Table stickyHeader>
                         <TableHead>
                             <TableRow>
@@ -420,34 +427,54 @@ class Quotes extends React.Component{
                                 return(
                                     <TableRow hover role='checkbox' key={row.id}>
                                         <TableCell align="center" style={{maxWidth: "120px"}}>
-                                            {row.name}
+                                            {row.shipmentName}
                                         </TableCell>
                                         <TableCell align="center" style={{minWidth: "120px"}}>
-                                            {row.freight===1&&<FlightTakeoff />}
-                                            {row.freight===2&&<DirectionsBoat />}
-                                            {row.freight===3&&<LocalShipping />}
+                                            {row.freightMethod===1&&<DirectionsBoat />}
+                                            {row.freightMethod===2&&<span><FlightTakeoff /><DirectionsBoat /></span>}
+                                            {row.freightMethod===3&&<FlightTakeoff />}
+                                            {row.freightMethod===4&&<LocalShipping />}
                                         </TableCell>
                                         <TableCell align="center" style={{minWidth: "170px"}}>
-                                            {row.cargoReadyDate}
+                                            {row.pickupReadyDate}
                                         </TableCell>
                                         <TableCell align="center" style={{maxWidth: "115px"}}>
-                                            {row.from}
+                                            {row.originAddress}
                                         </TableCell>
                                         <TableCell align="center" style={{maxWidth: "110px"}}>
-                                            {row.to}
+                                            {row.destAddress}
                                         </TableCell>
                                         <TableCell align="center" style={{minWidth: "150px"}}>
-                                            {row.cargoDetails}
+                                            {row.cargoweight}{row.cargoUnit?"kg":"lb"} / {row.cargovolume}cbm
                                         </TableCell>
                                         <TableCell align="center" style={{minWidth: "150px"}}>
-                                            {row.submittedBy}
+                                            {row.submittedBy?row.submittedBy:"You"}
                                         </TableCell>
                                         <TableCell align="center" style={{minWidth: "120px"}}>
+                                            {row.status===1&&"Active Quote"}
                                             {row.status===2&&"Quotes Ready"}
+                                            {row.status===3&&"Accepted Quote"}
                                             {row.status===4&&"Quotes Expired"}
+                                            {!row.status&&"New Quote"}
                                         </TableCell>
                                         <TableCell align="left" style={{minWidth: "100px"}}>
-                                            <ViewQuoteButton>View Quote</ViewQuoteButton>
+                                            <ThemeProvider theme={theme}>
+                                                <CustomToolTip title="View">
+                                                    <IconButton color='primary' >
+                                                        <View />
+                                                    </IconButton>
+                                                </CustomToolTip>
+                                                <CustomToolTip title="Edit">
+                                                    <IconButton color="primary">
+                                                        <Edit />
+                                                    </IconButton>
+                                                </CustomToolTip>
+                                                <CustomToolTip title="Delete">
+                                                    <IconButton color="secondary">
+                                                        <Delete />
+                                                    </IconButton>
+                                                </CustomToolTip>
+                                            </ThemeProvider>
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -455,8 +482,8 @@ class Quotes extends React.Component{
                         </TableBody>
                     </Table>
                 </QuotesTableContainer>}
-                {onpagestatus===1&&<NewQuotePanel></NewQuotePanel>}
-                {onpagestatus===2&&<QuoteDetails></QuoteDetails>}
+                {quotePageState!=="loading"&&onpagestatus===1&&<NewQuotePanel></NewQuotePanel>}
+                {quotePageState!=="loading"&&onpagestatus===2&&<QuoteDetails></QuoteDetails>}
             </Container>
         );
     }
@@ -464,9 +491,11 @@ class Quotes extends React.Component{
 
 function mapStateToProps(state) {
     return {
-        quotes: state.page.info!==null?state.page.info.quotes: null,
+        quotes: state.quote.quotes,
         onpagestatus: state.quote!==null?state.quote.onpagestatus:0,
         menuState: state.menu.menuState,
+        token: state.auth.user.token,
+        quotePageState: state.quote.quotePageState,
     };
 }
 
@@ -481,6 +510,8 @@ Quotes.propTypes = {
     loadPage: PropTypes.func.isRequired,
     onNewFreightQuote: PropTypes.func.isRequired,
     menuState: PropTypes.string.isRequired,
+    quotePageState: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
 };
 
 const actionCreators = {

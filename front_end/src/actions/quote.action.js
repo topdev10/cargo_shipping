@@ -3,21 +3,21 @@ import { alertActions } from './alert.actions';
 // import { history } from '../helpers';
 import BaseApi from '../api/baseApi';
 
-function requestFreightQuote(data) {
+function requestFreightQuote(e, quote, token) {
     function request(_data) {return { type: quoteConstants.REQUEST_FREIGHT_QUOTE, _data};};
-    function success(_data) {return { type: quoteConstants.SUCCESS_FREIGHT_QUOTE, _data};};
+    function success(_data) {return { type: quoteConstants.SUCCESS_FREIGHT_QUOTE, quote: _data};};
     function failure(error) {return { type: quoteConstants.FAILED_FREIGHT_QUOTE, error};};
     
     return dispatch => {
-        dispatch(request(data));
+        dispatch(request(quote));
 
-        BaseApi.requestNewQuote(data, (error, result) => {
+        BaseApi.requestNewQuote({quote, token}, (error, result) => {
             if(error){
-                // dispatch(failure(error.toString()));
-                // dispatch(alertActions.error(error.toString));
-                console.log(error, result);
+                dispatch(failure(error.toString()));
+                dispatch(alertActions.error("Add New Report Failed!"));
             } else if(result){
-                dispatch(success(data));
+                dispatch(alertActions.success("Add New Report Success!"));
+                dispatch(success(quote));
             }
         });
     };

@@ -50,8 +50,8 @@ function getOneQuote(id, email, callback) {
 }
 
 // Get All quotes by email
-function getAllQuotes(email, callback) {
-    Quote.find({email}, (error, result) => {
+function getAllQuotes(callback) {
+    Quote.find((error, result) => {
         if(error) callback(error, null)
         else if(result.length > 0) callback(null, result)
         else callback(null, []);        
@@ -74,13 +74,6 @@ router.post('/getAll', [
 // Add New Quote API
 router.post('/addQuote', [
     check('email', "Invalid Email").isEmail(),
-    // check('venderID', "Vender Id is required").not().isEmpty(),
-    check('freight', "Freight is required").isNumeric(),
-    check('cargoReadyDate', "Cargo Ready Date is Required").not().isEmpty(),
-    check('from', "From is required").not().isEmpty(),
-    check('to', "To is required").not().isEmpty(),
-    check('cargoDetails', "CargoDetails is Required").not().isEmpty(),
-    check('submittedBy', "Submitter is required").not().isEmpty(),
 ], function(req, res){
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -88,30 +81,48 @@ router.post('/addQuote', [
     } else {
         const token = req.headers.authorization?req.headers.authorization.substring(7):"";
         Auth.authenticate(req.body.email, token, (err, result) => {
+            console.log(result.username);
             if(err) res.status(401).send(); //Unauthorized User or Token
             else if(result) {
 
-                // const idNum = ((100000 * Math.random())%99999).toString(10);
-                // const ID = "FREIGHT-" + pad(idNum, 5);
-                // const vidNum = ((1000009 * Math.random())%999999).toString(10);
-                // const VID = "FREIGHT-" + pad(vidNum, 6);
+                const idNum = ((100000 * Math.random())%99999).toString(10);
+                const ID = "FREIGHT-" + pad(idNum, 5);
+                const vidNum = ((1000009 * Math.random())%999999).toString(10);
+                const VID = "FREIGHT-" + pad(vidNum, 6);
                 // console.log(ID, VID);
                 const newQuote = new Quote({
+                    id: ID,
                     email: req.body.email,
-                    // venderID: req.body.venderID,
-                    name: req.body.name,
-                    freight: req.body.freight,
-                    cargoReadyDate: req.body.cargoreadyDate,
-                    from: req.body.from,
-                    to: req.body.to,
-                    cargoDetails: req.body.cargoDetails,
-                    submittedBy: req.body.submittedBy,
-                    status: 1,      // default state
+                    venderID: VID,
+                    submittedBy: result.username,
+                    shipmentName: req.body.shipmentName,
+                    freightMethod: req.body.freightMethod,
+                    shipmentType: req.body.shipmentType,
+                    containerType: req.body.containerType,
+                    incoterms: req.body.incoterms,
+                    originAddress: req.body.originAddress,
+                    originPort: req.body.originPort,
+                    pickupReadyDate: req.body.pickupReadyDate,
+                    delieverToLocation: req.body.delieverToLocation,
+                    destAddress: req.body.destAddress,
+                    destPort: req.body.destPort,
+                    targetDeliveryDate: req.body.targetDeliveryDate,
+                    cargoUnit: req.body.cargoUnit,
+                    ispackageDetails: req.body.ispackageDetails,
+                    cargoweight: req.body.cargoweight,
+                    cargovolume: req.body.cargovolume,
+                    description: req.body.description,
+                    haveBattery: req.body.haveBattery,
+                    haveHazardous: req.body.haveHazardous,
+                    haveLiquids: req.body.haveLiquids,
+                    haveNothing: req.body.haveNothing,
+                    instruction: req.body.instruction,
+                    status: 1,  // default value
                 });
 
                 newQuote.save((error, result) => {
-                    console.log(error, "=========")
-                    if(error) res.status(500).send();   // previous request failed
+                    console.log(error, result);
+                    if(error) res.status(500).send(error.errmsg);   // previous request failed
                     else res.status(200).send();        // Success
                 })
             } else res.status(401).send();
@@ -203,9 +214,10 @@ router.post('/getAllQuotes', [
     } else {
         const token = req.headers.authorization?req.headers.authorization.substring(7):"";
         Auth.authenticate(req.body.email, token, (err, result) => {
+            console.log(req.body.email, token);
             if(err) res.status(401).send(); //Unauthorized User or Token
             else if(result) {
-                getAllQuotes(req.body.email, (e1, r1) => {
+                getAllQuotes((e1, r1) => {
                     if(e1) res.status(500).send();
                     else res.status(200).send(r1);
                 });

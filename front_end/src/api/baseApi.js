@@ -26,17 +26,37 @@ const BaseApi = {
         );
     },
 
+    secretApi(uri, params, token, callback) {
+        const config = {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        };
+
+        axios.defaults.baseURL = Config.BACKEND_API_URL;
+        axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+        axios.post(uri, params, config).then(
+            res => {
+                callback(null, res);
+            },
+            error => {
+                callback(error, null);
+            }
+        );
+    },
+
     login(email, password, checked, callback) {
         let mData;
         if (this.validateEmail(email)) {
             mData = {
-                email: email,
-                password: password
+                email,
+                password
             };
         } else
             mData = {
                 username: email,
-                password: password
+                password
             };
         this.baseApi(
             {
@@ -171,15 +191,15 @@ const BaseApi = {
             },
             error => {
                 switch (error.status) {
-                    case 401:
-                        callback('Unauthorized Request', null);
-                        break;
-                    case 426:
-                        callback('Upload Avatar Failied', null);
-                        break;
-                    default:
-                        callback('Upload Avatar Failied', null);
-                        break;
+                case 401:
+                    callback('Unauthorized Request', null);
+                    break;
+                case 426:
+                    callback('Upload Avatar Failied', null);
+                    break;
+                default:
+                    callback('Upload Avatar Failied', null);
+                    break;
                 }
             }
         );
@@ -213,19 +233,14 @@ const BaseApi = {
     },
 
     requestNewQuote(data, callback) {
+        const { quote, token } = data;
         const formData = {
             email: JSON.parse(localStorage.user).email,
-            name: data.shipmentName,
-            submittedBy: JSON.parse(localStorage.user).username,
-            freight: data.freightMethod,
-            cargoReadyDate: data.pickupReadyDate,
-            from: data.originPort,
-            to: data.destPort,
-            cargoDetails: data.description
+            ...quote,
         };
         const config = {
             headers: {
-                authorization: `Bearer ${JSON.parse(localStorage.user).token}`
+                authorization: `Bearer ${token}`
             }
         };
 
@@ -241,6 +256,11 @@ const BaseApi = {
             }
         );
         // callback(null, true);
+    },
+
+    requestAllQuotes(token,callback) {
+        const {email} = JSON.parse(localStorage.user);
+        this.secretApi('/api/getAllQuotes',{email}, token, (error, result) =>  callback(error, result.data));
     },
 
     requestPayment(data, callback) {

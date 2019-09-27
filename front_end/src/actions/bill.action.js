@@ -7,7 +7,6 @@ function onPaymentRequest(data) {
 
     return dispatch => {
         BaseApi.requestPayment(data, (error, result) => {
-            console.log(error, result);
             if(result.data.ship_id) {
                 dispatch(success(result.data.ship_id));
                 dispatch(alertActions.success("Payment Success!"));

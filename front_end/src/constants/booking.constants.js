@@ -4,6 +4,7 @@ export const bookingConstants =  {
     ON_EDIT_BOOKING: "ON_EDIT_BOOKING",
 
     ON_REQUEST_ALL_BOOKINGS: "ON_REQUEST_ALL_BOOKINGS",
+    ON_RECEIVE_ALL_BOOKINGS: "ON_RECEIVE_ALL_BOOKINGS",
 };
 
 export default bookingConstants;

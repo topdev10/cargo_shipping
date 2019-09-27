@@ -8,7 +8,7 @@ function arrowGenerator(color) {
         '&[x-placement*="bottom"] $arrow': {
             top: 0,
             left: 0,
-            marginTop: '-0.95em',
+            marginTop: '-0.8em',
             width: '3em',
             height: '1em',
             '&::before': {
@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
         margin: '8px 0',
     },
     tooltipPlacementBottom: {
-        margin: '8px 0',
+        margin: '0px 0',
     },
 }));
   

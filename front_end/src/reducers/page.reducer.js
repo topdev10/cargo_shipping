@@ -16,6 +16,7 @@ const initialState = {
         billings: null,
         reports: null,
     },
+    curPage: pageConstants.DASHBOARD,
     // ect
 };
 
@@ -102,6 +103,11 @@ export function pages(state = initialState, action) {
         return {
             ...state,
             info: action.info
+        };
+    case pageConstants.ON_RELOAD_PAGE:
+        return {
+            ...state,
+            curPage: action.curPage,
         };
     default:
         return state;
