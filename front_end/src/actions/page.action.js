@@ -183,6 +183,18 @@ function loadPage(page, token) {
                     plane_id: "S22532",
                     user_id: "PO# 1345/P86-37",
                     load_spec: "20*0.11cbm Test at 12kg", 
+                },
+                {
+                    id: "FLEX-49445",
+                    venderID: "VND-86616-84444",
+                    location: "In Transit to Arrival Port",
+                    route: 3,
+                    progress: 50,
+                    commit: "Document Uploaded",
+                    state: 4,
+                    plane_id: "S22532",
+                    user_id: "PO# 1345/P86-37",
+                    load_spec: "20*0.11cbm Test at 12kg", 
                 }
             ],
             quotes: [

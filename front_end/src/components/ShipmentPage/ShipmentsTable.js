@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { shipsConstants } from '../../constants';
 import { pageActions } from '../../actions';
 
@@ -8,6 +9,15 @@ import ShipmentTableRow from "./ShipmentTableRow";
 
 import 'rc-steps/assets/index.css';
 import './style.css';
+
+const Container = styled.div`
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 64px - 90px);
+    width: 100%;
+    overflow-x: hidden;
+`;
 
 class ShipmentsTable extends Component {
 
@@ -22,14 +32,14 @@ class ShipmentsTable extends Component {
         // eslint-disable-next-line react/prop-types
         const { shipments } = this.props;
         return (
-            <div>
+            <Container>
                 { shipments !== null ?
                     shipments.map((shipment)=> (
                         <ShipmentTableRow key={shipment.id} shipDetail={shipment} />
                     ))
                     : <div>Loading</div>
                 }
-            </div>
+            </Container>
         );
     }
 };

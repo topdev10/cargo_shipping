@@ -14,3 +14,7 @@ b {
 .info {
     padding: 20px;
 }
+
+.border2 {
+    border: 2px solid #4d7cfe!important;
+}
