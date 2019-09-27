@@ -249,7 +249,7 @@ const BaseApi = {
 
         axios.post('/api/addQuote', formData, config).then(
             res => {
-                callback(null, res);
+                callback(null, res.data);
             },
             error => {
                 callback(error, null);
