@@ -34,7 +34,7 @@ import { userActions, pageActions, alertActions, menuActions } from '../actions'
 import Config from '../config';
 
 import logo from '../images/logo.svg';
-import { pageConstants, menuConstants, billConstants, bookingConstants } from "../constants";
+import { pageConstants, menuConstants, billConstants, bookingConstants, shipsConstants } from "../constants";
 
 // eslint-disable-next-line no-unused-vars
 const SearchBox = styled.input`
@@ -258,7 +258,7 @@ const Header = (props) => {
             loadPage(pageConstants.QUOTES);
             break;
         case "SHIPMENTS":
-            loadPage(pageConstants.SHIPMENTS);
+            loadPage(shipsConstants.ON_SHIPMENTS);
             break;
         case "BOOKING":
             loadPage(bookingConstants.ON_REQUEST_ALL_BOOKINGS);
@@ -292,7 +292,7 @@ const Header = (props) => {
         else if(labelText === 'Quotes')
             loadPage(pageConstants.QUOTES);
         else if(labelText === 'Shipments')
-            loadPage(pageConstants.SHIPMENTS);
+            loadPage(shipsConstants.ON_SHIPMENTS);
         else if(labelText === 'Billing')
             loadPage(billConstants.BILLING);
         else if(labelText === 'Reports')

@@ -1,4 +1,4 @@
-import { pageConstants, billConstants, bookingConstants } from '../constants';
+import { pageConstants, billConstants, bookingConstants, shipsConstants } from '../constants';
 import { alertActions } from './alert.actions';
 import { history } from '../helpers';
 import BaseApi from '../api/baseApi';
@@ -76,9 +76,9 @@ function loadPage(page) {
         };
     }
 
-    function requestShipments(info) {
+    function requestShipments(shipments) {
         return {
-            type: pageConstants.SHIPMENTS, info
+            type: shipsConstants.ON_SHIPMENTS, shipments
         };
     }
 
@@ -112,6 +112,9 @@ function loadPage(page) {
                     progress: 30,
                     commit: "Planned transit changed",
                     state: 1,
+                    plane_id: "S15332",
+                    user_id: "PO# 1245/P86-32",
+                    load_spec: "10*0.06cbm Test at 30kg", 
                 },
                 {
                     id: "FLEX-48740",
@@ -120,7 +123,10 @@ function loadPage(page) {
                     route: 2,
                     progress: 70,
                     commit: "Planned transit changed",
-                    state: 1,
+                    state: 3,
+                    plane_id: "S15421",
+                    user_id: "PO# 1345/P86-37",
+                    load_spec: "20*36cbm Test at 20kg", 
                 },
                 {
                     id: "FLEX-46986",
@@ -130,6 +136,9 @@ function loadPage(page) {
                     progress: 70,
                     commit: "Booking Approved",
                     state: 2,
+                    plane_id: "S25342",
+                    user_id: "PO# 1324/P86-31",
+                    load_spec: "11*16cbm Test at 10kg", 
                 },
                 {
                     id: "FLEX-50008",
@@ -139,6 +148,9 @@ function loadPage(page) {
                     progress: 30,
                     commit: "Document Uploaded",
                     state: 3,
+                    plane_id: "S23242",
+                    user_id: "PO# 1135/P82-37",
+                    load_spec: "50*0.26cbm Test at 110kg", 
                 },
                 {
                     id: "FLEX-49998",
@@ -147,7 +159,10 @@ function loadPage(page) {
                     route: 3,
                     progress: 50,
                     commit: "Document Uploaded",
-                    state: 3,
+                    state: 1,
+                    plane_id: "S22532",
+                    user_id: "PO# 1345/P86-37",
+                    load_spec: "20*0.11cbm Test at 12kg", 
                 }
             ],
             quotes: [
@@ -483,8 +498,8 @@ function loadPage(page) {
             dispatch(requestQuotes(info));
             history.push('/pages/quotes');
         }
-        if(page === pageConstants.SHIPMENTS){
-            dispatch(requestShipments(info));
+        if(page === shipsConstants.ON_SHIPMENTS){
+            dispatch(requestShipments(info.shipments));
             history.push('/pages/shipments');
         }
         if(page === billConstants.BILLING){

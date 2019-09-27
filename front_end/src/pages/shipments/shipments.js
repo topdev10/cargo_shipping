@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Device from '../../css/device';
+import ShipmentsTable from '../../components/ShipmentPage/ShipmentsTable';
 
 import { menuConstants } from '../../constants';
 
@@ -16,6 +17,8 @@ const Container = styled.div`
     height: calc(100vh - 64px);
     padding: 12px;
     width: 100%;
+    overflow: auto;
+    left: 0px;
     background: #cccccc40;
     transition: width 1s;
     @media ${Device.laptop} {    
@@ -32,7 +35,7 @@ const Shipments = (props) => {
     const { menuState } = props;
     return (
         <Container menuState={menuState}>
-            This is Shipments page
+            <ShipmentsTable />
         </Container>
     );
 };

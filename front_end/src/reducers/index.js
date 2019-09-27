@@ -8,6 +8,7 @@ import billReducer from './bill.reducer';
 import reportReducer from './report.reducer';
 import menuReducer from './menu.reducer';
 import bookingReducer from './booking.reducer';
+import  shipReducer from './ship.reducer';
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     report: reportReducer,
     menu: menuReducer,
     booking: bookingReducer,
+    ships: shipReducer,
 });
 
 export default rootReducer;
