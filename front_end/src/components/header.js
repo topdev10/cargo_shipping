@@ -34,7 +34,7 @@ import { userActions, pageActions, alertActions, menuActions } from '../actions'
 import Config from '../config';
 
 import logo from '../images/logo.svg';
-import { pageConstants, menuConstants, billConstants, bookingConstants, shipsConstants, reportConstants } from "../constants";
+import { pageConstants, menuConstants, billConstants, bookingConstants, shipsConstants } from "../constants";
 
 // eslint-disable-next-line no-unused-vars
 const SearchBox = styled.input`
