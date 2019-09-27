@@ -33,11 +33,10 @@ class ShipmentsTable extends Component {
         const { shipments } = this.props;
         return (
             <Container>
-                { shipments !== null ?
+                { shipments !== null &&
                     shipments.map((shipment)=> (
                         <ShipmentTableRow key={shipment.id} shipDetail={shipment} />
                     ))
-                    : <div>Loading</div>
                 }
             </Container>
         );
