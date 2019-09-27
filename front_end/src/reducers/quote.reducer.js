@@ -6,24 +6,39 @@ const initialState = {
     failed: false,
     onpagestatus: 0,
     newquote: null,
+    quotes: null,
+    quotePageState: "loading",
 };
 
 export function quotes(state = initialState, action) {
     switch(action.type) {
+    case quoteConstants.ON_REQUEST_ALL_QUOTES:
+        return {
+            ...state,
+            quotePageState: "loading",
+        };
+    
+    case quoteConstants.ON_RECEIVE_ALL_QUOTES:
+        return {
+            ...state,
+            quotePageState: "finished",
+            quotes: action.quotes
+        };
     case quoteConstants.REQUEST_FREIGHT_QUOTE:
         return {
             ...state,
             requested: true,
             succeed: false,
             failed: false,
-            onpagestatus: 1,
+            onpagestatus: 2,
         };
     case quoteConstants.SUCCESS_FREIGHT_QUOTE:
         return {
             ...state,
             succeed: true,
             failed: false,
-            onpagestatus: 0,
+            onpagestatus: 2,
+            quotes: [ ...state.quotes, action.quote]
         };
     case quoteConstants.FAILED_FREIGHT_QUOTE:
         return {
@@ -41,7 +56,7 @@ export function quotes(state = initialState, action) {
     case quoteConstants.BACK_REQUEST_QUOTE:
         return {
             ...state,
-            onpagestatus: 1
+            onpagestatus: 0
         };
     case quoteConstants.ON_CANCEL_FREIGHT_QUOTE:
         return {

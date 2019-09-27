@@ -21,6 +21,7 @@ export const pageConstants =  {
     REPORTS: 'REPORTS',
     BOOKING: 'BOOKING',
     ON_RELOAD_PAGE: "ON_RELOAD_PAGE",
+    ON_FAILED_LOADING_PAGE: "ON_FAILED_LOADING_PAGE",
 };
 
 export default pageConstants;

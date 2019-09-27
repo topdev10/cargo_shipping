@@ -1,4 +1,4 @@
-import { pageConstants, billConstants, bookingConstants } from '../constants';
+import { pageConstants, billConstants, bookingConstants, quoteConstants } from '../constants';
 import { alertActions } from './alert.actions';
 import { history } from '../helpers';
 import BaseApi from '../api/baseApi';
@@ -62,7 +62,9 @@ function updateAvatar(data) {
     };
 }
 
-function loadPage(page) {
+function loadPage(page, token) {
+
+    function failure(_page) {return { type: pageConstants.ON_FAILED_LOADING_PAGE, _page};};
 
     function requestDashboard(info) {
         return {
@@ -70,9 +72,15 @@ function loadPage(page) {
         };
     }
 
-    function requestQuotes(info) {
+    function requestQuotes() {
         return {
-            type: pageConstants.QUOTES, info
+            type: quoteConstants.ON_REQUEST_ALL_QUOTES
+        };
+    }
+
+    function receiveQuotes(quotes) {
+        return {
+            type: quoteConstants.ON_RECEIVE_ALL_QUOTES, quotes
         };
     }
 
@@ -88,9 +96,15 @@ function loadPage(page) {
         };
     }
 
-    function requestBooking(bookings) {
+    function requestBooking() {
         return {
-            type: bookingConstants.ON_REQUEST_ALL_BOOKINGS, bookings
+            type: bookingConstants.ON_REQUEST_ALL_BOOKINGS
+        };
+    }
+
+    function receiveBooking(bookings) {
+        return {
+            type: bookingConstants.ON_RECEIVE_ALL_BOOKINGS, bookings
         };
     }
     
@@ -170,6 +184,29 @@ function loadPage(page) {
                     cargoDetails: "N/A",
                     submittedBy: "Jinlong Yin",
                     status: 4,
+
+                    shipmentName: "CustomShipment 1",
+                    freightMethod: 1,
+                    shipmentType: 2,
+                    containerType: 3,
+                    incoterms: 1,
+                    originAddress: "Canada",
+                    originPort: 1,
+                    pickupReadyDate: "2019-09-26",
+                    delieverToLocation: false,
+                    destAddress: "Canada",
+                    destPort: 1,
+                    targetDeliveryDate: "2019-09-30",
+                    cargoUnit: true,
+                    ispackageDetails: false,
+                    cargoweight: "25",
+                    cargovolume: "12",
+                    description: "Compliance",
+                    haveBattery: false,
+                    haveHazardous: false,
+                    haveLiquids: false,
+                    haveNothing: true,
+                    instruction: "Special Instructions",
                 },
                 {
                     id: "FLEX-68887",
@@ -184,6 +221,29 @@ function loadPage(page) {
                     cargoDetails: "N/A",
                     submittedBy: "Yin Jinlong",
                     status: 2,
+
+                    shipmentName: "CustomShipment 2",
+                    freightMethod: 2,
+                    shipmentType: 2,
+                    containerType: 3,
+                    incoterms: 1,
+                    originAddress: "Canada",
+                    originPort: 1,
+                    pickupReadyDate: "2019-09-26",
+                    delieverToLocation: false,
+                    destAddress: "Canada",
+                    destPort: 1,
+                    targetDeliveryDate: "2019-09-30",
+                    cargoUnit: true,
+                    ispackageDetails: false,
+                    cargoweight: "25",
+                    cargovolume: "12",
+                    description: "Compliance",
+                    haveBattery: false,
+                    haveHazardous: false,
+                    haveLiquids: false,
+                    haveNothing: true,
+                    instruction: "Special Instructions",
                 },
                 {
                     id: "FLEX-68580",
@@ -198,6 +258,29 @@ function loadPage(page) {
                     cargoDetails: "N/A",
                     submittedBy: "Bill Camarda",
                     status: 4,
+
+                    shipmentName: "CustomShipment 3",
+                    freightMethod: 2,
+                    shipmentType: 2,
+                    containerType: 3,
+                    incoterms: 1,
+                    originAddress: "Canada",
+                    originPort: 1,
+                    pickupReadyDate: "2019-09-26",
+                    delieverToLocation: false,
+                    destAddress: "Canada",
+                    destPort: 1,
+                    targetDeliveryDate: "2019-09-30",
+                    cargoUnit: true,
+                    ispackageDetails: false,
+                    cargoweight: "25",
+                    cargovolume: "12",
+                    description: "Compliance",
+                    haveBattery: false,
+                    haveHazardous: false,
+                    haveLiquids: false,
+                    haveNothing: true,
+                    instruction: "Special Instructions",
                 },
                 {
                     id: "FLEX-62387",
@@ -212,6 +295,29 @@ function loadPage(page) {
                     cargoDetails: "N/A",
                     submittedBy: "Rao Smit",
                     status: 2,
+
+                    shipmentName: "CustomShipment 4",
+                    freightMethod: 3,
+                    shipmentType: 2,
+                    containerType: 3,
+                    incoterms: 1,
+                    originAddress: "Canada",
+                    originPort: 1,
+                    pickupReadyDate: "2019-09-26",
+                    delieverToLocation: false,
+                    destAddress: "Canada",
+                    destPort: 1,
+                    targetDeliveryDate: "2019-09-30",
+                    cargoUnit: true,
+                    ispackageDetails: false,
+                    cargoweight: "25",
+                    cargovolume: "12",
+                    description: "Compliance",
+                    haveBattery: false,
+                    haveHazardous: false,
+                    haveLiquids: false,
+                    haveNothing: true,
+                    instruction: "Special Instructions",
                 },
                 {
                     id: "FLEX-68999",
@@ -226,6 +332,29 @@ function loadPage(page) {
                     cargoDetails: "N/A",
                     submittedBy: "Bill Camarda",
                     status: 4,
+
+                    shipmentName: "CustomShipment 5",
+                    freightMethod: 4,
+                    shipmentType: 2,
+                    containerType: 3,
+                    incoterms: 1,
+                    originAddress: "Canada",
+                    originPort: 1,
+                    pickupReadyDate: "2019-09-26",
+                    delieverToLocation: false,
+                    destAddress: "Canada",
+                    destPort: 1,
+                    targetDeliveryDate: "2019-09-30",
+                    cargoUnit: true,
+                    ispackageDetails: false,
+                    cargoweight: "25",
+                    cargovolume: "12",
+                    description: "Compliance",
+                    haveBattery: false,
+                    haveHazardous: false,
+                    haveLiquids: false,
+                    haveNothing: true,
+                    instruction: "Special Instructions",
                 },
                 {
                     id: "FLEX-67678",
@@ -238,8 +367,30 @@ function loadPage(page) {
                     from: "Vacouver, Canada",
                     to: "Tokyo, Japan",
                     cargoDetails: "N/A",
-                    submittedBy: "Rao Smit",
                     status: 2,
+
+                    shipmentName: "CustomShipment 6",
+                    freightMethod: 2,
+                    shipmentType: 2,
+                    containerType: 3,
+                    incoterms: 1,
+                    originAddress: "Canada",
+                    originPort: 1,
+                    pickupReadyDate: "2019-09-26",
+                    delieverToLocation: false,
+                    destAddress: "Canada",
+                    destPort: 1,
+                    targetDeliveryDate: "2019-09-30",
+                    cargoUnit: true,
+                    ispackageDetails: false,
+                    cargoweight: 25,
+                    cargovolume: 12,
+                    description: "Compliance",
+                    haveBattery: false,
+                    haveHazardous: false,
+                    haveLiquids: false,
+                    haveNothing: true,
+                    instruction: "Special Instructions",
                 }
             ],
             bookings: [
@@ -487,7 +638,15 @@ function loadPage(page) {
             history.push('/pages/dashboard');
         }
         if(page === pageConstants.QUOTES){
-            dispatch(requestQuotes(info));
+            dispatch(requestQuotes());
+            BaseApi.requestAllQuotes(token,(error, result) => {
+                if(error){
+                    dispatch(failure(page));
+                    dispatch(alertActions.error("Load All Quotes Failed."));
+                } else if(result){
+                    dispatch(receiveQuotes(result));
+                }
+            });
             history.push('/pages/quotes');
         }
         if(page === pageConstants.SHIPMENTS){
@@ -499,7 +658,8 @@ function loadPage(page) {
             history.push('/pages/billing');
         }
         if(page === bookingConstants.ON_REQUEST_ALL_BOOKINGS) {
-            dispatch(requestBooking(info.bookings));
+            dispatch(requestBooking());
+            dispatch(receiveBooking(info.bookings));
             history.push('/pages/booking');
         }
         if(page === pageConstants.REPORTS){

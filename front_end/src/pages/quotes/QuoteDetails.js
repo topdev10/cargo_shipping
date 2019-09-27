@@ -275,7 +275,7 @@ class QuoteDetails extends React.Component{
     }
 
     render(){
-        const {requestFreightQuote, backRequestFreightQuote, newquote} = this.props;
+        const {requestFreightQuote, backRequestFreightQuote, newquote, token} = this.props;
         return(
             <Container ref={ref}>
                 {/* <Pdf targetRef={ref} filename="code-example.pdf">
@@ -287,7 +287,7 @@ class QuoteDetails extends React.Component{
                             Quote Details:
                         </HeadTitle>
                         
-                        <Pdf targetRef={ref} filename="QuoteDetails.pdf" options={options} onComplete={e => requestFreightQuote(e, newquote)}>
+                        <Pdf targetRef={ref} filename="QuoteDetails.pdf" options={options} onComplete={e => requestFreightQuote(e, newquote, token)}>
                             {({ toPdf }) => <DownloadButton onClick={toPdf}><img src={DownloadIcon} alt="Download"/></DownloadButton>}
                         </Pdf>
                     </HeadRow>
@@ -434,7 +434,7 @@ class QuoteDetails extends React.Component{
                     </RateAndRouteContainer>
                     <RestInformationContainer>
                         <RequestButton onClick={ backRequestFreightQuote } > Back </RequestButton>
-                        <RequestButton onClick={e => requestFreightQuote(e, newquote)} > Add </RequestButton>
+                        <RequestButton onClick={e => requestFreightQuote(e, newquote, token)} > Add </RequestButton>
                     </RestInformationContainer>
                 </PDFContainer>
             </Container>
@@ -451,11 +451,11 @@ QuoteDetails.propTypes = {
         shipmentType: PropTypes.number.isRequired,
         containerType: PropTypes.number.isRequired,
         incoterms: PropTypes.number.isRequired,
-        originLocation: PropTypes.string.isRequired,
+        originAddress: PropTypes.string.isRequired,
         originPort: PropTypes.number.isRequired,
         pickupReadyDate: PropTypes.string.isRequired,
         delieverToLocation: PropTypes.bool.isRequired,
-        destLocation: PropTypes.string.isRequired,
+        destAddress: PropTypes.string.isRequired,
         destPort: PropTypes.number.isRequired,
         targetDeliveryDate: PropTypes.string.isRequired,
         cargoUnit: PropTypes.bool.isRequired,
@@ -469,11 +469,13 @@ QuoteDetails.propTypes = {
         haveNothing: PropTypes.bool.isRequired,
         instruction: PropTypes.string.isRequired,
     }).isRequired,
+    token: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         newquote: state.quote.newquote,
+        token: state.auth.user.token,
     };
 }
 

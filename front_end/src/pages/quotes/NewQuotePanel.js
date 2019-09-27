@@ -498,11 +498,11 @@ const NewQuotePanel = (props) => {
     }
 
     function handleChangeWeight(event) {
-        setCargoWeight(event.target.value);
+        setCargoWeight(parseInt(event.target.value, 10));
     }
 
     function handleChangeVolume(event) {
-        setCargoVolume(event.target.value);
+        setCargoVolume(parseInt(event.target.value, 10));
     }
 
     function onChangeDescription(event) {
@@ -869,7 +869,7 @@ const NewQuotePanel = (props) => {
                     Cancel
                 </CancelFreightQuoteButton>
                 <RequestFreightQuoteButton onClick={e => handleReviewQuote(e)}>
-                    Review New Quote
+                    Request
                 </RequestFreightQuoteButton>
             </div>
         </Container>

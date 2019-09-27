@@ -17,7 +17,7 @@ function login(email, password, checked, company) {
                 dispatch(alertActions.error(error.toString()));
             }
             else if( res != null ){
-                dispatch(success({email: res.uemail, username: res.username , token: res.token, password, company}));
+                dispatch(success({email: res.uemail, username: res.username , token: res.token, company}));
                 dispatch(alertActions.success("login success"));
                 history.push('/pages/dashboard');
             }
