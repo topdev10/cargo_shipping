@@ -62,13 +62,19 @@ function updateAvatar(data) {
     };
 }
 
-function loadPage(page, token) {
+function loadPage(page, token, email) {
 
     function failure(_page) {return { type: pageConstants.ON_FAILED_LOADING_PAGE, _page};};
 
-    function requestDashboard(info) {
+    function succssOnDashboard(info) {
         return {
             type: pageConstants.DASHBOARD, info
+        };
+    }
+
+    function requestDashboard() {
+        return {
+            type: pageConstants.ON_REQUEST_DASHBOARD,
         };
     }
 
@@ -195,229 +201,6 @@ function loadPage(page, token) {
                     plane_id: "S22532",
                     user_id: "PO# 1345/P86-37",
                     load_spec: "20*0.11cbm Test at 12kg", 
-                }
-            ],
-            quotes: [
-                {
-                    id: "FLEX-68880",
-                    venderID: "VND-28453-28123",
-                    reviewCnt: 2,
-                    newCnt: 1,
-                    name: "Shenzen",
-                    freight: 2,
-                    cargoReadyDate: 0,
-                    from: "Yantian, China",
-                    to: "Vacouver, Canada",
-                    cargoDetails: "N/A",
-                    submittedBy: "Jinlong Yin",
-                    status: 4,
-
-                    shipmentName: "CustomShipment 1",
-                    freightMethod: 1,
-                    shipmentType: 2,
-                    containerType: 3,
-                    incoterms: 1,
-                    originAddress: "Canada",
-                    originPort: 1,
-                    pickupReadyDate: "2019-09-26",
-                    delieverToLocation: false,
-                    destAddress: "Canada",
-                    destPort: 1,
-                    targetDeliveryDate: "2019-09-30",
-                    cargoUnit: true,
-                    ispackageDetails: false,
-                    cargoweight: "25",
-                    cargovolume: "12",
-                    description: "Compliance",
-                    haveBattery: false,
-                    haveHazardous: false,
-                    haveLiquids: false,
-                    haveNothing: true,
-                    instruction: "Special Instructions",
-                },
-                {
-                    id: "FLEX-68887",
-                    venderID: "VND-58453-22123",
-                    reviewCnt: 3,
-                    newCnt: 2,
-                    name: "Shenyang",
-                    freight: 1,
-                    cargoReadyDate: 0,
-                    from: "Liaoning, China",
-                    to: "Vacouver, Canada",
-                    cargoDetails: "N/A",
-                    submittedBy: "Yin Jinlong",
-                    status: 2,
-
-                    shipmentName: "CustomShipment 2",
-                    freightMethod: 2,
-                    shipmentType: 2,
-                    containerType: 3,
-                    incoterms: 1,
-                    originAddress: "Canada",
-                    originPort: 1,
-                    pickupReadyDate: "2019-09-26",
-                    delieverToLocation: false,
-                    destAddress: "Canada",
-                    destPort: 1,
-                    targetDeliveryDate: "2019-09-30",
-                    cargoUnit: true,
-                    ispackageDetails: false,
-                    cargoweight: "25",
-                    cargovolume: "12",
-                    description: "Compliance",
-                    haveBattery: false,
-                    haveHazardous: false,
-                    haveLiquids: false,
-                    haveNothing: true,
-                    instruction: "Special Instructions",
-                },
-                {
-                    id: "FLEX-68580",
-                    venderID: "VND-28488-23342",
-                    reviewCnt: 2,
-                    newCnt: 1,
-                    name: "Shenzen",
-                    freight: 2,
-                    cargoReadyDate: 0,
-                    from: "NewYork, United States",
-                    to: "Vacouver, Canada",
-                    cargoDetails: "N/A",
-                    submittedBy: "Bill Camarda",
-                    status: 4,
-
-                    shipmentName: "CustomShipment 3",
-                    freightMethod: 2,
-                    shipmentType: 2,
-                    containerType: 3,
-                    incoterms: 1,
-                    originAddress: "Canada",
-                    originPort: 1,
-                    pickupReadyDate: "2019-09-26",
-                    delieverToLocation: false,
-                    destAddress: "Canada",
-                    destPort: 1,
-                    targetDeliveryDate: "2019-09-30",
-                    cargoUnit: true,
-                    ispackageDetails: false,
-                    cargoweight: "25",
-                    cargovolume: "12",
-                    description: "Compliance",
-                    haveBattery: false,
-                    haveHazardous: false,
-                    haveLiquids: false,
-                    haveNothing: true,
-                    instruction: "Special Instructions",
-                },
-                {
-                    id: "FLEX-62387",
-                    venderID: "VND-58453-25623",
-                    reviewCnt: 3,
-                    newCnt: 2,
-                    name: "Shenyang",
-                    freight: 1,
-                    cargoReadyDate: 0,
-                    from: "Vacouver, Canada",
-                    to: "Tokyo, Japan",
-                    cargoDetails: "N/A",
-                    submittedBy: "Rao Smit",
-                    status: 2,
-
-                    shipmentName: "CustomShipment 4",
-                    freightMethod: 3,
-                    shipmentType: 2,
-                    containerType: 3,
-                    incoterms: 1,
-                    originAddress: "Canada",
-                    originPort: 1,
-                    pickupReadyDate: "2019-09-26",
-                    delieverToLocation: false,
-                    destAddress: "Canada",
-                    destPort: 1,
-                    targetDeliveryDate: "2019-09-30",
-                    cargoUnit: true,
-                    ispackageDetails: false,
-                    cargoweight: "25",
-                    cargovolume: "12",
-                    description: "Compliance",
-                    haveBattery: false,
-                    haveHazardous: false,
-                    haveLiquids: false,
-                    haveNothing: true,
-                    instruction: "Special Instructions",
-                },
-                {
-                    id: "FLEX-68999",
-                    venderID: "VND-28488-45232",
-                    reviewCnt: 2,
-                    newCnt: 1,
-                    name: "Shenzen",
-                    freight: 2,
-                    cargoReadyDate: 0,
-                    from: "NewYork, United States",
-                    to: "Vacouver, Canada",
-                    cargoDetails: "N/A",
-                    submittedBy: "Bill Camarda",
-                    status: 4,
-
-                    shipmentName: "CustomShipment 5",
-                    freightMethod: 4,
-                    shipmentType: 2,
-                    containerType: 3,
-                    incoterms: 1,
-                    originAddress: "Canada",
-                    originPort: 1,
-                    pickupReadyDate: "2019-09-26",
-                    delieverToLocation: false,
-                    destAddress: "Canada",
-                    destPort: 1,
-                    targetDeliveryDate: "2019-09-30",
-                    cargoUnit: true,
-                    ispackageDetails: false,
-                    cargoweight: "25",
-                    cargovolume: "12",
-                    description: "Compliance",
-                    haveBattery: false,
-                    haveHazardous: false,
-                    haveLiquids: false,
-                    haveNothing: true,
-                    instruction: "Special Instructions",
-                },
-                {
-                    id: "FLEX-67678",
-                    venderID: "VND-58453-88990",
-                    reviewCnt: 3,
-                    newCnt: 2,
-                    name: "Shenyang",
-                    freight: 1,
-                    cargoReadyDate: 0,
-                    from: "Vacouver, Canada",
-                    to: "Tokyo, Japan",
-                    cargoDetails: "N/A",
-                    status: 2,
-
-                    shipmentName: "CustomShipment 6",
-                    freightMethod: 2,
-                    shipmentType: 2,
-                    containerType: 3,
-                    incoterms: 1,
-                    originAddress: "Canada",
-                    originPort: 1,
-                    pickupReadyDate: "2019-09-26",
-                    delieverToLocation: false,
-                    destAddress: "Canada",
-                    destPort: 1,
-                    targetDeliveryDate: "2019-09-30",
-                    cargoUnit: true,
-                    ispackageDetails: false,
-                    cargoweight: 25,
-                    cargovolume: 12,
-                    description: "Compliance",
-                    haveBattery: false,
-                    haveHazardous: false,
-                    haveLiquids: false,
-                    haveNothing: true,
-                    instruction: "Special Instructions",
                 }
             ],
             bookings: [
@@ -661,12 +444,20 @@ function loadPage(page, token) {
 
         dispatch(reloadPage(page));
         if(page === pageConstants.DASHBOARD){
-            dispatch(requestDashboard(info));
+            dispatch(requestDashboard());
+            BaseApi.requestAllQuotes(token, email,(error, result) => {
+                if(error){
+                    dispatch(failure(page));
+                } else if(result){
+                    dispatch(succssOnDashboard(info));
+                    dispatch(receiveQuotes(result));
+                }
+            });
             history.push('/pages/dashboard');
         }
         if(page === pageConstants.QUOTES){
             dispatch(requestQuotes());
-            BaseApi.requestAllQuotes(token,(error, result) => {
+            BaseApi.requestAllQuotes(token, email,(error, result) => {
                 if(error){
                     dispatch(failure(page));
                     dispatch(alertActions.error("Load All Quotes Failed."));

@@ -233,9 +233,9 @@ const BaseApi = {
     },
 
     requestNewQuote(data, callback) {
-        const { quote, token } = data;
+        const { quote, token, email } = data;
         const formData = {
-            email: JSON.parse(localStorage.user).email,
+            email,
             ...quote,
         };
         const config = {
@@ -249,7 +249,7 @@ const BaseApi = {
 
         axios.post('/api/addQuote', formData, config).then(
             res => {
-                callback(null, res);
+                callback(null, res.data);
             },
             error => {
                 callback(error, null);
@@ -258,9 +258,22 @@ const BaseApi = {
         // callback(null, true);
     },
 
-    requestAllQuotes(token,callback) {
-        const {email} = JSON.parse(localStorage.user);
-        this.secretApi('/api/getAllQuotes',{email}, token, (error, result) =>  callback(error, result.data));
+    requestAllQuotes(token, email,callback) {
+        this.secretApi('/api/getAllQuotes',{email}, token, (error, result) =>  callback(error, result?result.data:null));
+    },
+
+    updateQuote(data, callback) {
+        const { email, token, quote } = data;
+        const formData = {
+            email,
+            ...quote,
+        };
+        this.secretApi('/api/updateQuote', formData, token, (error, result) => callback(error, result));
+    },
+
+    removeQuote(data, callback) {
+        const { email, token, quote } = data;
+        this.secretApi('/api/removeQuote', {email, id: quote.id}, token, (error, result) => callback(error, result));
     },
 
     requestPayment(data, callback) {

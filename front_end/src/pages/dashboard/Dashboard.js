@@ -75,8 +75,8 @@ class Dashboard extends React.Component {
     componentDidMount(){
         const {info} = this.props;
         if(info){
-            const { loadPage } = this.props;
-            loadPage(pageConstants.DASHBOARD);
+            const { loadPage, token, email } = this.props;
+            loadPage(pageConstants.DASHBOARD, token, email);
         }
     }
 
@@ -113,28 +113,30 @@ class Dashboard extends React.Component {
                 longitude: 121.413090
             }
         ];
-        const { menuState } = this.props;
+        const { menuState, dashboardState } = this.props;
         // const { tabIndex } = this.state;
         return (
             <Container menuState={menuState}>
-                <GoogleMapWrapper>
-                    <Map data={data} locationList={locationList}/>
-                </GoogleMapWrapper>
-                <DetailsContainer>
-                    {/* <Tab icon={<DirectionsBoatRounded/>} label="Shipments" wrapped={flag}/>
-                    <Tab icon={<AssignmentRounded />} label="Quotes" disabled/>
-                    <Tab icon={<MonetizationOn />} label="Invoices" disabled/>
-                    <Tab icon={<AssessmentRounded />}  label="Reports" disabled/> */}
-                    {/* {tabIndex===0&&<ActiveShipments/>} */}
-                    <InfosContainer>
-                        <ActiveQuotes/>
-                        <ActiveShipments/>
-                        <DashboardBillings />
-                    </InfosContainer>
-                    {/* {tabIndex===0&&<ActiveQuotes/>}
-                    {tabIndex===1&&<DashboardBillings/>}
-                    {tabIndex===2&&<DashboardReports/>} */}
-                </DetailsContainer>
+                {
+                    dashboardState!=="loading"&&
+                    <GoogleMapWrapper>
+                        <Map data={data} locationList={locationList}/>
+                    </GoogleMapWrapper>
+                }
+                {
+                    dashboardState!=="loading"&&
+                    <DetailsContainer>
+                        <InfosContainer>
+                            <ActiveQuotes/>
+                            <ActiveShipments/>
+                            <DashboardBillings />
+                        </InfosContainer>
+                    </DetailsContainer>
+                }
+                {
+                    dashboardState==="loading"&&<div>Loading...</div>
+                }
+                
             </Container>
         );
     }
@@ -144,6 +146,9 @@ function mapStateToProps(state) {
     return {
         info: state.page.info,
         menuState: state.menu.menuState,
+        dashboardState: state.page.dashboardState,
+        token: state.auth.user.token,
+        email: state.auth.user.email,
     };
 }
 
@@ -160,6 +165,9 @@ Dashboard.propTypes = {
     }),
     loadPage: PropTypes.func.isRequired,
     menuState: PropTypes.string.isRequired,
+    dashboardState: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
 };
 
 const actionCreators = {

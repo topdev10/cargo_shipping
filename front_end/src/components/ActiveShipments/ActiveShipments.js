@@ -7,7 +7,7 @@ import DirectionsBoatRounded from '@material-ui/icons/DirectionsBoatRounded';
 
 import ShipmentDashboardItem from './shipmentDashboardItem';
 import { pageActions } from '../../actions';
-import { pageConstants } from '../../constants';
+import { shipsConstants } from '../../constants';
 
 const Container = styled.div`
     position: relative;
@@ -44,7 +44,7 @@ const ActiveShipments = (props) => {
     function viewAllShipments(event) {
         event.preventDefault();
         const { loadPage } = props;
-        loadPage(pageConstants.SHIPMENTS);
+        loadPage(shipsConstants.ON_SHIPMENTS);
     }
 
     return (

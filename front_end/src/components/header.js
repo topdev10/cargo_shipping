@@ -34,7 +34,7 @@ import { userActions, pageActions, alertActions, menuActions } from '../actions'
 import Config from '../config';
 
 import logo from '../images/logo.svg';
-import { pageConstants, menuConstants, billConstants, bookingConstants, shipsConstants, reportConstants } from "../constants";
+import { pageConstants, menuConstants, billConstants, bookingConstants, shipsConstants } from "../constants";
 
 // eslint-disable-next-line no-unused-vars
 const SearchBox = styled.input`
@@ -195,7 +195,7 @@ const Header = (props) => {
      * Functional Component Main Body
      */
     const { username, email, menuState, logout, getProfile, loadPage,
-        notification, openHamburgerMenu, closeHamburgerMenu, curPage } = props;
+        notification, openHamburgerMenu, closeHamburgerMenu, curPage, token } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -253,22 +253,22 @@ const Header = (props) => {
         e.preventDefault();
         switch(type){
         case "DASHBOARD":
-            loadPage(pageConstants.DASHBOARD);
+            loadPage(pageConstants.DASHBOARD, token, email);
             break;
         case "QUOTES":
-            loadPage(pageConstants.QUOTES);
+            loadPage(pageConstants.QUOTES, token, email);
             break;
         case "SHIPMENTS":
-            loadPage(shipsConstants.ON_SHIPMENTS);
+            loadPage(shipsConstants.ON_SHIPMENTS, token, email);
             break;
         case "BOOKING":
-            loadPage(bookingConstants.ON_REQUEST_ALL_BOOKINGS);
+            loadPage(bookingConstants.ON_REQUEST_ALL_BOOKINGS, token, email);
             break;
         case "BILLING":
-            loadPage(billConstants.BILLING);
+            loadPage(billConstants.BILLING, token, email);
             break;
         case "REPORTS":
-            loadPage(pageConstants.REPORTS);
+            loadPage(pageConstants.REPORTS, token, email);
             break;
         default:
             break;
@@ -289,17 +289,17 @@ const Header = (props) => {
         e.preventDefault();
         // history.push(`/pages/${labelText}`);
         if(labelText === 'Dashboard')
-            loadPage(pageConstants.DASHBOARD);
+            loadPage(pageConstants.DASHBOARD, token, email);
         else if(labelText === 'Quotes')
-            loadPage(pageConstants.QUOTES);
+            loadPage(pageConstants.QUOTES, token, email);
         else if(labelText === 'Shipments')
-            loadPage(shipsConstants.ON_SHIPMENTS);
+            loadPage(shipsConstants.ON_SHIPMENTS, token, email);
         else if(labelText === 'Billing')
-            loadPage(billConstants.BILLING);
+            loadPage(billConstants.BILLING, token, email);
         else if(labelText === 'Reports')
-            loadPage(pageConstants.REPORTS);
+            loadPage(pageConstants.REPORTS, token, email);
         else if(labelText === 'Booking')
-            loadPage(bookingConstants.ON_REQUEST_ALL_BOOKINGS);
+            loadPage(bookingConstants.ON_REQUEST_ALL_BOOKINGS, token, email);
     };
 
     const renderMenu = (
@@ -444,7 +444,7 @@ const Header = (props) => {
                             </CustomTooltip>
                             <CustomTooltip title="Shipments">
                                 <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Shipments')}>
-                                    <DirectionsBoat style={curPage===pageConstants.SHIPMENTS?{color: "#4d7cfe"}:{color: "black"}}/>
+                                    <DirectionsBoat style={curPage===shipsConstants.ON_SHIPMENTS?{color: "#4d7cfe"}:{color: "black"}}/>
                                 </IconButton>
                             </CustomTooltip>
                             <CustomTooltip title="Billing">
@@ -506,6 +506,7 @@ Header.propTypes = {
     closeHamburgerMenu: PropTypes.func.isRequired,
     menuState: PropTypes.string.isRequired,
     curPage: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -514,6 +515,7 @@ function mapStateToProps(state) {
         email: state.auth.user?state.auth.user.email:"tmp@tmp.com",
         menuState: state.menu.menuState,
         curPage: state.page.curPage,
+        token: state.auth.user.token,
     };
 }
 

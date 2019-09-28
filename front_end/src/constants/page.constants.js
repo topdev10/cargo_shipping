@@ -22,6 +22,7 @@ export const pageConstants =  {
     BOOKING: 'BOOKING',
     ON_RELOAD_PAGE: "ON_RELOAD_PAGE",
     ON_FAILED_LOADING_PAGE: "ON_FAILED_LOADING_PAGE",
+    ON_REQUEST_DASHBOARD: "ON_REQUEST_DASHBOARD",
 };
 
 export default pageConstants;

@@ -17,6 +17,7 @@ const initialState = {
         reports: null,
     },
     curPage: pageConstants.DASHBOARD,
+    dashboardState: "loading",
     // ect
 };
 
@@ -82,12 +83,13 @@ export function pages(state = initialState, action) {
     case pageConstants.DASHBOARD:
         return {
             ...state,
-            info: action.info
+            info: action.info,
+            dashboardState: "finished",
         };
-    case pageConstants.QUOTES:
+    case pageConstants.ON_REQUEST_DASHBOARD:
         return {
             ...state,
-            info: action.info
+            dashboardState: "loading",
         };
     case pageConstants.SHIPMENTS:
         return {
