@@ -8,7 +8,7 @@
 
 b {
     font-size: 11px;
-    color: #bbb;
+    color: black;
 }
 
 .info {
@@ -21,4 +21,13 @@ b {
 
 .card {
     background-color: #f2f2f2 !important;
+}
+
+.rc-steps-item-description {
+    color: black !important;
+}
+
+.card {
+    border: none !important;
+    border-bottom: 1px solid rgba(16, 142, 233, 0.4) !important;
 }

@@ -31,7 +31,7 @@ class ShipmentTableRow extends Component {
                                     <span>
                                         <FontAwesomeIcon
                                             style={{
-                                                color: '#ccc',
+                                                color: '#108ee9',
                                                 fontSize: '20px'
                                             }}
                                             icon={faPlane}
@@ -50,7 +50,7 @@ class ShipmentTableRow extends Component {
                                     <span>
                                         <FontAwesomeIcon
                                             style={{
-                                                color: '#ccc',
+                                                color: '#108ee9',
                                                 fontSize: '20px'
                                             }}
                                             icon={faUserTie}
@@ -69,7 +69,7 @@ class ShipmentTableRow extends Component {
                                     <span>
                                         <FontAwesomeIcon
                                             style={{
-                                                color: '#ccc',
+                                                color: '#108ee9',
                                                 fontSize: '20px'
                                             }}
                                             icon={faCoins}

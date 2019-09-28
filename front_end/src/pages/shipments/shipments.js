@@ -189,7 +189,9 @@ class Shipments extends React.Component {
                     </CustomSelector>
 
                 </ShipmentsFilterBar>
-                <ShipmentsTable />
+                <div className="w-100">
+                    <ShipmentsTable />
+                </div>
             </Container>
         );
     };
