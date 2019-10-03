@@ -1,5 +1,7 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { Component } from 'react';
 import Steps, { Step } from 'rc-steps';
+import PropTypes from 'prop-types';
 
 import {
     faStore,
@@ -20,19 +22,21 @@ class ShipmentTableRow extends Component {
     }
 
     render() {
-        const { shipDetail } = this.props;
+        const { shipDetail, onViewDetails } = this.props;
         return (
-            <div className="w-100">
+            // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+            <div className="w-100 shipment-table-row" onClick={e => onViewDetails(e, shipDetail)}>
                 <div className="card board">
                     <div className="row info">
-                        <div className="col-md-4">
+                        <div className="col-md-3">
                             <div className="row">
                                 <div className="col-md-3">
                                     <span>
                                         <FontAwesomeIcon
                                             style={{
-                                                color: '#108ee9',
-                                                fontSize: '20px'
+                                                color: 'gray',
+                                                fontSize: '20px',
+                                                margin: "4px 0px"
                                             }}
                                             icon={faPlane}
                                             size="lg"
@@ -41,7 +45,7 @@ class ShipmentTableRow extends Component {
                                 </div>
                                 <div className="col-md-9">
                                     <span>
-                                        <b> {shipDetail.plane_id} </b>
+                                        <b className="shipments-detail-row-label"> {shipDetail.plane_id} </b>
                                     </span>
                                 </div>
                             </div>
@@ -50,8 +54,9 @@ class ShipmentTableRow extends Component {
                                     <span>
                                         <FontAwesomeIcon
                                             style={{
-                                                color: '#108ee9',
-                                                fontSize: '20px'
+                                                color: 'gray',
+                                                fontSize: '20px',
+                                                margin: "4px 0px"
                                             }}
                                             icon={faUserTie}
                                             size="lg"
@@ -60,7 +65,7 @@ class ShipmentTableRow extends Component {
                                 </div>
                                 <div className="col-md-9">
                                     <span>
-                                        <b> {shipDetail.user_id} </b>
+                                        <b className="shipments-detail-row-label"> {shipDetail.user_id} </b>
                                     </span>
                                 </div>
                             </div>
@@ -69,8 +74,9 @@ class ShipmentTableRow extends Component {
                                     <span>
                                         <FontAwesomeIcon
                                             style={{
-                                                color: '#108ee9',
-                                                fontSize: '20px'
+                                                color: 'gray',
+                                                fontSize: '20px',
+                                                margin: "4px 0px"
                                             }}
                                             icon={faCoins}
                                             size="lg"
@@ -79,7 +85,7 @@ class ShipmentTableRow extends Component {
                                 </div>
                                 <div className="col-md-9">
                                     <span>
-                                        <b> {shipDetail.load_spec} </b>
+                                        <b className="shipments-detail-row-label"> {shipDetail.load_spec} </b>
                                     </span>
                                 </div>
                             </div>
@@ -138,5 +144,15 @@ class ShipmentTableRow extends Component {
         );
     }
 }
+
+ShipmentTableRow.propTypes = {
+    shipDetail: PropTypes.shape({
+        plane_id: PropTypes.string.isRequired,
+        user_id: PropTypes.string.isRequired,
+        load_spec: PropTypes.string.isRequired,
+        state: PropTypes.number.isRequired,
+    }).isRequired,
+    onViewDetails: PropTypes.func.isRequired,
+};
 
 export default ShipmentTableRow;

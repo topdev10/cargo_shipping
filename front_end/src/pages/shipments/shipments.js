@@ -7,7 +7,9 @@ import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import LocalShipping from '@material-ui/icons/LocalShipping';
 import Device from '../../css/device';
 import ShipmentsTable from '../../components/ShipmentPage/ShipmentsTable';
+import ShipmentDetails from '../../components/ShipmentPage/ShipmentDeatils';
 import { menuConstants } from '../../constants';
+import { shipActions } from '../../actions';
 
 const Container = styled.div`
     displa: flex;
@@ -155,42 +157,50 @@ class Shipments extends React.Component {
     }
 
     render() {
-        const { menuState } = this.props;
+        const { menuState, pageStatus, onBackToMain } = this.props;
         const { isflight, isShip, isVan, location, Shipmentstate } = this.state;
         return (
             <Container menuState={menuState}>
-                <ShipmentsFilterBar>
-                    <CustomSelector value={Shipmentstate} onChange={e => this.ShipmentscopeSelection(e)}>
-                        <CustomSelectorOption value={0}>Latest Booking</CustomSelectorOption>
-                    </CustomSelector>
-                    {isflight?<FreightSelectionButtonLeft active onClick={e => this.onFlightButton(e)}>
-                        <FlightTakeoff></FlightTakeoff>
-                    </FreightSelectionButtonLeft>:<FreightSelectionButtonLeft onClick={e => this.onFlightButton(e)}>
-                        <FlightTakeoff></FlightTakeoff>
-                    </FreightSelectionButtonLeft>}
-                    
-                    {isShip?<FreightSelectionButtonCenter active onClick={e => this.onShipButton(e)}>
-                        <DirectionsBoat></DirectionsBoat>
-                    </FreightSelectionButtonCenter>:<FreightSelectionButtonCenter onClick={e => this.onShipButton(e)}>
-                        <DirectionsBoat></DirectionsBoat>
-                    </FreightSelectionButtonCenter>}
-    
-                    {isVan?<FreightSelectionButtonRight active onClick={e => this.onVanButton(e)}>
-                        <LocalShipping></LocalShipping>
-                    </FreightSelectionButtonRight>:<FreightSelectionButtonRight onClick={e => this.onVanButton(e)}>
-                        <LocalShipping></LocalShipping>
-                    </FreightSelectionButtonRight>}
-    
-                    {/* Location Selctor */}
-                    <CustomSelector value={location} onChange={e => this.handleLocationSeltion(e)}>
-                        <CustomSelectorOption value='all'>All</CustomSelectorOption>
-                        <CustomSelectorOption value='ca'>In Process</CustomSelectorOption>
-                        <CustomSelectorOption value='us'>Finished</CustomSelectorOption>
-                    </CustomSelector>
+                {
+                    pageStatus===1&&
+                    <ShipmentsFilterBar>
+                        <CustomSelector value={Shipmentstate} onChange={e => this.ShipmentscopeSelection(e)}>
+                            <CustomSelectorOption value={0}>Latest Booking</CustomSelectorOption>
+                        </CustomSelector>
+                        {isflight?<FreightSelectionButtonLeft active onClick={e => this.onFlightButton(e)}>
+                            <FlightTakeoff></FlightTakeoff>
+                        </FreightSelectionButtonLeft>:<FreightSelectionButtonLeft onClick={e => this.onFlightButton(e)}>
+                            <FlightTakeoff></FlightTakeoff>
+                        </FreightSelectionButtonLeft>}
+                        
+                        {isShip?<FreightSelectionButtonCenter active onClick={e => this.onShipButton(e)}>
+                            <DirectionsBoat></DirectionsBoat>
+                        </FreightSelectionButtonCenter>:<FreightSelectionButtonCenter onClick={e => this.onShipButton(e)}>
+                            <DirectionsBoat></DirectionsBoat>
+                        </FreightSelectionButtonCenter>}
+        
+                        {isVan?<FreightSelectionButtonRight active onClick={e => this.onVanButton(e)}>
+                            <LocalShipping></LocalShipping>
+                        </FreightSelectionButtonRight>:<FreightSelectionButtonRight onClick={e => this.onVanButton(e)}>
+                            <LocalShipping></LocalShipping>
+                        </FreightSelectionButtonRight>}
+        
+                        {/* Location Selctor */}
+                        <CustomSelector value={location} onChange={e => this.handleLocationSeltion(e)}>
+                            <CustomSelectorOption value='all'>All</CustomSelectorOption>
+                            <CustomSelectorOption value='ca'>In Process</CustomSelectorOption>
+                            <CustomSelectorOption value='us'>Finished</CustomSelectorOption>
+                        </CustomSelector>
 
-                </ShipmentsFilterBar>
+                    </ShipmentsFilterBar>
+                }
                 <div className="w-100">
-                    <ShipmentsTable />
+                    {
+                        pageStatus===1&&<ShipmentsTable />
+                    }
+                    {
+                        pageStatus===2&&<ShipmentDetails onBack={onBackToMain}/>
+                    }
                 </div>
             </Container>
         );
@@ -200,11 +210,18 @@ class Shipments extends React.Component {
 function mapStateToProps(state) {
     return {
         menuState: state.menu.menuState,
+        pageStatus: state.ships.pageStatus,
     };
 }
 
 Shipments.propTypes = {
     menuState: PropTypes.string.isRequired,
+    pageStatus: PropTypes.number.isRequired,
+    onBackToMain: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(Shipments);
+const actionCreators = {
+    onBackToMain: shipActions.onBackToMain,
+};
+
+export default connect(mapStateToProps, actionCreators)(Shipments);

@@ -28,12 +28,13 @@ class StatusBox extends Component {
         this.setState({ selectedOptions })
     )
 
-    handleUnselectItem = (removedVal) => () => (
+    handleUnselectItem = (removedVal) => () => {
+        const { selectedOptions } = this.state;
         this.setState({
-            selectedOptions: this.state.selectedOptions
+            selectedOptions: selectedOptions
                 .filter(option => option !== removedVal)
-        })
-    )
+        });
+    }
 
     renderOption = ({ checked, option, onClick }) => (
         <Checkbox
@@ -61,6 +62,7 @@ class StatusBox extends Component {
             return <span>Selected {selected.length} users</span>;
         }
 
+        return <span>All Status</span>;
     }
 
     render() {
