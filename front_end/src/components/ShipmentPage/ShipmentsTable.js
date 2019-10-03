@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { shipsConstants } from '../../constants';
-import { pageActions } from '../../actions';
+import { pageActions, shipActions } from '../../actions';
 
 import ShipmentTableRow from "./ShipmentTableRow";
 
@@ -27,6 +27,13 @@ class ShipmentsTable extends Component {
             loadPage(shipsConstants.ON_SHIPMENTS);
         }
     }
+
+    handleViewDetails = (e, data) => {
+        e.preventDefault();
+        const { onViewDetails } = this.props;
+        console.log("Are you going to view shipment details?");
+        onViewDetails(data);
+    }
     
     render() {
         // eslint-disable-next-line react/prop-types
@@ -35,7 +42,7 @@ class ShipmentsTable extends Component {
             <Container>
                 { shipments !== null &&
                     shipments.map((shipment)=> (
-                        <ShipmentTableRow key={shipment.id} shipDetail={shipment} />
+                        <ShipmentTableRow key={shipment.id} shipDetail={shipment} onViewDetails={this.handleViewDetails}/>
                     ))
                 }
             </Container>
@@ -56,11 +63,13 @@ ShipmentsTable.defaultProps = {
 ShipmentsTable.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     shipments: PropTypes.array,
-    loadPage: PropTypes.func.isRequired
+    loadPage: PropTypes.func.isRequired,
+    onViewDetails: PropTypes.func.isRequired,
 };
 
 const actionCreators = {
     loadPage: pageActions.loadPage,
+    onViewDetails: shipActions.onViewDetails,
 };
 
 export default connect(mapStateToProps, actionCreators)(ShipmentsTable);
