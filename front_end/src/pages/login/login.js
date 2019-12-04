@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Checkbox from '@material-ui/core/Checkbox';
+// import Checkbox from '@material-ui/core/Checkbox';
 import BackgroundSlider from 'react-background-slider';
 import { userActions, alertActions } from '../../actions';
 import Device from '../../css/device';
@@ -13,8 +13,6 @@ import IntexFreightTrain from '../../images/train.png';
 import GtIntelBackgroundShip from '../../images/gt-intl-background-ship.jpg';
 import GtIntelBackgroundLocal from '../../images/gt-intl-background-local.jpg';
 import GtIntelBackgroundAir from '../../images/gt-intl-background-flight.jpg';
-
-import Config from '../../config';
 
 const Container = styled.div`
     display: flex;
@@ -45,6 +43,37 @@ const LeftSide = styled.div`
     }
 `;
 
+const Comment = styled.div`
+    display: flex;
+    color: black;
+    font-size: 40px;
+    padding: 0px 0px 20px 0px;
+    width: 100%;
+`;
+
+const LoginLabel = styled.div`
+    font-size: 16px;
+    color: black;
+    display: flex;
+    width: 100%;
+`;
+
+const LoginContainer = styled.div`
+    background: white;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+`;
+
+const LoginMainContainer = styled.div`
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    border: 1px solid #E9EBEF;
+    padding: 10px 10px 0px 10px;
+`;
+
 const CLabel = styled.label`
     display: flex;
     font-family: Rubik;
@@ -54,20 +83,20 @@ const CLabel = styled.label`
     line-height: 17px;
     width: 100%;
     height: 17px;
-    color: #74e07d;
+    color: #000;
     border-radius: 8px;
     margin: 10px 0px 0px 0px;
 `;
 
 const InputBox = styled.input`
     display: flex;
-    background: #FFFFFF;
+    background: #E9EBEF;
     border: 1px solid #E8ECEF;
     border-radius: 4px;
     width: 100%;
     height: 52px;
     margin: 10px 0px 20px 0px;
-    padding: 7px 10px;
+    padding: 7px 20px;
     transition: border-color .15s 
     &:hover,
     &.active {
@@ -94,49 +123,25 @@ const CustomSelectorOption = styled.option`
     display: flex;
 `;
 
-const OptionsContainer = styled.div`
+// const OptionsContainer = styled.div`
+//     display: flex;
+//     width: 100%;
+//     flex-direction: row;
+// `;
+
+const RightSide = styled.div`
+    position: relative;
     display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    flex-direction: row;
+    height: 100vh;
+    @media ${Device.laptop} {
+        display: flex;
+        width: 50%;
+        height: 100vh;
+    }
 `;
-
-// const RightSide = styled.div`
-//     position: relative;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     width: 100%;
-//     height: 100vh;
-//     @media ${Device.laptop} {
-//         display: flex;
-//         width: 50%;
-//         height: 100vh;
-//     }
-// `;
-
-// const BriefComment = styled.label`
-//     display: flex;
-//     position: absolute;
-//     align-items: center;
-//     justify-content: center;
-//     width: 100%;
-//     text-align: center;
-//     padding: 20px;
-//     right: 0px;
-//     top: 35%;
-
-//     font-family: Rubik;
-//     font-style: normal;
-//     font-weight: normal;
-//     font-size: 20px;
-//     line-height: 24px;
-//     display: flex;
-//     align-items: center;
-
-//     color: #FFFFFF;
-
-//     border-radius: 8px;
-// `;
 
 const ForgotPasswordBTN = styled.button`
     font-family: Rubik;
@@ -156,9 +161,14 @@ const ForgotPasswordBTN = styled.button`
     }
 `;
 
+const BtnWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+`;
+
 const SignupButton = styled.button`
     display: flex;
-    width: 100%;
     padding: 18px 8px;
     font-family: Rubik;
     font-style: normal;
@@ -166,57 +176,32 @@ const SignupButton = styled.button`
     font-size: 16px;
     line-height: 17px;
     color: #FFFFFF;
-    background: #4D7CFE;
-    border-radius: 4px;
+    background: #3056F5;
     justify-content: center;
     cursor: pointer;
-    margin-bottom: 15px;
+    flex: 1;
 
     &:hover {
-        color: #00a8e8;
+        background: #6688e4;
     }
 `;
 
 const LoginButton = styled.button`
     display: flex;
-    width: 100%;
-    padding: 18px 8px;
+    flex: 2;
+    padding: 18px 25px;
     font-family: Rubik;
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
     line-height: 17px;
     color: #FFFFFF;
-    background: #4D7CFE;
-    border-radius: 4px;
-    justify-content: center;
+    background: #707070;
+    justify-content: left;
     cursor: pointer;
-    margin: 0px 0px 15px 0px;
 
     &:hover {
-        background: #6688e4;
-    }
-`;
-
-const LoginLinkedInBtn = styled.a`
-    display: flex;
-    width: 100%;
-    padding: 18px 8px;
-    border-radius: 4px;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    margin: 0px 0px 15px 0px;
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 17px;
-    color: #FFFFFF;
-    background: #4D7CFE;
-
-    &:hover {
-        background: #6688e4;
+        background: #757575;
     }
 `;
 
@@ -238,6 +223,28 @@ width: 100%;
     border-radius: 8px;
 `;
 
+const LogoWrapper = styled.div`
+    position: absolute;
+    top: 10px;
+    left: 10px;
+`;
+
+const LogoLabelBold = styled.label`
+    font-size: 24px;
+    color: #3056F5;
+    font-family: Roboto;
+    font-weight: 400;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+`;
+
+const LogoLabelNormal = styled.label`
+    font-size: 24px;
+    color: #3056F5;
+    font-family: Roboto;
+    font-weight: 100;
+    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+`;
+
 const Login = (props) => {
 
     const { history, login, forgotPassword, resetPassword, verifyCodeRequested, error, vCSuccess, cpRequested, cpSuccess } = props;
@@ -247,7 +254,7 @@ const Login = (props) => {
     const [company, setCompany] = React.useState('Gt-Intl');
     const [cpassword, setConfirmPassword] = React.useState('');
     const [code, setCode] = React.useState('');
-    let checked = false;
+    let checked = true;
 
     function redirectPage(e, page) {
         if(page === "login") history.push('/login');
@@ -268,10 +275,11 @@ const Login = (props) => {
         } else setDisplay('step1');
     }
 
-    const handleChange = () => event => {
-        const x = event.target.checked;
-        checked = x;
-    };
+    // it will be used when user click on "Keep me signed in" button
+    // const handleChange = () => event => {
+    //     const x = event.target.checked;
+    //     checked = x;
+    // };
 
     const handleInput = (type) => event => {
         if(type === 'email') setEmail(event.target.value);
@@ -292,50 +300,63 @@ const Login = (props) => {
         setCompany(e.target.value);
     };
 
-    const linkedInAuthUri = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Config.LINKEDIN_CLIENT_ID_LIVE}&redirect_uri=${Config.LINKEDIN_REDIRECT_URL_DEPLOY}&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share`;
     let leftShow;
     if(display === "step1" && !cpRequested || cpSuccess)
         leftShow = <LeftSide>
-            <CLabel>Email Address(Or Username)</CLabel>
-            <InputBox type="text" value={email} onChange={ handleInput('email') }/>
-            <CLabel>Password</CLabel>
-            <InputBox type="password" value={password} onChange={ handleInput('password') }/>
-            <CLabel>Company</CLabel>
-            <CustomSelector value={company} onChange={e => handleCompanyChanged(e)}>
-                <CustomSelectorOption value="intexfreight">IntexFreight</CustomSelectorOption>
-                <CustomSelectorOption value="Gt-Intl">Gt-Intl</CustomSelectorOption>
-            </CustomSelector>
-            <OptionsContainer>
-                <MLabel onChange={handleChange()}>
-                    <Checkbox
-                        value={checked}
-                        inputProps={{
-                            'aria-label': 'uncontrolled-checkbox',
-                        }}
-                        style={{color:'white'}}
-                    />
-                    Keep me signed in
-                </MLabel>
-                <div style={{width: "50%", display: "flex", "flexDirection": "row-reverse"}}>
-                    <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step2')}>Forgot Password</ForgotPasswordBTN>
-                </div>
-            </OptionsContainer>
-            <LoginButton onClick={onClickLogin()}>SIGN IN</LoginButton>
-            <SignupButton onClick={(e) => redirectPage(e, 'signup')}>SIGN UP</SignupButton>
-            <LoginLinkedInBtn href={linkedInAuthUri}>
-                Login With LinkedIn
-            </LoginLinkedInBtn>
+            <Comment>
+                It's easy to make a Shipment
+            </Comment>
+            <LoginLabel>Let's get started</LoginLabel>
+            <LoginContainer>
+                <LoginMainContainer>
+                    <CLabel>User Name</CLabel>
+                    <InputBox type="text" value={email} placeholder="i.e. Martin Jones" onChange={ handleInput('email') }/>
+                    <CLabel>Password</CLabel>
+                    <InputBox type="password" value={password} placeholder="i.e. MartinJones07!" onChange={ handleInput('password') }/>
+                    <CLabel>Company</CLabel>
+                    <CustomSelector value={company} onChange={e => handleCompanyChanged(e)}>
+                        <CustomSelectorOption value="intexfreight">IntexFreight</CustomSelectorOption>
+                        <CustomSelectorOption value="Gt-Intl">Gt-Intl</CustomSelectorOption>
+                    </CustomSelector>
+                {/* <OptionsContainer>
+                    <MLabel onChange={handleChange()}>
+                        <Checkbox
+                            value={checked}
+                            inputProps={{
+                                'aria-label': 'uncontrolled-checkbox',
+                            }}
+                            style={{color:'white'}}
+                        />
+                        Keep me signed in
+                    </MLabel>
+                    <div style={{width: "50%", display: "flex", "flexDirection": "row-reverse"}}>
+                        <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step2')}>Forgot Password</ForgotPasswordBTN>
+                    </div>
+                </OptionsContainer> */}
+                
+                </LoginMainContainer>
+                <BtnWrapper>
+                    <LoginButton onClick={onClickLogin()}>Login</LoginButton>
+                    <SignupButton onClick={(e) => redirectPage(e, 'signup')}>Register</SignupButton>
+                </BtnWrapper>
+            </LoginContainer>
         </LeftSide>;
     else if(display === "step1" && cpRequested)
         leftShow = <LeftSide>
-            <BLabel>Enter New Password</BLabel>
-            <CLabel>Password</CLabel>
-            <InputBox type="password" value={password} onChange={ handleInput('password') }/>
-            <CLabel>Re-enter Password</CLabel>
-            <InputBox type="password" value={cpassword} onChange={ handleInput('cpassword') }/>
-            <CLabel>Verification Code</CLabel>
-            <InputBox type="text" value={code} onChange={ handleInput('code') }/>
-            <LoginButton disabled>Waiting...</LoginButton>
+            <LoginContainer>
+                <LoginMainContainer>
+                    <BLabel>Enter New Password</BLabel>
+                    <CLabel>Password</CLabel>
+                    <InputBox type="password" value={password} onChange={ handleInput('password') }/>
+                    <CLabel>Re-enter Password</CLabel>
+                    <InputBox type="password" value={cpassword} onChange={ handleInput('cpassword') }/>
+                    <CLabel>Verification Code</CLabel>
+                    <InputBox type="text" value={code} onChange={ handleInput('code') }/>
+                </LoginMainContainer>
+                <BtnWrapper>
+                    <LoginButton disabled>Waiting...</LoginButton>
+                </BtnWrapper>
+            </LoginContainer>
         </LeftSide>;
     else if(display === 'step2')
         leftShow = <LeftSide>
@@ -383,14 +404,17 @@ const Login = (props) => {
     return (
         <Container >
             {backgroundImages}
+            <LogoWrapper>
+                <LogoLabelBold>
+                    Freight
+                </LogoLabelBold>
+                <LogoLabelNormal>
+                    Genius
+                </LogoLabelNormal>
+            </LogoWrapper>
             {leftShow}
-            {/* <RightSide>
-                <BriefComment>
-                    Welcome to Freight-Genius... <br/>
-                    We are online shipping company and you can easily ship your goods in time. <br/>
-                    We are providing the best guarantee based on credit.
-                </BriefComment>
-            </RightSide> */}
+            <RightSide>
+            </RightSide>
         </Container>
     );
 };

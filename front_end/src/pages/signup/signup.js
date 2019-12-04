@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import BackgroundSlider from 'react-background-slider';
 import { userActions } from '../../actions';
 import Device from '../../css/device';
+import Config from '../../config';
 
 import IntexFreightShip from '../../images/ship.png';
 import IntexFreightTruck from '../../images/truck.png';
@@ -37,8 +38,35 @@ const LeftSide = styled.div`
     padding: 20px 8px;
     height: 100vh;
     @media ${Device.laptop} {
-        width: 40%;
+        width: 70%;
     }
+`;
+
+const SignupContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    background: white;
+    width: 100%;
+`;
+
+const Comment = styled.div`
+    display: flex;
+    font-size: 40px;
+    color: black;
+    width: 100%;
+    margin-bottom: 20px;
+`;
+
+const SignupRow = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
+const SignupRCol = styled.div`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin: 10px 15px;
 `;
 
 const CLabel = styled.label`
@@ -50,20 +78,19 @@ const CLabel = styled.label`
     line-height: 17px;
     width: 100%;
     height: 17px;
-    color: #74e07d;
+    color: black;
     border-radius: 8px;
     margin: 10px 0px 0px 0px;
 `;
 
 const InputBox = styled.input`
     display: flex;
-    background: #FFFFFF;
+    background: #E9EBEF;
     border: 1px solid #E8ECEF;
-    border-radius: 4px;
     width: 100%;
     height: 52px;
     margin: 10px 0px 20px 0px;
-    padding: 7px 10px;
+    padding: 7px 20px;
     transition: border-color .15s 
     &:hover,
     &.active {
@@ -71,47 +98,15 @@ const InputBox = styled.input`
     }
 `;
 
-// const RightSide = styled.div`
-//     position: relative;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-//     width: 100%;
-//     height: 100vh;
-//     @media ${Device.laptop} {
-//         display: flex;
-//         width: 50%;
-//         height: 100vh;
-//     }
-// `;
-
-// const BriefComment = styled.label`
-//     display: flex;
-//     position: absolute;
-//     align-items: center;
-//     justify-content: center;
-//     width: 100%;
-//     text-align: center;
-//     padding: 20px;
-//     right: 0px;
-//     top: 35%;
-
-//     font-family: Rubik;
-//     font-style: normal;
-//     font-weight: normal;
-//     font-size: 20px;
-//     line-height: 24px;
-//     display: flex;
-//     align-items: center;
-
-//     color: #FFFFFF;
-
-//     border-radius: 8px;
-// `;
+const BtnWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+`;
 
 const SignupButton = styled.button`
     display: flex;
-    width: 100%;
+    flex: 1;
     height: 52px;
     font-family: Rubik;
     font-style: normal;
@@ -120,18 +115,17 @@ const SignupButton = styled.button`
     line-height: 17px;
     color: #FFFFFF;
     background: #4D7CFE;
-    border-radius: 4px;
-    justify-content: center;
     cursor: pointer;
+    padding: 0px 18px;
 
     &:hover {
-        color: #00a8e8;
+        background: #6688e4;
     }
 `;
 
 const LoginButton = styled.button`
     display: flex;
-    width: 100%;
+    flex: 1;
     height: 52px;
     font-family: Rubik;
     font-style: normal;
@@ -140,13 +134,31 @@ const LoginButton = styled.button`
     line-height: 17px;
     color: #FFFFFF;
     background: #4D7CFE;
-    border-radius: 4px;
-    justify-content: center;
     cursor: pointer;
-    margin: 15px 0px 15px 0px;
+    padding: 0px 18px;
 
     &:hover {
         background: #6688e4;
+    }
+`;
+
+const LoginLinkedInBtn = styled.a`
+    display: flex;
+    flex: 2;
+    height: 52px;
+    padding: 18px 20px;
+    cursor: pointer;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 17px;
+    color: #FFFFFF;
+    background: #707070;
+
+    &:hover {
+        background: #757575;
+        color: #fff;
     }
 `;
 
@@ -158,6 +170,9 @@ const Signup = (props) => {
     const [password, setPassword] = React.useState('');
     const [cpassword, setCpassword] = React.useState('');
     const [verificationCode, setVerificationCode] = React.useState('');
+    const [contactname, setContactName] = React.useState('');
+    const [companyname, setCompanyName] = React.useState('');
+    const [registnumber, setRegistNumber] = React.useState('');
 
     function redirectPage(e, page) {
         if(page === "login") history.push('/login');
@@ -174,6 +189,9 @@ const Signup = (props) => {
     };
 
     const handleInput = (type) => event => {
+        if(type === "contactname") setContactName(event.target.value);
+        if(type === "companyname") setCompanyName(event.target.value);
+        if(type === "registnumber") setRegistNumber(event.target.value);
         if(type === 'email') setEmail(event.target.value);
         if(type === 'username') setUsername(event.target.value);
         if(type === 'password') setPassword(event.target.value);
@@ -187,19 +205,56 @@ const Signup = (props) => {
             verifyCode(verificationCode, email);
     };
 
+    const linkedInAuthUri = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Config.LINKEDIN_CLIENT_ID_LOCAL}&redirect_uri=${Config.LINKEDIN_REDIRECT_URL_LOCAL}&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share`;
+
     let leftShow;
     if((!registering && !registered) || codeVerified){
         leftShow = <LeftSide>
-            <CLabel>Email Address</CLabel>
-            <InputBox type="text" value={email} onChange={ handleInput('email') }/>
-            <CLabel>Username</CLabel>
-            <InputBox type="text" value={username} onChange={ handleInput('username') }/>
-            <CLabel>Password</CLabel>
-            <InputBox type="password" value={password} onChange={ handleInput('password') }/>
-            <CLabel>Confirm Password</CLabel>
-            <InputBox type="password" value={cpassword} onChange={ handleInput('cpassword') }/>
-            <SignupButton onClick={onClickSignup()}>SIGN UP</SignupButton>
-            <LoginButton onClick={(e) => redirectPage(e, 'login')}>SIGN IN</LoginButton>
+            <Comment>Sign Up</Comment>
+            <SignupContainer>
+                <SignupRow>
+                    <SignupRCol>
+                        <CLabel>Contact Name</CLabel>
+                        <InputBox type="text" value={contactname} placeholder="i.e. Martin Jones" onChange={ handleInput('contactname') }/>
+                    </SignupRCol>
+                    <SignupRCol>
+                        <CLabel>Company Name</CLabel>
+                        <InputBox type="text" value={companyname} placeholder="i.e. Ex Company" onChange={ handleInput('companyname') }/>
+                    </SignupRCol>
+                    <SignupRCol>
+                        <CLabel>Customs Registeration Number</CLabel>
+                        <InputBox type="text" value={registnumber} placeholder="i.e. Martin0921" onChange={ handleInput('registnumber') }/>
+                    </SignupRCol>
+                </SignupRow>
+                <SignupRow>
+                    <SignupRCol>
+                        <CLabel>Email Address</CLabel>
+                        <InputBox type="text" value={email} placeholder="i.e. martin@ex.com" onChange={ handleInput('email') }/>
+                    </SignupRCol>
+                    <SignupRCol>
+                        <CLabel>Username</CLabel>
+                        <InputBox type="text" value={username} placeholder="i.e.1 213 616 3969" onChange={ handleInput('username') }/>
+                    </SignupRCol>
+                    <SignupRCol>
+                        <CLabel>Password</CLabel>
+                        <InputBox type="password" value={password} placeholder="i.e. Martin123!"onChange={ handleInput('password') }/>
+                    </SignupRCol>
+                    <SignupRCol>
+                        <CLabel>Confirm Password</CLabel>
+                        <InputBox type="password" value={cpassword} placeholder="i.e. Martin123!" onChange={ handleInput('cpassword') }/>
+                    </SignupRCol>
+                </SignupRow>
+                
+                <BtnWrapper>
+                    <LoginButton onClick={(e) => redirectPage(e, 'login')}>SIGN IN</LoginButton>
+                    <LoginLinkedInBtn href={linkedInAuthUri}>
+                        Login With LinkedIn
+                    </LoginLinkedInBtn>
+                    <SignupButton onClick={onClickSignup()}>SIGN UP</SignupButton>
+                </BtnWrapper>
+                
+
+            </SignupContainer>
         </LeftSide>;
     } else if(registering && !registered){
         leftShow = <LeftSide>
