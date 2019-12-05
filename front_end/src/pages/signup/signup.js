@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import BackgroundSlider from 'react-background-slider';
-import { userActions } from '../../actions';
+import { userActions, alertActions } from '../../actions';
 import Device from '../../css/device';
 
 import IntexFreightShip from '../../images/ship.png';
@@ -144,7 +144,7 @@ const LoginButton = styled.button`
 
 const Signup = (props) => {
 
-    const { history, register, verifyCode, registering, registered, codeVerifySent, codeVerified } = props;
+    const { history, register, verifyCode, registering, error, registered, codeVerifySent, codeVerified } = props;
     const [email, setEmail] = React.useState('');
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -163,8 +163,8 @@ const Signup = (props) => {
         event.preventDefault();
 
         if(email && password && cpassword && username){
-            register({email, username, password, confirm_password: cpassword});
-        }
+            register({contactname, companyname, email, username, password, confirm_password: cpassword});
+        } else error("Username & Email & Password & Confirm Password Fields are Required!");
     };
 
     const handleInput = (type) => event => {
@@ -272,6 +272,7 @@ Signup.propTypes = {
     registered: PropTypes.bool.isRequired,
     codeVerifySent: PropTypes.bool.isRequired,
     codeVerified: PropTypes.bool.isRequired,
+    error:PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, props) {
@@ -287,6 +288,7 @@ function mapStateToProps(state, props) {
 const actionCreators = {
     register: userActions.register,
     verifyCode: userActions.verifyCode,
+    error: alertActions.error,
 };
 
 export default connect(mapStateToProps, actionCreators)(Signup);
