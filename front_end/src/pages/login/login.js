@@ -13,6 +13,7 @@ import IntexFreightTrain from '../../images/train.png';
 import GtIntelBackgroundShip from '../../images/gt-intl-background-ship.jpg';
 import GtIntelBackgroundLocal from '../../images/gt-intl-background-local.jpg';
 import GtIntelBackgroundAir from '../../images/gt-intl-background-flight.jpg';
+import Config from '../../config';
 
 const Container = styled.div`
     display: flex;
@@ -24,6 +25,7 @@ const Container = styled.div`
     flex-direction: row;
     font-familiy: 'Rubik';
     flex-direction: column;
+    background: linear-gradient(45deg, white, transparent);
     @media ${Device.laptop} {
         flex-direction: row;
     }
@@ -233,16 +235,34 @@ const LogoLabelBold = styled.label`
     font-size: 24px;
     color: #3056F5;
     font-family: Roboto;
-    font-weight: 400;
-    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    font-weight: 500;
 `;
 
 const LogoLabelNormal = styled.label`
     font-size: 24px;
     color: #3056F5;
     font-family: Roboto;
-    font-weight: 100;
-    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+    font-weight: 400;
+`;
+
+const LoginLinkedInBtn = styled.a`
+    display: flex;
+    flex: 2;
+    padding: 18px 20px;
+    cursor: pointer;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 17px;
+    color: #FFFFFF;
+    background: #707070;
+    border-right: 2px solid #ccc;
+
+    &:hover {
+        background: #757575;
+        color: #fff;
+    }
 `;
 
 const Login = (props) => {
@@ -300,11 +320,13 @@ const Login = (props) => {
         setCompany(e.target.value);
     };
 
+    const linkedInAuthUri = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Config.LINKEDIN_CLIENT_ID_LOCAL}&redirect_uri=${Config.LINKEDIN_REDIRECT_URL_LOCAL}&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share`;
+
     let leftShow;
     if(display === "step1" && !cpRequested || cpSuccess)
         leftShow = <LeftSide>
             <Comment>
-                It's easy to make a Shipment
+                It's easy to make a Shipment with FreightGenius.
             </Comment>
             <LoginLabel>Let's get started</LoginLabel>
             <LoginContainer>
@@ -336,9 +358,23 @@ const Login = (props) => {
                 
                 </LoginMainContainer>
                 <BtnWrapper>
+                    <LoginLinkedInBtn href={linkedInAuthUri}>
+                        Login With LinkedIn
+                    </LoginLinkedInBtn>
                     <LoginButton onClick={onClickLogin()}>Login</LoginButton>
                     <SignupButton onClick={(e) => redirectPage(e, 'signup')}>Register</SignupButton>
                 </BtnWrapper>
+                {/* <BtnWrapper style={{justifyContent: "space-evenly"}}>
+                    <LoginLinkedInBtn href={linkedInAuthUri}>
+                        Login With LinkedIn
+                    </LoginLinkedInBtn>
+                    <LoginLinkedInBtn href={linkedInAuthUri}>
+                        Login With Facebook
+                    </LoginLinkedInBtn>
+                    <LoginLinkedInBtn href={linkedInAuthUri}>
+                        Login With Google
+                    </LoginLinkedInBtn>
+                </BtnWrapper> */}
             </LoginContainer>
         </LeftSide>;
     else if(display === "step1" && cpRequested)
