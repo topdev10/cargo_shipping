@@ -26,9 +26,16 @@ const Container = styled.div`
     font-familiy: 'Rubik';
     flex-direction: column;
     background: linear-gradient(45deg, white, transparent);
+    overflow: hidden;
+    position: relative;
     @media ${Device.laptop} {
         flex-direction: row;
     }
+`;
+
+const BackgroundImage = styled.img`
+    position: absolute;
+    width: 100%;
 `;
 
 const LeftSide = styled.div`
@@ -430,16 +437,16 @@ const Login = (props) => {
             <ForgotPasswordBTN onClick={(e) => resetpassword(e, 'step1')}>Back to Login</ForgotPasswordBTN>
         </LeftSide>;
 
-    let backgroundImages;
-    if(company === 'intexfreight'){
-        backgroundImages = <BackgroundSlider images={[ IntexFreightShip, IntexFreightTrain, IntexFreightTruck ]} />;
-    }
-    else if (company === 'Gt-Intl'){
-        backgroundImages = <BackgroundSlider images={[ GtIntelBackgroundAir, GtIntelBackgroundLocal, GtIntelBackgroundShip ]}/>;
-    }
+    // let backgroundImages;
+    // if(company === 'intexfreight'){
+    //     backgroundImages = <BackgroundSlider images={[ IntexFreightShip, IntexFreightTrain, IntexFreightTruck ]} />;
+    // }
+    // else if (company === 'Gt-Intl'){
+    //     backgroundImages = <BackgroundSlider images={[ GtIntelBackgroundAir, GtIntelBackgroundLocal, GtIntelBackgroundShip ]}/>;
+    // }
     return (
         <Container >
-            {backgroundImages}
+            <BackgroundSlider images={[ GtIntelBackgroundLocal ]} duration={3600} transition={0} />
             <LogoWrapper>
                 <LogoLabelBold>
                     Freight

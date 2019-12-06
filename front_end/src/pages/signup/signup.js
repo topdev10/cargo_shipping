@@ -23,6 +23,8 @@ const Container = styled.div`
     font-familiy: 'Rubik';
     flex-direction: column;
     background: linear-gradient(45deg, white, transparent);
+    overflow: hidden;
+    position: relative;
     @media ${Device.laptop} {
         flex-direction: row;
     }
@@ -249,15 +251,8 @@ const Signup = (props) => {
 
     return (
         <Container>
-            <BackgroundSlider images={[ GtIntelBackgroundAir, GtIntelBackgroundLocal, GtIntelBackgroundShip, IntexFreightShip, IntexFreightTrain, IntexFreightTruck ]}/>
+            <BackgroundSlider images={[ GtIntelBackgroundLocal ]} duration={3600} transition={0} />
             { leftShow }
-            {/* <RightSide>
-                <BriefComment>
-                    Welcome to Freight-Genius... <br/>
-                    We are online shipping company and you can easily ship your goods in time. <br/>
-                    We are providing the best guarantee based on credit.
-                </BriefComment>
-            </RightSide> */}
         </Container>
     );
 };
