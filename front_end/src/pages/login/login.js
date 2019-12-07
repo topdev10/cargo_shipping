@@ -47,6 +47,7 @@ const LeftSide = styled.div`
     width: 100%;
     padding: 20px 8px;
     height: 100vh;
+    margin-top: 30px;
     @media ${Device.laptop} {
         width: 40%;
     }
@@ -55,9 +56,18 @@ const LeftSide = styled.div`
 const Comment = styled.div`
     display: flex;
     color: black;
-    font-size: 40px;
-    padding: 0px 0px 20px 0px;
+    font-size: 24px;
+    padding: 8px 0px 8px 0px;
     width: 100%;
+    @media ${Device.laptop} {
+        font-size: 40px;
+        padding: 0px 0px 20px 0px;
+    }
+    
+    @media (max-height: 768px) {
+        font-size: 24px;
+        padding: 0px 0px 20px 0px;
+    }
 `;
 
 const LoginLabel = styled.div`
