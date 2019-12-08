@@ -12,7 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
-import { KButton } from '../../components/Basic';
+import { KButton, KShipStatusBar } from '../../components/Basic';
 
 import 'rc-steps/assets/index.css';
 import './style.css';
@@ -70,6 +70,7 @@ class ShipmentTableRow extends Component {
 
     render() {
         const { shipDetail, onViewDetails, isHeader } = this.props;
+        const labels = ["Step1", "Step2", "Step3", "Step4"];
         return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
             <div className="w-100 shipment-table-row" onClick={e => !isHeader&&onViewDetails(e, shipDetail)}>
@@ -205,7 +206,9 @@ class ShipmentTableRow extends Component {
                             <span>Kenya</span>
                             <span>Mombasa</span>
                         </BDestWrap>
-                        <BCusWrap>Customer</BCusWrap>
+                        <BCusWrap>
+                            <KShipStatusBar labels={labels} currentStep={2} />
+                        </BCusWrap>
                         <BBtnWrap>
                             <KButton color="red" label="action required"/>
                             <KButton color="blue" label="edit"/>
