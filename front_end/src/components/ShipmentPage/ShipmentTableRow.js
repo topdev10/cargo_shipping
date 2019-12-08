@@ -11,22 +11,69 @@ import {
     faCoins
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from 'styled-components';
+import { KButton } from '../../components/Basic';
 
 import 'rc-steps/assets/index.css';
 import './style.css';
 
+const CHeaderRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding: 8px 10px;
+`;
+
+const CTableRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding: 8px 10px;
+    width: 100%;
+    align-items: center;
+`;
+
+const BNumWrap = styled.div`
+    display: flex;
+    flex: 3;
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+`;
+
+const BDestWrap = styled.div`
+    display: flex;
+    flex: 2;
+    flex-direction: column;
+`;
+
+const BCusWrap = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex: 8;
+`;
+
+const BBtnWrap = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 4;
+`;
+
 class ShipmentTableRow extends Component {
+
+    constructor(props) {
+        super(props);
+    }
 
     componentWillMount() {
 
     }
 
     render() {
-        const { shipDetail, onViewDetails } = this.props;
+        const { shipDetail, onViewDetails, isHeader } = this.props;
         return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-            <div className="w-100 shipment-table-row" onClick={e => onViewDetails(e, shipDetail)}>
-                <div className="card board">
+            <div className="w-100 shipment-table-row" onClick={e => !isHeader&&onViewDetails(e, shipDetail)}>
+                {/* <div className="card board">
                     <div className="row info">
                         <div className="col-md-3">
                             <div className="row">
@@ -139,6 +186,34 @@ class ShipmentTableRow extends Component {
                             </Steps>
                         </div>
                     </div>
+                </div> */}
+                {
+                    isHeader&&<CHeaderRow>
+                        <BNumWrap style={{fontWeight: "400"}}>Booking Number</BNumWrap>
+                        <BDestWrap>Destination</BDestWrap>
+                        <BCusWrap>Customer</BCusWrap>
+                        <BBtnWrap>
+                            <span> Status</span>
+                            <span> Action</span>
+                        </BBtnWrap>
+                    </CHeaderRow>
+                }
+                {
+                    !isHeader&&<CTableRow>
+                        <BNumWrap >45909-09874-099</BNumWrap>
+                        <BDestWrap style={{display: "flex", flexDirection: "column"}}>
+                            <span>Kenya</span>
+                            <span>Mombasa</span>
+                        </BDestWrap>
+                        <BCusWrap>Customer</BCusWrap>
+                        <BBtnWrap>
+                            <KButton color="red" label="action required"/>
+                            <KButton color="blue" label="edit"/>
+                        </BBtnWrap>
+                    </CTableRow>
+                }
+                <div>
+
                 </div>
             </div>
         );

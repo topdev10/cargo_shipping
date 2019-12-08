@@ -25,12 +25,12 @@ const BWrapper = styled.div`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    padding: 0px 4px;
+    padding: 10px 10px;
     line-height: 1;
     
     @media ${Device.laptop} {
         font-size: 14px;
-        padding: 0px 8px;
+        padding: 10px 10px;
     }
     
     &:hover {

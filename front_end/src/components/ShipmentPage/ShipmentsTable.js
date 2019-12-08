@@ -14,7 +14,7 @@ const Container = styled.div`
     overflow: auto;
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 64px - 90px);
+    height: calc(100vh - 64px - 90px - 124px);
     width: 100%;
     overflow-x: hidden;
 `;
@@ -40,9 +40,10 @@ class ShipmentsTable extends Component {
         const { shipments } = this.props;
         return (
             <Container>
+                <ShipmentTableRow isHeader={true}/>
                 { shipments !== null &&
                     shipments.map((shipment)=> (
-                        <ShipmentTableRow key={shipment.id} shipDetail={shipment} onViewDetails={this.handleViewDetails}/>
+                        <ShipmentTableRow isHeader={false} key={shipment.id} shipDetail={shipment} onViewDetails={this.handleViewDetails}/>
                     ))
                 }
             </Container>
