@@ -10,6 +10,7 @@ import ShipmentsTable from '../../components/ShipmentPage/ShipmentsTable';
 import ShipmentDetails from '../../components/ShipmentPage/ShipmentDeatils';
 import { menuConstants } from '../../constants';
 import { shipActions } from '../../actions';
+import { KButton } from '../../components/Basic';
 
 const Container = styled.div`
     displa: flex;
@@ -25,14 +26,43 @@ const Container = styled.div`
     left: 0px;
     background: #cccccc40;
     transition: width 1s;
-    @media ${Device.laptop} {    
+    @media ${Device.laptop} {
+        padding: 30px 40px 50px 40px;
         width: ${props => {
-        let width = "100%";
-        if (props.menuState === menuConstants.MENU_OPEN)
-            width = "calc(100% - 320px)";
-        return width;
-    }}
+            let width = "100%";
+            if (props.menuState === menuConstants.MENU_OPEN)
+                width = "calc(100% - 320px)";
+            return width;
+        }
+        }
     }
+`;
+
+const ShpimentExplorerHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 10px 18px;
+    margin-bottom: 24px;
+`;
+
+const ShipmentExploreTitle = styled.div`
+    display: flex;
+    flex-direction: column;
+    color: black;
+`;
+
+const ShipmentTitleContentH1 = styled.span`
+    display:  flex;
+    font-size: 18px;
+    color: black;
+    font-weight: 500;
+`;
+
+const ShipmentTitleContentH2 = styled.span`
+    display:  flex;
+    font-size: 14px;
+    color: black;
 `;
 
 const ShipmentsFilterBar = styled.div`
@@ -41,8 +71,8 @@ const ShipmentsFilterBar = styled.div`
     width: 100%;
     padding: 10px 8px;
     height: 64px;
-    border-top: 2px solid #ccc;
-    border-bottom: 2px solid #ccc;
+    // border-top: 2px solid #ccc;
+    // border-bottom: 2px solid #ccc;
     margin-bottom: 8px;
 `;
 
@@ -153,14 +183,69 @@ class Shipments extends React.Component {
             isVan: true,
             location: "all",
             Shipmentstate: 0,
+            width: 0,
+            height: 0,
         };
     }
+    /* Get Window Height&Width (get Resize event) */
+
+    // getWindowDimensions = () => {
+    //     const { innerWidth: width, innerHeight: height } = window;
+    //     return {
+    //         width,
+    //         height
+    //     };
+    // }
+    
+    // useWindowDimensions = () => {
+    //     const [windowDimensions, setWindowDimensions] = useState(
+    //         getWindowDimensions()
+    //     );
+
+    //     useEffect(() => {
+    //         function handleResize() {
+    //             setWindowDimensions(getWindowDimensions());
+    //         }
+
+    //         window.addEventListener("resize", handleResize);
+    //         return () => window.removeEventListener("resize", handleResize);
+    //     }, []);
+
+    //     return windowDimensions;
+    // }
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener("resize", this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateWindowDimensions);
+    }
+
+    updateWindowDimensions = () => {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    };
 
     render() {
         const { menuState, pageStatus, onBackToMain } = this.props;
-        const { isflight, isShip, isVan, location, Shipmentstate } = this.state;
+        const { isflight, isShip, isVan, location, Shipmentstate, height, width } = this.state;
         return (
             <Container menuState={menuState}>
+                {
+                    pageStatus===1&&
+                    <ShpimentExplorerHeader>
+                        <ShipmentExploreTitle>
+                            <ShipmentTitleContentH1>
+                                Shipment Expoloer
+                            </ShipmentTitleContentH1>
+                            <ShipmentTitleContentH2>
+                                All the active Shipment requests are listed here
+                            </ShipmentTitleContentH2>
+                        </ShipmentExploreTitle>
+                        {width>1024?<KButton label="create booking"/>:<KButton label="create"/>}
+                    </ShpimentExplorerHeader>
+                }
                 {
                     pageStatus===1&&
                     <ShipmentsFilterBar>
@@ -191,7 +276,6 @@ class Shipments extends React.Component {
                             <CustomSelectorOption value='ca'>In Process</CustomSelectorOption>
                             <CustomSelectorOption value='us'>Finished</CustomSelectorOption>
                         </CustomSelector>
-
                     </ShipmentsFilterBar>
                 }
                 <div className="w-100">
