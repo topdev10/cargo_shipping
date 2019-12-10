@@ -46,12 +46,15 @@ const MLabel = styled.span`
 
 const StepWrapper = styled.div`
     display: flex;
+    flex: 1;
     flex-direction: row;
-    width: 30%;
 `;
 
 const StepLine = styled.div`
     display: flex;
+    flex: 1;
+    height: 10px;
+    margin-top: 12px;
     flex-direction: column;
     background: ${props => {
         let color = "#BDC9FC";
@@ -78,10 +81,10 @@ export const KShipStatusBar = (props) => {
                             <MLabel>{label}</MLabel>
                         </ItemWrapper>
                         {
-                            currentStep<=ind?<StepLine/>:<StepLine active/>
+                            currentStep<=ind+1?<StepLine/>:<StepLine active/>
                         }
                     </StepWrapper>:
-                    <StepWrapper style={{width: "35px"}}>
+                    <StepWrapper style={{width: "35px", flex: "inherit"}}>
                         <ItemWrapper>
                             <RoundBox>
                                 {(ind+1)}
