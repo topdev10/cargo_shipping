@@ -63,5 +63,10 @@ b {
 }
 
 .MEditButton {
+    color: black;
+    cursor: pointer;
+}
+
+.MEditButton:hover {
     color: red;
 }

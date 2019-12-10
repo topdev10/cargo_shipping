@@ -64,12 +64,15 @@ const BBtnWrap = styled.div`
 const DueDateActionWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    align-items: center;
+    padding: 4px 0px 4px 8px;
 `;
 
 const DateLabel = styled.span`
     display: flex;
     color: black;
     font-size: 14px;
+    padding: 4px 10px;
 `;
 
 class ShipmentTableRow extends Component {

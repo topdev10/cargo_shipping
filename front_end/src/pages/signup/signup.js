@@ -6,12 +6,8 @@ import BackgroundSlider from 'react-background-slider';
 import { userActions, alertActions } from '../../actions';
 import Device from '../../css/device';
 
-import IntexFreightShip from '../../images/ship.png';
-import IntexFreightTruck from '../../images/truck.png';
-import IntexFreightTrain from '../../images/train.png';
-import GtIntelBackgroundShip from '../../images/gt-intl-background-ship.jpg';
 import GtIntelBackgroundLocal from '../../images/gt-intl-background-local.jpg';
-import GtIntelBackgroundAir from '../../images/gt-intl-background-flight.jpg';
+import Config from '../../config';
 
 const Container = styled.div`
     display: flex;
@@ -125,6 +121,25 @@ const SignupButton = styled.button`
     }
 `;
 
+const CustomSelector = styled.select`
+    display: flex;
+    border-radius: 4px;
+    border: 1px solid #E8ECEF;
+    margin: 10px 0px 20px 0px;
+    padding: 10px 10px;
+    width: 100%;
+    height: 52px;
+    transition: border-color .15s 
+    &:hover,
+    &.active {
+        border: 2px solid #4ec8da;
+    }
+`;
+
+const CustomSelectorOption = styled.option`
+    display: flex;
+`;
+
 const LoginButton = styled.button`
     display: flex;
     flex: 2;
@@ -144,6 +159,26 @@ const LoginButton = styled.button`
     }
 `;
 
+const LoginLinkedInBtn = styled.a`
+    display: flex;
+    flex: 2;
+    padding: 16px 10px;
+    cursor: pointer;
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 17px;
+    color: #FFFFFF;
+    background: #707070;
+    border-right: 2px solid #ccc;
+
+    &:hover {
+        background: #757575;
+        color: #fff;
+    }
+`;
+
 const Signup = (props) => {
 
     const { history, register, verifyCode, registering, error, registered, codeVerifySent, codeVerified } = props;
@@ -154,6 +189,7 @@ const Signup = (props) => {
     const [verificationCode, setVerificationCode] = React.useState('');
     const [contactname, setContactName] = React.useState('');
     const [companyname, setCompanyName] = React.useState('');
+    const [company, setCompany] = React.useState('GTI');
 
     function redirectPage(e, page) {
         if(page === "login") history.push('/login');
@@ -185,6 +221,8 @@ const Signup = (props) => {
             verifyCode(verificationCode, email);
     };
 
+    const linkedInAuthUri = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Config.LINKEDIN_CLIENT_ID_LOCAL}&redirect_uri=${Config.LINKEDIN_REDIRECT_URL_LOCAL}&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share`;
+
     let leftShow;
     if((!registering && !registered) || codeVerified){
         leftShow = <LeftSide>
@@ -200,11 +238,19 @@ const Signup = (props) => {
                         <InputBox type="text" value={companyname} placeholder="i.e. Ex Company" onChange={ handleInput('companyname') }/>
                     </SignupRCol>
                     <SignupRCol>
-                        <CLabel>Username</CLabel>
-                        <InputBox type="text" value={username} placeholder="i.e.1 213 616 3969" onChange={ handleInput('username') }/>
+                        <CLabel>Company Name</CLabel>
+                        <CustomSelector value={company} onChange={e => handleCompanyChanged(e)}>
+                            <CustomSelectorOption value="intexfreight">IntexFreight</CustomSelectorOption>
+                            <CustomSelectorOption value="GTI">GTI</CustomSelectorOption>
+                            <CustomSelectorOption value="Expotrans">Expotrans</CustomSelectorOption>
+                        </CustomSelector>
                     </SignupRCol>
                 </SignupRow>
                 <SignupRow>
+                    <SignupRCol>
+                        <CLabel>Username</CLabel>
+                        <InputBox type="text" value={username} placeholder="i.e.1 213 616 3969" onChange={ handleInput('username') }/>
+                    </SignupRCol>
                     <SignupRCol>
                         <CLabel>Email Address</CLabel>
                         <InputBox type="text" value={email} placeholder="i.e. martin@ex.com" onChange={ handleInput('email') }/>
@@ -220,6 +266,9 @@ const Signup = (props) => {
                 </SignupRow>
                 
                 <BtnWrapper>
+                    <LoginLinkedInBtn href={linkedInAuthUri}>
+                        Login With LinkedIn
+                    </LoginLinkedInBtn>
                     <LoginButton onClick={(e) => redirectPage(e, 'login')}>SIGN IN</LoginButton>
                     <SignupButton onClick={onClickSignup()}>SIGN UP</SignupButton>
                 </BtnWrapper>

@@ -29,9 +29,9 @@ const RoundBox = styled.div`
     }};
     border-radius: 50%;
     background: ${props => {
-        let color = "#BDC9FC";
+        let color = "#524ab9";
         if( props.active )
-            color = "#BDC9FC";
+            color = "#524ab9";
         else color = "white";
         return color;
     }}
@@ -57,9 +57,9 @@ const StepLine = styled.div`
     margin-top: 12px;
     flex-direction: column;
     background: ${props => {
-        let color = "#BDC9FC";
+        let color = "#524ab9";
         if( props.active )
-            color = "#BDC9FC";
+            color = "#524ab9";
         else color = "gray";
         return color;
     }}
@@ -75,9 +75,14 @@ export const KShipStatusBar = (props) => {
                 labels.map((label, ind) => (
                     (ind+1)!==len?<StepWrapper key={label}>
                         <ItemWrapper>
-                            <RoundBox>
-                                {(ind+1)}
-                            </RoundBox>
+                            {
+                                currentStep>ind?<RoundBox active>
+                                    {(ind+1)}
+                                </RoundBox>
+                                :<RoundBox>
+                                    {(ind+1)}
+                                </RoundBox>
+                            }
                             <MLabel>{label}</MLabel>
                         </ItemWrapper>
                         {

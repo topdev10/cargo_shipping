@@ -7,13 +7,7 @@ import BackgroundSlider from 'react-background-slider';
 import { userActions, alertActions } from '../../actions';
 import Device from '../../css/device';
 
-import IntexFreightShip from '../../images/ship.png';
-import IntexFreightTruck from '../../images/truck.png';
-import IntexFreightTrain from '../../images/train.png';
-import GtIntelBackgroundShip from '../../images/gt-intl-background-ship.jpg';
 import GtIntelBackgroundLocal from '../../images/gt-intl-background-local.jpg';
-import GtIntelBackgroundAir from '../../images/gt-intl-background-flight.jpg';
-import Config from '../../config';
 
 const Container = styled.div`
     display: flex;
@@ -262,26 +256,6 @@ const LogoLabelNormal = styled.label`
     font-weight: 400;
 `;
 
-const LoginLinkedInBtn = styled.a`
-    display: flex;
-    flex: 2;
-    padding: 18px 20px;
-    cursor: pointer;
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 17px;
-    color: #FFFFFF;
-    background: #707070;
-    border-right: 2px solid #ccc;
-
-    &:hover {
-        background: #757575;
-        color: #fff;
-    }
-`;
-
 const Login = (props) => {
 
     const { history, login, forgotPassword, resetPassword, verifyCodeRequested, error, vCSuccess, cpRequested, cpSuccess } = props;
@@ -337,8 +311,6 @@ const Login = (props) => {
         setCompany(e.target.value);
     };
 
-    const linkedInAuthUri = `https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=${Config.LINKEDIN_CLIENT_ID_LOCAL}&redirect_uri=${Config.LINKEDIN_REDIRECT_URL_LOCAL}&state=2522abcde12345&scope=r_basicprofile%20r_liteprofile%20r_emailaddress%20w_share`;
-
     let leftShow;
     if(display === "step1" && !cpRequested || cpSuccess)
         leftShow = <LeftSide>
@@ -376,9 +348,6 @@ const Login = (props) => {
                 
                 </LoginMainContainer>
                 <BtnWrapper>
-                    <LoginLinkedInBtn href={linkedInAuthUri}>
-                        Login With LinkedIn
-                    </LoginLinkedInBtn>
                     <LoginButton onClick={onClickLogin()}>Login</LoginButton>
                     <SignupButton onClick={(e) => redirectPage(e, 'signup')}>Register</SignupButton>
                 </BtnWrapper>
