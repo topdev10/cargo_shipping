@@ -47,6 +47,7 @@ const MLabel = styled.span`
 const StepWrapper = styled.div`
     display: flex;
     flex-direction: row;
+    width: 30%;
 `;
 
 const StepLine = styled.div`
@@ -69,10 +70,10 @@ export const KShipStatusBar = (props) => {
         <Container>
             {
                 labels.map((label, ind) => (
-                    ind!==len?<StepWrapper key={label}>
+                    (ind+1)!==len?<StepWrapper key={label}>
                         <ItemWrapper>
                             <RoundBox>
-                                {ind}
+                                {(ind+1)}
                             </RoundBox>
                             <MLabel>{label}</MLabel>
                         </ItemWrapper>
@@ -80,10 +81,10 @@ export const KShipStatusBar = (props) => {
                             currentStep<=ind?<StepLine/>:<StepLine active/>
                         }
                     </StepWrapper>:
-                    <StepWrapper>
+                    <StepWrapper style={{width: "35px"}}>
                         <ItemWrapper>
                             <RoundBox>
-                                {ind}
+                                {(ind+1)}
                             </RoundBox>
                             <MLabel>{label}</MLabel>
                         </ItemWrapper>
