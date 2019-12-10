@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import Steps, { Step } from 'rc-steps';
 import PropTypes from 'prop-types';
+import Fab from '@material-ui/core/Fab';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import {
     faStore,
@@ -56,6 +59,17 @@ const BBtnWrap = styled.div`
     flex-direction: row;
     justify-content: space-between;
     flex: 4;
+`;
+
+const DueDateActionWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+`;
+
+const DateLabel = styled.span`
+    display: flex;
+    color: black;
+    font-size: 14px;
 `;
 
 class ShipmentTableRow extends Component {
@@ -195,7 +209,7 @@ class ShipmentTableRow extends Component {
                         <BCusWrap>Customer</BCusWrap>
                         <BBtnWrap>
                             <span> Status</span>
-                            <span> Action</span>
+                            <span> Due Date</span>
                         </BBtnWrap>
                     </CHeaderRow>
                 }
@@ -211,7 +225,13 @@ class ShipmentTableRow extends Component {
                         </BCusWrap>
                         <BBtnWrap>
                             <KButton color="red" label="action required"/>
-                            <KButton color="blue" label="edit"/>
+                            <DueDateActionWrapper>
+                                <DateLabel>
+                                   Dec 10, 2019 
+                                </DateLabel>
+                                <DeleteIcon className="MEditButton"/>
+                                <EditIcon className="MEditButton"/>
+                            </DueDateActionWrapper>
                         </BBtnWrap>
                     </CTableRow>
                 }

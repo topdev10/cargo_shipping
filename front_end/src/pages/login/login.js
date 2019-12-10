@@ -288,7 +288,7 @@ const Login = (props) => {
     const [display, setDisplay] = React.useState("step1");
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [company, setCompany] = React.useState('Gt-Intl');
+    const [company, setCompany] = React.useState('GTI');
     const [cpassword, setConfirmPassword] = React.useState('');
     const [code, setCode] = React.useState('');
     let checked = true;
@@ -355,7 +355,8 @@ const Login = (props) => {
                     <CLabel>Company</CLabel>
                     <CustomSelector value={company} onChange={e => handleCompanyChanged(e)}>
                         <CustomSelectorOption value="intexfreight">IntexFreight</CustomSelectorOption>
-                        <CustomSelectorOption value="Gt-Intl">Gt-Intl</CustomSelectorOption>
+                        <CustomSelectorOption value="GTI">GTI</CustomSelectorOption>
+                        <CustomSelectorOption value="Expotrans">Expotrans</CustomSelectorOption>
                     </CustomSelector>
                 {/* <OptionsContainer>
                     <MLabel onChange={handleChange()}>
@@ -451,7 +452,7 @@ const Login = (props) => {
     // if(company === 'intexfreight'){
     //     backgroundImages = <BackgroundSlider images={[ IntexFreightShip, IntexFreightTrain, IntexFreightTruck ]} />;
     // }
-    // else if (company === 'Gt-Intl'){
+    // else if (company === 'GTI'){
     //     backgroundImages = <BackgroundSlider images={[ GtIntelBackgroundAir, GtIntelBackgroundLocal, GtIntelBackgroundShip ]}/>;
     // }
     return (
