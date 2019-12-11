@@ -238,7 +238,7 @@ const Signup = (props) => {
                         <InputBox type="text" value={companyname} placeholder="i.e. Ex Company" onChange={ handleInput('companyname') }/>
                     </SignupRCol>
                     <SignupRCol>
-                        <CLabel>Company Name</CLabel>
+                        <CLabel>Company</CLabel>
                         <CustomSelector value={company} onChange={e => handleCompanyChanged(e)}>
                             <CustomSelectorOption value="intexfreight">IntexFreight</CustomSelectorOption>
                             <CustomSelectorOption value="GTI">GTI</CustomSelectorOption>

@@ -212,7 +212,7 @@ class ShipmentTableRow extends Component {
                         <BCusWrap>Customer</BCusWrap>
                         <BBtnWrap>
                             <span> Status</span>
-                            <span> Due Date</span>
+                            <span> Actual Date</span>
                         </BBtnWrap>
                     </CHeaderRow>
                 }
@@ -232,8 +232,8 @@ class ShipmentTableRow extends Component {
                                 <DateLabel>
                                    Dec 10, 2019 
                                 </DateLabel>
-                                <DeleteIcon className="MEditButton"/>
                                 <EditIcon className="MEditButton"/>
+                                <DeleteIcon className="MEditButton"/>
                             </DueDateActionWrapper>
                         </BBtnWrap>
                     </CTableRow>
