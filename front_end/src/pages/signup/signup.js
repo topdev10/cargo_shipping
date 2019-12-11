@@ -286,15 +286,15 @@ const Signup = (props) => {
             <InputBox type="password" value={password} onChange={ handleInput('password') }/>
             <CLabel>Confirm Password</CLabel>
             <InputBox type="password" value={cpassword} onChange={ handleInput('cpassword') }/>
-            <SignupButton onClick={onClickSignup()} disabled>SIGN UP</SignupButton>
-            <LoginButton disabled>Wait A Moment...</LoginButton>
+            <SignupButton onClick={onClickSignup()} disabled style={{ flex: "unset", width: "100%"}}>SIGN UP</SignupButton>
+            <LoginButton disabled style={{ flex: "unset", width: "100%"}}>Wait A Moment...</LoginButton>
         </LeftSide>;
     }
     if(codeVerifySent) {
         leftShow = <LeftSide>
             <CLabel>Input your verification code.</CLabel>
             <InputBox type="text" value={verificationCode} onChange={ handleInput('code') }/>
-            <SignupButton onClick={handleVerify()}>Next</SignupButton>
+            <SignupButton onClick={handleVerify()} style={{ flex: "unset", width: "100%"}}>Next</SignupButton>
         </LeftSide>;
     }
 
