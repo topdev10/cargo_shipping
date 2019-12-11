@@ -267,7 +267,7 @@ const Signup = (props) => {
                 
                 <BtnWrapper>
                     <LoginLinkedInBtn href={linkedInAuthUri}>
-                        Login With LinkedIn
+                        Signup with LinkedIn
                     </LoginLinkedInBtn>
                     <LoginButton onClick={(e) => redirectPage(e, 'login')}>SIGN IN</LoginButton>
                     <SignupButton onClick={onClickSignup()}>SIGN UP</SignupButton>
