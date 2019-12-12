@@ -67,9 +67,9 @@ const ActiveShipments = (props) => {
             {shipments!==null&&
                 <ShipmentDashboardItem shipments={shipments}></ShipmentDashboardItem>
             }
-            <ViewAllShipmentsButton onClick={viewAllShipments}>
+            {/* <ViewAllShipmentsButton onClick={viewAllShipments}>
                 View All Shipments
-            </ViewAllShipmentsButton>
+            </ViewAllShipmentsButton> */}
         </Container>
     );
 };

@@ -65,9 +65,9 @@ const DashboardBillings = (props) => {
             {billings!==null&&
                 <BillingDashboardItem billings={billings}></BillingDashboardItem>
             }
-            <NewInvoiceButton onClick={ViewBillings}>
+            {/* <NewInvoiceButton onClick={ViewBillings}>
                 View All Invoices
-            </NewInvoiceButton>
+            </NewInvoiceButton> */}
         </Container>
     );
 };

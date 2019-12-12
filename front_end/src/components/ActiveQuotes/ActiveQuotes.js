@@ -79,9 +79,9 @@ class ActiveQuotes extends React.Component {
                 {quotes!==null&&
                     <QuotesDashboardItem quotes={quotes}></QuotesDashboardItem>
                 }
-                <NewQuotesButton onClick={e => this.viewAllQuotes(e)}>
+                {/* <NewQuotesButton onClick={e => this.viewAllQuotes(e)}>
                     View All Quotes
-                </NewQuotesButton>
+                </NewQuotesButton> */}
             </Container>
         );
     };

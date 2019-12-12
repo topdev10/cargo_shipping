@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Device from '../../css/device';
+import { KButton } from '../Basic';
 
 const Container = styled.div`
     display: flex;
@@ -54,11 +55,23 @@ const VendLabel = styled.h1`
     color: #55f;
 `;
 
-const CommitLabel = styled.h1`
+const CommitLabelWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
     font-size: 14px;
     color: black;
     font-weight: 500;
     text-align: left;
+`;
+
+const TLabel = styled.div`
+    display: flex;
+    flex: 1;
+`;
+
+const CommitBtnWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
 `;
 
 class QuotesDashboardItem extends React.Component {
@@ -81,15 +94,25 @@ class QuotesDashboardItem extends React.Component {
                 quotes.map((row) => 
                     <QuotesItem key={row.id}>
                         <QuotesItemRow>
-                            <IDLabel>{row.id} </IDLabel>
-                            <VendLabel> - {row.venderID}</VendLabel>
+                            <IDLabel>Quote Number: &nbsp;&nbsp;</IDLabel>
+                            <VendLabel> {row.venderID}</VendLabel>
                         </QuotesItemRow>
-                        <CommitLabel>
-                            {row.reviewCnt} Quotes Ready for Review
-                        </CommitLabel>
-                        <CommitLabel>
-                            You have {row.newCnt} new Quote(s)
-                        </CommitLabel>
+                        <CommitLabelWrapper>
+                            <TLabel>
+                                Status
+                            </TLabel>
+                            <TLabel>
+                                Action
+                            </TLabel>
+                        </CommitLabelWrapper>
+                        <CommitBtnWrapper>
+                            <div style={{display: "flex",flex: 1}}>
+                                <KButton label="Requires Action" color="red" />
+                            </div>
+                            <div style={{display: "flex", flex: 1}}>
+                                <KButton label="View Edit" />
+                            </div>
+                        </CommitBtnWrapper>
                     </QuotesItem>
                 )}
             </Container>
