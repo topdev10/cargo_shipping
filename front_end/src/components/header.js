@@ -17,18 +17,38 @@ import styled from 'styled-components';
 import SearchIcon from '@material-ui/icons/Search';
 import Exit from '@material-ui/icons/ExitToApp';
 import AccountBox from '@material-ui/icons/AccountBox';
-import { userActions, pageActions } from '../actions';
-import { history } from '../helpers';
+import Dashboard from '@material-ui/icons/Dashboard';
+import Assessment from '@material-ui/icons/Assessment';
+import MonetizationOn from '@material-ui/icons/MonetizationOn';
+import Assignment from '@material-ui/icons/Assignment';
+import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
+import EventNote from '@material-ui/icons/EventNote';
+import Divider from '@material-ui/core/Divider';
+import Pusher from 'pusher-js';
+import { fade } from '@material-ui/core/styles/colorManipulator';
+import CustomTooltip from './CustomToolTip/CustomToolTip';
+// import MenuOutlined from '@material-ui/icons/MenuOutlined';
+// import Close from '@material-ui/icons/Close';
+import { userActions, pageActions, alertActions, menuActions } from '../actions';
+
+import Config from '../config';
 
 import logo from '../images/logo.svg';
+import { pageConstants, menuConstants, billConstants, bookingConstants, shipsConstants } from "../constants";
 
+// eslint-disable-next-line no-unused-vars
 const SearchBox = styled.input`
+    position: fixed;
+    z-index: 999;
+    top: 12px;
+    left: 33%;
+    margin: auto;
     height: 42px;
-    width: calc(100vw - 250px);
+    width: 250px;
     margin-left: 15px;
-    border-radius: 20px;
-    border: 2px solid #ccc;
-    padding: 5px 15px 5px 50px;
+    border-radius: 10px;
+    border: 2px solid #78c2ec;
+    padding: 5px 10px 5px 10px;
 
     font-family: Rubik;
     font-style: normal;
@@ -36,6 +56,8 @@ const SearchBox = styled.input`
     font-size: 14px;
     line-height: 19px;
     color: #252631;
+    margin: auto;
+    transition: width 1s;
 
     &:hover {
         border: 2px solid #7595bb;
@@ -48,19 +70,18 @@ const theme = createMuiTheme({
             main: '#ec4535',
         },
         primary: {
-            main: '#f6ffde',
+            main: fade('#32314c', 0.1),
         }
     },
 });
 
-// eslint-disable-next-line no-shadow
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(mtheme => ({
     grow: {
         flexGrow: 1,
         backgroundImage: "radial-gradient(circle at 1% 1%, #f7f9fc, #eff2f6)"
     },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: mtheme.spacing(2),
     },
     avatar_mobile:{
         width: 32,
@@ -75,7 +96,7 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto',
         marginLeft: "10px",
         color: "#515665",
-        [theme.breakpoints.up('sm')]: {
+        [mtheme.breakpoints.up('sm')]: {
             display: 'block',
         },
     },
@@ -98,16 +119,16 @@ const useStyles = makeStyles(theme => ({
         }
     },
     inputInput: {
-        padding: theme.spacing(1, 1, 1, 7),
-        transition: theme.transitions.create('width'),
+        padding: mtheme.spacing(1, 1, 1, 7),
+        transition: mtheme.transitions.create('width'),
         width: '100%',
-        [theme.breakpoints.up('md')]: {
+        [mtheme.breakpoints.up('md')]: {
             width: 200,
         },
     },
     sectionDesktop: {
         display: 'none',
-        [theme.breakpoints.up('md')]: {
+        [mtheme.breakpoints.up('md')]: {
             display: 'flex',
         },
     },
@@ -123,7 +144,7 @@ const useStyles = makeStyles(theme => ({
     },
     sectionMobile: {
         display: 'flex',
-        [theme.breakpoints.up('md')]: {
+        [mtheme.breakpoints.up('md')]: {
             display: 'none',
         },
     },
@@ -159,14 +180,37 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Header = (props) => {
-    const { username, email, logout, getProfile } = props;
+
+    // Pusher.logToConsole = true;
+    /**
+     * Implement Notification With Pusher
+     */
+    const pusher = new Pusher(Config.PUSHER_KEY, {
+        cluster: Config.PUSHER_CLUSTER,
+        forceTLS: true
+    });
+
+    const channel = pusher.subscribe(Config.PUSHER_CHANNEL);
+    /**
+     * Functional Component Main Body
+     */
+    const { username, email, menuState, logout, getProfile, loadPage,
+        notification, openHamburgerMenu, closeHamburgerMenu, curPage, token } = props;
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    // eslint-disable-next-line no-unused-vars
     const [searchValue, setSearchValue] = React.useState('');
+    // eslint-disable-next-line no-unused-vars
+    const [onSearch, setSearchFlag] = React.useState(false);
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    // Wait for New Notification
+    channel.bind('notification', (data) => {
+        notification(JSON.stringify(data));
+    });
 
     function handleProfileMenuOpen(event) {
         setAnchorEl(event.currentTarget);
@@ -188,19 +232,75 @@ const Header = (props) => {
     function viewProfile(){
         // history.push("/profile");
         getProfile(username, email);
+        handleMenuClose();
     }
 
     function gotoHomepage(){
-        history.push('/pages/dashboard');
+        // history.push('/pages/dashboard');
+        loadPage(pageConstants.DASHBOARD);
     }
   
     function handleMobileMenuOpen(event) {
         setMobileMoreAnchorEl(event.currentTarget);
     }
 
+    // eslint-disable-next-line no-unused-vars
     function onSearchChanged(event) {
         setSearchValue(event.target.value);
     }
+
+    function onNavigate(e, type) {
+        e.preventDefault();
+        switch(type){
+        case "DASHBOARD":
+            loadPage(pageConstants.DASHBOARD, token, email);
+            break;
+        case "QUOTES":
+            loadPage(pageConstants.QUOTES, token, email);
+            break;
+        case "SHIPMENTS":
+            loadPage(shipsConstants.ON_SHIPMENTS, token, email);
+            break;
+        case "BOOKING":
+            loadPage(bookingConstants.ON_REQUEST_ALL_BOOKINGS, token, email);
+            break;
+        case "BILLING":
+            loadPage(billConstants.BILLING, token, email);
+            break;
+        case "REPORTS":
+            loadPage(pageConstants.REPORTS, token, email);
+            break;
+        default:
+            break;
+        }
+        handleMenuClose();
+    }
+
+    // eslint-disable-next-line no-unused-vars
+    function onMenuOpenClose(e) {
+        e.preventDefault();
+        if(menuState === menuConstants.MENU_OPEN)
+            closeHamburgerMenu();
+        else if(menuState === menuConstants.MENU_CLOSE)
+            openHamburgerMenu();
+    }
+
+    function redirectPage(e, labelText) {
+        e.preventDefault();
+        // history.push(`/pages/${labelText}`);
+        if(labelText === 'Dashboard')
+            loadPage(pageConstants.DASHBOARD, token, email);
+        else if(labelText === 'Quotes')
+            loadPage(pageConstants.QUOTES, token, email);
+        else if(labelText === 'Shipments')
+            loadPage(shipsConstants.ON_SHIPMENTS, token, email);
+        else if(labelText === 'Billing')
+            loadPage(billConstants.BILLING, token, email);
+        else if(labelText === 'Reports')
+            loadPage(pageConstants.REPORTS, token, email);
+        else if(labelText === 'Booking')
+            loadPage(bookingConstants.ON_REQUEST_ALL_BOOKINGS, token, email);
+    };
 
     const renderMenu = (
         <Menu
@@ -211,16 +311,17 @@ const Header = (props) => {
             onClose={handleMenuClose}
         >
             <MenuItem onClick={viewProfile}>
-                Profile
                 <IconButton>
                     <AccountBox></AccountBox>
                 </IconButton>
+                Profile
             </MenuItem>
+            <Divider />
             <MenuItem onClick={handleLogout}>
-                Exit
                 <IconButton>
                     <Exit></Exit>
                 </IconButton>
+                Exit
             </MenuItem>
         </Menu>
     );
@@ -232,6 +333,55 @@ const Header = (props) => {
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
+            <MenuItem onClick={e => onNavigate(e, "DASHBOARD")}>
+                <IconButton color="inherit">
+                    <Dashboard />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Dashboard
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "QUOTES")}>
+                <IconButton color="inherit">
+                    <Assignment />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Quotes
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "BOOKING")}>
+                <IconButton color="inherit">
+                    <EventNote />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Booking
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "SHIPMENTS")}>
+                <IconButton color="inherit">
+                    <DirectionsBoat />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Shipments
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "BILLING")}>
+                <IconButton color="inherit">
+                    <MonetizationOn />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Billing
+                </Typography>
+            </MenuItem>
+            <MenuItem onClick={e => onNavigate(e, "REPORTS")}>
+                <IconButton color="inherit">
+                    <Assessment />
+                </IconButton>
+                <Typography variant="h6" noWrap>
+                    Reports
+                </Typography>
+            </MenuItem>
+            <Divider />
             <MenuItem>
                 <IconButton color="inherit">
                     <Badge badgeContent={0} color="secondary">
@@ -252,25 +402,71 @@ const Header = (props) => {
             </MenuItem>
         </Menu>
     );
-  
+    
     return (
-        <div className={classes.grow}>
+        <div className={classes.grow} >
             <ThemeProvider theme={theme}>
-                <AppBar position="fixed" color="inherit">
+                <AppBar position="fixed" color="primary">
                     <Toolbar>
+                        {/* <IconButton onClick={e => onMenuOpenClose(e)}>
+                            {menuState === menuConstants.MENU_OPEN && <MenuOutlined />}
+                            {menuState === menuConstants.MENU_CLOSE && <Close />}
+                        </IconButton> */}
                         <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onMouseDownCapture={gotoHomepage}/>
-                        <SearchBox type='text' value={searchValue} onChange={onSearchChanged} />
-                        <IconButton style={{position: "fixed", left: "275px"}} aria-label="Search">
-                            <SearchIcon />
-                        </IconButton>
-                        {/* <input type="text" value={searchValue} onChange={onSearchChanged} /> */}
-                        <div className={classes.grow} />
-                        <div className={classes.sectionDesktop}>
-                            <IconButton color="inherit" className={classes.mIconButton}>
-                                <Badge badgeContent={0} color="secondary">
-                                    <NotificationsIcon />
-                                </Badge>
+                        {
+                            <CustomTooltip title="Search">
+                                <IconButton  color='inherit' className={classes.mIconButton} onClick={() => setSearchFlag(true)}>
+                                    <SearchIcon />
+                                </IconButton>
+                            </CustomTooltip>
+                        }
+                        {/* <SearchBox type='text' value={searchValue} onChange={onSearchChanged} onBlur={() => setSearchFlag(false)} style={onSearch?{width: '250px'}:{width: '100px'}}/> */}
+                        {/* {
+                            onSearch&&<IconButton style={{position: "absolute"}} aria-label="Search" onClick={() => setSearchFlag(false)}>
+                                <SearchIcon />
                             </IconButton>
+                        } */}
+                        <div className={classes.sectionDesktop} style={{alignItems: 'center'}}>
+                            <CustomTooltip title="Dashboard">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Dashboard')}>
+                                    <Dashboard style={curPage===pageConstants.DASHBOARD?{color: "#4d7cfe"}:{color: "black"}}/>
+                                </IconButton>
+                            </CustomTooltip>
+                            <CustomTooltip title="Quotes">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Quotes')}>
+                                    <Assignment style={curPage===pageConstants.QUOTES?{color: "#4d7cfe"}:{color: "black"}}/>
+                                </IconButton>
+                            </CustomTooltip>
+                            <CustomTooltip title="Booking">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Booking')}>
+                                    <EventNote style={curPage===bookingConstants.ON_REQUEST_ALL_BOOKINGS?{color: "#4d7cfe"}:{color: "black"}}/>
+                                </IconButton>
+                            </CustomTooltip>
+                            <CustomTooltip title="Shipments">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Shipments')}>
+                                    <DirectionsBoat style={curPage===shipsConstants.ON_SHIPMENTS?{color: "#4d7cfe"}:{color: "black"}}/>
+                                </IconButton>
+                            </CustomTooltip>
+                            <CustomTooltip title="Billing">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Billing')}>
+                                    <MonetizationOn style={curPage===billConstants.BILLING?{color: "#4d7cfe"}:{color: "black"}}/>
+                                </IconButton>
+                            </CustomTooltip>
+                            <CustomTooltip title="Reports">
+                                <IconButton color='inherit' className={classes.mIconButton} onClick={e => redirectPage(e, 'Reports')}>
+                                    <Assessment style={curPage===pageConstants.REPORTS?{color: "#4d7cfe"}:{color: "black"}}/>
+                                </IconButton>
+                            </CustomTooltip>
+                        </div>
+                        <div className={classes.grow} />
+                        <div className={classes.sectionDesktop} style={{alignItems: 'center'}}>                            
+                            <CustomTooltip title="Notification">
+                                <IconButton color="inherit" className={classes.mIconButton}>
+                                    <Badge badgeContent={0} color="error">
+                                        <NotificationsIcon />
+                                    </Badge>
+                                </IconButton>
+                            </CustomTooltip>
                             <IconButton
                                 color="inherit"
                                 edge="end"
@@ -286,7 +482,7 @@ const Header = (props) => {
                             </IconButton>
                         </div>
                         <div className={classes.sectionMobile}>
-                            <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="inherit">
+                            <IconButton aria-haspopup="true" onClick={handleMobileMenuOpen} color="default">
                                 <MoreIcon />
                             </IconButton>
                         </div>
@@ -304,18 +500,32 @@ Header.propTypes = {
     email: PropTypes.string.isRequired,
     logout: PropTypes.func.isRequired,
     getProfile: PropTypes.func.isRequired,
+    loadPage: PropTypes.func.isRequired,
+    notification: PropTypes.func.isRequired,
+    openHamburgerMenu: PropTypes.func.isRequired,
+    closeHamburgerMenu: PropTypes.func.isRequired,
+    menuState: PropTypes.string.isRequired,
+    curPage: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         username: state.auth.user?state.auth.user.username:"newuser",
-        email: state.auth.user?state.auth.user.email:"tmp@tmp.com"
+        email: state.auth.user?state.auth.user.email:"tmp@tmp.com",
+        menuState: state.menu.menuState,
+        curPage: state.page.curPage,
+        token: state.auth.user.token,
     };
 }
 
 const actionCreators = {
     logout: userActions.logout,
     getProfile: pageActions.getProfile,
+    loadPage: pageActions.loadPage,
+    notification: alertActions.notification,
+    openHamburgerMenu: menuActions.openHamburgerMenu,
+    closeHamburgerMenu: menuActions.closeHamburgerMenu,
 };
 
 export default connect(mapStateToProps, actionCreators)(Header);

@@ -2,8 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { pageActions } from '../../actions';
+import { pageActions, alertActions } from '../../actions';
 import { history } from '../../helpers';
+import Device from '../../css/device';
+
+import Config from '../../config';
 
 const Container = styled.div`
     position: relative;
@@ -20,7 +23,11 @@ const InfoContainer = styled.div`
     flex-direction: column;
     height: calc(100% - 75px);
     background: #f8fafb;
-    padding: 50px 64px;
+    padding: 24px 8px;
+    overflow-y: auto;
+    @media ${Device.laptop} {
+        padding: 50px 64px;
+    }
 `;
 
 const Title = styled.h1`
@@ -51,7 +58,7 @@ const PAvatar = styled.img`
     background: green;
 `;
 
-const PSelectBtn = styled.button`
+const PSelectBtn = styled.input`
     width: 150px;
     height: 46px;
     margin-left: 20px;
@@ -171,7 +178,10 @@ export class Profile extends React.Component {
             phonenumber: "",
             address: "",
             editable: false,
+            img: "",
+            avatar: null,
         };
+        this.fileInputRef = React.createRef();
 
         const { getProfile } = props;
         getProfile(props.username, props.email);
@@ -191,36 +201,82 @@ export class Profile extends React.Component {
     }
 
     backHomepage = () => {
-        history.push('/landing');
+        history.push('/pages/dashboard');
     }
 
     saveProfile = () => {
         const { updateProfile } = this.props;
-        updateProfile(this.state);
+        const {firstname, lastname, email, phonenumber, address, editable } = this.state;
+        updateProfile({firstname, lastname, email, phonenumber, address, editable });
+    }
+
+    UpdateAvatar = () => {
+        const {  updateAvatar } = this.props;
+        const { email, avatar, editable } = this.state;
+        if(!editable) {
+            const { error } = this.props;
+            error("Please Press Edit First");
+        }
+        else if(avatar!==null)
+            updateAvatar({email, avatar});
     }
 
     enableEdit = () => {
         const { editable } = this.state;
         const { userProfile } = this.props;
-        this.setState({
-            firstname : userProfile.firstname,
-            // eslint-disable-next-line prefer-destructuring
-            lastname : userProfile.lastname,
-            // eslint-disable-next-line prefer-destructuring
-            email : userProfile.email,
-            // eslint-disable-next-line prefer-destructuring
-            phonenumber : userProfile.phonenumber,
-            // eslint-disable-next-line prefer-destructuring
-            address : userProfile.address,
-            editable: !editable
-        });
+
+        if(userProfile !== null)
+            this.setState({
+                // eslint-disable-next-line react/prop-types
+                img: Config.BACKEND_API_URL + userProfile.img,
+                firstname : userProfile.firstname,
+                // eslint-disable-next-line prefer-destructuring
+                lastname : userProfile.lastname,
+                // eslint-disable-next-line prefer-destructuring
+                email : userProfile.email,
+                // eslint-disable-next-line prefer-destructuring
+                phonenumber : userProfile.phonenumber,
+                // eslint-disable-next-line prefer-destructuring
+                address : userProfile.address,
+            });
+        
+        this.setState({editable: !editable});
+    }
+
+    onAvatarChanged = (e) => {
+        e.preventDefault();
+        const reader = new FileReader();
+        const file = e.target.files[0];
+        if(file){
+            reader.onloadend = () => {
+                this.setState({
+                    avatar: file,
+                    img: reader.result
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    openFileDialog = (e) => {
+        e.preventDefault();
+        const { editable } = this.state;
+        
+        if(!editable) {
+            const { error } = this.props;
+            error("Please Press Edit First");
+        } else
+            this.fileInputRef.current.click();
     }
 
     render(){
-        const { userProfile, requestedProfile, receivedProfile } = this.props;
-        let { firstname, lastname, email, phonenumber, address } = this.state;
+        const { userProfile, requestedProfile, receivedProfile, avatarUpdateRequested, profileUpdateRequsted, profileUpdateSuccess } = this.props;
+        let { firstname, lastname, email, phonenumber, address, img } = this.state;
         const { editable } = this.state;
         if( userProfile !== null && !editable){
+            
+            // eslint-disable-next-line react/prop-types
+            img = Config.BACKEND_API_URL + userProfile.img;
             // eslint-disable-next-line prefer-destructuring
             firstname = userProfile.firstname;
             // eslint-disable-next-line prefer-destructuring
@@ -231,7 +287,7 @@ export class Profile extends React.Component {
             phonenumber = userProfile.phonenumber;
             // eslint-disable-next-line prefer-destructuring
             address = userProfile.address;
-        }
+        } else if(!img) img = `${Config.BACKEND_API_URL}uploads/default.png`;
 
         return(
             <Container>
@@ -242,8 +298,10 @@ export class Profile extends React.Component {
                     </Title>
                     <PRow>
                         <PLabel>Profile Image</PLabel>
-                        <PAvatar></PAvatar>
-                        <PSelectBtn>Select Photo</PSelectBtn>
+                        <PAvatar src={img}></PAvatar>
+                        <PSelectBtn type="file" style={{display: "none"}} ref={this.fileInputRef} onChange= {e => this.onAvatarChanged(e)} />
+                        <PSelectBtn type="button" onClick={e => this.openFileDialog(e)} value="Select Photo" />
+                        <PSelectBtn type="button" onClick={e => this.UpdateAvatar(e)} value="Update Photo" />
                     </PRow>
                     <PRow>
                         <PLabel>
@@ -289,7 +347,11 @@ export class Profile extends React.Component {
                 {receivedProfile &&
                 <ActionContainer>
                     <ActionButton onClick={e=> this.backHomepage(e)}>Cancel</ActionButton>
-                    <ActionButton onClick={e=> this.saveProfile(e)}>Save</ActionButton>
+                    {
+                        (!avatarUpdateRequested||(!profileUpdateRequsted&&!profileUpdateSuccess))?
+                            <ActionButton onClick={e=> this.saveProfile(e)} >Save</ActionButton>:
+                            <ActionButton disabled>Save</ActionButton>    
+                    }
                 </ActionContainer>}
             </Container>
         );
@@ -315,6 +377,11 @@ Profile.propTypes = {
     receivedProfile: PropTypes.bool.isRequired,
     getProfile: PropTypes.func.isRequired,
     updateProfile: PropTypes.func.isRequired,
+    updateAvatar: PropTypes.func.isRequired,
+    avatarUpdateRequested: PropTypes.bool.isRequired,
+    profileUpdateRequsted: PropTypes.bool.isRequired,
+    profileUpdateSuccess: PropTypes.bool.isRequired,
+    error: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -322,6 +389,9 @@ function mapStateToProps(state) {
         userProfile: state.page.userProfile,
         requestedProfile: state.page.requestedProfile,
         receivedProfile: state.page.receivedProfile,
+        avatarUpdateRequested: state.page.avatarUpdateRequested,
+        profileUpdateRequsted: state.page.profileUpdateRequsted,
+        profileUpdateSuccess: state.page.profileUpdateSuccess,
         email: state.auth.user.email,
         username: state.auth.user.username,
     };
@@ -330,6 +400,8 @@ function mapStateToProps(state) {
 const actionCreators = {
     getProfile: pageActions.getProfile,
     updateProfile: pageActions.updateProfile,
+    updateAvatar: pageActions.updateAvatar,
+    error: alertActions.error,
 };
 
 export default connect(mapStateToProps, actionCreators)(Profile);

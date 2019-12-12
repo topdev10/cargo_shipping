@@ -9,7 +9,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => {
         <Route {...rest} render={props => (
             username!=='newuser'
                 ? <Component {...props} {...rest} />
-                : <Redirect to={{ pathname: '/login' }} />
+                : <Redirect to='/login' />
         )} />
     );
 };

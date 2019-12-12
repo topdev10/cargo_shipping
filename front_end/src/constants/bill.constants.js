@@ -1,0 +1,10 @@
+export const billConstants =  {
+
+    ON_MAKE_PAYMENT_REQUEST: "ON_MAKE_PAYMENT_REQUEST",
+    ON_PAYMENT_SUCCESS: "ON_PAYMENT_SUCCESS",
+    BILLING: "ON_LOAD_BILLING",
+    ON_MODAL_OPEN: "ON_MODAL_OPEN",
+    ON_MODAL_CLOSE: "ON_MODAL_CLOSE",
+};
+
+export default billConstants;

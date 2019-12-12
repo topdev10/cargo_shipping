@@ -2,6 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import BackgroundSlider from 'react-background-slider';
+
+import GtIntelBackgroundShip from '../images/gt-intl-background-ship.jpg';
+import GtIntelBackgroundLocal from '../images/gt-intl-background-local.jpg';
+import GtIntelBackgroundAir from '../images/gt-intl-background-flight.jpg';
 
 const Container = styled.div`
     position: relative;
@@ -19,22 +24,47 @@ const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
     width: 100%;
     height: 100%;
+    padding: 100px;
 `;
 
 const Title = styled.h1`
     color: black;
     font-size: 2.5rem;
     font-weight: 700;
+    text-transform: uppercase;
+    margin: 25px 0px;
+
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: white;
 `;
 
+const ServiceContainer = styled.div`
+    display: flex;
+    width: 80%;
+    height: 60px;
+`;
+
+const ServiceItem = styled.div`
+    border: 2px solid $eee;
+    border-radius: 4px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+`;
+
+// eslint-disable-next-line no-unused-vars
 const Paragraph = styled.p`
     color: black;
     font-size: 1rem;
 `;
 
+// eslint-disable-next-line no-unused-vars
 const DefaultButton = styled.button`
     display: flex;
     background: #F2F4F6;
@@ -58,30 +88,33 @@ const DefaultButton = styled.button`
         background: #FFFFFF;
     }
 `;
-const Landing = (props) => {
+const Landing = () => {
 
-    const { history } = props;
+    // const { history } = props;
 
+    /*
     function redirectPage(e, page) {
         if(page === "login") history.push('/login');
         else if(page === 'signup') history.push('signup');
     }
+    */
 
     return (
         <Container>
             <Wrapper>
+                <BackgroundSlider images={[ GtIntelBackgroundAir, GtIntelBackgroundLocal, GtIntelBackgroundShip ]}/>
                 <Title>
-                    <span role="img" aria-label="Bolt">
-                        ⚡
-                    </span>{' '}
-                    Freight Genius
+                    Our Services
                 </Title>
-                <Paragraph>This is initial setup for Freight Genius</Paragraph>
-                <Paragraph>
-                    Need to Add details about this site.
-                </Paragraph>
-                <DefaultButton onClick={(e) => redirectPage(e, 'login')}>Login</DefaultButton>
-                <DefaultButton onClick={(e) => redirectPage(e, 'signup')}>Signup</DefaultButton>
+                <ServiceContainer>
+                    <ServiceItem >We are online shipping company and providing REALTIME-GLOBAL shipping service.</ServiceItem>
+                </ServiceContainer>
+                <Title>
+                    Why Freight-Genius
+                </Title>
+                <ServiceContainer>
+                    <ServiceItem >We are providing 100% GUARANTEE and provide you one time free service under 10kg of goods.</ServiceItem>
+                </ServiceContainer>
             </Wrapper>
         </Container>
     );
