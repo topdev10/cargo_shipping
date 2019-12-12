@@ -96,8 +96,10 @@ const ItemLocation = styled.h1`
     text-align: left;
 `;
 
-const ShipmentTypeItem = styled.div`
-    display: flex-end;
+const ShipmentTypeItem = styled.h1`
+    display: flex;
+    font-size: 14px;
+    flex: 1;
     color: #4D7CFE;
 `;
 
@@ -128,17 +130,18 @@ class ShipmentDashboardItem extends React.Component {
                 shipments.map((row) => 
                     <ShipmentItem key={row.id}>
                         <ShipmentItemRow>
-                            <IDLabel>{row.id} </IDLabel>
-                            <VendLabel> - {row.venderID}</VendLabel>
+                            {/* <IDLabel>{row.id} </IDLabel> */}
+                            <VendLabel> {row.venderID}</VendLabel>
                         </ShipmentItemRow>
                         <ShipmentItemRow>
                             <ItemLocation>
-                                {row.location}
+                                Houston
                             </ItemLocation>
                             <ShipmentTypeItem>
-                                {row.route===2&&<AirplanemodeActiveOutlined />}
+                                {/* {row.route===2&&<AirplanemodeActiveOutlined />}
                                 {row.route===3&&<LocalShipping />}
-                                {row.route===1&&<DirectionsBoatOutlined />}
+                                {row.route===1&&<DirectionsBoatOutlined />} */}
+                                China
                             </ShipmentTypeItem>
                         </ShipmentItemRow>
                         <ShipmentProgressRow>
