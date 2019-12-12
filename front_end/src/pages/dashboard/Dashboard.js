@@ -30,7 +30,7 @@ const Container = styled.div`
         width: ${props => {
         let width = "100%";
         if(props.menuState === menuConstants.MENU_OPEN)
-            width = "calc(100% - 320px)";
+            width = "100%";
         return width;
     }}
     }
@@ -129,7 +129,7 @@ class Dashboard extends React.Component {
                         <InfosContainer>
                             <ActiveQuotes/>
                             <ActiveShipments/>
-                            <DashboardBillings />
+                            <DashboardBillings/>
                         </InfosContainer>
                     </DetailsContainer>
                 }

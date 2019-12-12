@@ -32,6 +32,7 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     overflow-y: scroll;
+    background: white;
     @media ${Device.laptop} {
         height: calc(100% - 48px);
     }

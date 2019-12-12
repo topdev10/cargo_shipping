@@ -14,6 +14,7 @@ const Container = styled.div`
     display: flex;
     flex: 1;
     flex-direction: column;
+    margin: 0px 10px;
     align-items: center;
 `;
 
@@ -37,6 +38,17 @@ const ViewAllShipmentsButton = styled.button`
     }
 `;
 
+const TabLabel = styled.div`
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    width: 100%;
+    text-align: left;
+    padding: 8px 10px;
+    text-transform: uppercase;
+`;
+
 const ActiveShipments = (props) => {
     
     const { shipments } = props;
@@ -49,7 +61,9 @@ const ActiveShipments = (props) => {
 
     return (
         <Container>
-            <Tab icon={<DirectionsBoatRounded />}  label="Active Shipments" disabled/>
+            <TabLabel>
+                Shipments
+            </TabLabel>
             {shipments!==null&&
                 <ShipmentDashboardItem shipments={shipments}></ShipmentDashboardItem>
             }

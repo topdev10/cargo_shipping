@@ -5,7 +5,6 @@ import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import PropTypes from 'prop-types';
 
 import Config from '../config';
-import ActiveQuotes from './ActiveQuotes/ActiveQuotes';
 import Device from '../css/device';
 
 import Airplane from '../images/icons8-airplane-mode-on-100.png';
@@ -16,17 +15,6 @@ import './map.css';
 const MapWrapper = styled.div`
     display: flex;
     flex-direction: row;
-`;
-
-const ActiveShipmentsContainer = styled.div`
-    display: none;
-    width: 33%;
-    position: absolute;
-    right: 0px;
-    height: 45%;
-    @media ${Device.laptop} {    
-        display: flex;
-    }
 `;
 
 export class GoogleMap extends Component {
@@ -123,9 +111,6 @@ export class GoogleMap extends Component {
                         )
                     }
                 </Map>
-                <ActiveShipmentsContainer>
-                    <ActiveQuotes></ActiveQuotes>
-                </ActiveShipmentsContainer>
             </MapWrapper>
         );
     }

@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Tab from '@material-ui/core/Tab';
-import MonetizationOn from '@material-ui/icons/MonetizationOn';
 
 import BillingDashboardItem from './BillingDashboardItem';
 import { pageActions } from '../../actions';
@@ -13,6 +11,7 @@ const Container = styled.div`
     position: relative;
     display: flex;
     flex: 1;
+    margin: 0px 10px;
     flex-direction: column;
     align-items: center;
 `;
@@ -37,6 +36,17 @@ const NewInvoiceButton = styled.button`
     }
 `;
 
+const TabLabel = styled.div`
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    width: 100%;
+    text-align: left;
+    padding: 8px 10px;
+    text-transform: uppercase;
+`;
+
 const DashboardBillings = (props) => {
     
     const { billings } = props;
@@ -49,7 +59,9 @@ const DashboardBillings = (props) => {
 
     return (
         <Container>
-            <Tab icon={<MonetizationOn />} label="Invoices" disabled/>
+            <TabLabel>
+                Invoices
+            </TabLabel>
             {billings!==null&&
                 <BillingDashboardItem billings={billings}></BillingDashboardItem>
             }

@@ -10,7 +10,7 @@ const Container = styled.div`
     position: relative;
     flex-direction: column;
     width: 100%;
-    height: auto;
+    background: white;
     overflow-y: auto;
     @media ${Device.laptop} {
         height: calc(100% - 48px);

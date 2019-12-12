@@ -16,6 +16,7 @@ const Container = styled.div`
     flex: 1;
     flex-direction: column;
     align-items: center;
+    margin: 0px 10px;
 `;
 
 const NewQuotesButton = styled.button`
@@ -36,6 +37,17 @@ const NewQuotesButton = styled.button`
     &:hover {
         background: #00a8e8;
     }
+`;
+
+const TabLabel = styled.div`
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    width: 100%;
+    text-align: left;
+    padding: 8px 10px;
+    text-transform: uppercase;
 `;
 
 class ActiveQuotes extends React.Component {
@@ -61,7 +73,9 @@ class ActiveQuotes extends React.Component {
         const { quotes } = this.props;
         return (
             <Container>
-                <Tab icon={<AssignmentRounded />} label="Quotes" disabled/>
+                <TabLabel>
+                    Quotes
+                </TabLabel>
                 {quotes!==null&&
                     <QuotesDashboardItem quotes={quotes}></QuotesDashboardItem>
                 }
