@@ -42,7 +42,11 @@ b {
     flex-direction: column;
     font-size: 15px;
     cursor: pointer;
-    border-bottom: 1px solid #cacaca !important;
+    /* border-bottom: 1px solid #cacaca !important; */
+    background-color: #fff!important;
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px #ccc;
+    margin-top: 7px;
 }
 
 .shipments-detail-row-label {

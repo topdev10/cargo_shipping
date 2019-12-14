@@ -90,7 +90,7 @@ class ShipmentTableRow extends Component {
         const labels = ["Step1", "Step2", "Step3", "Step4"];
         return (
             // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-            <div className="w-100 shipment-table-row" onClick={e => !isHeader&&onViewDetails(e, shipDetail)}>
+            <div className={isHeader ? '' : 'shipment-table-row'} onClick={e => !isHeader&&onViewDetails(e, shipDetail)}>
                 {/* <div className="card board">
                     <div className="row info">
                         <div className="col-md-3">
@@ -227,7 +227,7 @@ class ShipmentTableRow extends Component {
                             <KShipStatusBar labels={labels} currentStep={2} />
                         </BCusWrap>
                         <BBtnWrap>
-                            <KButton color="red" label="action required"/>
+                            <KButton color="red" label="action required" radius="small"/>
                             <DueDateActionWrapper>
                                 <DateLabel>
                                    Dec 10, 2019 

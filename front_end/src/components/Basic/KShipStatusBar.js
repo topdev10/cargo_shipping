@@ -36,6 +36,8 @@ const RoundBox = styled.div`
         return color;
     }}
     padding: 14% 0%;
+    border: 1px solid #524ab9;
+    z-Index: 100;
 `;
 
 const MLabel = styled.span`
@@ -53,16 +55,17 @@ const StepWrapper = styled.div`
 const StepLine = styled.div`
     display: flex;
     flex: 1;
-    height: 10px;
-    margin-top: 12px;
+    height: 6px;
+    margin-top: 16px;
     flex-direction: column;
     background: ${props => {
         let color = "#524ab9";
         if( props.active )
             color = "#524ab9";
-        else color = "gray";
+        else color = "#f7f7f7";
         return color;
     }}
+    margin-left: -1px;
 `;
 
 export const KShipStatusBar = (props) => {

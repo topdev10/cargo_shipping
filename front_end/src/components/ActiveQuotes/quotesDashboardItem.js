@@ -55,6 +55,16 @@ const VendLabel = styled.h1`
     color: #55f;
 `;
 
+const Date = styled.p`
+font-style: normal;
+font-size: 12px;
+color: #ccc;
+font-weight: normal;
+margin-left: auto;
+margin-bottom: 0px;
+align-self: start;
+`;
+
 const CommitLabelWrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -96,6 +106,7 @@ class QuotesDashboardItem extends React.Component {
                         <QuotesItemRow>
                             <IDLabel>Quote Number: &nbsp;&nbsp;</IDLabel>
                             <VendLabel> {row.venderID}</VendLabel>
+                            <Date>2 Days Old</Date>
                         </QuotesItemRow>
                         <CommitLabelWrapper>
                             <TLabel>

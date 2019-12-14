@@ -19,7 +19,14 @@ const BWrapper = styled.div`
     }}
     color: white;
     font-size: 12px;
-    border-radius: 20px;
+    border-radius: ${props => {
+        let radius = "20px";
+        if( props.radius === "circle" || props.radius === "default")
+            radius = "20px";
+        if( props.radius === "small" )
+            radius = "5px";
+        return radius;
+    }}
     text-transform: uppercase;
     text-align: center;
     align-items: center;
@@ -51,10 +58,10 @@ const BWrapper = styled.div`
 `;
 
 export const KButton = (props) => {
-    const { color, label } = props;
+    const { color, label, radius } = props;
 
     return (
-        <BWrapper color={color}>
+        <BWrapper color={color} radius={radius}>
             <span>
                 {label}
             </span>
@@ -63,6 +70,7 @@ export const KButton = (props) => {
 };
 
 KButton.propTypes = {
-    color: PropTypes.string,
-    label: PropTypes.string.isRequired,
+    color:  PropTypes.string,
+    label:  PropTypes.string.isRequired,
+    radius: PropTypes.string,
 };
