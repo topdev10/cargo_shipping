@@ -5,18 +5,18 @@ import { connect } from 'react-redux';
 
 import BillingDashboardItem from './BillingDashboardItem';
 import { pageActions } from '../../actions';
-import { billConstants } from '../../constants';
+import { shipsConstants } from '../../constants';
 
 const Container = styled.div`
     position: relative;
     display: flex;
     flex: 1;
-    margin: 0px 10px;
     flex-direction: column;
+    margin: 0px 10px;
     align-items: center;
 `;
 
-const NewInvoiceButton = styled.button`
+const ViewAllShipmentsButton = styled.button`
     width: 160px;
     height: 42px;
     font-family: Rubik;
@@ -49,42 +49,36 @@ const TabLabel = styled.div`
 
 const DashboardBillings = (props) => {
     
-    const { billings } = props;
-
-    function ViewBillings(event) {
-        event.preventDefault();
-        const { loadPage } = props;
-        loadPage(billConstants.BILLING);
-    }
+    const { shipments } = props;
 
     return (
         <Container>
             <TabLabel>
-                Invoices
+                Shipments
             </TabLabel>
-            {billings!==null&&
-                <BillingDashboardItem billings={billings}></BillingDashboardItem>
+            {shipments!==null&&
+                <BillingDashboardItem shipments={shipments} />
             }
-            {/* <NewInvoiceButton onClick={ViewBillings}>
-                View All Invoices
-            </NewInvoiceButton> */}
+            {/* <ViewAllShipmentsButton onClick={viewAllShipments}>
+                View All Shipments
+            </ViewAllShipmentsButton> */}
         </Container>
     );
 };
 
 function mapStateToProps(state) {
     return {
-        billings: state.page.info!==null?state.page.info.billings: null,
+        shipments: state.page.info!==null?state.page.info.shipments: null,
     };
 }
 
 DashboardBillings.defaultProps = {
-    billings: null,
+    shipments: null,
 };
 
 DashboardBillings.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    billings: PropTypes.array,
+    shipments: PropTypes.array,
     loadPage: PropTypes.func.isRequired,
 };
 

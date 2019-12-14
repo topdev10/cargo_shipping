@@ -2,13 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
-import AirplanemodeActiveOutlined from '@material-ui/icons/AirplanemodeActiveOutlined';
-import LocalShipping from '@material-ui/icons/LocalShipping';
-import DirectionsBoatOutlined from '@material-ui/icons/DirectionsBoatOutlined';
 import Device from '../../css/device';
+import { KButton } from '../Basic';
 
 const theme = createMuiTheme({
     palette: {
@@ -78,7 +74,7 @@ const VendLabel = styled.h1`
 
 const ShipmentProgressRow = styled.div`
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     font-familiy: 'Rubik';
     align-items: center;
     font-style: normal;
@@ -145,15 +141,12 @@ class ShipmentDashboardItem extends React.Component {
                             </ShipmentTypeItem>
                         </ShipmentItemRow>
                         <ShipmentProgressRow>
-                            <ThemeProvider theme={theme}>
-                                {
-                                    row.state===1&&<LinearProgress style={{width: "100%", borderRadius: "2px" }}variant="determinate" value={row.progress} color="secondary"/>
-                                }
-                                {
-                                    row.state!==1&&<LinearProgress style={{width: "100%", borderRadius: "2px" }}variant="determinate" value={row.progress} color="primary"/>
-                                }
-                            </ThemeProvider>                            
-                            {/* <CustomProgressBar max="100" value={row.progress}></CustomProgressBar> */}
+                            <div style={{display: "flex",flex: 1}}>
+                                <KButton label="MAKE A PAYMENT" />
+                            </div>
+                            <div style={{display: "flex", flex: 1}}>
+                                <KButton label="RE-SCHEDULE" color="gray" />
+                            </div>
                         </ShipmentProgressRow>
                         <CommitLabel>
                             {row.commit}

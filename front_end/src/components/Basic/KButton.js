@@ -19,7 +19,7 @@ const BWrapper = styled.div`
     }}
     color: white;
     font-size: 12px;
-    border-radius: 4px;
+    border-radius: 20px;
     text-transform: uppercase;
     text-align: center;
     align-items: center;
@@ -27,7 +27,8 @@ const BWrapper = styled.div`
     cursor: pointer;
     padding: 10px 10px;
     line-height: 1;
-    
+    box-shadow: 2px 2px 5px #999;
+
     @media ${Device.laptop} {
         font-size: 14px;
         padding: 10px 10px;
@@ -35,17 +36,17 @@ const BWrapper = styled.div`
     
     &:hover {
         background: ${props => {
-            let background = "#4066F5";
-            if( props.color === "blue" || props.color === "default")
-                background = "#4066F5";
-            if( props.color === "red" )
-                background = "#FF5050";
-            if( props.color === "green" )
-                background = "#37f629";
-            if( props.color === "gray" )
-                background = "#9DB1A3";
-            return background;
-        }}
+        let background = "#4066F5";
+        if( props.color === "blue" || props.color === "default")
+            background = "#4066F5";
+        if( props.color === "red" )
+            background = "#FF5050";
+        if( props.color === "green" )
+            background = "#37f629";
+        if( props.color === "gray" )
+            background = "#9DB1A3";
+        return background;
+    }}
     }
 `;
 
@@ -59,9 +60,9 @@ export const KButton = (props) => {
             </span>
         </BWrapper>
     );
-}
+};
 
 KButton.propTypes = {
     color: PropTypes.string,
     label: PropTypes.string.isRequired,
-}
+};

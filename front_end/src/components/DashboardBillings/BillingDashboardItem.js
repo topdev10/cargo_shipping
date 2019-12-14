@@ -2,22 +2,39 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Subtitles from '@material-ui/icons/SubtitlesOutlined';
+import { createMuiTheme } from '@material-ui/core/styles';
 import Device from '../../css/device';
+import { KButton } from '../Basic';
+
+const theme = createMuiTheme({
+    palette: {
+        secondary: {
+            main: '#ec4535',
+        },
+        primary: {
+            main: "#32CD32",
+        },
+        accent: {
+            backgroundColor: "#ec4535", // import purple doesnt work
+            color: '#000',
+        },
+    },
+});
 
 const Container = styled.div`
     display: flex;
     position: relative;
     flex-direction: column;
     width: 100%;
+    height: 100%;
+    overflow-y: scroll;
     background: white;
-    overflow-y: auto;
     @media ${Device.laptop} {
         height: calc(100% - 48px);
     }
 `;
 
-const BillingsItem = styled.div`
+const ShipmentItem = styled.div`
     display: flex;
     flex-direction: column;
     border-bottom: 2px solid #E8ECEF;
@@ -30,7 +47,7 @@ const BillingsItem = styled.div`
     }
 `;
 
-const BillingsItemRow = styled.div`
+const ShipmentItemRow = styled.div`
     display: flex;
     flex-direction: row;
     font-familiy: 'Rubik';
@@ -55,18 +72,38 @@ const VendLabel = styled.h1`
     color: #55f;
 `;
 
-const InvoiceState = styled.div`
+const ShipmentProgressRow = styled.div`
     display: flex;
-    flex:1;
+    flex-direction: row;
+    font-familiy: 'Rubik';
+    align-items: center;
+    font-style: normal;
+    font-weight: normal;
     font-size: 14px;
-    color: black;
-    font-weight: 500;
+    line-height: 17px;
+    margin-top: 8px;
+    margin-bottom: 8px;
 `;
 
-const DateLabel = styled.h1`
+const ItemLocation = styled.h1`
+    font-size: 14px;
+    color: black;
+    flex: 1;
+    text-align: left;
+`;
+
+const ShipmentTypeItem = styled.h1`
+    display: flex;
+    font-size: 14px;
+    flex: 1;
+    color: #4D7CFE;
+`;
+
+const CommitLabel = styled.h1`
     font-size: 14px;
     color: black;
     font-weight: 500;
+    text-align: left;
 `;
 
 class BillingDashboardItem extends React.Component {
@@ -81,43 +118,54 @@ class BillingDashboardItem extends React.Component {
     }
 
     render(){
-        const { billings } = this.props;
+        const { shipments } = this.props;
         return(
             <Container>
-                {billings!==null&&
+                {shipments!==null&&
                 // eslint-disable-next-line react/prop-types
-                billings.map((row) => 
-                    <BillingsItem key={row.id}>
-                        <BillingsItemRow>
-                            <IDLabel>{row.id} </IDLabel>
-                            <VendLabel> - {row.venderID}</VendLabel>
-                        </BillingsItemRow>
-                        {row.state===1&&
-                        <BillingsItemRow>
-                            <InvoiceState>
-                                <Subtitles></Subtitles>
-                                Invoice Overdue
-                            </InvoiceState>
-                            <DateLabel>
-                                {row.date}
-                            </DateLabel>
-                        </BillingsItemRow>
-                        }
-                    </BillingsItem>
+                shipments.map((row) => 
+                    <ShipmentItem key={row.id}>
+                        <ShipmentItemRow>
+                            {/* <IDLabel>{row.id} </IDLabel> */}
+                            <VendLabel> {row.venderID}</VendLabel>
+                        </ShipmentItemRow>
+                        <ShipmentItemRow>
+                            <ItemLocation>
+                                Houston
+                            </ItemLocation>
+                            <ShipmentTypeItem>
+                                {/* {row.route===2&&<AirplanemodeActiveOutlined />}
+                                {row.route===3&&<LocalShipping />}
+                                {row.route===1&&<DirectionsBoatOutlined />} */}
+                                China
+                            </ShipmentTypeItem>
+                        </ShipmentItemRow>
+                        <ShipmentProgressRow>
+                            <div style={{display: "flex",flex: 1}}>
+                                <KButton label="MAKE A PAYMENT" />
+                            </div>
+                            <div style={{display: "flex", flex: 1}}>
+                                <KButton label="RE-SCHEDULE" color="gray" />
+                            </div>
+                        </ShipmentProgressRow>
+                        <CommitLabel>
+                            {row.commit}
+                        </CommitLabel>
+                    </ShipmentItem>
                 )}
             </Container>
         );
-    }    
+    }
 };
 
 BillingDashboardItem.propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
-    billings: PropTypes.array.isRequired,
+    shipments: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state, props) {
     return {
-        billings: props.billings,
+        shipments: props.shipments,
     };
 };
 

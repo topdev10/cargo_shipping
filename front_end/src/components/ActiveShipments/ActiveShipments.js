@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Tab from '@material-ui/core/Tab';
-import DirectionsBoatRounded from '@material-ui/icons/DirectionsBoatRounded';
 
 import ShipmentDashboardItem from './shipmentDashboardItem';
 import { pageActions } from '../../actions';
