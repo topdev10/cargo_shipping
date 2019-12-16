@@ -20,7 +20,7 @@ const BWrapper = styled.div`
     color: white;
     font-size: 12px;
     border-radius: ${props => {
-        let radius = "20px";
+        let radius = "5px";
         if( props.radius === "circle" || props.radius === "default")
             radius = "20px";
         if( props.radius === "small" )
