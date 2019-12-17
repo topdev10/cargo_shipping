@@ -56,9 +56,14 @@ function activateLinkedinUser({email, username}) {
 }
 
 function logout() {
-    history.push('/login');
-    BaseApi.logout();
-    return { type: userConstants.LOGOUT };
+    function logout() {
+        return {type: userConstants.LOGOUT};
+    };
+    return dispatch => {
+        dispatch(logout());
+        BaseApi.logout();
+        history.push('/');
+    }
 }
 
 function register(user) {

@@ -258,7 +258,7 @@ const LogoLabelNormal = styled.label`
 
 const Login = (props) => {
 
-    const { history, login, forgotPassword, resetPassword, verifyCodeRequested, error, vCSuccess, cpRequested, cpSuccess } = props;
+    const { history, login, logout, user, forgotPassword, resetPassword, verifyCodeRequested, error, vCSuccess, cpRequested, cpSuccess } = props;
     const [display, setDisplay] = React.useState("step1");
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -266,6 +266,14 @@ const Login = (props) => {
     const [cpassword, setConfirmPassword] = React.useState('');
     const [code, setCode] = React.useState('');
     let checked = true;
+
+    if (props.history.action === "POP") {
+        onComponentReload();
+    }
+
+    function onComponentReload() {
+        logout();
+    }
 
     function redirectPage(e, page) {
         if(page === "login") history.push('/login');
@@ -454,6 +462,7 @@ Login.propTypes = {
         push: PropTypes.func.isRequired,
     }).isRequired,
     login: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
     forgotPassword: PropTypes.func.isRequired,
     resetPassword:  PropTypes.func.isRequired,
     verifyCodeRequested: PropTypes.bool,
@@ -470,11 +479,13 @@ function mapStateToProps(state, props) {
         verifyCodeRequested: state.auth.verifyCodeRequested,
         vCSuccess: state.auth.vCSuccess,
         cpRequested: state.auth.cpRequested,
-        cpSuccess: state.auth.cpSuccess
+        cpSuccess: state.auth.cpSuccess,
+        user: state.auth.user
     };
 }
 
 const actionCreators = {
+    logout: userActions.logout,
     login: userActions.login,
     forgotPassword: userActions.forgotPassword,
     resetPassword: userActions.resetPassword,

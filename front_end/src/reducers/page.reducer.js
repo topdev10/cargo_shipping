@@ -18,7 +18,7 @@ const initialState = {
     },
     curPage: pageConstants.DASHBOARD,
     dashboardState: "loading",
-    // ect
+    // etc
 };
 
 export function pages(state = initialState, action) {

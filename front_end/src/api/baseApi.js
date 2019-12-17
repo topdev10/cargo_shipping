@@ -109,6 +109,7 @@ const BaseApi = {
     },
 
     logout() {
+        console.log("you are attempting to logout!!");
         this.baseApi(
             {
                 sub_url: 'auth/logout',
