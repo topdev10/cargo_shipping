@@ -71,105 +71,31 @@ const ShipmentsFilterBar = styled.div`
     width: 100%;
     padding: 10px 8px;
     height: 64px;
-    // border-top: 2px solid #ccc;
-    // border-bottom: 2px solid #ccc;
     margin-bottom: 8px;
 `;
 
-const CustomSelector = styled.select`
+const ShipmentsFilterInput = styled.input`
     display: flex;
-    padding: 3px 8px;
-    border-radius: 5px;
-    border: 2px solid #576cef;
-    margin: 0px 8px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 2px 2px 5px #ccc;
+    margin-right: ${props => {
+        let size = "15px";
+        if(props.left)
+            size = "auto";
+        return size;
+    }}
 `;
 
-const CustomSelectorOption = styled.option`
+const ShipmentsFilterBtn = styled.button`
     display: flex;
-`;
-
-const FreightSelectionButtonLeft = styled.button`
-
-    border: ${props => {
-        let border = "2px solid grey";
-        if(props.active)
-            border = "2px solid #4d7cfe";
-        return border;
-    }}
-
-    color: ${props => {
-        let color = "grey";
-        if(props.active)
-            color = "#4d7cfe";
-        return color;
-    }}
-
-    display: flex;
-    border-radius: 6px 0px 0px 6px;
-    padding: 0px 20px;
-
-    &:hover {
-        border: 2px solid #4d7cfe;
-        color: #4d7cfe;
-    }
-`;
-
-const FreightSelectionButtonCenter = styled.button`
-
-    border-top: ${props => {
-        let border = "2px solid grey";
-        if(props.active)
-            border = "2px solid #4d7cfe";
-        return border;
-    }}
-
-    border-bottom: ${props => {
-        let border = "2px solid grey";
-        if(props.active)
-            border = "2px solid #4d7cfe";
-        return border;
-    }}
-    padding: 0px 20px;
-
-    color: ${props => {
-        let color = "grey";
-        if(props.active)
-            color = "#4d7cfe";
-        return color;
-    }}
-
-    display: flex;
-
-    &:hover {
-        border: 2px 0px 2px 0px solid #576cef;
-        color: #4d7cfe;
-    }
-`;
-
-const FreightSelectionButtonRight = styled.button`
-
-    border: ${props => {
-        let border = "2px solid grey";
-        if(props.active)
-            border = "2px solid #4d7cfe";
-        return border;
-    }}
-
-    color: ${props => {
-        let color = "grey";
-        if(props.active)
-            color = "#4d7cfe";
-        return color;
-    }}
-
-    display: flex;
-    border-radius: 0px 6px 6px 0px;
-    padding: 0px 20px;
-
-    &:hover {
-        border: 2px solid #4d7cfe;
-        color: #4d7cfe;
-    }
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 2px 2px 5px #ccc;
+    background: #fff;
+    margin-right: 15px;
 `;
 
 class Shipments extends React.Component {
@@ -243,39 +169,16 @@ class Shipments extends React.Component {
                                 All the active Shipment requests are listed here
                             </ShipmentTitleContentH2>
                         </ShipmentExploreTitle>
-                        {width>1024?<KButton label="create booking"/>:<KButton label="create"/>}
+                        {width>1024?<KButton label="create booking" radius="small"/>:<KButton label="create" radius="small"/>}
                     </ShpimentExplorerHeader>
                 }
                 {
                     pageStatus===1&&
                     <ShipmentsFilterBar>
-                        <CustomSelector value={Shipmentstate} onChange={e => this.ShipmentscopeSelection(e)}>
-                            <CustomSelectorOption value={0}>Latest Booking</CustomSelectorOption>
-                        </CustomSelector>
-                        {isflight?<FreightSelectionButtonLeft active onClick={e => this.onFlightButton(e)}>
-                            <FlightTakeoff></FlightTakeoff>
-                        </FreightSelectionButtonLeft>:<FreightSelectionButtonLeft onClick={e => this.onFlightButton(e)}>
-                            <FlightTakeoff></FlightTakeoff>
-                        </FreightSelectionButtonLeft>}
-                        
-                        {isShip?<FreightSelectionButtonCenter active onClick={e => this.onShipButton(e)}>
-                            <DirectionsBoat></DirectionsBoat>
-                        </FreightSelectionButtonCenter>:<FreightSelectionButtonCenter onClick={e => this.onShipButton(e)}>
-                            <DirectionsBoat></DirectionsBoat>
-                        </FreightSelectionButtonCenter>}
-        
-                        {isVan?<FreightSelectionButtonRight active onClick={e => this.onVanButton(e)}>
-                            <LocalShipping></LocalShipping>
-                        </FreightSelectionButtonRight>:<FreightSelectionButtonRight onClick={e => this.onVanButton(e)}>
-                            <LocalShipping></LocalShipping>
-                        </FreightSelectionButtonRight>}
-        
-                        {/* Location Selctor */}
-                        <CustomSelector value={location} onChange={e => this.handleLocationSeltion(e)}>
-                            <CustomSelectorOption value='all'>All</CustomSelectorOption>
-                            <CustomSelectorOption value='ca'>In Process</CustomSelectorOption>
-                            <CustomSelectorOption value='us'>Finished</CustomSelectorOption>
-                        </CustomSelector>
+                        <ShipmentsFilterInput placeholder="Search by ID, Name here" left/>
+                        <ShipmentsFilterBtn>Filter by Booking Dates</ShipmentsFilterBtn>
+                        <ShipmentsFilterBtn>Sory By</ShipmentsFilterBtn>
+                        <ShipmentsFilterInput placeholder="Search by ID, Name here"/>
                     </ShipmentsFilterBar>
                 }
                 <div className="w-100">

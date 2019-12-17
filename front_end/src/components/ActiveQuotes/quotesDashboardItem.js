@@ -52,7 +52,8 @@ const VendLabel = styled.h1`
     align-items: center;
     font-style: normal;
     font-size: 15px;
-    color: #55f;
+    color: black;
+    font-weight: bold;
 `;
 
 const Date = styled.p`
@@ -77,6 +78,8 @@ const CommitLabelWrapper = styled.div`
 const TLabel = styled.div`
     display: flex;
     flex: 1;
+    color: #ccc;
+    margin-bottom: 10px;
 `;
 
 const CommitBtnWrapper = styled.div`
@@ -113,15 +116,15 @@ class QuotesDashboardItem extends React.Component {
                                 Status
                             </TLabel>
                             <TLabel>
-                                Action
+                                Option
                             </TLabel>
                         </CommitLabelWrapper>
                         <CommitBtnWrapper>
                             <div style={{display: "flex",flex: 1}}>
-                                <KButton label="Requires Action" color="red" />
+                                <KButton label="Requires Action" color="red" radius="circle"/>
                             </div>
                             <div style={{display: "flex", flex: 1}}>
-                                <KButton label="View Edit" />
+                                <KButton label="View/Edit" radius="circle"/>
                             </div>
                         </CommitBtnWrapper>
                     </QuotesItem>
