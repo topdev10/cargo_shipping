@@ -224,7 +224,7 @@ var styles = theme => ({
         background: white,
     },
     CustomTableHeaderCol: {
-        background: "unset",
+        background: "#f1f1f1",
     },
     CustomTableTDF: {
         borderRadius: "8px 0px 0px 8px",

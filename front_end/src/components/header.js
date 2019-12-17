@@ -413,13 +413,13 @@ const Header = (props) => {
                             {menuState === menuConstants.MENU_CLOSE && <Close />}
                         </IconButton> */}
                         <img src={logo} style={{height: "45px", cursor: 'pointer'}} alt="logo" onMouseDownCapture={gotoHomepage}/>
-                        {
+                        {/* {
                             <CustomTooltip title="Search">
                                 <IconButton  color='inherit' className={classes.mIconButton} onClick={() => setSearchFlag(true)}>
                                     <SearchIcon />
                                 </IconButton>
                             </CustomTooltip>
-                        }
+                        } */}
                         {/* <SearchBox type='text' value={searchValue} onChange={onSearchChanged} onBlur={() => setSearchFlag(false)} style={onSearch?{width: '250px'}:{width: '100px'}}/> */}
                         {/* {
                             onSearch&&<IconButton style={{position: "absolute"}} aria-label="Search" onClick={() => setSearchFlag(false)}>
