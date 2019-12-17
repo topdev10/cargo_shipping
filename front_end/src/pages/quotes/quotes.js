@@ -93,7 +93,7 @@ const QuotesTitleContentH1 = styled.span`
 const QuotesTitleContentH2 = styled.span`
     display:  flex;
     font-size: 16px;
-    color: #B9BEC9;
+    color: #606265;
 `;
 
 const QuotesFilterBar = styled.div`
