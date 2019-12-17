@@ -14,8 +14,9 @@ import Delete from '@material-ui/icons/Delete';
 import View from '@material-ui/icons/RemoveRedEye';
 import Edit from '@material-ui/icons/Edit';
 
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme, withStyles } from '@material-ui/core/styles';
+import { ThemeProvider, makeStyles } from '@material-ui/styles';
+
 import IconButton from '@material-ui/core/IconButton';
 
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
@@ -28,6 +29,7 @@ import NewQuotePanel from './NewQuotePanel';
 import QuoteDetails from './QuoteDetails';
 import Device from '../../css/device';
 import CustomToolTip from '../../components/CustomToolTip/CustomToolTip';
+import { white } from 'material-ui/styles/colors';
 
 const theme = createMuiTheme({
     palette: {
@@ -212,6 +214,26 @@ const HeaderRowLabelContainer = styled.div`
     }
 `;
 
+// Define Custom classes
+var styles = theme => ({
+    CustomTable: {
+        borderSpacing: "0 15px",
+        padding: "0px 10px",
+    },
+    CustomTableRow: {
+        background: white,
+    },
+    CustomTableHeaderCol: {
+        background: "unset",
+    },
+    CustomTableTDF: {
+        borderRadius: "8px 0px 0px 8px",
+    },
+    CustomTableTDL: {
+        borderRadius: "0px 8px 8px 0px",
+    }
+});
+
 class Quotes extends React.Component{
     constructor(props){
         super(props);
@@ -333,7 +355,7 @@ class Quotes extends React.Component{
 
     render(){
         const { quoteState, location, isflight, isShip, isVan, sortBy } = this.state;
-        const { quotes, onpagestatus, menuState, quotePageState } = this.props;
+        const { quotes, onpagestatus, menuState, quotePageState, classes } = this.props;
         const mlistData = this.customFilter(quotes);
         return (
             <Container menuState={menuState}>
@@ -383,57 +405,57 @@ class Quotes extends React.Component{
                     </CustomToolTip>
                 </QuotesFilterBar>}
                 {quotePageState!=="loading"&&onpagestatus===0&&<QuotesTableContainer>
-                    <Table stickyHeader>
+                    <Table className={classes.CustomTable} stickyHeader>
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center">
+                                <TableCell className={classes.CustomTableHeaderCol} align="center">
                                     <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "name")}>
                                         Name
                                         { sortBy==='name' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell className={classes.CustomTableHeaderCol} align="center">
                                     <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "freight")}>
                                         Freight
                                         { sortBy==='freight' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell className={classes.CustomTableHeaderCol} align="center">
                                     <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "date")}>
                                         Cargo Ready Date
                                         { sortBy==='date' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell className={classes.CustomTableHeaderCol} align="center">
                                     <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "from")}>
                                         From
                                         { sortBy==='from' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell className={classes.CustomTableHeaderCol} align="center">
                                     <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "to")}>
                                         To
                                         { sortBy==='to' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell className={classes.CustomTableHeaderCol} align="center">
                                     <HeaderRowLabelContainer>
                                         Cargo Details
                                     </HeaderRowLabelContainer>
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell className={classes.CustomTableHeaderCol} align="center">
                                     <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "submitted")}>
                                         Submitted By
                                         { sortBy==='submitted' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell className={classes.CustomTableHeaderCol} align="center">
                                     <HeaderRowLabelContainer onClick={e => this.onChangeFilterBy(e, "status")}>
                                         Status
                                         { sortBy==='status' ? <ArrowDropDown /> : <ArrowDropUp /> }
                                     </HeaderRowLabelContainer>
                                 </TableCell>
-                                <TableCell align="left">
+                                <TableCell className={classes.CustomTableHeaderCol} align="left">
                                     <HeaderRowLabelContainer>
                                         Action
                                     </HeaderRowLabelContainer>
@@ -443,8 +465,8 @@ class Quotes extends React.Component{
                         <TableBody>
                             {mlistData!=null&&this.sortArray(mlistData).map(row => {
                                 return(
-                                    <TableRow hover role='checkbox' key={row.id}>
-                                        <TableCell align="center" style={{maxWidth: "120px"}}>
+                                    <TableRow hover role='checkbox' key={row.id} className={classes.CustomTableRow}>
+                                        <TableCell className={classes.CustomTableTDF} align="center" style={{maxWidth: "120px"}}>
                                             {row.shipmentName}
                                         </TableCell>
                                         <TableCell align="center" style={{minWidth: "120px"}}>
@@ -475,7 +497,7 @@ class Quotes extends React.Component{
                                             {row.status===4&&"Quotes Expired"}
                                             {!row.status&&"New Quote"}
                                         </TableCell>
-                                        <TableCell align="left" style={{minWidth: "100px"}}>
+                                        <TableCell  className={classes.CustomTableTDL} align="left" style={{minWidth: "100px"}}>
                                             <ThemeProvider theme={theme}>
                                                 <CustomToolTip title="View">
                                                     <IconButton color='primary' onClick={e => this.onView(e, row)}>
@@ -545,4 +567,4 @@ const actionCreators = {
     onEditFreightQuote: quoteActions.onEditFreightQuote,
 };
 
-export default connect(mapStateToProps, actionCreators)(Quotes);
+export default connect(mapStateToProps, actionCreators)(withStyles(styles)(Quotes));
