@@ -6,15 +6,15 @@ import Device from '../../css/device';
 const BWrapper = styled.div`
     display: flex;
     background: ${props => {
-        let background = "#3056F5";
+        let background = "#3057f5";
         if( props.color === "blue" || props.color === "default")
-            background = "#3056F5";
+            background = "#3057f5";
         if( props.color === "red" )
             background = "#FF0000";
         if( props.color === "green" )
             background = "#27E619";
         if( props.color === "gray" )
-            background = "#8DA193";
+            background = "#B9BEC9";
         return background;
     }}
     color: white;

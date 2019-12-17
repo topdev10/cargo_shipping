@@ -31,6 +31,8 @@ import Device from '../../css/device';
 import CustomToolTip from '../../components/CustomToolTip/CustomToolTip';
 import { white } from 'material-ui/styles/colors';
 
+import { KButton } from '../../components/Basic';
+
 const theme = createMuiTheme({
     palette: {
         secondary: {
@@ -67,27 +69,64 @@ const Container = styled.div`
     }
 `;
 
+const QuotesExplorerHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 10px 18px;
+    margin-bottom: 24px;
+`;
+
+const QuotesExploreTitle = styled.div`
+    display: flex;
+    flex-direction: column;
+    color: black;
+`;
+
+const QuotesTitleContentH1 = styled.span`
+    display:  flex;
+    font-size: 27px;
+    color: black;
+    margin-bottom: 10px;
+`;
+
+const QuotesTitleContentH2 = styled.span`
+    display:  flex;
+    font-size: 16px;
+    color: #B9BEC9;
+`;
+
 const QuotesFilterBar = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
     padding: 10px 8px;
     height: 64px;
-    border-top: 2px solid #ccc;
-    border-bottom: 2px solid #ccc;
     margin-bottom: 8px;
 `;
 
-const CustomSelector = styled.select`
+const QuotesFilterInput = styled.input`
     display: flex;
-    padding: 3px 8px;
-    border-radius: 5px;
-    border: 2px solid #576cef;
-    margin: 0px 8px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 2px 2px 5px #ccc;
+    margin-right: ${props => {
+        let size = "15px";
+        if(props.left)
+            size = "auto";
+        return size;
+    }}
 `;
 
-const CustomSelectorOption = styled.option`
+const QuotesFilterBtn = styled.button`
     display: flex;
+    padding: 8px 18px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 2px 2px 5px #ccc;
+    background: #fff;
+    margin-right: 15px;
 `;
 
 const QuotesTableContainer = styled.div`
@@ -97,112 +136,6 @@ const QuotesTableContainer = styled.div`
     height: calc(100vh - 160px);
     border: top: 2px solid #ccc;
     overflow-x: auto;
-`;
-
-const FreightSelectionButtonLeft = styled.button`
-
-    border: ${props => {
-        let border = "2px solid grey";
-        if(props.active)
-            border = "2px solid #4d7cfe";
-        return border;
-    }}
-
-    color: ${props => {
-        let color = "grey";
-        if(props.active)
-            color = "#4d7cfe";
-        return color;
-    }}
-
-    display: flex;
-    border-radius: 6px 0px 0px 6px;
-    padding: 0px 20px;
-
-    &:hover {
-        border: 2px solid #4d7cfe;
-        color: #4d7cfe;
-    }
-`;
-
-const FreightSelectionButtonCenter = styled.button`
-
-    border-top: ${props => {
-        let border = "2px solid grey";
-        if(props.active)
-            border = "2px solid #4d7cfe";
-        return border;
-    }}
-
-    border-bottom: ${props => {
-        let border = "2px solid grey";
-        if(props.active)
-            border = "2px solid #4d7cfe";
-        return border;
-    }}
-    padding: 0px 20px;
-
-    color: ${props => {
-        let color = "grey";
-        if(props.active)
-            color = "#4d7cfe";
-        return color;
-    }}
-
-    display: flex;
-
-    &:hover {
-        border: 2px 0px 2px 0px solid #576cef;
-        color: #4d7cfe;
-    }
-`;
-
-const FreightSelectionButtonRight = styled.button`
-
-    border: ${props => {
-        let border = "2px solid grey";
-        if(props.active)
-            border = "2px solid #4d7cfe";
-        return border;
-    }}
-
-    color: ${props => {
-        let color = "grey";
-        if(props.active)
-            color = "#4d7cfe";
-        return color;
-    }}
-
-    display: flex;
-    border-radius: 0px 6px 6px 0px;
-    padding: 0px 20px;
-
-    &:hover {
-        border: 2px solid #4d7cfe;
-        color: #4d7cfe;
-    }
-`;
-
-const RequestQuoteButton = styled.button`
-    position: absolute;
-    right: 24px;
-    height: 40px;
-    border-radius: 4px;
-    justify-content: center;
-    align-items: center;
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 17px;
-    color: #FFFFFF;
-    background: #4D7CFE;
-    padding: 0px 20px;
-    flex: flex-end;
-    
-    &:hover {
-        background: #6688e4;
-    }
 `;
 
 const HeaderRowLabelContainer = styled.div`
@@ -354,7 +287,7 @@ class Quotes extends React.Component{
     }
 
     render(){
-        const { quoteState, location, isflight, isShip, isVan, sortBy } = this.state;
+        const { quoteState, location, isflight, isShip, isVan, sortBy, width } = this.state;
         const { quotes, onpagestatus, menuState, quotePageState, classes } = this.props;
         const mlistData = this.customFilter(quotes);
         return (
@@ -362,47 +295,22 @@ class Quotes extends React.Component{
                 {
                     quotePageState==="loading"&&<div>Loading</div>
                 }
+                {quotePageState!=="loading"&&onpagestatus===0&&<QuotesExplorerHeader>
+                    <QuotesExploreTitle>
+                        <QuotesTitleContentH1>
+                            Shipment Expoloer
+                        </QuotesTitleContentH1>
+                        <QuotesTitleContentH2>
+                            All the active quotes requests are listed here
+                        </QuotesTitleContentH2>
+                    </QuotesExploreTitle>
+                    {width>1024?<KButton label="create a quote" radius="small"/>:<KButton label="create" radius="small"/>}
+                </QuotesExplorerHeader>}
                 {quotePageState!=="loading"&&onpagestatus===0&&<QuotesFilterBar>
-                    <CustomSelector value={quoteState} onChange={e => this.handleQuoteScopeSelection(e)}>
-                        <CustomSelectorOption value={0}>All</CustomSelectorOption>
-                        <CustomSelectorOption value={1}>Active Quotes</CustomSelectorOption>
-                        <CustomSelectorOption value={2}>Ready to Book</CustomSelectorOption>
-                        <CustomSelectorOption value={3}>Accepted Quotes</CustomSelectorOption>
-                        <CustomSelectorOption value={4}>Expired Quotes</CustomSelectorOption>
-                        <CustomSelectorOption value={5}>All Quotes</CustomSelectorOption>
-                    </CustomSelector>
-                    {isflight?<FreightSelectionButtonLeft active onClick={e => this.onFlightButton(e)}>
-                        <FlightTakeoff></FlightTakeoff>
-                    </FreightSelectionButtonLeft>:<FreightSelectionButtonLeft onClick={e => this.onFlightButton(e)}>
-                        <FlightTakeoff></FlightTakeoff>
-                    </FreightSelectionButtonLeft>}
-                    
-                    {isShip?<FreightSelectionButtonCenter active onClick={e => this.onShipButton(e)}>
-                        <DirectionsBoat></DirectionsBoat>
-                    </FreightSelectionButtonCenter>:<FreightSelectionButtonCenter onClick={e => this.onShipButton(e)}>
-                        <DirectionsBoat></DirectionsBoat>
-                    </FreightSelectionButtonCenter>}
-    
-                    {isVan?<FreightSelectionButtonRight active onClick={e => this.onVanButton(e)}>
-                        <LocalShipping></LocalShipping>
-                    </FreightSelectionButtonRight>:<FreightSelectionButtonRight onClick={e => this.onVanButton(e)}>
-                        <LocalShipping></LocalShipping>
-                    </FreightSelectionButtonRight>}
-    
-                    {/* Location Selctor */}
-                    <CustomSelector value={location} onChange={e => this.handleLocationSeltion(e)}>
-                        <CustomSelectorOption value='all'>All</CustomSelectorOption>
-                        <CustomSelectorOption value='ca'>Canada</CustomSelectorOption>
-                        <CustomSelectorOption value='us'>United States</CustomSelectorOption>
-                        <CustomSelectorOption value='cn'>China</CustomSelectorOption>
-                        <CustomSelectorOption value='au'>Australia</CustomSelectorOption>
-                        <CustomSelectorOption value='ru'>Russia</CustomSelectorOption>
-                    </CustomSelector>
-                    <CustomToolTip title="New Quote">
-                        <RequestQuoteButton onClick={e => this.onNewQuote(e)}>
-                            <Add />
-                        </RequestQuoteButton>
-                    </CustomToolTip>
+                    <QuotesFilterInput placeholder="Search by ID, Name here" left/>
+                    <QuotesFilterBtn>Filter by Booking Dates</QuotesFilterBtn>
+                    <QuotesFilterBtn>Sory By</QuotesFilterBtn>
+                    <QuotesFilterInput placeholder="Search by ID, Name here"/>
                 </QuotesFilterBar>}
                 {quotePageState!=="loading"&&onpagestatus===0&&<QuotesTableContainer>
                     <Table className={classes.CustomTable} stickyHeader>

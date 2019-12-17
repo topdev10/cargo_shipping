@@ -209,10 +209,10 @@ class ShipmentTableRow extends Component {
                     isHeader&&<CHeaderRow>
                         <BNumWrap style={{fontWeight: "400"}}>Booking Number</BNumWrap>
                         <BDestWrap>Destination</BDestWrap>
-                        <BCusWrap>Customer</BCusWrap>
+                        <BCusWrap></BCusWrap>
                         <BBtnWrap>
                             <span> Status</span>
-                            <span> Actual Date</span>
+                            <span> Due Date</span>
                         </BBtnWrap>
                     </CHeaderRow>
                 }

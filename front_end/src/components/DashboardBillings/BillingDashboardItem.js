@@ -69,7 +69,8 @@ const VendLabel = styled.h1`
     align-items: center;
     font-style: normal;
     font-size: 15px;
-    color: #55f;
+    color: black;
+    font-weight: bold;
 `;
 
 const Date = styled.p`
@@ -97,7 +98,7 @@ const ShipmentProgressRow = styled.div`
 
 const ItemLocation = styled.h1`
     font-size: 14px;
-    color: black;
+    color: #ccc;
     flex: 1;
     text-align: left;
 `;
@@ -106,7 +107,7 @@ const ShipmentTypeItem = styled.h1`
     display: flex;
     font-size: 14px;
     flex: 1;
-    color: #4D7CFE;
+    color: #ccc;
 `;
 
 const CommitLabel = styled.h1`
@@ -153,10 +154,10 @@ class BillingDashboardItem extends React.Component {
                         </ShipmentItemRow>
                         <ShipmentProgressRow>
                             <div style={{display: "flex",flex: 1}}>
-                                <KButton label="MAKE A PAYMENT" />
+                                <KButton label="MAKE A PAYMENT" radius="circle"/>
                             </div>
                             <div style={{display: "flex", flex: 1}}>
-                                <KButton label="RE-SCHEDULE" color="gray" />
+                                <KButton label="RE-SCHEDULE" color="gray" radius="circle"/>
                             </div>
                         </ShipmentProgressRow>
                     </ShipmentItem>
