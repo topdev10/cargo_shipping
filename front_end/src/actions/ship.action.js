@@ -8,7 +8,6 @@ function onShipsLoad(data) {
 }
 
 function onViewDetails(data) {
-    console.log(data);
     return {
         type: shipsConstants.ON_VIEWDETAILS,
         shipment: data

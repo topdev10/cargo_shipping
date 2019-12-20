@@ -31,7 +31,6 @@ class ShipmentsTable extends Component {
     handleViewDetails = (e, data) => {
         e.preventDefault();
         const { onViewDetails } = this.props;
-        console.log("Are you going to view shipment details?");
         onViewDetails(data);
     }
     
@@ -40,7 +39,7 @@ class ShipmentsTable extends Component {
         const { shipments } = this.props;
         return (
             <Container>
-                <ShipmentTableRow isHeader={true}/>
+                <ShipmentTableRow isHeader />
                 { shipments !== null &&
                     shipments.map((shipment)=> (
                         <ShipmentTableRow isHeader={false} key={shipment.id} shipDetail={shipment} onViewDetails={this.handleViewDetails}/>
