@@ -17,7 +17,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding: 10px;
-    overflow: auto;
     height: calc(100vh - 120px);
 `;
 
@@ -94,6 +93,15 @@ const ShipmentActionWrapper = styled.div`
 const ExpansionPannelWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
+    overflow: auto;
+`;
+
+const ExpansionHeaderWrapper = styled.div`
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between
 `;
 
 const ExpansionTitle = styled.div`
@@ -101,6 +109,65 @@ const ExpansionTitle = styled.div`
     flexBasis: '33.33%';
     flexShrink: 0;
     color: black;
+    align-items: center;
+`;
+
+const SelectFormLabel = styled.div`
+    display: flex;
+    background: white;
+    border-radius: 10px;
+    font-size: 14px;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    border: 1px solid #ccc;
+    padding: 5px;
+`;
+
+const DetailsParaWrapper = styled.div`
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+`;
+
+const DetailsParaHeader = styled.div`
+    display: flex;
+    background: #888DA0;
+    color: white;
+`;
+
+const DetailsParaContentRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+`;
+
+const DetailsInnerElement = styled.div`
+    display: flex;
+    flex-direction: column;
+    color: black;
+    margin: 5px 15px;
+`;
+
+const DetailsInnerContentLabel = styled.div`
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+`;
+
+const DetailsInnerContentBody = styled.div`
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #E9EBEF;
+    height: 10vw;
+`;
+
+const AddNewTaskBtn = styled.div`
+    display: flex;
+    border-radius: 8px;
+    background: #49BA25;
+    color: white;
+    padding: 5px 25px;
 `;
 
 const ShipmentDetails = props => {
@@ -154,13 +221,90 @@ const ShipmentDetails = props => {
                             aria-controls="panel1bh-content"
                             id="panel1bh-header"
                         >
-                            <ExpansionTitle>Tasks</ExpansionTitle>
+                            <ExpansionHeaderWrapper>
+                                <ExpansionTitle>Details</ExpansionTitle>
+                                {
+                                    expanded === 'panel1' && <SelectFormLabel>
+                                        select form
+                                    </SelectFormLabel>
+                                }
+                            </ExpansionHeaderWrapper>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <Typography>
-                                Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
-                                maximus est, id dignissim quam.
-                            </Typography>
+                            <DetailsParaWrapper>
+                                <DetailsParaHeader>
+                                    Parties
+                                </DetailsParaHeader>
+                                <DetailsParaContentRow>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Shipper
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Forwarder
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Carrier
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            INTTRA SI Number
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                </DetailsParaContentRow>
+
+                                <DetailsParaContentRow>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Consignee
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Notify Party
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Additional Notify Party 1
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Additional notify Party 2
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                </DetailsParaContentRow>
+                            </DetailsParaWrapper>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
@@ -169,7 +313,14 @@ const ShipmentDetails = props => {
                             aria-controls="panel2bh-content"
                             id="panel2bh-header"
                         >
-                            <ExpansionTitle >Documentation</ExpansionTitle>
+                            <ExpansionHeaderWrapper>
+                                <ExpansionTitle >Documentation</ExpansionTitle>
+                                {
+                                    expanded === 'panel2' && <AddNewTaskBtn>
+                                        + Add
+                                    </AddNewTaskBtn>
+                                }
+                            </ExpansionHeaderWrapper>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
                             <Typography>
