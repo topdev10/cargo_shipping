@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import Device from '../../css/device';
 
 const Container = styled.div`
     display: flex;
@@ -62,29 +60,32 @@ const StepLine = styled.div`
         let color = "#524ab9";
         if( props.active )
             color = "#524ab9";
-        else color = "#f7f7f7";
+        else color = "#ccc";
         return color;
     }}
     margin-left: -1px;
 `;
 
 export const KShipStatusBar = (props) => {
+    // eslint-disable-next-line react/prop-types
     const { labels, currentStep } = props;
+    // eslint-disable-next-line react/prop-types
     const len = labels.length;
 
     return (
         <Container>
             {
+                // eslint-disable-next-line react/prop-types
                 labels.map((label, ind) => (
                     (ind+1)!==len?<StepWrapper key={label}>
                         <ItemWrapper>
                             {
                                 currentStep>ind?<RoundBox active>
                                     {(ind+1)}
-                                </RoundBox>
-                                :<RoundBox>
-                                    {(ind+1)}
-                                </RoundBox>
+                                </RoundBox>:
+                                    <RoundBox>
+                                        {(ind+1)}
+                                    </RoundBox>
                             }
                             <MLabel>{label}</MLabel>
                         </ItemWrapper>
@@ -92,16 +93,18 @@ export const KShipStatusBar = (props) => {
                             currentStep<=ind+1?<StepLine/>:<StepLine active/>
                         }
                     </StepWrapper>:
-                    <StepWrapper style={{width: "35px", flex: "inherit"}}>
-                        <ItemWrapper>
-                            <RoundBox>
-                                {(ind+1)}
-                            </RoundBox>
-                            <MLabel>{label}</MLabel>
-                        </ItemWrapper>
-                    </StepWrapper>
+                        <StepWrapper style={{width: "35px", flex: "inherit"}}>
+                            <ItemWrapper>
+                                <RoundBox>
+                                    {(ind+1)}
+                                </RoundBox>
+                                <MLabel>{label}</MLabel>
+                            </ItemWrapper>
+                        </StepWrapper>
                 ))
             }
         </Container>
     );
-}
+};
+
+export default KShipStatusBar;

@@ -74,3 +74,5 @@ KButton.propTypes = {
     label:  PropTypes.string.isRequired,
     radius: PropTypes.string,
 };
+
+export default KButton;

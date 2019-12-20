@@ -9,8 +9,9 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
+import { KButton, KShipStatusBar } from '../Basic';
 
 const Container = styled.div`
     display: flex;
@@ -42,16 +43,56 @@ const BackBtnWrapper = styled.span`
 
 const MainInfoWrapper = styled.div`
     display: flex;
-    height: 50px;
+    flex-direction: row;
     border-radius: 10px;
     border: 1px solid #3056F5;
+    padding: 8px 10px;
+    width: 100%;
     align-items: center;
-    padding: 0px 8px;
+`;
+
+const ShipmentIdLabel = styled.div`
+    display: flex;
+    flex: 2;
+    color: black;
+    font-weight: 600;
+    margin-right: 8px;
+`;
+
+const ShipmentAdminInfo = styled.div`
+    display: flex;
+    flex: 2;
+    flex-direction: column;
+    color: black;
+`;
+
+const ShipmentAdminLabel = styled.div`
+    display: flex;
+    flex: 1;
+    font-size: 12px;
+`;
+
+const ShipmentAdminName = styled.div`
+    display: flex;
+    flex: 1;
+    font-size: 14px;
+`;
+
+const ShipmentCusWrap = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex: 8;
+`;
+
+const ShipmentActionWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex: 3;
 `;
 
 const ExpansionPannelWrapper = styled.div`
     display: flex;
-    height: calc(100vh - 120px - 100px);
     flex-direction: column;
 `;
 
@@ -78,6 +119,8 @@ const ShipmentDetails = props => {
         setExpanded(isExpanded ? panel : false);
     };
 
+    const labels = ["Step1", "Step2", "Step3", "Step4"];
+
     return (
         <Container>
             <BackRow>
@@ -87,7 +130,22 @@ const ShipmentDetails = props => {
             </BackRow>
             <InfoWrapper>
                 <MainInfoWrapper>
-                    this is the brief details components
+                    <ShipmentIdLabel>45909-09874-099</ShipmentIdLabel>
+                    <ShipmentAdminInfo>
+                        <ShipmentAdminLabel>
+                            Handled by
+                        </ShipmentAdminLabel>
+                        <ShipmentAdminName>
+                            Freight Genius
+                        </ShipmentAdminName>
+                    </ShipmentAdminInfo>
+                    <ShipmentCusWrap>
+                        <KShipStatusBar labels={labels} currentStep={2} />
+                    </ShipmentCusWrap>
+                    <ShipmentActionWrapper>
+                        <KButton color="gray" label="&nbsp;&nbsp;VIEWING&nbsp;&nbsp;" radius="small" style={{flex: "1"}}/>
+                        <KButton color="blue" label="&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;" radius="small" style={{flex: "1"}}/>
+                    </ShipmentActionWrapper>
                 </MainInfoWrapper>
                 <ExpansionPannelWrapper>
                     <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
