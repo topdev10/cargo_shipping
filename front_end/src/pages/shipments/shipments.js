@@ -2,9 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
-import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
-import LocalShipping from '@material-ui/icons/LocalShipping';
 import Device from '../../css/device';
 import ShipmentsTable from '../../components/ShipmentPage/ShipmentsTable';
 import ShipmentDetails from '../../components/ShipmentPage/ShipmentDeatils';
@@ -28,13 +25,14 @@ const Container = styled.div`
     transition: width 1s;
     @media ${Device.laptop} {
         padding: 30px 40px 50px 40px;
-        width: ${props => {
-            let width = "100%";
-            if (props.menuState === menuConstants.MENU_OPEN)
-                width = "calc(100% - 320px)";
-            return width;
-        }
-        }
+        width: ${props => 
+    {
+        let width = "100%";
+        if (props.menuState === menuConstants.MENU_OPEN)
+            width = "calc(100% - 320px)";
+        return width;
+    }
+}
     }
 `;
 
@@ -104,13 +102,13 @@ class Shipments extends React.Component {
         super(props);
 
         this.state = {
-            isflight: true,
-            isShip: true,
-            isVan: true,
-            location: "all",
-            Shipmentstate: 0,
+            // isflight: true,
+            // isShip: true,
+            // isVan: true,
+            // location: "all",
+            // Shipmentstate: 0,
             width: 0,
-            height: 0,
+            // height: 0,
         };
     }
     /* Get Window Height&Width (get Resize event) */
@@ -150,12 +148,13 @@ class Shipments extends React.Component {
     }
 
     updateWindowDimensions = () => {
-        this.setState({ width: window.innerWidth, height: window.innerHeight });
+        this.setState({ width: window.innerWidth });
     };
 
     render() {
         const { menuState, pageStatus, onBackToMain } = this.props;
-        const { isflight, isShip, isVan, location, Shipmentstate, height, width } = this.state;
+        // isflight, isShip, isVan, location, Shipmentstate, height,
+        const { width } = this.state;
         return (
             <Container menuState={menuState}>
                 {
