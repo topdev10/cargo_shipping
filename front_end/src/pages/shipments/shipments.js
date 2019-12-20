@@ -78,7 +78,7 @@ const ShipmentsFilterInput = styled.input`
     display: flex;
     padding: 8px 18px;
     border-radius: 20px;
-    text-align: center;
+    text-align: left;
     box-shadow: 2px 2px 5px #ccc;
     margin-right: ${props => {
         let size = "15px";
@@ -88,7 +88,7 @@ const ShipmentsFilterInput = styled.input`
     }}
 `;
 
-const ShipmentsFilterBtn = styled.button`
+const ShipmentsFilterBtn = styled.div`
     display: flex;
     padding: 8px 18px;
     border-radius: 20px;
