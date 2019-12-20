@@ -3,274 +3,67 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import PropTyes from 'prop-types';
 
-import IconButton from '@material-ui/core/IconButton';
-import KeyboardArrowDown from '@material-ui/icons/KeyboardArrowDown';
-import ArrowBackIos from '@material-ui/icons/ArrowBackIos';
-import Notifications from '@material-ui/icons/Notifications';
-import Done from '@material-ui/icons/Done';
+// Expansion components
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-
-import ShipmentDetailProgress from './ShipmentDetailProgress';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     padding: 10px;
     overflow: auto;
-    height: calc(100vh - 80px);
-
+    height: calc(100vh - 120px);
 `;
 
-const DetailsHeader = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    font-size: 18px;
-    font-weight: 500;
-    background: #ffffffeb;
-    box-shadow: 1px 2px 6px 4px #ccc;
-`;
-
-const DeatilsHeaderFirstRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    height: 64px;
-    border-bottom: 2px solid #aaa;
-`;
-
-const DeatilsHeaderSecondRow = styled.div`
-    display: flex;
-    flex-direction: column;
-    padding: 40px 160px;
-`;
-
-const DetailsSFRow = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 15px;
-`;
-
-const DetailsStatusConatiner = styled.div`
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    color: #aaa;
-`;
-
-const DetailsActionsContainer = styled.div`
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    color: #aaa;
-`;
-
-const DetailsSSRow = styled.div`
-    display: flex;
-`;
-
-const BackBtn = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 400;
-    cursor: pointer;
-    transition: background 400ms;
-    align-items: center;
-    padding: 0px 20px;
-    width: 160px;
-    border-right: 2px solid #aaa;
-
-    &:hover {
-        background: #ccc;
-    }
-`;
-
-const BackIcon = styled.div`
-    width: 36px;
-    height: 36px;
-    border-radius: 36px;
-    background: #4D7CFE;
-    transition: background 600ms;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    padding: 0px 10px;
-    margin-right: 10px;
-
-    &:hover {
-        background: #225bf7;
-    }
-`;
-
-const HeaderContainer = styled.div`
-    display: flex;
-    flex: 1;
-    flex-direction: row;
-    align-items: center;
-`;
-
-const HeaderLeftWrapper = styled.div`
-    display: flex;
-    flex: 2;
-`;
-
-const HeaderRightWrapper = styled.div`
-    display: flex;
-    flex: 1;
-    padding: 5px 20px;
-`;
-
-const HeaderTitle = styled.h1`
-    font-size: 20px;
-    font-weight: 500;
-    display: flex;
-    flex: 2;
-    justify-content: center;
-    margin: 0px !important;
-    align-items: center;
-`;
-
-const HeaderLocations = styled.h1`
-    font-size: 20px;
-    font-weight: 400;
-    color: #aaa;
-    display: flex;
-    flex: 1;
-    justify-content: right;
-    margin: 0px !important;
-    align-items: center;
-`;
-
-const RefNoLabel = styled.h1`
-    font-size: 19px;
-    font-weight: 500;
-    flex: 1;
-    text-align: right;
-    margin: 0px !important;
-    align-items: center;
-`;
-
-const RefNoText = styled.h1`
-    font-size: 19px;
-    font-weight: 400;
-    margin: 0px !important;
-    align-items: center;
-`;
-
-const DetailsConatiner = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    width: 80%;
-    margin-left: 10%;
-`;
-
-const DetailsContentHeader = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-top: 10px;
-    background: #ffffffeb;
-    padding: 10px 20px;
-    box-shadow: 1px 1px 6px 2px #ccc;
-`;
-
-const DetailsContentHeaderTitle = styled.h1`
-    font-size: 18px;
-    font-weight: 500;
-    display: flex;
-    margin: 0px !important;
-    align-items: center;
-    flex: 1;
-`;
-
-const DeatilsContentBody = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
-    background: #ffffffeb;
-    box-shadow: 1px 1px 6px 2px #ccc;
-`;
-
-// const DetailsBodyHeader = styled.div`
-//     display: flex;
-//     flex-direction: column;
-// `;
-
-// const  TasksColumn = styled.div`
-//     font-size: 18px;
-//     font-weight: 500;
-//     display: flex;
-//     margin: 0px !important;
-//     align-items: center;
-//     flex: 1;
-// `;
-
-const EnterButton = styled.button`
+const BackRow = styled.div`
     height: 40px;
-    border-radius: 4px;
-    justify-content: center;
-    align-items: center;
-    font-family: Rubik;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 17px;
-    color: #FFFFFF;
-    background: #6688e4;
-    padding: 0px 20px;
-    flex: flex-end;
+    display: flex;
+`;
 
-    &:hover {
-        background: #4D7CFE;
+const InfoWrapper = styled.div`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+`;
+
+const BackBtnWrapper = styled.span`
+    color: black;
+    cursor: pointer;
+
+    &:hover{
+        color: red;
     }
 `;
 
-const tasks = [
-    {
-        content: "Commercial invoice approved",
-        date: "02 Oct 2018",
-        state: false,
-    },
-    {
-        content: "Packing list approved",
-        date: "02 Oct 2018",
-        state: false,
-    },
-    {
-        content: "Enter delivery date and time",
-        date: "15 Oct 2018",
-        state: true,
-    }
-];
+const MainInfoWrapper = styled.div`
+    display: flex;
+    height: 50px;
+    border-radius: 10px;
+    border: 1px solid #3056F5;
+    align-items: center;
+    padding: 0px 8px;
+`;
 
-const detail = [
-    {
-        location: "Beijing Dong Lu",
-        date: "2019/09/11",
-    },
-    {
-        location: "Singapore Capital",
-        date: "2019/09/18",
-    },
-    {
-        location: "Frankurt am Main",
-        date: "2019/10/13",
-    },
-    {
-        location: "Germany Peine",
-        date: "2019/10/21",
-    }
-];
-const stop = 2;
+const ExpansionPannelWrapper = styled.div`
+    display: flex;
+    height: calc(100vh - 120px - 100px);
+    flex-direction: column;
+`;
+
+const ExpansionTitle = styled.div`
+    display: flex;
+    flexBasis: '33.33%';
+    flexShrink: 0;
+    color: black;
+`;
 
 const ShipmentDetails = props => {
+    // eslint-disable-next-line no-unused-vars
     const { onBack, shipment } = props;
 
     function handleBack(e) {
@@ -278,9 +71,88 @@ const ShipmentDetails = props => {
         onBack();
     }
 
+    // Expansion Pannel Controlling State, Function
+    const [expanded, setExpanded] = React.useState(false);
+
+    const handleChange = panel => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
+
     return (
         <Container>
-            <DetailsHeader>
+            <BackRow>
+                <BackBtnWrapper onClick={e => handleBack(e)}>
+                    <ArrowBackIcon />
+                </BackBtnWrapper>
+            </BackRow>
+            <InfoWrapper>
+                <MainInfoWrapper>
+                    this is the brief details components
+                </MainInfoWrapper>
+                <ExpansionPannelWrapper>
+                    <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1bh-content"
+                            id="panel1bh-header"
+                        >
+                            <ExpansionTitle>Tasks</ExpansionTitle>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <Typography>
+                                Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
+                                maximus est, id dignissim quam.
+                            </Typography>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel2bh-content"
+                            id="panel2bh-header"
+                        >
+                            <ExpansionTitle >Documentation</ExpansionTitle>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <Typography>
+                                Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar
+                                diam eros in elit. Pellentesque convallis laoreet laoreet.
+                            </Typography>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel3bh-content"
+                            id="panel3bh-header"
+                        >
+                            <ExpansionTitle >Attachments</ExpansionTitle>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <Typography>
+                                Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros,
+                                vitae egestas augue. Duis vel est augue.
+                            </Typography>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                    <ExpansionPanel expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel4bh-content"
+                            id="panel4bh-header"
+                        >
+                            <ExpansionTitle >Comments</ExpansionTitle>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <Typography>
+                                Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros,
+                                vitae egestas augue. Duis vel est augue.
+                            </Typography>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+                </ExpansionPannelWrapper>
+            </InfoWrapper>
+            {/* <DetailsHeader>
                 <DeatilsHeaderFirstRow>
                     <BackBtn onClick={e=> handleBack(e)}>
                         <BackIcon>
@@ -346,9 +218,6 @@ const ShipmentDetails = props => {
                 </DetailsContentHeader>
 
                 <DeatilsContentBody>
-                    {/* <DetailsBodyHeader>
-                        <TasksColumn>Tasks</TasksColumn>
-                    </DetailsBodyHeader> */}
                     <Table stickyHeader>
                         <TableHead>
                             <TableRow>
@@ -388,7 +257,7 @@ const ShipmentDetails = props => {
                         </TableBody>
                     </Table>
                 </DeatilsContentBody>
-            </DetailsConatiner>
+            </DetailsConatiner> */}
         </Container>
     );
 };
