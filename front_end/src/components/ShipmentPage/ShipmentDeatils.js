@@ -94,6 +94,7 @@ const ExpansionPannelWrapper = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    height: calc(100vh - 240px);
     overflow: auto;
 `;
 
@@ -128,6 +129,7 @@ const DetailsParaWrapper = styled.div`
     display: flex;
     width: 100%;
     flex-direction: column;
+    overflow: auto;
 `;
 
 const DetailsParaHeader = styled.div`
@@ -298,6 +300,79 @@ const ShipmentDetails = props => {
                                     <DetailsInnerElement style={{flex: "1"}}>
                                         <DetailsInnerContentLabel>
                                             Additional notify Party 2
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                </DetailsParaContentRow>
+
+                                <DetailsParaHeader>
+                                    Carriage Details
+                                </DetailsParaHeader>
+                                <DetailsParaContentRow>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Origin of Goods
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Move Type
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Shipment Type
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Vessel, Voyage, IMO Number
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                </DetailsParaContentRow>
+
+                                <DetailsParaContentRow>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Origin
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Port of Load
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Port of Discharge
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Destination
                                         </DetailsInnerContentLabel>
                                         <DetailsInnerContentBody>
                                             
