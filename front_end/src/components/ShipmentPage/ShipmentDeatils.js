@@ -155,6 +155,7 @@ const DetailsInnerContentLabel = styled.div`
     color: black;
     font-size: 15px;
     font-weight: 500;
+    height: 45px;
 `;
 
 const DetailsInnerContentBody = styled.div`
@@ -170,6 +171,51 @@ const AddNewTaskBtn = styled.div`
     background: #49BA25;
     color: white;
     padding: 5px 25px;
+`;
+
+const DetailsInnerContentInputBox = styled.input`
+    display: flex;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-align: left;
+    background: #E9EBEF;
+    border: #CCC;
+    color: black;
+`;
+
+const TasksParaWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding 10px;
+`;
+
+const TasksTableHeaderRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    color: #ccc;
+`;
+
+const TasksTableRow = styled.div`
+    display: flex;
+    flex-direction: row;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+`;
+
+const TasksTableRowRTWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    color: ${props => {
+        let color = "#000";
+        if( props.gray )
+            color = "#CCC";
+        else if( props.black ) color = "#000";
+        else color = "#477BA1";
+        return color;
+    }}
 `;
 
 const ShipmentDetails = props => {
@@ -379,6 +425,90 @@ const ShipmentDetails = props => {
                                         </DetailsInnerContentBody>
                                     </DetailsInnerElement>
                                 </DetailsParaContentRow>
+                                <DetailsParaHeader>
+                                    Particulars
+                                </DetailsParaHeader>
+                                <DetailsParaContentRow>
+                                    <DetailsInnerElement style={{flex: "4"}}>
+                                        <DetailsInnerContentLabel>
+                                            
+                                        </DetailsInnerContentLabel>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "2"}}>
+                                        <DetailsInnerContentLabel>
+                                            Destination
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Cargo Gross Weight
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Cargo Gross Volume
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentBody>
+                                            
+                                        </DetailsInnerContentBody>
+                                    </DetailsInnerElement>
+                                </DetailsParaContentRow>
+                                <DetailsParaHeader>
+                                    Control Totals
+                                </DetailsParaHeader>
+                                <DetailsParaContentRow>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Total Number of Containers
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentInputBox placeholder="i.e. Martin Jones">
+
+                                        </DetailsInnerContentInputBox>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Total Number of Packages
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentInputBox placeholder="i.e. Martin Jones">
+
+                                        </DetailsInnerContentInputBox>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Total Shipment Weight
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentInputBox placeholder="i.e. Martin Jones">
+
+                                        </DetailsInnerContentInputBox>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Total Shipment Volume
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentInputBox placeholder="i.e. Martin Jones">
+
+                                        </DetailsInnerContentInputBox>
+                                    </DetailsInnerElement>
+                                </DetailsParaContentRow>
+                                <DetailsParaContentRow>
+                                    <DetailsInnerElement style={{flex: "1"}}>
+                                        <DetailsInnerContentLabel>
+                                            Shippers Declared Value
+                                        </DetailsInnerContentLabel>
+                                        <DetailsInnerContentInputBox placeholder="i.e. Martin Jones">
+
+                                        </DetailsInnerContentInputBox>
+                                    </DetailsInnerElement>
+                                    <DetailsInnerElement  style={{flex: "3"}}>
+
+                                    </DetailsInnerElement>
+                                </DetailsParaContentRow>
                             </DetailsParaWrapper>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
@@ -389,7 +519,7 @@ const ShipmentDetails = props => {
                             id="panel2bh-header"
                         >
                             <ExpansionHeaderWrapper>
-                                <ExpansionTitle >Documentation</ExpansionTitle>
+                                <ExpansionTitle >Tasks</ExpansionTitle>
                                 {
                                     expanded === 'panel2' && <AddNewTaskBtn>
                                         + Add
@@ -398,10 +528,9 @@ const ShipmentDetails = props => {
                             </ExpansionHeaderWrapper>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <Typography>
-                                Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar
-                                diam eros in elit. Pellentesque convallis laoreet laoreet.
-                            </Typography>
+                            <TasksParaWrapper>
+
+                            </TasksParaWrapper>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
