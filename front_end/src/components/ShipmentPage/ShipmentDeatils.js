@@ -12,8 +12,10 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import PersonIcon from '@material-ui/icons/Person';
 import RemoveIcon from '@material-ui/icons/Remove';
+import PinDropIcon from '@material-ui/icons/PinDrop';
 
 import { KButton, KShipStatusBar } from '../Basic';
+import Device from '../../css/device';
 
 const Container = styled.div`
     display: flex;
@@ -258,6 +260,82 @@ const RTInfoLabel = styled.div`
         else color = "#477BA1";
         return color;
     }};
+`;
+
+const ShipmentAttachmentsWrapper = styled.div`
+    display: block;
+    width: 100%;
+`;
+
+const ShipmentAttachmentselementWrapper = styled.div`
+    float: left;
+    display: flex;
+    flex-direction: row;
+    border: 1px dotted #ccc;
+    padding: 10px;
+    width: calc(50% - 24px);
+    margin: 8px 6px;
+    cursor: pointer;
+
+    @media ${Device.laptop} {
+        width: calc(33% - 24px);
+    }
+`;
+
+const ShipmentAttLbox = styled.div`
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    border: 1px solid #ccc;
+    padding: 8px;
+`;
+
+const ShipmentAttLboxLabel = styled.div`
+    display: flex;
+    flex: 3;
+    align-items: center;
+`;
+
+const ShipmentAttLboxLocation = styled.div`
+    display: flex;
+    flex: 1;
+    align-items: flex-end;
+    justify-content: center;
+`;
+
+const ShipmentAttRbox = styled.div`
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 10px;
+`;
+
+const ShipmentAttRboxLabel1 = styled.div`
+    color: #7F63F4;
+    text-align: center;
+`;
+
+const ShipmentAttRboxLabel2 = styled.div`
+    color: #ccc;
+    text-align: center;
+`;
+
+const ShipmentsCommentsWrapper = styled.div`
+    dislay: flex;
+    flex-direction: column;
+    width: 100%;
+`;
+
+const ShipmentsCommentsEditor = styled.div`
+    display: flex;
+    width: 100%;
+    border: 1px dotted #ccc;
+    color: #7F63F4;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 0px 0px 10px 0px;
 `;
 
 const ShipmentDetails = props => {
@@ -687,10 +765,200 @@ const ShipmentDetails = props => {
                             <ExpansionTitle >Attachments</ExpansionTitle>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <Typography>
-                                Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros,
-                                vitae egestas augue. Duis vel est augue.
-                            </Typography>
+                            <ShipmentAttachmentsWrapper>
+                                {/*
+                                Booking conformation
+                                */}
+                                <ShipmentAttachmentselementWrapper>
+                                    <ShipmentAttLbox>
+                                        <ShipmentAttLboxLabel>
+                                            Booking Conformation
+                                        </ShipmentAttLboxLabel>
+                                        <ShipmentAttLboxLocation>
+                                            <PinDropIcon />
+                                        </ShipmentAttLboxLocation>
+                                    </ShipmentAttLbox>
+                                    <ShipmentAttRbox>
+                                        <ShipmentAttRboxLabel1>
+                                            upload documents
+                                        </ShipmentAttRboxLabel1>
+                                        <ShipmentAttRboxLabel2>
+                                            or Just
+                                        </ShipmentAttRboxLabel2>
+                                        <ShipmentAttRboxLabel2>
+                                            Drag and Drop
+                                        </ShipmentAttRboxLabel2>
+                                    </ShipmentAttRbox>
+                                </ShipmentAttachmentselementWrapper>
+                                {/*
+                                Certificate of Origin
+                                */}
+                                <ShipmentAttachmentselementWrapper>
+                                    <ShipmentAttLbox>
+                                        <ShipmentAttLboxLabel>
+                                            Certificate of Origin
+                                        </ShipmentAttLboxLabel>
+                                        <ShipmentAttLboxLocation>
+                                            <PinDropIcon />
+                                        </ShipmentAttLboxLocation>
+                                    </ShipmentAttLbox>
+                                    <ShipmentAttRbox>
+                                        <ShipmentAttRboxLabel1>
+                                            upload documents
+                                        </ShipmentAttRboxLabel1>
+                                        <ShipmentAttRboxLabel2>
+                                            or Just
+                                        </ShipmentAttRboxLabel2>
+                                        <ShipmentAttRboxLabel2>
+                                            Drag and Drop
+                                        </ShipmentAttRboxLabel2>
+                                    </ShipmentAttRbox>
+                                </ShipmentAttachmentselementWrapper>
+                                {/*
+                                Certificate of Fumigation
+                                */}
+                                <ShipmentAttachmentselementWrapper>
+                                    <ShipmentAttLbox>
+                                        <ShipmentAttLboxLabel>
+                                            Certificate of Fumigation
+                                        </ShipmentAttLboxLabel>
+                                        <ShipmentAttLboxLocation>
+                                            <PinDropIcon />
+                                        </ShipmentAttLboxLocation>
+                                    </ShipmentAttLbox>
+                                    <ShipmentAttRbox>
+                                        <ShipmentAttRboxLabel1>
+                                            upload documents
+                                        </ShipmentAttRboxLabel1>
+                                        <ShipmentAttRboxLabel2>
+                                            or Just
+                                        </ShipmentAttRboxLabel2>
+                                        <ShipmentAttRboxLabel2>
+                                            Drag and Drop
+                                        </ShipmentAttRboxLabel2>
+                                    </ShipmentAttRbox>
+                                </ShipmentAttachmentselementWrapper>
+                                {/*
+                                CNCA/Ogifrem
+                                */}
+                                <ShipmentAttachmentselementWrapper>
+                                    <ShipmentAttLbox>
+                                        <ShipmentAttLboxLabel>
+                                            CNCA/Ogifrem
+                                        </ShipmentAttLboxLabel>
+                                        <ShipmentAttLboxLocation>
+                                            <PinDropIcon />
+                                        </ShipmentAttLboxLocation>
+                                    </ShipmentAttLbox>
+                                    <ShipmentAttRbox>
+                                        <ShipmentAttRboxLabel1>
+                                            upload documents
+                                        </ShipmentAttRboxLabel1>
+                                        <ShipmentAttRboxLabel2>
+                                            or Just
+                                        </ShipmentAttRboxLabel2>
+                                        <ShipmentAttRboxLabel2>
+                                            Drag and Drop
+                                        </ShipmentAttRboxLabel2>
+                                    </ShipmentAttRbox>
+                                </ShipmentAttachmentselementWrapper>
+                                {/*
+                                Autos/POV/Non Hazardous Certification
+                                */}
+                                <ShipmentAttachmentselementWrapper>
+                                    <ShipmentAttLbox>
+                                        <ShipmentAttLboxLabel>
+                                            Autos/POV/Non Hazardous Certification
+                                        </ShipmentAttLboxLabel>
+                                        <ShipmentAttLboxLocation>
+                                            <PinDropIcon />
+                                        </ShipmentAttLboxLocation>
+                                    </ShipmentAttLbox>
+                                    <ShipmentAttRbox>
+                                        <ShipmentAttRboxLabel1>
+                                            upload documents
+                                        </ShipmentAttRboxLabel1>
+                                        <ShipmentAttRboxLabel2>
+                                            or Just
+                                        </ShipmentAttRboxLabel2>
+                                        <ShipmentAttRboxLabel2>
+                                            Drag and Drop
+                                        </ShipmentAttRboxLabel2>
+                                    </ShipmentAttRbox>
+                                </ShipmentAttachmentselementWrapper>
+                                {/*
+                                Autos/POV/Non Hazardous Certification
+                                */}
+                                <ShipmentAttachmentselementWrapper>
+                                    <ShipmentAttLbox>
+                                        <ShipmentAttLboxLabel>
+                                            Autos/POV/Non
+                                        </ShipmentAttLboxLabel>
+                                        <ShipmentAttLboxLocation>
+                                            <PinDropIcon />
+                                        </ShipmentAttLboxLocation>
+                                    </ShipmentAttLbox>
+                                    <ShipmentAttRbox>
+                                        <ShipmentAttRboxLabel1>
+                                            upload documents
+                                        </ShipmentAttRboxLabel1>
+                                        <ShipmentAttRboxLabel2>
+                                            or Just
+                                        </ShipmentAttRboxLabel2>
+                                        <ShipmentAttRboxLabel2>
+                                            Drag and Drop
+                                        </ShipmentAttRboxLabel2>
+                                    </ShipmentAttRbox>
+                                </ShipmentAttachmentselementWrapper>
+                                {/*
+                                Commercial Invoice
+                                */}
+                                <ShipmentAttachmentselementWrapper>
+                                    <ShipmentAttLbox>
+                                        <ShipmentAttLboxLabel>
+                                            Commercial Invoice
+                                        </ShipmentAttLboxLabel>
+                                        <ShipmentAttLboxLocation>
+                                            <PinDropIcon />
+                                        </ShipmentAttLboxLocation>
+                                    </ShipmentAttLbox>
+                                    <ShipmentAttRbox>
+                                        <ShipmentAttRboxLabel1>
+                                            upload documents
+                                        </ShipmentAttRboxLabel1>
+                                        <ShipmentAttRboxLabel2>
+                                            or Just
+                                        </ShipmentAttRboxLabel2>
+                                        <ShipmentAttRboxLabel2>
+                                            Drag and Drop
+                                        </ShipmentAttRboxLabel2>
+                                    </ShipmentAttRbox>
+                                </ShipmentAttachmentselementWrapper>
+                                {/*
+                                Insurance Certificate
+                                */}
+                                <ShipmentAttachmentselementWrapper>
+                                    <ShipmentAttLbox>
+                                        <ShipmentAttLboxLabel>
+                                            Insurance Certificate
+                                        </ShipmentAttLboxLabel>
+                                        <ShipmentAttLboxLocation>
+                                            <PinDropIcon />
+                                        </ShipmentAttLboxLocation>
+                                    </ShipmentAttLbox>
+                                    <ShipmentAttRbox>
+                                        <ShipmentAttRboxLabel1>
+                                            upload documents
+                                        </ShipmentAttRboxLabel1>
+                                        <ShipmentAttRboxLabel2>
+                                            or Just
+                                        </ShipmentAttRboxLabel2>
+                                        <ShipmentAttRboxLabel2>
+                                            Drag and Drop
+                                        </ShipmentAttRboxLabel2>
+                                    </ShipmentAttRbox>
+                                </ShipmentAttachmentselementWrapper>
+                            </ShipmentAttachmentsWrapper>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
@@ -702,10 +970,12 @@ const ShipmentDetails = props => {
                             <ExpansionTitle >Comments</ExpansionTitle>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <Typography>
-                                Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros,
-                                vitae egestas augue. Duis vel est augue.
-                            </Typography>
+                            <ShipmentsCommentsWrapper>
+                                <ShipmentsCommentsEditor>
+                                    Write your comments
+                                </ShipmentsCommentsEditor>
+                                <KButton label="submit" color="blue" radius="small" />
+                            </ShipmentsCommentsWrapper>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                 </ExpansionPannelWrapper>
