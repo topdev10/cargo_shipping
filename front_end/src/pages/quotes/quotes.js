@@ -9,19 +9,19 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
 import ArrowDropUp from '@material-ui/icons/ArrowDropUp';
-import Add from '@material-ui/icons/Add';
 import Delete from '@material-ui/icons/Delete';
 import View from '@material-ui/icons/RemoveRedEye';
 import Edit from '@material-ui/icons/Edit';
 
 import { createMuiTheme, withStyles } from '@material-ui/core/styles';
-import { ThemeProvider, makeStyles } from '@material-ui/styles';
+import { ThemeProvider } from '@material-ui/styles';
 
 import IconButton from '@material-ui/core/IconButton';
 
 import FlightTakeoff from '@material-ui/icons/FlightTakeoff';
 import DirectionsBoat from '@material-ui/icons/DirectionsBoat';
 import LocalShipping from '@material-ui/icons/LocalShipping';
+import { white } from 'material-ui/styles/colors';
 
 import { pageConstants, quoteConstants, menuConstants } from '../../constants';
 import { pageActions, quoteActions } from '../../actions';
@@ -29,7 +29,6 @@ import NewQuotePanel from './NewQuotePanel';
 import QuoteDetails from './QuoteDetails';
 import Device from '../../css/device';
 import CustomToolTip from '../../components/CustomToolTip/CustomToolTip';
-import { white } from 'material-ui/styles/colors';
 
 import { KButton } from '../../components/Basic';
 
@@ -148,7 +147,7 @@ const HeaderRowLabelContainer = styled.div`
 `;
 
 // Define Custom classes
-var styles = theme => ({
+const styles = (theme) => ({
     CustomTable: {
         borderSpacing: "0 15px",
         padding: "0px 10px",
