@@ -383,6 +383,130 @@ const ShipmentDetails = props => {
                     </ShipmentActionWrapper>
                 </MainInfoWrapper>
                 <ExpansionPannelWrapper>
+                    <ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel2bh-content"
+                            id="panel2bh-header"
+                        >
+                            <ExpansionHeaderWrapper>
+                                <ExpansionTitle >Tasks</ExpansionTitle>
+                                {
+                                    expanded === 'panel2' && <AddNewTaskBtn>
+                                        + Add
+                                    </AddNewTaskBtn>
+                                }
+                            </ExpansionHeaderWrapper>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <TasksParaWrapper>
+                                <TasksTableHeaderRow>
+                                    <div style={{display: "flex", flex: "5"}}>
+                                        Required task 
+                                        <RoundBtn>
+                                            4
+                                        </RoundBtn>
+                                    </div>
+                                    <div style={{flex: "3"}}>
+                                        Due date
+                                    </div>
+                                    <div style={{flex: "3"}}>
+                                        Status
+                                    </div>
+                                </TasksTableHeaderRow>
+                                <TasksTableRow>
+                                    <TasksTableRowRTWrapper>
+                                        <RTInfoLabel black>
+                                            Booking Conformation
+                                        </RTInfoLabel>
+                                        <RTInfoLabel>
+                                            Booking Conformation
+                                        </RTInfoLabel>
+                                        <RoundBtn>
+                                            URGENT
+                                        </RoundBtn>
+                                    </TasksTableRowRTWrapper>
+                                    <TasksTabRowDDWrapper>
+                                        1-Nov-2019
+                                    </TasksTabRowDDWrapper>
+                                    <TasksTabRowStatusWrapper>
+                                        <RemoveIcon style={{color: "#E86C60"}}/>
+                                        <RTInfoLabel>
+                                            Need attention
+                                        </RTInfoLabel>
+                                        <KButton color="blue" radius="small" label="mark complete">
+                                        </KButton>
+                                    </TasksTabRowStatusWrapper>
+                                </TasksTableRow>
+                                <TasksTableRow>
+                                    <TasksTableRowRTWrapper>
+                                        <RTInfoLabel black>
+                                            B13/AES
+                                        </RTInfoLabel>
+                                        <RTInfoLabel>
+                                            Date approaching
+                                        </RTInfoLabel>
+                                    </TasksTableRowRTWrapper>
+                                    <TasksTabRowDDWrapper>
+                                        14-Nov-2019
+                                    </TasksTabRowDDWrapper>
+                                    <TasksTabRowStatusWrapper>
+                                        <PersonIcon style={{color: "#3057f5"}}/>
+                                        <RTInfoLabel>
+                                            Pending
+                                        </RTInfoLabel>
+                                        <KButton color="blue" radius="small" label="mark complete">
+                                        </KButton>
+                                    </TasksTabRowStatusWrapper>
+                                </TasksTableRow>
+                                <TasksTableRow>
+                                    <TasksTableRowRTWrapper>
+                                        <RTInfoLabel black>
+                                            Shipping Instructions
+                                        </RTInfoLabel>
+                                        <RTInfoLabel>
+                                            Require attention
+                                        </RTInfoLabel>
+                                        <RoundBtn>
+                                            URGENT
+                                        </RoundBtn>
+                                    </TasksTableRowRTWrapper>
+                                    <TasksTabRowDDWrapper>
+                                        11-Nov-2019
+                                    </TasksTabRowDDWrapper>
+                                    <TasksTabRowStatusWrapper>
+                                        <RemoveIcon style={{color: "#E86C60"}}/>
+                                        <RTInfoLabel>
+                                            Need attention
+                                        </RTInfoLabel>
+                                        <KButton color="blue" radius="small" label="mark complete">
+                                        </KButton>
+                                    </TasksTabRowStatusWrapper>
+                                </TasksTableRow>
+                                <TasksTableRow>
+                                    <TasksTableRowRTWrapper>
+                                        <RTInfoLabel black>
+                                            B13/AES
+                                        </RTInfoLabel>
+                                        <RTInfoLabel>
+                                            Date approaching
+                                        </RTInfoLabel>
+                                    </TasksTableRowRTWrapper>
+                                    <TasksTabRowDDWrapper>
+                                        12-Nov-2019
+                                    </TasksTabRowDDWrapper>
+                                    <TasksTabRowStatusWrapper>
+                                        <PersonIcon style={{color: "#3057f5"}}/>
+                                        <RTInfoLabel>
+                                            Pending
+                                        </RTInfoLabel>
+                                        <KButton color="blue" radius="small" label="mark complete">
+                                        </KButton>
+                                    </TasksTabRowStatusWrapper>
+                                </TasksTableRow>
+                            </TasksParaWrapper>
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
                     <ExpansionPanel expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                         <ExpansionPanelSummary
                             expandIcon={<ExpandMoreIcon />}
@@ -390,7 +514,7 @@ const ShipmentDetails = props => {
                             id="panel1bh-header"
                         >
                             <ExpansionHeaderWrapper>
-                                <ExpansionTitle>Details</ExpansionTitle>
+                                <ExpansionTitle>Booking</ExpansionTitle>
                                 {
                                     expanded === 'panel1' && <SelectFormLabel>
                                         select form
@@ -630,130 +754,6 @@ const ShipmentDetails = props => {
                                     </DetailsInnerElement>
                                 </DetailsParaContentRow>
                             </DetailsParaWrapper>
-                        </ExpansionPanelDetails>
-                    </ExpansionPanel>
-                    <ExpansionPanel expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel2bh-content"
-                            id="panel2bh-header"
-                        >
-                            <ExpansionHeaderWrapper>
-                                <ExpansionTitle >Tasks</ExpansionTitle>
-                                {
-                                    expanded === 'panel2' && <AddNewTaskBtn>
-                                        + Add
-                                    </AddNewTaskBtn>
-                                }
-                            </ExpansionHeaderWrapper>
-                        </ExpansionPanelSummary>
-                        <ExpansionPanelDetails>
-                            <TasksParaWrapper>
-                                <TasksTableHeaderRow>
-                                    <div style={{display: "flex", flex: "5"}}>
-                                        Required task 
-                                        <RoundBtn>
-                                            4
-                                        </RoundBtn>
-                                    </div>
-                                    <div style={{flex: "3"}}>
-                                        Due date
-                                    </div>
-                                    <div style={{flex: "3"}}>
-                                        Status
-                                    </div>
-                                </TasksTableHeaderRow>
-                                <TasksTableRow>
-                                    <TasksTableRowRTWrapper>
-                                        <RTInfoLabel black>
-                                            Booking Conformation
-                                        </RTInfoLabel>
-                                        <RTInfoLabel>
-                                            Booking Conformation
-                                        </RTInfoLabel>
-                                        <RoundBtn>
-                                            URGENT
-                                        </RoundBtn>
-                                    </TasksTableRowRTWrapper>
-                                    <TasksTabRowDDWrapper>
-                                        1-Nov-2019
-                                    </TasksTabRowDDWrapper>
-                                    <TasksTabRowStatusWrapper>
-                                        <RemoveIcon style={{color: "#E86C60"}}/>
-                                        <RTInfoLabel>
-                                            Need attention
-                                        </RTInfoLabel>
-                                        <KButton color="blue" radius="small" label="mark complete">
-                                        </KButton>
-                                    </TasksTabRowStatusWrapper>
-                                </TasksTableRow>
-                                <TasksTableRow>
-                                    <TasksTableRowRTWrapper>
-                                        <RTInfoLabel black>
-                                            B13/AES
-                                        </RTInfoLabel>
-                                        <RTInfoLabel>
-                                            Date approaching
-                                        </RTInfoLabel>
-                                    </TasksTableRowRTWrapper>
-                                    <TasksTabRowDDWrapper>
-                                        14-Nov-2019
-                                    </TasksTabRowDDWrapper>
-                                    <TasksTabRowStatusWrapper>
-                                        <PersonIcon style={{color: "#3057f5"}}/>
-                                        <RTInfoLabel>
-                                            Pending
-                                        </RTInfoLabel>
-                                        <KButton color="blue" radius="small" label="mark complete">
-                                        </KButton>
-                                    </TasksTabRowStatusWrapper>
-                                </TasksTableRow>
-                                <TasksTableRow>
-                                    <TasksTableRowRTWrapper>
-                                        <RTInfoLabel black>
-                                            Shipping Instructions
-                                        </RTInfoLabel>
-                                        <RTInfoLabel>
-                                            Require attention
-                                        </RTInfoLabel>
-                                        <RoundBtn>
-                                            URGENT
-                                        </RoundBtn>
-                                    </TasksTableRowRTWrapper>
-                                    <TasksTabRowDDWrapper>
-                                        11-Nov-2019
-                                    </TasksTabRowDDWrapper>
-                                    <TasksTabRowStatusWrapper>
-                                        <RemoveIcon style={{color: "#E86C60"}}/>
-                                        <RTInfoLabel>
-                                            Need attention
-                                        </RTInfoLabel>
-                                        <KButton color="blue" radius="small" label="mark complete">
-                                        </KButton>
-                                    </TasksTabRowStatusWrapper>
-                                </TasksTableRow>
-                                <TasksTableRow>
-                                    <TasksTableRowRTWrapper>
-                                        <RTInfoLabel black>
-                                            B13/AES
-                                        </RTInfoLabel>
-                                        <RTInfoLabel>
-                                            Date approaching
-                                        </RTInfoLabel>
-                                    </TasksTableRowRTWrapper>
-                                    <TasksTabRowDDWrapper>
-                                        12-Nov-2019
-                                    </TasksTabRowDDWrapper>
-                                    <TasksTabRowStatusWrapper>
-                                        <PersonIcon style={{color: "#3057f5"}}/>
-                                        <RTInfoLabel>
-                                            Pending
-                                        </RTInfoLabel>
-                                        <KButton color="blue" radius="small" label="mark complete">
-                                        </KButton>
-                                    </TasksTabRowStatusWrapper>
-                                </TasksTableRow>
-                            </TasksParaWrapper>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
                     <ExpansionPanel expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
