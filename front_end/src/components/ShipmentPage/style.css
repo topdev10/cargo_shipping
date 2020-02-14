@@ -1,0 +1,76 @@
+.rdt_TableCol_Sortable, .rdt_TableCell{
+    font-size:16px;
+}
+
+.rdt_TableHeadRow {
+    background-color: #fafafa !important;
+}
+
+b {
+    font-size: 11px;
+    color: black;
+}
+
+.info {
+    align-items: center;
+    justify-content: center;
+}
+
+.border2 {
+    border: 2px solid #4d7cfe!important;
+}
+
+.card {
+    background-color: #f2f2f2 !important;
+}
+
+.card:hover {
+    background-color: #cacaca !important;
+}
+
+.rc-steps-item-description {
+    color: black !important;
+    text-align: center !important;
+}
+
+.card {
+    border: none !important;
+}
+
+.shipment-table-row {
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    cursor: pointer;
+    /* border-bottom: 1px solid #cacaca !important; */
+    background-color: #fff!important;
+    border-radius: 15px;
+    box-shadow: 2px 2px 5px #ccc;
+    margin-top: 7px;
+}
+
+.shipments-detail-row-label {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.rc-steps-item-finish .rc-steps-item-icon > .rc-steps-icon {
+    color: #7b9bb3 !important;
+}
+
+.rc-steps-item-error .rc-steps-item-icon > .rc-steps-icon {
+    color: #4a4a4a !important;
+}
+
+.rc-steps-item-error .rc-steps-item-title {
+    color: rgba(0, 0, 0, 0.43) !important;
+}
+
+.MEditButton {
+    color: black;
+    cursor: pointer;
+}
+
+.MEditButton:hover {
+    color: red;
+}

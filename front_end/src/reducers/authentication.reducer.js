@@ -35,7 +35,9 @@ export function authentication(state = initialState, action) {
     case userConstants.LOGIN_FAILURE:
         return {};
     case userConstants.LOGOUT:
-        return {};
+        return {
+            
+        };
     case userConstants.FORGOT_PASSWORD_REQUEST:
         return {
             verifyCodeRequested: true,

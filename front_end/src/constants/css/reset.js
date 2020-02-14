@@ -5,7 +5,7 @@ const reset = css`
         box-sizing: border-box;
         /* Nicer looking fonts for OS X and iOS */
         -webkit-font-smoothing: antialiased;
-        font-family: Rubik;
+        font-family: Arial;
         font-style: normal;
         font-weight: normal;
     }
@@ -20,6 +20,25 @@ const reset = css`
     *:before,
     *:after {
         box-sizing: inherit;
+    }
+
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888; 
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
     }
 
     input[type],

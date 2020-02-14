@@ -8,6 +8,10 @@ function error(message) {
     return { type: alertConstants.ERROR, message };
 }
 
+function notification(message) {
+    return { type: alertConstants.NOTIFICATION, message };
+}
+
 function clear() {
     return { type: alertConstants.CLEAR };
 }
@@ -15,6 +19,7 @@ function clear() {
 export const alertActions = {
     success,
     error,
+    notification,
     clear
 };
 

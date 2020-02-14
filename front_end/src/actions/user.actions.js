@@ -3,7 +3,7 @@ import { alertActions } from './alert.actions';
 import { history } from '../helpers';
 import BaseApi from '../api/baseApi';
 
-function login(email, password, checked) {
+function login(email, password, checked, company) {
 
     function request(user) { return { type: userConstants.LOGIN_REQUEST, user }; }
     function success(user) { return { type: userConstants.LOGIN_SUCCESS, user }; }
@@ -17,8 +17,9 @@ function login(email, password, checked) {
                 dispatch(alertActions.error(error.toString()));
             }
             else if( res != null ){
-                dispatch(success({email: res.uemail, username: res.username ,password}));
-                history.push('/landing');
+                dispatch(success({email: res.uemail, username: res.username , token: res.token, company}));
+                dispatch(alertActions.success("login success"));
+                history.push('/pages/dashboard');
             }
         });
     };
@@ -55,9 +56,14 @@ function activateLinkedinUser({email, username}) {
 }
 
 function logout() {
-    history.push('/login');
-    BaseApi.logout();
-    return { type: userConstants.LOGOUT };
+    function logout() {
+        return {type: userConstants.LOGOUT};
+    };
+    return dispatch => {
+        dispatch(logout());
+        BaseApi.logout();
+        history.push('/');
+    }
 }
 
 function register(user) {
