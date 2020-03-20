@@ -12,7 +12,7 @@ class Config {
         this.PUSHER_CLUSTER = "mt1";
         this.PUSHER_CHANNEL = "customer";
         // Google Map Api Key
-        this.GOOGLE_PUBLIC_KEY = "AIzaSyAUGOfGa77GnAfbab7gUjuUk86YR8TkLIQ";
+        this.GOOGLE_PUBLIC_KEY = "Your Google Api Key";
         this.LINKEDIN_CLIENT_ID_LIVE = "86w9dm8at7hfq5";
         this.LINKEDIN_CLIENT_ID_LOCAL = "86rytomxqk2lfz";
         this.LINKEDIN_REDIRECT_URL_LOCAL = "http%3A%2F%2Flocalhost%3A8000%2Fauth%2Flinkedin";
